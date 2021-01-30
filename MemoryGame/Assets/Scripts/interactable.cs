@@ -4,21 +4,24 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class interactable : MonoBehaviour, IPointerClickHandler
+public class interactable : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     private int timesClicked = 0; //this should keep track of effective clicks
     public bool clickable = true;
     Animator myAnimator;
     public int numInteractions;
-    public GameObject changeIntoPrefab; //applies when type is animThenImgChange
+    public GameObject changeIntoPrefab, relevantGO; //applies when type is animThenImgChange
 
     public enum InteractType { animThenImgChange, anim };
     public InteractType interactType;
+    MouseControl mouseControl;
+    GameObject gameControl;
 
     void Start()
     {
         myAnimator = GetComponent<Animator>();
-
+        gameControl = GameObject.FindGameObjectWithTag("GameController");
+        mouseControl = gameControl.GetComponent<MouseControl>();
     }
 
     void Update()
@@ -35,6 +38,16 @@ public class interactable : MonoBehaviour, IPointerClickHandler
             timesClicked += 1;
             checkBehavior();
         }
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        mouseControl.toHand();
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        mouseControl.toMouse();
     }
 
     public void fadeIn()
@@ -78,7 +91,7 @@ public class interactable : MonoBehaviour, IPointerClickHandler
 
     }
 
-    public void swapSpriteToTarget()
+    public GameObject swapSpriteToTarget()
     {
         GameObject target = Instantiate(changeIntoPrefab, transform.parent, false);
         target.transform.localPosition = transform.localPosition;
@@ -87,6 +100,12 @@ public class interactable : MonoBehaviour, IPointerClickHandler
 
         myAnimator.SetTrigger("fadeOut");
         target.GetComponent<Animator>().SetTrigger("fadeIn");
+        return target;
+    }
+
+    public void triggerTargetAction()
+    {
+        relevantGO.GetComponent<interactable>().myTriggerAction();
     }
 
     public void setClickableTrue() { clickable = true; print("actually being set"); }
@@ -102,5 +121,30 @@ public class interactable : MonoBehaviour, IPointerClickHandler
         obj.transform.GetChild(1).GetComponent<Image>().color = new Color(col1.r, col1.g, col1.b, 0);
 
         obj.SetActive(true);
+    }
+
+
+    //this gets called by other interactables, indicates some activity, should be overidden
+    public void myTriggerAction()
+    {
+        switch (name)
+        {
+            case "Snakes":
+                print("fork triggered snake");
+                StartCoroutine(snakeDisappear());
+
+                break;
+
+        }
+    }
+
+    IEnumerator snakeDisappear()
+    {
+        myAnimator.SetTrigger("action1"); //hiss
+        yield return new WaitForSeconds(2);
+        GameObject pasta = swapSpriteToTarget();
+        yield return new WaitForSeconds(3);
+        gameControl.GetComponent<BlurManager>().scene1Clear1();
+        gameControl.GetComponent<BlurManager>().backBlur.GetComponent<CanvasGroup>().blocksRaycasts = false;
     }
 }

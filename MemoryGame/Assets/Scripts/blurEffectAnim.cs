@@ -10,6 +10,7 @@ public class blurEffectAnim : MonoBehaviour
     public float midPoint;
     float minScale, maxScale;
     public float intensity; //calculated from above values
+    public float fluctuateSpeed = 2;
     bool lerping;
     float lerpStartSize;
     public float lerpTime = 2;
@@ -37,14 +38,14 @@ public class blurEffectAnim : MonoBehaviour
         }
         else
         {
-            myShader.SetFloat("_Size", oscillate(timer, 30));
+            myShader.SetFloat("_Size", oscillate(timer));
         }
     }
 
 
-    float oscillate(float time, float speed)
+    float oscillate(float time)
     {
-        return Mathf.Lerp(minScale, maxScale, Mathf.Cos(time * speed / Mathf.PI) / 2 + 0.5f);
+        return Mathf.Lerp(minScale, maxScale, Mathf.Cos(time * fluctuateSpeed / Mathf.PI) / 2 + 0.5f);
     }
 
     public void setNewScale(float newScale, float fluctuation)
@@ -63,5 +64,10 @@ public class blurEffectAnim : MonoBehaviour
     public void becomeReallyBlurry()
     {
         setNewScale(3, 0.5f);
+    }
+
+    public void becomeClear()
+    {
+        setNewScale(0, 0.01f);
     }
 }
