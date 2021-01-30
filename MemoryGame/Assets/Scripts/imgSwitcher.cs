@@ -9,11 +9,18 @@ public class imgSwitcher : MonoBehaviour
     public Sprite[] stateImgs;
 
     private Image img1, img2;
+    private int currIndex = 0;
+
+    GameObject gameControl;
 
     void Start()
     {
         img1 = transform.GetChild(0).GetComponent<Image>();
         img2 = transform.GetChild(1).GetComponent<Image>();
+
+        gameControl = GameObject.FindGameObjectWithTag("GameController");
+
+        switchToImgState(0);
     }
 
 
@@ -28,5 +35,71 @@ public class imgSwitcher : MonoBehaviour
 
         img1.sprite = stateImgs[idx1];
         img2.sprite = stateImgs[idx2];
+        img1.overrideSprite = stateImgs[idx1];
+        img2.overrideSprite = stateImgs[idx2];
+
+    }
+
+    public void switchToNextImgState()
+    {
+        
+        if(stateImgs.Length >= (currIndex + 1) * 2 + 1)
+        {
+            currIndex += 1;
+            switchToImgState(currIndex);
+        }
+    }
+
+    public void myTriggerAction()
+    {
+        print("in my trigger action");
+        switch (name)
+        {
+            case "dad":
+                print("dad");
+                if (currIndex == 1)
+                {
+                    GameObject pasta = GameObject.Find("Pasta(Clone)");
+                    if (pasta != null) pasta.GetComponent<interactable>().clickable = true;
+                    StartCoroutine(pointAtPasta());
+                    currIndex += 1;
+                }
+                else switchToNextImgState();
+
+                break;
+            case "Pasta(Clone)":
+                switchToNextImgState();
+                if (currIndex == 3) StartCoroutine(pastaFinish());
+                break;
+
+        }
+    }
+
+    public void clearOverride()
+    {
+        img1.overrideSprite = null;
+        img2.overrideSprite = null;
+
+        img1.sprite = stateImgs[currIndex * 2];
+        img2.sprite = stateImgs[currIndex * 2 + 1];
+    }
+
+    IEnumerator pointAtPasta()
+    {
+        print("point at pasta");
+        yield return new WaitForSeconds(1);
+        GetComponent<Animator>().SetTrigger("action1");
+    }
+
+
+    IEnumerator pastaFinish()
+    {
+        yield return new WaitForSeconds(1);
+        GameObject.Find("dad").GetComponent<imgSwitcher>().myTriggerAction();
+
+        //TODO more
+        gameControl.GetComponent<BlurManager>().scene1Clear2();
+        yield return new WaitForSeconds(4);
+        gameControl.GetComponent<BlurManager>().levelPassEffect(1);
     }
 }

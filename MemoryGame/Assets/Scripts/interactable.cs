@@ -12,7 +12,7 @@ public class interactable : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
     public int numInteractions;
     public GameObject changeIntoPrefab, relevantGO; //applies when type is animThenImgChange
 
-    public enum InteractType { animThenImgChange, anim };
+    public enum InteractType { animThenImgChange, anim, imgSwitcher };
     public InteractType interactType;
     MouseControl mouseControl;
     GameObject gameControl;
@@ -87,6 +87,9 @@ public class interactable : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
 
                 }
                 break;
+            case InteractType.imgSwitcher:
+                GetComponent<imgSwitcher>().myTriggerAction();
+                break;
         }
 
     }
@@ -96,6 +99,7 @@ public class interactable : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
         GameObject target = Instantiate(changeIntoPrefab, transform.parent, false);
         target.transform.localPosition = transform.localPosition;
         target.SetActive(false);
+        gameControl.GetComponent<BlurManager>().centerBlur.transform.SetAsLastSibling();
         setChildrenInvisible(target);
 
         myAnimator.SetTrigger("fadeOut");
@@ -105,7 +109,14 @@ public class interactable : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
 
     public void triggerTargetAction()
     {
-        relevantGO.GetComponent<interactable>().myTriggerAction();
+        if (relevantGO.GetComponent<interactable>() != null)
+        {
+            relevantGO.GetComponent<interactable>().myTriggerAction();
+        }
+        else
+        {
+            relevantGO.GetComponent<imgSwitcher>().myTriggerAction();
+        }
     }
 
     public void setClickableTrue() { clickable = true; print("actually being set"); }

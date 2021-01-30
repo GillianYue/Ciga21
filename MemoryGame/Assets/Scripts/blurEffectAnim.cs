@@ -18,7 +18,11 @@ public class blurEffectAnim : MonoBehaviour
     void Start()
     {
         myShader = GetComponent<Image>().material;
-        setNewScale(midPoint, intensity);
+        maxScale = Mathf.Clamp(midPoint + intensity, 0, 12);
+        minScale = Mathf.Clamp(midPoint - intensity, 0, 12);
+
+        print("max scale set to " + maxScale + " min " + minScale);
+        if (Mathf.Abs(myShader.GetFloat("_Size") - midPoint) > 0.02f) lerping = true;
 
         if (lerpTime == 0) lerpTime = 2;
     }
@@ -30,14 +34,16 @@ public class blurEffectAnim : MonoBehaviour
         if (lerping)
         {
             myShader.SetFloat("_Size", Mathf.Lerp(lerpStartSize, midPoint, Mathf.Clamp(timer / lerpTime, 0, 1)));
-            if (timer >= lerpTime || Mathf.Abs(myShader.GetFloat("_Size") - midPoint) < 0.02f)
+            if (Mathf.Abs(myShader.GetFloat("_Size") - midPoint) < 0.02f)
             {
                 lerping = false;
                 timer = 0.5f; // to start at midpoint
+             //   print("lerp done" + myShader.GetFloat("_Size") + " " + midPoint);
             }
         }
         else
         {
+            float size = oscillate(timer);
             myShader.SetFloat("_Size", oscillate(timer));
         }
     }
@@ -53,8 +59,8 @@ public class blurEffectAnim : MonoBehaviour
         lerping = true;
 
         midPoint = newScale;
-        maxScale = Mathf.Clamp(midPoint + fluctuation, 0, 12);
-        minScale = Mathf.Clamp(midPoint - fluctuation, 0, 12);
+        maxScale = Mathf.Clamp(midPoint + fluctuation, 0, 20);
+        minScale = Mathf.Clamp(midPoint - fluctuation, 0, 20);
         intensity = fluctuation;
 
         lerpStartSize = myShader.GetFloat("_Size");

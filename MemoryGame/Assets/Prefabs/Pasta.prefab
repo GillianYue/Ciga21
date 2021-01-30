@@ -86,6 +86,7 @@ GameObject:
   - component: {fileID: 5210644841191433708}
   - component: {fileID: 5210644841191433707}
   - component: {fileID: 5210644841191433706}
+  - component: {fileID: 229169034}
   m_Layer: 5
   m_Name: Pasta
   m_TagString: Untagged
@@ -149,10 +150,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clickable: 0
-  numInteractions: 0
+  numInteractions: 3
   changeIntoPrefab: {fileID: 0}
   relevantGO: {fileID: 0}
-  interactType: 0
+  interactType: 2
+--- !u!114 &229169034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5210644841191433704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 477493a15b4e7d146bac6e1d8c2d7d9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stateImgs:
+  - {fileID: 21300000, guid: 73d99c57050efa6458e2c5a1b20c8da6, type: 3}
+  - {fileID: 21300000, guid: 83e8ff5913b893940b3f8809a7d3291d, type: 3}
+  - {fileID: 21300000, guid: 3993b5172cf8ce24fa50302e4dde925c, type: 3}
+  - {fileID: 21300000, guid: c85d2dae9f1b77f4cb4d0a375f79df18, type: 3}
+  - {fileID: 21300000, guid: 81980136ed4848549ba7fd15b418d6fb, type: 3}
+  - {fileID: 21300000, guid: 5bc01b47a7adcef48a38793224fd0757, type: 3}
+  - {fileID: 21300000, guid: e82f144a391027748ba4143d5fdbf0b7, type: 3}
+  - {fileID: 21300000, guid: e82f144a391027748ba4143d5fdbf0b7, type: 3}
 --- !u!1 &5210644842102684230
 GameObject:
   m_ObjectHideFlags: 0
