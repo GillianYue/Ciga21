@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class maskAdder : MonoBehaviour
+public class imgSwitcher : MonoBehaviour
 {
     //each state has two
     public Sprite[] stateImgs;
