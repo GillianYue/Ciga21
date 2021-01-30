@@ -8,4 +8,12 @@ AnimatorOverrideController:
   m_PrefabAsset: {fileID: 0}
   m_Name: btfl
   m_Controller: {fileID: 9100000, guid: 3af8cf8ee049e104ebc9938148d13b5f, type: 2}
-  m_Clips: []
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: e63f02fa67df3c34990ec2bdc87095f7, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 8a867f5b6e55c82409ab23512cecfc86, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 84019e67fd1ed60429e9bc34d5bfc40a, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 39bb9c4a2d2b8c142b56d6f117178433, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 27e5f77da8c295c4fb8bd7926a95a3c0, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 5bbf310fb7e84fc4bb292e2fe85425bd, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 1e0cd800284993347898d632aa1e7293, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 50e44a6bccf66ea47ac431c37d434c49, type: 2}
