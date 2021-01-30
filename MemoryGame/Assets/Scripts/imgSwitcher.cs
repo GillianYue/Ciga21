@@ -52,11 +52,9 @@ public class imgSwitcher : MonoBehaviour
 
     public void myTriggerAction()
     {
-        print("in my trigger action");
         switch (name)
         {
             case "dad":
-                print("dad");
                 if (currIndex == 1)
                 {
                     GameObject pasta = GameObject.Find("Pasta(Clone)");
@@ -86,7 +84,6 @@ public class imgSwitcher : MonoBehaviour
 
     IEnumerator pointAtPasta()
     {
-        print("point at pasta");
         yield return new WaitForSeconds(1);
         GetComponent<Animator>().SetTrigger("action1");
     }
