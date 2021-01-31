@@ -12,7 +12,7 @@ public class interactable : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
     public int numInteractions;
     public GameObject changeIntoPrefab, relevantGO; //applies when type is animThenImgChange
 
-    public enum InteractType { animThenImgChange, anim, imgSwitcher };
+    public enum InteractType { animThenImgChange, anim, imgSwitcher, instrument };
     public InteractType interactType;
     MouseControl mouseControl;
     GameObject gameControl;
@@ -90,6 +90,38 @@ public class interactable : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
             case InteractType.imgSwitcher:
                 GetComponent<imgSwitcher>().myTriggerAction();
                 break;
+            case InteractType.instrument:
+                if(gameControl.GetComponent<globalStateStore>().globalCounter < 2)
+                {
+                    //play sound effect
+                    switch (name)
+                    {
+                        case "guitar":
+                            gameControl.GetComponent<globalStateStore>().audioL2.GetComponents<AudioSource>()[0].Play();
+                            break;
+                        case "drums":
+                            gameControl.GetComponent<globalStateStore>().audioL2.GetComponents<AudioSource>()[1].Play();
+                            break;
+                        case "accordion":
+                            gameControl.GetComponent<globalStateStore>().audioL2.GetComponents<AudioSource>()[2].Play();
+                            break;
+                    }
+                }
+                else
+                {
+                    if (timesClicked < numInteractions)
+                    {
+                        myAnimator.SetTrigger("action" + timesClicked.ToString());
+                        //play sound effect
+                    }
+                    else
+                    {
+                        instrumentStartPlaying();
+                        //sound
+                    }
+                }
+
+                break;
         }
 
     }
@@ -107,15 +139,25 @@ public class interactable : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
         return target;
     }
 
+    public void swapSpriteToTargetAndSetStateToOne()
+    {
+        GameObject target = swapSpriteToTarget();
+        target.GetComponent<Animator>().SetInteger("state", 1);
+    }
+
     public void triggerTargetAction()
     {
         if (relevantGO.GetComponent<interactable>() != null)
         {
             relevantGO.GetComponent<interactable>().myTriggerAction();
         }
-        else
+        else if (relevantGO.GetComponent<imgSwitcher>() != null)
         {
             relevantGO.GetComponent<imgSwitcher>().myTriggerAction();
+        }
+        else
+        {
+            relevantGO.GetComponent<globalStateStore>().myTriggerAction();
         }
     }
 
@@ -157,5 +199,10 @@ public class interactable : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
         yield return new WaitForSeconds(3);
         gameControl.GetComponent<BlurManager>().scene1Clear1();
         gameControl.GetComponent<BlurManager>().backBlur.GetComponent<CanvasGroup>().blocksRaycasts = false;
+    }
+
+    public void instrumentStartPlaying()
+    {
+        myAnimator.SetInteger("state", 2);
     }
 }

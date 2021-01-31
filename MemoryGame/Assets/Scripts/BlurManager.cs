@@ -6,6 +6,7 @@ public class BlurManager : MonoBehaviour
 {
     public blurEffectAnim backBlur, centerBlur; //, headBlur;
     public imgSwitcher table;
+    public Animator mainCam, darkCover;
 
     void Start()
     {
@@ -65,7 +66,13 @@ public class BlurManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         centerBlur.setNewScale(20, 0.1f);
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(3);
+
+        darkCover.SetTrigger("fadeIn");
+        yield return new WaitForSeconds(3);
+        centerBlur.setNewScale(0.2f, 0.1f);
+        backBlur.setNewScale(0.1f, 0.1f);
+        setUpLevel(2);
     }
 
     public void scene1Clear1()
@@ -76,12 +83,37 @@ public class BlurManager : MonoBehaviour
     public void scene1Clear2()
     {
         centerBlur.setNewScale(0.01f, 0.01f);
-      //  headBlur.setNewScale(0.01f, 0.01f);
     }
 
-    public void setUpLevel2()
+    public void setUpLevel(int l)
     {
+        globalStateStore gs = GetComponent<globalStateStore>();
+        gs.globalCounter = 0;
+        if (l!= 1) gs.revealAndHideStuff(l-1, false);
+        gs.revealAndHideStuff(l, true);
 
+        darkCover.SetTrigger("fadeOut");
+    }
+
+    public void level2Clear()
+    {
+        StartCoroutine(level2ClearEffects());
+    }
+
+    IEnumerator level2ClearEffects()
+    {
+        mainCam.Play("camShift");
+        yield return new WaitForSeconds(6);
+        //audio stuff
+
+        centerBlur.setNewScale(20, 0.1f);
+        yield return new WaitForSeconds(5);
+
+        darkCover.SetTrigger("fadeIn");
+        yield return new WaitForSeconds(3);
+        centerBlur.setNewScale(0.2f, 0.1f);
+        backBlur.setNewScale(0.1f, 0.1f);
+        setUpLevel(3);
     }
 
 }
