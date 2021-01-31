@@ -72,6 +72,7 @@ public class BlurManager : MonoBehaviour
         yield return new WaitForSeconds(2);
 
         darkCover.SetTrigger("fadeIn");
+        playL3SFX(3);
 
         Destroy(GameObject.Find("Pasta(Clone)"));
         Destroy(GameObject.Find("Pepper(Clone)"));
@@ -99,6 +100,10 @@ public class BlurManager : MonoBehaviour
         if (l!= 1) gs.revealAndHideStuff(l-1, false);
         gs.revealAndHideStuff(l, true);
 
+        if (l == 1) playL1SFX(7);
+        if (l == 2) GetComponent<globalStateStore>().audioL1.GetComponents<AudioSource>()[7].Stop();
+        if (l == 3) playL3SFX(1);
+
         darkCover.SetTrigger("fadeOut");
     }
 
@@ -115,10 +120,12 @@ public class BlurManager : MonoBehaviour
         yield return new WaitForSeconds(10);
         //audio stuff
 
+        playL2SFX(5);
         centerBlur.setNewScale(20, 0.1f);
         yield return new WaitForSeconds(5);
 
         darkCover.SetTrigger("fadeIn");
+        playL3SFX(3);
         yield return new WaitForSeconds(3);
         centerBlur.setNewScale(0.2f, 0.1f);
         backBlur.setNewScale(0.1f, 0.1f);
@@ -148,13 +155,11 @@ public class BlurManager : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         centerBlur.setNewScale(0.5f, 0.1f);
 
-
-
-
+        playL3SFX(2);
 
         her.SetTrigger("clothMask" );
         yield return new WaitForSeconds(3.2f);
-        her.SetTrigger("eyeMask");
+        //her.SetTrigger("eyeMask");
         yield return new WaitForSeconds(2);
         scene3bg.SetInteger("state", 1);
         centerBlur.setNewScale(2.7f, 0.1f);
@@ -164,16 +169,31 @@ public class BlurManager : MonoBehaviour
         yield return new WaitForSeconds(2);
         scene3bg.SetTrigger("action2");
         centerBlur.setNewScale(3f, 0.1f);
-        yield return new WaitForSeconds(3.1f);
+        yield return new WaitForSeconds(6f);
         her.SetTrigger("special");
         centerBlur.setNewScale(0.2f, 0.1f);
+        yield return new WaitForSeconds(6f);
 
         her.SetTrigger("clothMask");
         centerBlur.setNewScale(2.7f, 0.1f);
         yield return new WaitForSeconds(1f);
         centerBlur.setNewScale(1.2f, 0.1f);
-        her.SetTrigger("eyeMask");
+
+        yield return new WaitForSeconds(3.2f);
+        //her.SetTrigger("eyeMask");
         yield return new WaitForSeconds(2);
+        centerBlur.setNewScale(3f, 0.1f);
+        yield return new WaitForSeconds(3.1f);
+        her.SetTrigger("special");
+        centerBlur.setNewScale(6f, 0.1f);
+
+        her.SetTrigger("clothMask");
+        centerBlur.setNewScale(2.7f, 0.1f);
+        yield return new WaitForSeconds(3f);
+        centerBlur.setNewScale(1.2f, 0.1f);
+
+        //        her.SetTrigger("eyeMask");
+        yield return new WaitForSeconds(3);
         centerBlur.setNewScale(2.7f, 0.1f);
         yield return new WaitForSeconds(3);
         her.SetTrigger("specialEnd");
@@ -185,6 +205,24 @@ public class BlurManager : MonoBehaviour
         yield return new WaitForSeconds(12);
 
         darkCover.SetTrigger("fadeIn");
+        playL3SFX(3);
         GetComponent<enabler>().gamePass();
+    }
+
+
+
+    public void playL1SFX(int index)
+    {
+        GetComponent<globalStateStore>().audioL1.GetComponents<AudioSource>()[index].Play();
+    }
+
+    public void playL2SFX(int index)
+    {
+        GetComponent<globalStateStore>().audioL2.GetComponents<AudioSource>()[index].Play();
+    }
+
+    public void playL3SFX(int index)
+    {
+        GetComponent<globalStateStore>().audioL3.GetComponents<AudioSource>()[index].Play();
     }
 }

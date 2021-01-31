@@ -73,6 +73,7 @@ public class imgSwitcher : MonoBehaviour
                 break;
             case "Pasta(Clone)":
                 switchToNextImgState();
+                playL1SFX(6);
                 if (currIndex == 3) StartCoroutine(pastaFinish());
                 break;
 
@@ -104,5 +105,21 @@ public class imgSwitcher : MonoBehaviour
         gameControl.GetComponent<BlurManager>().scene1Clear2();
         yield return new WaitForSeconds(4);
         gameControl.GetComponent<BlurManager>().levelPassEffect(1);
+    }
+
+
+    public void playL1SFX(int index)
+    {
+        gameControl.GetComponent<globalStateStore>().audioL1.GetComponents<AudioSource>()[index].Play();
+    }
+
+    public void playL2SFX(int index)
+    {
+        gameControl.GetComponent<globalStateStore>().audioL2.GetComponents<AudioSource>()[index].Play();
+    }
+
+    public void playL3SFX(int index)
+    {
+        gameControl.GetComponent<globalStateStore>().audioL3.GetComponents<AudioSource>()[index].Play();
     }
 }

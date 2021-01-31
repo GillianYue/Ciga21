@@ -42,12 +42,12 @@ public class interactable : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (clickable) mouseControl.toHand();
+       // if (clickable) mouseControl.toHand();
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (clickable) mouseControl.toMouse();
+      //  if (clickable) mouseControl.toMouse();
     }
 
     public void fadeIn()
@@ -212,9 +212,11 @@ public class interactable : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
 
         switch (name)
         {
-            case "guitar": gs.guitar = true; break;
-            case "drums": gs.drums = true; break;
-            case "accordion": gs.accordion = true; break;
+            case "guitar": gs.guitar = true;
+                playL2SFX(9);
+                break;
+            case "drums": gs.drums = true; playL2SFX(11); break;
+            case "accordion": gs.accordion = true; playL2SFX(10); break;
         }
 
         if(gs.drums && gs.guitar && gs.accordion && !gs.hasScrolled) //everything triggered for l2
@@ -235,9 +237,19 @@ public class interactable : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
         gameControl.GetComponent<BlurManager>().scene3Clear();
     }
 
-    public void drumsPlaying() { gameControl.GetComponent<globalStateStore>().drums = true;  }
+    public void playL1SFX(int index)
+    {
+        gameControl.GetComponent<globalStateStore>().audioL1.GetComponents<AudioSource>()[index].Play();
+    }
 
-    public void guitarPlaying() { gameControl.GetComponent<globalStateStore>().guitar = true; }
+    public void playL2SFX(int index)
+    {
+        gameControl.GetComponent<globalStateStore>().audioL2.GetComponents<AudioSource>()[index].Play();
+    }
 
-    public void accordionPlaying() { gameControl.GetComponent<globalStateStore>().accordion = true; }
+    public void playL3SFX(int index)
+    {
+        gameControl.GetComponent<globalStateStore>().audioL3.GetComponents<AudioSource>()[index].Play();
+    }
+
 }

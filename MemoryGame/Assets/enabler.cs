@@ -27,6 +27,7 @@ public class enabler : MonoBehaviour
     public void startGame()
     {
         StartCoroutine(startGameCoroutine());
+        GetComponent<AudioSource>().Play();
     }
 
     IEnumerator startGameCoroutine()
@@ -40,6 +41,7 @@ public class enabler : MonoBehaviour
 
         GetComponent<BlurManager>().setUpLevel(1);
 
+        titleImg.switchToImgState(1);
         startCanvas.SetActive(false);
         darkCover.SetTrigger("fadeOut");
     }
@@ -53,7 +55,7 @@ public class enabler : MonoBehaviour
     {
         yield return new WaitForSeconds(5);
         startCanvas.SetActive(true);
-        titleImg.switchToImgState(1);
+        startCanvas.transform.position += new Vector3(0, 0, 0.15f);
         yield return new WaitForSeconds(3);
         GetComponent<BlurManager>().darkCover.SetTrigger("fadeOut");
 
