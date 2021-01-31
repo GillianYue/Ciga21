@@ -106,6 +106,7 @@ public class interactable : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
                             gameControl.GetComponent<globalStateStore>().audioL2.GetComponents<AudioSource>()[2].Play();
                             break;
                     }
+                    timesClicked -= 1;
                 }
                 else
                 {
@@ -203,6 +204,14 @@ public class interactable : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
 
     public void instrumentStartPlaying()
     {
+        globalStateStore gs = gameControl.GetComponent<globalStateStore>(); 
+
         myAnimator.SetInteger("state", 2);
+        gs.globalCounter += 1;
+
+        if(gs.globalCounter >= 5) //everything triggered for l2
+        {
+            gameControl.GetComponent<BlurManager>().level2Clear();
+        }
     }
 }

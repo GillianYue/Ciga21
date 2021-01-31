@@ -21,7 +21,6 @@ public class blurEffectAnim : MonoBehaviour
         maxScale = Mathf.Clamp(midPoint + intensity, 0, 12);
         minScale = Mathf.Clamp(midPoint - intensity, 0, 12);
 
-        print("max scale set to " + maxScale + " min " + minScale);
         if (Mathf.Abs(myShader.GetFloat("_Size") - midPoint) > 0.02f) lerping = true;
 
         if (lerpTime == 0) lerpTime = 2;

@@ -66,9 +66,13 @@ public class BlurManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         centerBlur.setNewScale(20, 0.1f);
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(2);
 
         darkCover.SetTrigger("fadeIn");
+
+        Destroy(GameObject.Find("Pasta(Clone)"));
+        Destroy(GameObject.Find("Pepper(Clone)"));
+
         yield return new WaitForSeconds(3);
         centerBlur.setNewScale(0.2f, 0.1f);
         backBlur.setNewScale(0.1f, 0.1f);
@@ -102,7 +106,9 @@ public class BlurManager : MonoBehaviour
 
     IEnumerator level2ClearEffects()
     {
-        mainCam.Play("camShift");
+        yield return new WaitForSeconds(3);
+
+        mainCam.SetTrigger("camShift");
         yield return new WaitForSeconds(6);
         //audio stuff
 
