@@ -5,6 +5,7 @@ using UnityEngine;
 public class globalStateStore : MonoBehaviour
 {
     public int globalCounter;
+    public bool drums, guitar, accordion, hasScrolled;
     public GameObject audioL1, audioL2, audioL3;
     public GameObject[] l1Stuff, l2Stuff, l3Stuff;
 

@@ -51,10 +51,9 @@ public class enabler : MonoBehaviour
 
     IEnumerator gamePassCoroutine()
     {
-        //return to title
-        GetComponent<BlurManager>().darkCover.SetTrigger("fadeIn");
+        yield return new WaitForSeconds(5);
         startCanvas.SetActive(true);
-        titleImg.switchToNextImgState();
+        titleImg.switchToImgState(1);
         yield return new WaitForSeconds(3);
         GetComponent<BlurManager>().darkCover.SetTrigger("fadeOut");
 

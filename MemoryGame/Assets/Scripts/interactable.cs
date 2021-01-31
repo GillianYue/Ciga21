@@ -32,7 +32,7 @@ public class interactable : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        print("clicked: " + eventData.pointerPress.name);
+     //   print("clicked: " + eventData.pointerPress.name);
         if (clickable)
         {
             timesClicked += 1;
@@ -42,12 +42,12 @@ public class interactable : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        mouseControl.toHand();
+        if (clickable) mouseControl.toHand();
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        mouseControl.toMouse();
+        if (clickable) mouseControl.toMouse();
     }
 
     public void fadeIn()
@@ -82,7 +82,6 @@ public class interactable : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
             case InteractType.animThenImgChange:
                 if (timesClicked <= numInteractions)
                 {
-                    print("checking behavior: " + timesClicked);
                     myAnimator.SetTrigger("action" + timesClicked.ToString());
 
                 }
@@ -162,7 +161,7 @@ public class interactable : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
         }
     }
 
-    public void setClickableTrue() { clickable = true; print("actually being set"); }
+    public void setClickableTrue() { clickable = true; }
 
     public void setClickableFalse() { clickable = false; }
 
@@ -188,7 +187,9 @@ public class interactable : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
                 StartCoroutine(snakeDisappear());
 
                 break;
-
+            case "Her":
+                myAnimator.Play("awayFadeIn");
+                break;
         }
     }
 
@@ -209,9 +210,34 @@ public class interactable : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
         myAnimator.SetInteger("state", 2);
         gs.globalCounter += 1;
 
-        if(gs.globalCounter >= 5) //everything triggered for l2
+        switch (name)
+        {
+            case "guitar": gs.guitar = true; break;
+            case "drums": gs.drums = true; break;
+            case "accordion": gs.accordion = true; break;
+        }
+
+        if(gs.drums && gs.guitar && gs.accordion && !gs.hasScrolled) //everything triggered for l2
         {
             gameControl.GetComponent<BlurManager>().level2Clear();
+            gs.hasScrolled = true;
         }
     }
+
+    public void awayFadeInFinished()
+    {
+        clickable = true;
+        timesClicked = 1;
+    }
+
+    public void lookOverFinished()
+    {
+        gameControl.GetComponent<BlurManager>().scene3Clear();
+    }
+
+    public void drumsPlaying() { gameControl.GetComponent<globalStateStore>().drums = true;  }
+
+    public void guitarPlaying() { gameControl.GetComponent<globalStateStore>().guitar = true; }
+
+    public void accordionPlaying() { gameControl.GetComponent<globalStateStore>().accordion = true; }
 }

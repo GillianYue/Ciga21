@@ -6,7 +6,10 @@ public class BlurManager : MonoBehaviour
 {
     public blurEffectAnim backBlur, centerBlur; //, headBlur;
     public imgSwitcher table;
-    public Animator mainCam, darkCover;
+    public Animator mainCam, darkCover, her, myHand;
+    public interactable leaf;
+
+    public Animator scene3bg;
 
     void Start()
     {
@@ -109,7 +112,7 @@ public class BlurManager : MonoBehaviour
         yield return new WaitForSeconds(3);
 
         mainCam.SetTrigger("camShift");
-        yield return new WaitForSeconds(6);
+        yield return new WaitForSeconds(10);
         //audio stuff
 
         centerBlur.setNewScale(20, 0.1f);
@@ -119,7 +122,69 @@ public class BlurManager : MonoBehaviour
         yield return new WaitForSeconds(3);
         centerBlur.setNewScale(0.2f, 0.1f);
         backBlur.setNewScale(0.1f, 0.1f);
+
+        Destroy(GameObject.Find("radio(Clone)"));
+        Destroy(GameObject.Find("telephone(Clone)"));
+
         setUpLevel(3);
+
+        yield return new WaitForSeconds(7);
+        leaf.OnPointerClick(null);
     }
 
+    public void scene3Clear()
+    {
+        StartCoroutine(scene3ClearEffect());
+    }
+
+    IEnumerator scene3ClearEffect()
+    {
+        yield return new WaitForSeconds(0.5f);
+        centerBlur.setNewScale(3, 0.1f);
+        yield return new WaitForSeconds(1);
+        centerBlur.setNewScale(0.2f, 0.1f);
+        yield return new WaitForSeconds(1.2f);
+        centerBlur.setNewScale(2.7f, 0.1f);
+        yield return new WaitForSeconds(1.5f);
+        centerBlur.setNewScale(0.5f, 0.1f);
+
+
+
+
+
+        her.SetTrigger("clothMask" );
+        yield return new WaitForSeconds(3.2f);
+        her.SetTrigger("eyeMask");
+        yield return new WaitForSeconds(2);
+        scene3bg.SetInteger("state", 1);
+        centerBlur.setNewScale(2.7f, 0.1f);
+        yield return new WaitForSeconds(0.7f);
+        centerBlur.setNewScale(0.2f, 0.1f);
+        scene3bg.SetInteger("state", 0);
+        yield return new WaitForSeconds(2);
+        scene3bg.SetTrigger("action2");
+        centerBlur.setNewScale(3f, 0.1f);
+        yield return new WaitForSeconds(3.1f);
+        her.SetTrigger("special");
+        centerBlur.setNewScale(0.2f, 0.1f);
+
+        her.SetTrigger("clothMask");
+        centerBlur.setNewScale(2.7f, 0.1f);
+        yield return new WaitForSeconds(1f);
+        centerBlur.setNewScale(1.2f, 0.1f);
+        her.SetTrigger("eyeMask");
+        yield return new WaitForSeconds(2);
+        centerBlur.setNewScale(2.7f, 0.1f);
+        yield return new WaitForSeconds(3);
+        her.SetTrigger("specialEnd");
+        centerBlur.setNewScale(2f, 0.1f);
+
+        myHand.gameObject.SetActive(true);
+        myHand.SetTrigger("action1");
+        centerBlur.setNewScale(0.2f, 0.1f);
+        yield return new WaitForSeconds(12);
+
+        darkCover.SetTrigger("fadeIn");
+        GetComponent<enabler>().gamePass();
+    }
 }

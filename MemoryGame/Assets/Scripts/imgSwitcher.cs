@@ -33,6 +33,12 @@ public class imgSwitcher : MonoBehaviour
     {
         int idx1 = 2 * s, idx2 = 2 * s + 1;
 
+        if(img1 == null)
+        {
+            img1 = transform.GetChild(0).GetComponent<Image>();
+            img2 = transform.GetChild(1).GetComponent<Image>();
+        }
+
         img1.sprite = stateImgs[idx1];
         img2.sprite = stateImgs[idx2];
         img1.overrideSprite = stateImgs[idx1];

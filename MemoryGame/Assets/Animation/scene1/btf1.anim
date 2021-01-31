@@ -338,7 +338,7 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.5
+  - time: 1.0166667
     functionName: setClickableTrue
     data: 
     objectReferenceParameter: {fileID: 0}
