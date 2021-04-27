@@ -7,7 +7,7 @@ public class enabler : MonoBehaviour
     public Animator mainCam, darkCover, credits;
     public imgSwitcher titleImg;
     public GameObject startCanvas;
-
+    public StartDialogueClickThrough startDialogue;
 
     void Start()
     {
@@ -22,6 +22,12 @@ public class enabler : MonoBehaviour
     public void quitGame()
     {
         Application.Quit();
+    }
+
+    public void startButtonPressed()
+    {
+        startDialogue.gameObject.SetActive(true);
+        startDialogue.enableStartDialogue();
     }
 
     public void startGame()
