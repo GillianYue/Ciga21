@@ -221,7 +221,7 @@ public class interactable : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
 
         if(gs.drums && gs.guitar && gs.accordion && !gs.hasScrolled) //everything triggered for l2
         {
-            gameControl.GetComponent<BlurManager>().level2Clear();
+            gameControl.GetComponent<BlurManager>().levelPassEffect(2);
             gs.hasScrolled = true;
         }
     }
@@ -234,7 +234,7 @@ public class interactable : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
 
     public void lookOverFinished()
     {
-        gameControl.GetComponent<BlurManager>().scene3Clear();
+        gameControl.GetComponent<BlurManager>().levelPassEffect(3);
     }
 
     public void playL1SFX(int index)

@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// used for GOs with sprites that have multiple visual states
+/// 
+/// default starts with the first pair (state 0)
+/// </summary>
 public class imgSwitcher : MonoBehaviour
 {
     //each state has two
@@ -29,6 +34,8 @@ public class imgSwitcher : MonoBehaviour
         
     }
 
+
+    /// <param name="s"> which "pair" of images to use for this state s </param>
     public void switchToImgState(int s)
     {
         int idx1 = 2 * s, idx2 = 2 * s + 1;
@@ -56,6 +63,7 @@ public class imgSwitcher : MonoBehaviour
         }
     }
 
+
     public void myTriggerAction()
     {
         switch (name)
@@ -73,7 +81,7 @@ public class imgSwitcher : MonoBehaviour
                 break;
             case "Pasta(Clone)":
                 switchToNextImgState();
-                playL1SFX(6);
+                gameControl.GetComponent<globalStateStore>().playSFX(1, 6);
                 if (currIndex == 3) StartCoroutine(pastaFinish());
                 break;
 
@@ -108,18 +116,4 @@ public class imgSwitcher : MonoBehaviour
     }
 
 
-    public void playL1SFX(int index)
-    {
-        gameControl.GetComponent<globalStateStore>().audioL1.GetComponents<AudioSource>()[index].Play();
-    }
-
-    public void playL2SFX(int index)
-    {
-        gameControl.GetComponent<globalStateStore>().audioL2.GetComponents<AudioSource>()[index].Play();
-    }
-
-    public void playL3SFX(int index)
-    {
-        gameControl.GetComponent<globalStateStore>().audioL3.GetComponents<AudioSource>()[index].Play();
-    }
 }

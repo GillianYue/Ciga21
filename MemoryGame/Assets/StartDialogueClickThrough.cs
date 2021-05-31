@@ -29,11 +29,11 @@ public class StartDialogueClickThrough : MonoBehaviour
 
     void Update()
     {
-        if(counter > 0 && Input.GetMouseButtonDown(0) && !animating)
+        if(counter > 0 && Input.GetMouseButtonDown(0) && !animating) //show next line of text
         {
             if(counter == 4 || counter == 7 || counter == 9)
             {
-                StartCoroutine(waitAndHideTexts(counter));
+                StartCoroutine(waitAndHideTexts(counter)); //hide prev page of texts
             }
             else
             {
@@ -67,10 +67,16 @@ public class StartDialogueClickThrough : MonoBehaviour
                 yield return new WaitForSeconds(3f);
                 break;
             case 9:
-                backPanel.SetTrigger("fadeOut");
+                for (int i = 6; i < 8; i++)
+                {
+                    textAnimators[i].SetTrigger("fadeOutText");
+                }
+                backPanel.SetTrigger("fadeOutSlow");
+                yield return new WaitForSeconds(3f);
+                myEnabler.startGame();
+
                 yield return new WaitForSeconds(2f);
                 backPanel.gameObject.SetActive(false);
-                myEnabler.startGame();
                 break;
         }
 
@@ -85,6 +91,7 @@ public class StartDialogueClickThrough : MonoBehaviour
         else yield return new WaitForSeconds(0.3f);
         textAnimators[c-1].SetTrigger("fadeInText");
         yield return new WaitForSeconds(1f);
+        if (c == 8) yield return new WaitForSeconds(3f);
         counter++;
         animating = false;
     }
@@ -98,7 +105,7 @@ public class StartDialogueClickThrough : MonoBehaviour
     IEnumerator backPanelFadeIn()
     {
         animating = true;
-        backPanel.SetTrigger("fadeIn");
+        backPanel.SetTrigger("fadeIn"); //pure colored background
         yield return new WaitForSeconds(1.5f);
         counter = 1;
         animating = false;

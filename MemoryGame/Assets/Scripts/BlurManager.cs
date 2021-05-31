@@ -10,10 +10,11 @@ public class BlurManager : MonoBehaviour
     public interactable leaf;
 
     public Animator scene3bg;
+    public enabler enablr;
 
     void Start()
     {
-
+        if (enablr == null) enablr = GetComponent<enabler>();
     }
 
     void Update()
@@ -21,19 +22,49 @@ public class BlurManager : MonoBehaviour
 
     }
 
+
+    //when pasta first appears
+    public void scene1Clear1()
+    {
+        backBlur.setNewScale(0.2f, 0.1f);
+    }
+
+    //when pasta is eaten
+    public void scene1Clear2()
+    {
+        centerBlur.setNewScale(0.01f, 0.01f);
+    }
+
+    //plays the transition effects and proceeds to next level
     public void levelPassEffect(int level)
+    {
+        StartCoroutine(levelPassEffectCoroutine(level));
+    }
+
+    IEnumerator levelPassEffectCoroutine(int level)
     {
         switch (level)
         {
             case 1:
-                StartCoroutine(level1Clear());
+                yield return StartCoroutine(level1Clear());
+                enablr.setUpLevel(2);
                 break;
             case 2:
-
+                yield return StartCoroutine(level2Clear());
+                enablr.setUpLevel(3);
+                break;
+            case 3:
+                yield return StartCoroutine(level3Clear());
+                //set up level 4
                 break;
 
+            case 9:
+                //
+                GetComponent<enabler>().gamePass();
+                break;
         }
     }
+
 
     public IEnumerator level1Clear()
     {
@@ -72,7 +103,7 @@ public class BlurManager : MonoBehaviour
         yield return new WaitForSeconds(2);
 
         darkCover.SetTrigger("fadeIn");
-        playL3SFX(3);
+        GetComponent<globalStateStore>().playSFX(3, 3);
 
         Destroy(GameObject.Find("Pasta(Clone)"));
         Destroy(GameObject.Find("Pepper(Clone)"));
@@ -80,39 +111,9 @@ public class BlurManager : MonoBehaviour
         yield return new WaitForSeconds(3);
         centerBlur.setNewScale(0.2f, 0.1f);
         backBlur.setNewScale(0.1f, 0.1f);
-        setUpLevel(2);
     }
 
-    public void scene1Clear1()
-    {
-        backBlur.setNewScale(0.2f, 0.1f);
-    }
-
-    public void scene1Clear2()
-    {
-        centerBlur.setNewScale(0.01f, 0.01f);
-    }
-
-    public void setUpLevel(int l)
-    {
-        globalStateStore gs = GetComponent<globalStateStore>();
-        gs.globalCounter = 0;
-        if (l!= 1) gs.revealAndHideStuff(l-1, false);
-        gs.revealAndHideStuff(l, true);
-
-        if (l == 1) playL1SFX(7);
-        if (l == 2) GetComponent<globalStateStore>().audioL1.GetComponents<AudioSource>()[7].Stop();
-        if (l == 3) playL3SFX(1);
-
-        darkCover.SetTrigger("fadeOut");
-    }
-
-    public void level2Clear()
-    {
-        StartCoroutine(level2ClearEffects());
-    }
-
-    IEnumerator level2ClearEffects()
+    IEnumerator level2Clear()
     {
         yield return new WaitForSeconds(3);
 
@@ -120,12 +121,12 @@ public class BlurManager : MonoBehaviour
         yield return new WaitForSeconds(10);
         //audio stuff
 
-        playL2SFX(5);
+        GetComponent<globalStateStore>().playSFX(2, 5);
         centerBlur.setNewScale(20, 0.1f);
         yield return new WaitForSeconds(5);
 
         darkCover.SetTrigger("fadeIn");
-        playL3SFX(3);
+        GetComponent<globalStateStore>().playSFX(3, 3);
         yield return new WaitForSeconds(3);
         centerBlur.setNewScale(0.2f, 0.1f);
         backBlur.setNewScale(0.1f, 0.1f);
@@ -133,18 +134,9 @@ public class BlurManager : MonoBehaviour
         Destroy(GameObject.Find("radio(Clone)"));
         Destroy(GameObject.Find("telephone(Clone)"));
 
-        setUpLevel(3);
-
-        yield return new WaitForSeconds(7);
-        leaf.OnPointerClick(null);
     }
 
-    public void scene3Clear()
-    {
-        StartCoroutine(scene3ClearEffect());
-    }
-
-    IEnumerator scene3ClearEffect()
+    IEnumerator level3Clear()
     {
         yield return new WaitForSeconds(0.5f);
         centerBlur.setNewScale(3, 0.1f);
@@ -155,7 +147,7 @@ public class BlurManager : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         centerBlur.setNewScale(0.5f, 0.1f);
 
-        playL3SFX(2);
+        GetComponent<globalStateStore>().playSFX(3, 2);
 
         her.SetTrigger("clothMask" );
         yield return new WaitForSeconds(3.2f);
@@ -205,24 +197,9 @@ public class BlurManager : MonoBehaviour
         yield return new WaitForSeconds(12);
 
         darkCover.SetTrigger("fadeIn");
-        playL3SFX(3);
-        GetComponent<enabler>().gamePass();
+        GetComponent<globalStateStore>().playSFX(3, 3);
+        
     }
 
 
-
-    public void playL1SFX(int index)
-    {
-        GetComponent<globalStateStore>().audioL1.GetComponents<AudioSource>()[index].Play();
-    }
-
-    public void playL2SFX(int index)
-    {
-        GetComponent<globalStateStore>().audioL2.GetComponents<AudioSource>()[index].Play();
-    }
-
-    public void playL3SFX(int index)
-    {
-        GetComponent<globalStateStore>().audioL3.GetComponents<AudioSource>()[index].Play();
-    }
 }

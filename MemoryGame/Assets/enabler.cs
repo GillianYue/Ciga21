@@ -9,9 +9,16 @@ public class enabler : MonoBehaviour
     public GameObject startCanvas;
     public StartDialogueClickThrough startDialogue;
 
+    public bool test;
+    public int startLevel;
+
     void Start()
     {
-        
+        if(test && startLevel > 1)
+        {
+            startCanvas.SetActive(false);
+            setUpLevel(startLevel);
+        }
     }
 
     void Update()
@@ -30,6 +37,9 @@ public class enabler : MonoBehaviour
         startDialogue.enableStartDialogue();
     }
 
+
+
+    //officially starts the game and goes to l1
     public void startGame()
     {
         StartCoroutine(startGameCoroutine());
@@ -42,15 +52,49 @@ public class enabler : MonoBehaviour
         yield return new WaitForSeconds(5);
         darkCover.SetTrigger("fadeIn");
         yield return new WaitForSeconds(2);
+        startCanvas.SetActive(false);
+
         mainCam.SetTrigger("idle");
         yield return new WaitForSeconds(1);
 
-        GetComponent<BlurManager>().setUpLevel(1);
+        setUpLevel(1);
 
+        //at this point can't see title anymore so switch to ending state already 
         titleImg.switchToImgState(1);
-        startCanvas.SetActive(false);
         darkCover.SetTrigger("fadeOut");
+        yield return new WaitForSeconds(2);
+        
     }
+
+
+
+    public void setUpLevel(int l)
+    {
+        StartCoroutine(setUpLevelCoroutine(l));
+    }
+
+    IEnumerator setUpLevelCoroutine(int l)
+    {
+
+        globalStateStore gs = GetComponent<globalStateStore>();
+        gs.globalCounter = 0;
+        if (l != 1) gs.revealAndHideStuff(l - 1, false);
+        gs.revealAndHideStuff(l, true);
+
+        if (l == 1) GetComponent<globalStateStore>().playSFX(1, 7);
+        if (l == 2) GetComponent<globalStateStore>().audioL1.GetComponents<AudioSource>()[7].Stop();
+        if (l == 3) GetComponent<globalStateStore>().playSFX(3, 1);
+
+        darkCover.SetTrigger("fadeOut");
+
+        if (l == 3)
+        {
+            yield return new WaitForSeconds(7);
+            GetComponent<BlurManager>().leaf.OnPointerClick(null);
+        }
+    }
+
+
 
     public void gamePass()
     {
