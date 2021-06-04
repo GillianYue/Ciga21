@@ -20,8 +20,8 @@ public class imgSwitcher : MonoBehaviour
 
     void Start()
     {
-        img1 = transform.GetChild(0).GetComponent<Image>();
-        img2 = transform.GetChild(1).GetComponent<Image>();
+        img1 = transform.Find("Image").GetComponent<Image>();
+        img2 = transform.Find("Image (1)").GetComponent<Image>();
 
         gameControl = GameObject.FindGameObjectWithTag("GameController");
 
