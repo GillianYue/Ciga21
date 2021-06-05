@@ -19,6 +19,7 @@ public class globalStateStore : MonoBehaviour
         
     }
 
+    //gameControl's response to triggerTargetAction() called from some other gameobject
     public void myTriggerAction()
     {
         globalCounter += 1;

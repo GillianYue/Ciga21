@@ -76,20 +76,20 @@ public class interactable : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
 
         switch (interactType)
         {
-            case InteractType.anim:
-                myAnimator.SetTrigger("action1");
+            case InteractType.anim: 
+                myAnimator.SetTrigger("action1"); //play animation (only one in total)
                 break;
-            case InteractType.animThenImgChange:
+            case InteractType.animThenImgChange: //play animation (multiple in total)
                 if (timesClicked <= numInteractions)
                 {
                     myAnimator.SetTrigger("action" + timesClicked.ToString());
 
                 }
                 break;
-            case InteractType.imgSwitcher:
+            case InteractType.imgSwitcher: //change base images to the next pair (with effects)
                 GetComponent<imgSwitcher>().myTriggerAction();
                 break;
-            case InteractType.instrument:
+            case InteractType.instrument: 
                 if(gameControl.GetComponent<globalStateStore>().globalCounter < 2)
                 {
                     //play sound effect
@@ -126,6 +126,7 @@ public class interactable : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
 
     }
 
+    //in some cases called from the end of animation; fades out current sprite and fades in newly instantiated changeIntoPrefab (e.g. butterfly -> pepper, smartphone -> telephone)
     public GameObject swapSpriteToTarget()
     {
         GameObject target = Instantiate(changeIntoPrefab, transform.parent, false);
@@ -145,6 +146,7 @@ public class interactable : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
         target.GetComponent<Animator>().SetInteger("state", 1);
     }
 
+    //triggers actions that should be done on other game objects, action triggered based on availability of certain scripts
     public void triggerTargetAction()
     {
         if (relevantGO.GetComponent<interactable>() != null)
