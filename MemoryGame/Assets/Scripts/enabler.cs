@@ -14,11 +14,7 @@ public class enabler : MonoBehaviour
 
     void Start()
     {
-        if(test && startLevel > 1)
-        {
-            startCanvas.SetActive(false);
-            setUpLevel(startLevel);
-        }
+
     }
 
     void Update()
@@ -81,9 +77,9 @@ public class enabler : MonoBehaviour
         if (l != 1) gs.revealAndHideStuff(l - 1, false);
         gs.revealAndHideStuff(l, true);
 
-        if (l == 1) GetComponent<globalStateStore>().playSFX(1, 7);
-        if (l == 2) GetComponent<globalStateStore>().audioL1.GetComponents<AudioSource>()[7].Stop();
-        if (l == 3) GetComponent<globalStateStore>().playSFX(3, 1);
+        if (l == 1) GetComponent<AudioManager>().playSFX(1, 7);
+        if (l == 2) GetComponent<AudioManager>().audioL1.GetComponents<AudioSource>()[7].Stop();
+        if (l == 3) GetComponent<AudioManager>().playSFX(3, 1);
 
         darkCover.SetTrigger("fadeOut");
 

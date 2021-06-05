@@ -81,7 +81,7 @@ public class imgSwitcher : MonoBehaviour
                 break;
             case "Pasta(Clone)":
                 switchToNextImgState();
-                gameControl.GetComponent<globalStateStore>().playSFX(1, 6);
+                gameControl.GetComponent<AudioManager>().playSFX(1, 6);
                 if (currIndex == 3) StartCoroutine(pastaFinish());
                 break;
 

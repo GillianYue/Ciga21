@@ -10,18 +10,23 @@ public class interactable : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
     public bool clickable = true;
     Animator myAnimator;
     public int numInteractions;
-    public GameObject changeIntoPrefab, relevantGO; //applies when type is animThenImgChange
+    public GameObject changeIntoPrefab, affectsGO; //applies when type is animThenImgChange
 
     public enum InteractType { animThenImgChange, anim, imgSwitcher, instrument };
     public InteractType interactType;
     MouseControl mouseControl;
     GameObject gameControl;
 
-    void Start()
+    void Awake()
     {
         myAnimator = GetComponent<Animator>();
         gameControl = GameObject.FindGameObjectWithTag("GameController");
         mouseControl = gameControl.GetComponent<MouseControl>();
+    }
+
+    void Start()
+    {
+
     }
 
     void Update()
@@ -96,13 +101,13 @@ public class interactable : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
                     switch (name)
                     {
                         case "guitar":
-                            gameControl.GetComponent<globalStateStore>().audioL2.GetComponents<AudioSource>()[0].Play();
+                            gameControl.GetComponent<AudioManager>().playSFX(2, 0);
                             break;
                         case "drums":
-                            gameControl.GetComponent<globalStateStore>().audioL2.GetComponents<AudioSource>()[1].Play();
+                            gameControl.GetComponent<AudioManager>().playSFX(2, 1);
                             break;
                         case "accordion":
-                            gameControl.GetComponent<globalStateStore>().audioL2.GetComponents<AudioSource>()[2].Play();
+                            gameControl.GetComponent<AudioManager>().playSFX(2, 2);
                             break;
                     }
                     timesClicked -= 1;
@@ -149,17 +154,17 @@ public class interactable : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
     //triggers actions that should be done on other game objects, action triggered based on availability of certain scripts
     public void triggerTargetAction()
     {
-        if (relevantGO.GetComponent<interactable>() != null)
+        if (affectsGO.GetComponent<interactable>() != null)
         {
-            relevantGO.GetComponent<interactable>().myTriggerAction();
+            affectsGO.GetComponent<interactable>().myTriggerAction();
         }
-        else if (relevantGO.GetComponent<imgSwitcher>() != null)
+        else if (affectsGO.GetComponent<imgSwitcher>() != null)
         {
-            relevantGO.GetComponent<imgSwitcher>().myTriggerAction();
+            affectsGO.GetComponent<imgSwitcher>().myTriggerAction();
         }
         else
         {
-            relevantGO.GetComponent<globalStateStore>().myTriggerAction();
+            affectsGO.GetComponent<globalStateStore>().myTriggerAction();
         }
     }
 
@@ -215,10 +220,10 @@ public class interactable : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
         switch (name)
         {
             case "guitar": gs.guitar = true;
-                playL2SFX(9);
+                gameControl.GetComponent<AudioManager>().playSFX(2, 9);
                 break;
-            case "drums": gs.drums = true; playL2SFX(11); break;
-            case "accordion": gs.accordion = true; playL2SFX(10); break;
+            case "drums": gs.drums = true; gameControl.GetComponent<AudioManager>().playSFX(2, 11); break;
+            case "accordion": gs.accordion = true; gameControl.GetComponent<AudioManager>().playSFX(2, 10); break;
         }
 
         if(gs.drums && gs.guitar && gs.accordion && !gs.hasScrolled) //everything triggered for l2
@@ -239,19 +244,18 @@ public class interactable : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
         gameControl.GetComponent<BlurManager>().levelPassEffect(3);
     }
 
-    public void playL1SFX(int index)
-    {
-        gameControl.GetComponent<globalStateStore>().audioL1.GetComponents<AudioSource>()[index].Play();
-    }
 
-    public void playL2SFX(int index)
-    {
-        gameControl.GetComponent<globalStateStore>().audioL2.GetComponents<AudioSource>()[index].Play();
-    }
 
-    public void playL3SFX(int index)
-    {
-        gameControl.GetComponent<globalStateStore>().audioL3.GetComponents<AudioSource>()[index].Play();
-    }
+
+
+
+
+
+
+
+
+
+
+
 
 }

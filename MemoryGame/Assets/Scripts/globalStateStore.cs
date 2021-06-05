@@ -6,7 +6,7 @@ public class globalStateStore : MonoBehaviour
 {
     public int globalCounter;
     public bool drums, guitar, accordion, hasScrolled;
-    public GameObject audioL1, audioL2, audioL3;
+
     public GameObject[] l1Stuff, l2Stuff, l3Stuff;
 
     void Start()
@@ -51,19 +51,5 @@ public class globalStateStore : MonoBehaviour
     }
 
 
-    public void playSFX(int level, int index)
-    {
-        switch (level)
-        {
-            case 1:
-                audioL1.GetComponents<AudioSource>()[index].Play();
-                break;
-            case 2:
-                audioL2.GetComponents<AudioSource>()[index].Play();
-                break;
-            case 3:
-                audioL3.GetComponents<AudioSource>()[index].Play();
-                break;
-        }
-    }
+
 }
