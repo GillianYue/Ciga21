@@ -5,12 +5,18 @@ using UnityEngine;
 public class enabler : MonoBehaviour
 {
     public Animator mainCam, darkCover, credits;
+    public CamMovement cam;
     public imgSwitcher titleImg;
     public GameObject startCanvas;
     public StartDialogueClickThrough startDialogue;
 
     public bool test;
     public int startLevel;
+
+    private void Awake()
+    {
+        if (cam == null) cam = FindObjectOfType<CamMovement>();
+    }
 
     void Start()
     {

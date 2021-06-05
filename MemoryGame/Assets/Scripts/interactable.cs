@@ -12,7 +12,7 @@ public class interactable : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
     public int numInteractions;
     public GameObject changeIntoPrefab, affectsGO; //applies when type is animThenImgChange
 
-    public enum InteractType { animThenImgChange, anim, imgSwitcher, instrument };
+    public enum InteractType { animThenImgChange, anim, imgSwitcher, instrument, clickInspect };
     public InteractType interactType;
     MouseControl mouseControl;
     GameObject gameControl;
@@ -127,6 +127,14 @@ public class interactable : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
                 }
 
                 break;
+            case InteractType.clickInspect:
+                //focus on object clicked (cam focus + pos shift)
+                CamMovement cam = gameControl.GetComponent<enabler>().cam;
+                cam.camFocusOnObject(this, transform.position);
+
+
+                break;
+
         }
 
     }
@@ -168,6 +176,7 @@ public class interactable : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
         }
     }
 
+    //called in animations to prevent new actions triggered during animations
     public void setClickableTrue() { clickable = true; }
 
     public void setClickableFalse() { clickable = false; }

@@ -460,12 +460,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 45814020}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 477493a15b4e7d146bac6e1d8c2d7d9e, type: 3}
+  m_Script: {fileID: 11500000, guid: 7053b85ac080cf542b5c0fe5d55ada47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stateImgs:
-  - {fileID: 21300000, guid: db60d35937f9aea40b235c4aa7838bac, type: 3}
-  - {fileID: 21300000, guid: 13642e973ba2ec64586934522352b794, type: 3}
+  clickable: 1
+  numInteractions: 0
+  changeIntoPrefab: {fileID: 0}
+  affectsGO: {fileID: 0}
+  interactType: 4
 --- !u!95 &45814023
 Animator:
   serializedVersion: 3
@@ -1084,12 +1086,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 276176691}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 477493a15b4e7d146bac6e1d8c2d7d9e, type: 3}
+  m_Script: {fileID: 11500000, guid: 7053b85ac080cf542b5c0fe5d55ada47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stateImgs:
-  - {fileID: 21300000, guid: 9158ae77e5e37b242937c23f3ed3160b, type: 3}
-  - {fileID: 21300000, guid: 8e35ea2696bc63641bf2ddd8988d4a96, type: 3}
+  clickable: 1
+  numInteractions: 0
+  changeIntoPrefab: {fileID: 0}
+  affectsGO: {fileID: 0}
+  interactType: 4
 --- !u!95 &276176694
 Animator:
   serializedVersion: 3
@@ -1226,12 +1230,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 293563023}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 477493a15b4e7d146bac6e1d8c2d7d9e, type: 3}
+  m_Script: {fileID: 11500000, guid: 7053b85ac080cf542b5c0fe5d55ada47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stateImgs:
-  - {fileID: 21300000, guid: a897a36e26d41c44db2768c3b3092c23, type: 3}
-  - {fileID: 21300000, guid: ad7536b0cb5ff5d4c9b1aa1b062a6c7c, type: 3}
+  clickable: 1
+  numInteractions: 0
+  changeIntoPrefab: {fileID: 0}
+  affectsGO: {fileID: 0}
+  interactType: 4
 --- !u!95 &293563026
 Animator:
   serializedVersion: 3
@@ -2738,6 +2744,8 @@ GameObject:
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
   - component: {fileID: 519420030}
+  - component: {fileID: 519420033}
+  - component: {fileID: 519420034}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2829,6 +2837,39 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &519420033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0442e0e0c57c83b42999f37916ff8f0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!50 &519420034
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &526242363
 GameObject:
   m_ObjectHideFlags: 0
@@ -10826,6 +10867,7 @@ MonoBehaviour:
   mainCam: {fileID: 519420030}
   darkCover: {fileID: 492814608}
   credits: {fileID: 1237388134}
+  cam: {fileID: 0}
   titleImg: {fileID: 370108084}
   startCanvas: {fileID: 1586271773}
   startDialogue: {fileID: 318581720}
@@ -11943,7 +11985,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2096923965}
   - component: {fileID: 2096923967}
-  - component: {fileID: 2096923966}
   m_Layer: 5
   m_Name: water
   m_TagString: Untagged
@@ -11967,21 +12008,6 @@ Transform:
   m_Father: {fileID: 1586271777}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2096923966
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2096923964}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 477493a15b4e7d146bac6e1d8c2d7d9e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stateImgs:
-  - {fileID: 21300000, guid: b1ea06b61c3991a4cab0ee77a0b5967a, type: 3}
-  - {fileID: 21300000, guid: 65663f7991219564d937cfd1051b30f2, type: 3}
 --- !u!95 &2096923967
 Animator:
   serializedVersion: 3

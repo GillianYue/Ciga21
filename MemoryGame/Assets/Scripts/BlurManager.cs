@@ -117,7 +117,7 @@ public class BlurManager : MonoBehaviour
     {
         yield return new WaitForSeconds(3);
 
-        mainCam.SetTrigger("camShift");
+        mainCam.SetTrigger("camShiftPiano");
         yield return new WaitForSeconds(10);
         //audio stuff
 
