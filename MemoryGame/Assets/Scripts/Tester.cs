@@ -9,7 +9,7 @@ public class Tester : MonoBehaviour
 
     public bool test;
     public int startLevel;
-    public int speedUpRate;
+    public float speedUpRate;
 
     void Start()
     {

@@ -7,20 +7,29 @@ public class CamMovement : MonoBehaviour
     public GameObject gameControl;
     globalStateStore globalStates;
 
+    public Screenshake screenshake;
+
     Animator cam;
+    public Animator blink;
 
     public Vector3 destPos; //cam will always move towards this pos
     public float closeEnoughDist = 5;
 
     public float followSpeedPercent, linearSpeed;
-    public bool followActive;
+
+    public bool followActive, //will always be following destPos
+        randomOffsetActive; //natural breathing effect for cam
+
+
 
     private void Awake()
     {
         if (gameControl == null) gameControl = GameObject.FindGameObjectWithTag("GameController");
         if (globalStates == null) globalStates = gameControl.GetComponent<globalStateStore>();
+        if (screenshake == null) screenshake = GetComponent<Screenshake>();
 
         if (cam == null) cam = transform.GetChild(0).GetComponent<Animator>();
+        if (blink == null) Debug.LogError("blink not assigned");
 
         if (followSpeedPercent == 0) followSpeedPercent = 0.05f;
 
@@ -70,10 +79,12 @@ public class CamMovement : MonoBehaviour
         cam.Play("generalCamZoomIn");
 
         Vector2 originalPos = transform.position;
+        //blink.Play("blink");
 
         //yield return moveToLinearInSecs(gameObject, pos, 1f * scale, new bool[1]);
         yield return moveWorldDestAccl(pos);
-        yield return new WaitForSeconds(2);
+
+        yield return new WaitForSeconds(3); //linger time
 
         cam.Play("generalCamZoomOut");
         //yield return moveToLinearInSecs(gameObject, originalPos, 1.5f * scale, new bool[1]);
@@ -106,7 +117,7 @@ public class CamMovement : MonoBehaviour
             if (destReached())
             {
                 followActive = prevFollowActive;
-                print("time taken: " + (Time.time - startTime));
+                //print("time taken: " + (Time.time - startTime));
                 return true;
             }
             if (Time.time - startTime > 10f)
