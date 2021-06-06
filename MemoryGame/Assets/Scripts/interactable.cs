@@ -14,14 +14,18 @@ public class interactable : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
 
     public enum InteractType { animThenImgChange, anim, imgSwitcher, instrument, clickInspect };
     public InteractType interactType;
-    MouseControl mouseControl;
+
     GameObject gameControl;
+    MouseControl mouseControl;
+    globalStateStore globalStates;
 
     void Awake()
     {
         myAnimator = GetComponent<Animator>();
-        gameControl = GameObject.FindGameObjectWithTag("GameController");
+
+        if (gameControl == null) gameControl = GameObject.FindGameObjectWithTag("GameController");
         mouseControl = gameControl.GetComponent<MouseControl>();
+        globalStates = gameControl.GetComponent<globalStateStore>();
     }
 
     void Start()
@@ -38,7 +42,7 @@ public class interactable : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
     public void OnPointerClick(PointerEventData eventData)
     {
      //   print("clicked: " + eventData.pointerPress.name);
-        if (clickable)
+        if (globalStates.globalClickable && clickable) 
         {
             timesClicked += 1;
             checkBehavior();
@@ -130,7 +134,7 @@ public class interactable : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
             case InteractType.clickInspect:
                 //focus on object clicked (cam focus + pos shift)
                 CamMovement cam = gameControl.GetComponent<enabler>().cam;
-                cam.camFocusOnObject(this, transform.position);
+                cam.camFocusOnObject(transform.position);
 
 
                 break;

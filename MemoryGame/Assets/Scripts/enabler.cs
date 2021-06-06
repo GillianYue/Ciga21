@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//general game level logic 
 public class enabler : MonoBehaviour
 {
     public Animator mainCam, darkCover, credits;
@@ -9,9 +10,6 @@ public class enabler : MonoBehaviour
     public imgSwitcher titleImg;
     public GameObject startCanvas;
     public StartDialogueClickThrough startDialogue;
-
-    public bool test;
-    public int startLevel;
 
     private void Awake()
     {

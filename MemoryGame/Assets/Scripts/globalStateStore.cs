@@ -2,12 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//manages variables and objects on a global level
 public class globalStateStore : MonoBehaviour
 {
     public int globalCounter;
     public bool drums, guitar, accordion, hasScrolled;
 
     public GameObject[] l1Stuff, l2Stuff, l3Stuff;
+
+    public bool globalClickable;
+
+    private void Awake()
+    {
+        globalClickable = true;
+    }
 
     void Start()
     {
