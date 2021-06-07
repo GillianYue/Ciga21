@@ -21,7 +21,7 @@ public class interactable : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
 
     void Awake()
     {
-        myAnimator = GetComponent<Animator>();
+        myAnimator = GetComponent<Animator>(); 
 
         if (gameControl == null) gameControl = GameObject.FindGameObjectWithTag("GameController");
         mouseControl = gameControl.GetComponent<MouseControl>();

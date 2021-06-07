@@ -8,6 +8,7 @@ public class CamMovement : MonoBehaviour
     globalStateStore globalStates;
 
     public Screenshake screenshake;
+    public MouseBasedCamShift mouseBasedCamShift; //natural breathing effect for cam
 
     Animator cam;
     public Animator vfx;
@@ -17,8 +18,7 @@ public class CamMovement : MonoBehaviour
 
     public float followSpeedPercent, linearSpeed;
 
-    public bool followActive, //will always be following destPos
-        randomOffsetActive; //natural breathing effect for cam
+    public bool followActive; //will always be following destPos
 
 
 
@@ -27,6 +27,7 @@ public class CamMovement : MonoBehaviour
         if (gameControl == null) gameControl = GameObject.FindGameObjectWithTag("GameController");
         if (globalStates == null) globalStates = gameControl.GetComponent<globalStateStore>();
         if (screenshake == null) screenshake = GetComponent<Screenshake>();
+        if (mouseBasedCamShift == null) mouseBasedCamShift = GetComponent<MouseBasedCamShift>();
 
         if (cam == null) cam = transform.GetChild(0).GetComponent<Animator>();
         if (vfx == null) Debug.LogError("vfx animator not assigned");
@@ -38,7 +39,7 @@ public class CamMovement : MonoBehaviour
 
     void Start()
     {
-        
+
     }
 
     // moving cam using a mixed approach (if linear speed = 0, then fully non-linear)
@@ -56,7 +57,7 @@ public class CamMovement : MonoBehaviour
             Vector2 distLeft = ((destPos - transform.position) * (1 - followSpeedPercent));
             if (linearDelta.magnitude > distLeft.magnitude) linearDelta = distLeft;
 
-            transform.position += (Vector3) linearDelta;
+            transform.position += (Vector3)linearDelta;
         }
     }
 
@@ -106,9 +107,12 @@ public class CamMovement : MonoBehaviour
     //non linear cam movement
     public IEnumerator moveWorldDestAccl(Vector3 dest)
     {
-        bool prevFollowActive = followActive;
+        //store current cam movement data
+        CamMovementData data = new CamMovementData(followActive, mouseBasedCamShift.active, destPos);
 
         followActive = true;
+        mouseBasedCamShift.endCamShift();
+
         destPos = new Vector3(dest.x, dest.y, destPos.z);
 
         float startTime = Time.time;
@@ -116,7 +120,8 @@ public class CamMovement : MonoBehaviour
         yield return new WaitUntil(() => {
             if (destReached())
             {
-                followActive = prevFollowActive;
+                restoreData(data); //restore to prev states
+
                 //print("time taken: " + (Time.time - startTime));
                 return true;
             }
@@ -124,7 +129,7 @@ public class CamMovement : MonoBehaviour
             {
                 Debug.LogError("dest not reached within 10 seconds, skipped");
 
-                followActive = prevFollowActive;
+                restoreData(data); //restore to prev states
                 return true;
             }
 
@@ -134,18 +139,28 @@ public class CamMovement : MonoBehaviour
 
     public IEnumerator moveWorldDestAcclForSecs(Vector3 dest, float duration)
     {
+
+        //store current cam movement data
+        CamMovementData data = new CamMovementData(this.followActive, mouseBasedCamShift.active, destPos);
+
+
         destPos = new Vector3(dest.x, dest.y, destPos.z);
 
         float startTime = Time.time;
 
         yield return new WaitForSeconds(duration);
+
+        restoreData(data); //restore to prev states
     }
 
 
 
     //linear cam movement
-    public static IEnumerator moveToLinearInSecs(GameObject e, int x, int y, float sec, bool[] done)
+    public static IEnumerator moveCamToLinearInSecs(CamMovement cam, GameObject e, int x, int y, float sec, bool[] done)
     {
+        //store current cam movement data
+        CamMovementData data = new CamMovementData(cam.followActive, cam.mouseBasedCamShift.active, cam.destPos);
+
 
         float xDist = x - e.transform.position.x;
         float yDist = y - e.transform.position.y;
@@ -157,11 +172,40 @@ public class CamMovement : MonoBehaviour
         yield return new WaitForSeconds(sec);
 
         e.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0); //stops the GO at dest
+
+        cam.restoreData(data); //restore to prev states
         done[0] = true;
     }
 
-    public static IEnumerator moveToLinearInSecs(GameObject e, Vector2 dest, float sec, bool[] done)
+    public static IEnumerator moveCamToLinearInSecs(CamMovement cam, GameObject e, Vector2 dest, float sec, bool[] done)
     {
-        return moveToLinearInSecs(e, (int)dest.x, (int)dest.y, sec, done);
+        return moveCamToLinearInSecs(cam, e, (int)dest.x, (int)dest.y, sec, done);
     }
+
+
+    public void restoreData(CamMovementData dt)
+    {
+        followActive = dt.pFollowActive;
+        if (dt.pBreatheActive) mouseBasedCamShift.startCamShift();
+        if (dt.pFollowActive) destPos = dt.pDest;
+    }
+}
+
+//temporarily stores data on camMovement before a (non)linear movement is about to begin
+//cam movement will restore to prev settings based on this
+public class CamMovementData
+{
+    public bool pFollowActive,
+    pBreatheActive;
+
+    public Vector3 pDest;
+
+    public CamMovementData(bool prevFollowActive, bool prevBreatheActive, Vector3 prevDest)
+    {
+        pFollowActive = prevFollowActive;
+        pBreatheActive = prevBreatheActive;
+        pDest = prevDest;
+    }
+
+
 }

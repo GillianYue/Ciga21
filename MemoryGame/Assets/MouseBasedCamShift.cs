@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,7 +14,7 @@ public class MouseBasedCamShift : MonoBehaviour
 
     void Start()
     {
-        startCamShift();
+        //startCamShift();
     }
 
 
@@ -22,9 +22,9 @@ public class MouseBasedCamShift : MonoBehaviour
     {
         if (active)
         {
-            Vector2 mousePos = (Vector2)Input.mousePosition - screenDimension/2; //center point will be (0,0)
+            Vector2 mousePos = (Vector2)Input.mousePosition - screenDimension / 2; //center point will be (0,0)
 
-            Vector2 offset = new Vector2(moveCapacity.x * (mousePos.x / (screenDimension.x/2)), moveCapacity.y * ( mousePos.y/ (screenDimension.y/2)));
+            Vector2 offset = new Vector2(moveCapacity.x * (mousePos.x / (screenDimension.x / 2)), moveCapacity.y * (mousePos.y / (screenDimension.y / 2)));
 
             shakeTransform.localPosition = startLocalPos + offset;
         }
@@ -42,7 +42,7 @@ public class MouseBasedCamShift : MonoBehaviour
     public void endCamShift()
     {
         active = false;
-
+        shakeTransform.localPosition = startLocalPos;
     }
 
 
