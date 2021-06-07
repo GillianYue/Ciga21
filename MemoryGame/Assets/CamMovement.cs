@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,7 +10,7 @@ public class CamMovement : MonoBehaviour
     public Screenshake screenshake;
 
     Animator cam;
-    public Animator blink;
+    public Animator vfx;
 
     public Vector3 destPos; //cam will always move towards this pos
     public float closeEnoughDist = 5;
@@ -29,7 +29,7 @@ public class CamMovement : MonoBehaviour
         if (screenshake == null) screenshake = GetComponent<Screenshake>();
 
         if (cam == null) cam = transform.GetChild(0).GetComponent<Animator>();
-        if (blink == null) Debug.LogError("blink not assigned");
+        if (vfx == null) Debug.LogError("vfx animator not assigned");
 
         if (followSpeedPercent == 0) followSpeedPercent = 0.05f;
 
@@ -79,7 +79,7 @@ public class CamMovement : MonoBehaviour
         cam.Play("generalCamZoomIn");
 
         Vector2 originalPos = transform.position;
-        //blink.Play("blink");
+        //vfx.Play("blink");
 
         //yield return moveToLinearInSecs(gameObject, pos, 1f * scale, new bool[1]);
         yield return moveWorldDestAccl(pos);
