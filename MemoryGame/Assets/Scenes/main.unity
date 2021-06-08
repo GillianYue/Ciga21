@@ -1277,8 +1277,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.5423933, g: 0.9245283, b: 0.40557134, a: 0.83137256}
-  m_RaycastTarget: 1
-  m_Maskable: 1
+  m_RaycastTarget: 0
+  m_Maskable: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -8020,8 +8020,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_Maskable: 1
+  m_RaycastTarget: 0
+  m_Maskable: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -15634,13 +15634,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameControl: {fileID: 0}
   screenshake: {fileID: 1760888878}
+  mouseBasedCamShift: {fileID: 0}
   vfx: {fileID: 1255167655}
   destPos: {x: 0, y: 0, z: 0}
-  closeEnoughDist: 10
+  closeEnoughDist: 5
   followSpeedPercent: 0.02
   linearSpeed: 1
   followActive: 1
-  randomOffsetActive: 0
 --- !u!4 &1760888876
 Transform:
   m_ObjectHideFlags: 0
@@ -15711,7 +15711,7 @@ MonoBehaviour:
   shakeTransform: {fileID: 1760888876}
   moveCapacity: {x: 10, y: 10}
   screenDimension: {x: 1600, y: 900}
-  active: 0
+  active: 1
   startLocalPos: {x: 0, y: 0}
 --- !u!1 &1774441206
 GameObject:
