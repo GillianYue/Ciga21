@@ -26,7 +26,7 @@ public class MouseControl : MonoBehaviour
 
                 interactable itr = hit.transform.GetComponent<interactable>();
 
-                if ( itr != null)
+                if (itr != null)
                 {
                     //object is interactable
                     print("clicked on " + hit.transform.name);

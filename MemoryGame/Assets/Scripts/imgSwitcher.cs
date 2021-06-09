@@ -12,6 +12,7 @@ public class imgSwitcher : MonoBehaviour
 {
     //each state has two
     public Sprite[] stateImgs;
+    public Collider2D[] stateColliders; //2d colliders for different states, if any; should be half the size of stateImgs or fewer
 
     private Image img1, img2;
     private int currIndex = 0;
@@ -56,6 +57,16 @@ public class imgSwitcher : MonoBehaviour
         //setting pivots to sprite
         syncImagePivotWithSprite(img1);
         syncImagePivotWithSprite(img2);
+
+        //switching colliders if has different ones (if not, will keep prev collider)
+        if(stateColliders.Length > s && stateColliders[s] != null)
+        {
+            for(int sc = 0; sc < stateColliders.Length; sc++)
+            {
+                if (sc == s) stateColliders[sc].enabled = true;
+                else stateColliders[sc].enabled = false;
+            }
+        }
     }
 
     public void switchToNextImgState()
