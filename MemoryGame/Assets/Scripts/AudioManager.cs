@@ -4,22 +4,23 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    public GameObject audioL1, audioL2, audioL3;
+    public GameObject[] levelAudios;
 
 
     public void playSFX(int level, int index)
     {
-        switch (level)
-        {
-            case 1:
-                audioL1.GetComponents<AudioSource>()[index].Play();
-                break;
-            case 2:
-                audioL2.GetComponents<AudioSource>()[index].Play();
-                break;
-            case 3:
-                audioL3.GetComponents<AudioSource>()[index].Play();
-                break;
-        }
+        if (level > levelAudios.Length) { Debug.LogError("level exceeds levelAudios array"); return; }
+
+        levelAudios[level].GetComponents<AudioSource>()[index].Play();
+
+    }
+
+
+    public void stopSFX(int level, int index)
+    {
+        if (level > levelAudios.Length) { Debug.LogError("level exceeds levelAudios array"); return; }
+
+        levelAudios[level].GetComponents<AudioSource>()[index].Stop();
+
     }
 }

@@ -8,7 +8,8 @@ public class globalStateStore : MonoBehaviour
     public int globalCounter;
     public bool drums, guitar, accordion, hasScrolled;
 
-    public GameObject[] l1Stuff, l2Stuff, l3Stuff;
+    public GameObject l1Scene, vaseScene, treeScene, bandScene, seaScene, pupScene, gardenScene, gardenCloseupScene, 
+        bickerScene, parkScene, graveyardScene, homeScene, mirrorScene;
 
     public bool globalClickable;
 
@@ -35,26 +36,118 @@ public class globalStateStore : MonoBehaviour
 
     public void revealAndHideStuff(int l, bool to)
     {
+        revealAndHideStuff(l, to, false);
+    }
+
+    public void revealAndHideStuff(int l, bool to, bool subScene)
+    {
         switch (l)
         {
             case 1:
-                foreach (GameObject go in l1Stuff)
+                l1Scene.SetActive(to);
+                foreach (GameObject go in l1Scene.transform)
                 {
                     go.SetActive(to);
                 }
                 break;
             case 2:
-                foreach (GameObject go in l2Stuff)
+                vaseScene.SetActive(to);
+                foreach (GameObject go in vaseScene.transform)
                 {
                     go.SetActive(to);
                 }
                 break;
             case 3:
-                foreach (GameObject go in l3Stuff)
+                treeScene.SetActive(to);
+                foreach (GameObject go in treeScene.transform)
                 {
                     go.SetActive(to);
                 }
                 break;
+
+            case 4:
+                bandScene.SetActive(to);
+                foreach (GameObject go in bandScene.transform)
+                {
+                    go.SetActive(to);
+                }
+                break;
+            case 5:
+                seaScene.SetActive(to);
+                foreach (GameObject go in seaScene.transform)
+                {
+                    go.SetActive(to);
+                }
+                break;
+            case 6:
+                pupScene.SetActive(to);
+                foreach (GameObject go in pupScene.transform)
+                {
+                    go.SetActive(to);
+                }
+                break;
+
+            case 7:
+                if (subScene)
+                {
+                    gardenCloseupScene.SetActive(to);
+                    foreach (GameObject go in gardenCloseupScene.transform)
+                    {
+                        go.SetActive(to);
+                    }
+                    break;
+                }
+                else
+                {
+                    gardenScene.SetActive(to);
+                    foreach (GameObject go in gardenScene.transform)
+                    {
+                        go.SetActive(to);
+                    }
+                    break;
+                }
+
+            case 8:
+                bickerScene.SetActive(to);
+                foreach (GameObject go in bickerScene.transform)
+                {
+                    go.SetActive(to);
+                }
+                break;
+            case 9:
+                parkScene.SetActive(to);
+                foreach (GameObject go in parkScene.transform)
+                {
+                    go.SetActive(to);
+                }
+                break;
+
+            case 10:
+                graveyardScene.SetActive(to);
+                foreach (GameObject go in graveyardScene.transform)
+                {
+                    go.SetActive(to);
+                }
+                break;
+            case 11:
+                if (subScene)
+                {
+                    homeScene.SetActive(to);
+                    foreach (GameObject go in homeScene.transform)
+                    {
+                        go.SetActive(to);
+                    }
+                    break;
+                }
+                else
+                {
+                    mirrorScene.SetActive(to);
+                    foreach (GameObject go in mirrorScene.transform)
+                    {
+                        go.SetActive(to);
+                    }
+                    break;
+                }
         }
     }
 

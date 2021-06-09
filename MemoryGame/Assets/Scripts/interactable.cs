@@ -105,13 +105,13 @@ public class interactable : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
                     switch (name)
                     {
                         case "guitar":
-                            gameControl.GetComponent<AudioManager>().playSFX(2, 0);
+                            gameControl.GetComponent<AudioManager>().playSFX(4, 0);
                             break;
                         case "drums":
-                            gameControl.GetComponent<AudioManager>().playSFX(2, 1);
+                            gameControl.GetComponent<AudioManager>().playSFX(4, 1);
                             break;
                         case "accordion":
-                            gameControl.GetComponent<AudioManager>().playSFX(2, 2);
+                            gameControl.GetComponent<AudioManager>().playSFX(4, 2);
                             break;
                     }
                     timesClicked -= 1;
@@ -233,10 +233,10 @@ public class interactable : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
         switch (name)
         {
             case "guitar": gs.guitar = true;
-                gameControl.GetComponent<AudioManager>().playSFX(2, 9);
+                gameControl.GetComponent<AudioManager>().playSFX(4, 9);
                 break;
-            case "drums": gs.drums = true; gameControl.GetComponent<AudioManager>().playSFX(2, 11); break;
-            case "accordion": gs.accordion = true; gameControl.GetComponent<AudioManager>().playSFX(2, 10); break;
+            case "drums": gs.drums = true; gameControl.GetComponent<AudioManager>().playSFX(4, 11); break;
+            case "accordion": gs.accordion = true; gameControl.GetComponent<AudioManager>().playSFX(4, 10); break;
         }
 
         if(gs.drums && gs.guitar && gs.accordion && !gs.hasScrolled) //everything triggered for l2

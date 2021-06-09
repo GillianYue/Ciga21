@@ -78,20 +78,58 @@ public class enabler : MonoBehaviour
 
         globalStateStore gs = GetComponent<globalStateStore>();
         gs.globalCounter = 0;
-        if (l != 1) gs.revealAndHideStuff(l - 1, false);
-        gs.revealAndHideStuff(l, true);
+        if (l != 1) gs.revealAndHideStuff(l - 1, false); //hide stuff from prev lv
+        gs.revealAndHideStuff(l, true); //show curr lv stuff
 
-        if (l == 1) GetComponent<AudioManager>().playSFX(1, 7);
-        if (l == 2) GetComponent<AudioManager>().audioL1.GetComponents<AudioSource>()[7].Stop();
-        if (l == 3) GetComponent<AudioManager>().playSFX(3, 1);
+        switch (l)
+        {
+            case 1: //dine
+                GetComponent<AudioManager>().playSFX(1, 7);
+
+                break;
+            case 2: //vase
+                GetComponent<AudioManager>().stopSFX(1, 7);
+
+
+                break;
+            case 3: //tree
+
+                break;
+            case 4: //band
+
+                break;
+
+            case 5: //sea
+
+                break;
+            case 6: //pup
+
+                break;
+
+            case 7: //garden
+
+                break;
+            case 8: //bicker
+
+                break;
+
+            case 9: //park
+                GetComponent<AudioManager>().playSFX(9, 1);
+
+                yield return new WaitForSeconds(7);
+                GetComponent<BlurManager>().leaf.OnPointerClick(null);
+                break;
+            case 10: //graveyard
+
+                break;
+            case 11: //home/mirror
+
+                break;
+        }
+
 
         darkCover.SetTrigger("fadeOut");
 
-        if (l == 3)
-        {
-            yield return new WaitForSeconds(7);
-            GetComponent<BlurManager>().leaf.OnPointerClick(null);
-        }
     }
 
 
