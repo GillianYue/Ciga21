@@ -71,12 +71,13 @@ public class StartDialogueClickThrough : MonoBehaviour
                 {
                     textAnimators[i].SetTrigger("fadeOutText");
                 }
-                backPanel.SetTrigger("fadeOutSlow");
+                backPanel.SetTrigger("fadeOutSlow"); //text panel fade 
+
                 yield return new WaitForSeconds(3f);
                 myEnabler.startGame();
 
                 yield return new WaitForSeconds(2f);
-                backPanel.gameObject.SetActive(false);
+                backPanel.gameObject.SetActive(false); 
                 break;
         }
 

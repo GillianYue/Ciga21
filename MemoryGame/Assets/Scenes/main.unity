@@ -12576,7 +12576,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.50980395}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -36517,7 +36517,7 @@ MonoBehaviour:
   enable: {fileID: 1830021999}
   test: 1
   startLevel: 0
-  speedUpRate: 0.05
+  speedUpRate: 10
   swc: {fileID: 761257041}
 --- !u!114 &1830022002
 MonoBehaviour:
@@ -38943,7 +38943,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1968416969}
   - component: {fileID: 1968416971}
-  - component: {fileID: 1968416970}
   m_Layer: 0
   m_Name: bp
   m_TagString: Untagged
@@ -38972,25 +38971,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1600, y: 900}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!95 &1968416970
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1968416968}
-  m_Enabled: 0
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 3af8cf8ee049e104ebc9938148d13b5f, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!222 &1968416971
 CanvasRenderer:
   m_ObjectHideFlags: 0

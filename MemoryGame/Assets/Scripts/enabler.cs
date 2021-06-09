@@ -6,6 +6,7 @@ using UnityEngine;
 public class enabler : MonoBehaviour
 {
     public Animator mainCam, darkCover, credits;
+
     public CamMovement cam;
     public imgSwitcher titleImg;
     public GameObject startCanvas;
@@ -50,18 +51,20 @@ public class enabler : MonoBehaviour
     {
         mainCam.Play("startCamZoom");
         yield return new WaitForSeconds(5);
+
         darkCover.SetTrigger("fadeIn");
         yield return new WaitForSeconds(2);
+
+        mainCam.SetTrigger("idle"); //will reset cam's orthographic size and positions to (0,0) forcefully
         startCanvas.SetActive(false);
 
-        mainCam.SetTrigger("idle");
         yield return new WaitForSeconds(1);
 
         setUpLevel(1);
 
         //at this point can't see title anymore so switch to ending state already 
         titleImg.switchToImgState(1);
-        darkCover.SetTrigger("fadeOut");
+        darkCover.SetTrigger("fadeOut"); //enters scene
         yield return new WaitForSeconds(2);
         
     }

@@ -11,7 +11,7 @@ public class AudioManager : MonoBehaviour
     {
         if (level > levelAudios.Length) { Debug.LogError("level exceeds levelAudios array"); return; }
 
-        levelAudios[level].GetComponents<AudioSource>()[index].Play();
+        levelAudios[level-1].GetComponents<AudioSource>()[index].Play();
 
     }
 
@@ -20,7 +20,7 @@ public class AudioManager : MonoBehaviour
     {
         if (level > levelAudios.Length) { Debug.LogError("level exceeds levelAudios array"); return; }
 
-        levelAudios[level].GetComponents<AudioSource>()[index].Stop();
+        levelAudios[level-1].GetComponents<AudioSource>()[index].Stop();
 
     }
 }

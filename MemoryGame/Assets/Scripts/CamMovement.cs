@@ -96,7 +96,6 @@ public class CamMovement : MonoBehaviour
     }
 
 
-
     public bool destReached()
     {
         float d = Vector2.Distance(new Vector2(destPos.x, destPos.y), new Vector2(transform.position.x, transform.position.y));
