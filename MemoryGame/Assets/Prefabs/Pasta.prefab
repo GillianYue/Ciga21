@@ -87,6 +87,7 @@ GameObject:
   - component: {fileID: 5210644841191433707}
   - component: {fileID: 5210644841191433706}
   - component: {fileID: 229169034}
+  - component: {fileID: 1572085505}
   m_Layer: 5
   m_Name: Pasta
   m_TagString: Untagged
@@ -152,7 +153,7 @@ MonoBehaviour:
   clickable: 0
   numInteractions: 3
   changeIntoPrefab: {fileID: 0}
-  relevantGO: {fileID: 0}
+  affectsGO: {fileID: 0}
   interactType: 2
 --- !u!114 &229169034
 MonoBehaviour:
@@ -175,6 +176,22 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 5bc01b47a7adcef48a38793224fd0757, type: 3}
   - {fileID: 21300000, guid: e82f144a391027748ba4143d5fdbf0b7, type: 3}
   - {fileID: 21300000, guid: e82f144a391027748ba4143d5fdbf0b7, type: 3}
+--- !u!70 &1572085505
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5210644841191433704}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 1.0402839, y: 4.98795}
+  m_Size: {x: 239.95776, y: 99.44379}
+  m_Direction: 1
 --- !u!1 &5210644842102684230
 GameObject:
   m_ObjectHideFlags: 0

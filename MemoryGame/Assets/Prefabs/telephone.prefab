@@ -159,6 +159,7 @@ GameObject:
   - component: {fileID: 8249382021649026098}
   - component: {fileID: 8249382021649026103}
   - component: {fileID: 8249382021649026096}
+  - component: {fileID: 635414153}
   m_Layer: 5
   m_Name: telephone
   m_TagString: Untagged
@@ -209,3 +210,37 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!60 &635414153
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8249382021649026099}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 9.52356, y: 82.08943}
+      - {x: -47.2984, y: 69.27469}
+      - {x: -86.16931, y: 9.9952545}
+      - {x: -99.549255, y: -34.17404}
+      - {x: -15.751953, y: -66.07108}
+      - {x: 44.97406, y: -5.3536835}
+      - {x: 55.32599, y: -78.217316}
+      - {x: 91.529236, y: -69.470474}
+      - {x: 79.906006, y: 47.391235}

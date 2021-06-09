@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class interactable : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
+public class interactable : MonoBehaviour
 {
     private int timesClicked = 0; //this should keep track of effective clicks
     public bool clickable = true;
@@ -39,7 +39,7 @@ public class interactable : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
     }
 
 
-    public void OnPointerClick(PointerEventData eventData)
+    public void onClick()
     {
      //   print("clicked: " + eventData.pointerPress.name);
         if (globalStates.globalClickable && clickable) 
@@ -49,12 +49,12 @@ public class interactable : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
         }
     }
 
-    public void OnPointerEnter(PointerEventData eventData)
+    public void onEnter()
     {
        // if (clickable) mouseControl.toHand();
     }
 
-    public void OnPointerExit(PointerEventData eventData)
+    public void onExit()
     {
       //  if (clickable) mouseControl.toMouse();
     }
@@ -153,6 +153,9 @@ public class interactable : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
         setChildrenInvisible(target);
 
         myAnimator.SetTrigger("fadeOut");
+        Collider2D collider = GetComponent<Collider2D>();
+        if (collider != null) collider.enabled = false; //if has collider, shouldn't exist anymore at this point
+
         target.GetComponent<Animator>().SetTrigger("fadeIn");
         return target;
     }

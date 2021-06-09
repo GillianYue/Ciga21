@@ -120,7 +120,8 @@ public class enabler : MonoBehaviour
                 GetComponent<AudioManager>().playSFX(9, 1);
 
                 yield return new WaitForSeconds(7);
-                GetComponent<BlurManager>().leaf.OnPointerClick(null);
+                GetComponent<BlurManager>().leaf.onClick(); //will trigger leaf fall
+
                 break;
             case 10: //graveyard
 
