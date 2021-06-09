@@ -11,6 +11,8 @@ public class Tester : MonoBehaviour
     public int startLevel;
     public float speedUpRate;
 
+    public imgSwitcher swc;
+
     void Start()
     {
         if (speedUpRate == 0) speedUpRate = 5;
@@ -41,6 +43,11 @@ public class Tester : MonoBehaviour
             }
 
 
+        }
+
+        if (Input.GetKeyDown("t"))
+        {
+            swc.switchToNextImgState();
         }
 
     }

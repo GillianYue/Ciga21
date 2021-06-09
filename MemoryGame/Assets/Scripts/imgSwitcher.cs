@@ -40,17 +40,22 @@ public class imgSwitcher : MonoBehaviour
     {
         int idx1 = 2 * s, idx2 = 2 * s + 1;
 
+        //in case img1 and 2 are not assigned on start
         if(img1 == null)
         {
             img1 = transform.GetChild(0).GetComponent<Image>();
             img2 = transform.GetChild(1).GetComponent<Image>();
         }
 
+        //the actual swap
         img1.sprite = stateImgs[idx1];
         img2.sprite = stateImgs[idx2];
         img1.overrideSprite = stateImgs[idx1];
         img2.overrideSprite = stateImgs[idx2];
 
+        //setting pivots to sprite
+        syncImagePivotWithSprite(img1);
+        syncImagePivotWithSprite(img2);
     }
 
     public void switchToNextImgState()
@@ -115,5 +120,19 @@ public class imgSwitcher : MonoBehaviour
         gameControl.GetComponent<BlurManager>().levelPassEffect(1);
     }
 
+
+    //to keep different sprites of the same object appear at the same locations
+    public static void syncImagePivotWithSprite(Image img)
+    {
+        img.SetNativeSize();
+
+
+        Vector2 size = img.GetComponent<RectTransform>().sizeDelta;
+        Vector2 pixelPivot = img.sprite.pivot;
+        Vector2 percentPivot = new Vector2(pixelPivot.x / size.x, pixelPivot.y / size.y);
+        img.GetComponent<RectTransform>().pivot = percentPivot;
+
+
+    }
 
 }
