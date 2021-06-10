@@ -303,7 +303,8 @@ public class interactable : MonoBehaviour
                     blkt = globalState.vaseScene.transform.Find("blanket").gameObject,
                     vase = globalState.vaseScene.transform.Find("broken_vase").gameObject,
                     plate = globalState.vaseScene.transform.Find("plate").gameObject,
-                    nurse = globalState.vaseScene.transform.Find("nurse").gameObject;
+                    nurse = globalState.vaseScene.transform.Find("nurse").gameObject,
+                    sofa = globalState.vaseScene.transform.Find("sofa").gameObject;
 
                     ma.SetActive(true);
                     ma.GetComponent<Animator>().SetTrigger("fadeIn");
@@ -326,60 +327,75 @@ public class interactable : MonoBehaviour
                     ma.GetComponent<imgSwitcher>().switchToImgState(1); //head tilt
                     yield return new WaitForSeconds(3);
                     ma.GetComponent<imgSwitcher>().switchToImgState(2); //reach
+                    yield return new WaitForSeconds(1);
+                    blkt.GetComponent<Animator>().SetTrigger("fadeOut");
                     yield return new WaitForSeconds(2);
 
                     
 
                     //unveil
                     ma.GetComponent<imgSwitcher>().switchToImgState(1);
-                    blkt.GetComponent<Animator>().SetTrigger("fadeOut");
+                    
 
                     yield return new WaitForSeconds(3);
                     ma.GetComponent<imgSwitcher>().switchToImgState(0); //questioning look
 
                     //"me" getting scared
-                    yield return new WaitForSeconds(3.5f);
+                    yield return new WaitForSeconds(3f);
                     camMovement.vfx.Play("blink2x");
                     yield return new WaitForSeconds(0.5f);
                     camMovement.cam.Play("leftRightGlance");
-                    yield return new WaitForSeconds(3);
+                    yield return new WaitForSeconds(1);
                     camMovement.cam.Play("nervousBreathe");
-                    yield return new WaitForSeconds(2);
+                    yield return new WaitForSeconds(7);
+
+                    //TODO faint vfx
 
                     //flash
                     ma.SetActive(false);
                     vase.SetActive(false);
+                    sofa.SetActive(false);
+                    nurse.SetActive(true);
+                    plate.SetActive(true);
+                    yield return new WaitForSeconds(0.2f);
+
+                    print("s1");
+
+                    ma.SetActive(true);
+                    vase.SetActive(true);
+                    sofa.SetActive(true);
+                    nurse.SetActive(false);
+                    plate.SetActive(false);
+                    yield return new WaitForSeconds(2f);
+
+                    print("s2");
+
+                    ma.SetActive(false);
+                    vase.SetActive(false);
+                    sofa.SetActive(false);
                     nurse.SetActive(true);
                     plate.SetActive(true);
                     yield return new WaitForSeconds(0.2f);
                     ma.SetActive(true);
                     vase.SetActive(true);
+                    sofa.SetActive(true);
                     nurse.SetActive(false);
                     plate.SetActive(false);
                     yield return new WaitForSeconds(2f);
 
                     ma.SetActive(false);
                     vase.SetActive(false);
+                    sofa.SetActive(false);
                     nurse.SetActive(true);
                     plate.SetActive(true);
                     yield return new WaitForSeconds(0.3f);
-                    ma.SetActive(true);
-                    vase.SetActive(true);
-                    nurse.SetActive(false);
-                    plate.SetActive(false);
-                    yield return new WaitForSeconds(2f);
-
-                    ma.SetActive(false);
-                    vase.SetActive(false);
-                    nurse.SetActive(true);
-                    plate.SetActive(true);
-                    yield return new WaitForSeconds(0.5f);
                     nurse.GetComponent<imgSwitcher>().switchToNextImgState();
                     plate.GetComponent<imgSwitcher>().switchToNextImgState();
-                    yield return new WaitForSeconds(1.5f);
+                    yield return new WaitForSeconds(1f);
 
                     ma.SetActive(true);
                     vase.SetActive(true);
+                    sofa.SetActive(true);
                     nurse.SetActive(false);
                     plate.SetActive(false);
                     yield return new WaitForSeconds(2f);
@@ -399,7 +415,7 @@ public class interactable : MonoBehaviour
                     yield return new WaitForSeconds(3);
 
                     ma.GetComponent<imgSwitcher>().switchToImgState(3); //glove reach
-                    yield return new WaitForSeconds(2);
+                    yield return new WaitForSeconds(4);
 
                     vase.GetComponent<Animator>().SetTrigger("fadeOut");
                     ma.GetComponent<imgSwitcher>().switchToImgState(1);
@@ -407,7 +423,11 @@ public class interactable : MonoBehaviour
                     yield return new WaitForSeconds(4);
                     ma.GetComponent<imgSwitcher>().switchToImgState(0);
 
-                    yield return new WaitForSeconds(6);
+
+                    yield return new WaitForSeconds(5);
+                    camMovement.cam.Play("vaseSceneEndZoom"); 
+                    //sfx thud
+                    yield return new WaitForSeconds(4);
                     ma.GetComponent<imgSwitcher>().switchToImgState(4);
                 }
                 break;
