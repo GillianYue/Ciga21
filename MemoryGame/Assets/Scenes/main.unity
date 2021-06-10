@@ -592,8 +592,12 @@ MonoBehaviour:
   affectsGO: {fileID: 0}
   interactType: 4
   gameControl: {fileID: 0}
+  camMovement: {fileID: 0}
   mouseControl: {fileID: 0}
-  globalStates: {fileID: 0}
+  globalState: {fileID: 0}
+  var1: 0
+  var2: 0
+  var3: 0
 --- !u!95 &45814023
 Animator:
   serializedVersion: 3
@@ -685,7 +689,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &51915484
 RectTransform:
   m_ObjectHideFlags: 0
@@ -725,6 +729,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: b539e034cfc5c354aaded2a6ccd66f61, type: 3}
   - {fileID: 21300000, guid: 8ee86cd8ca0a22741a2b2888a7578c10, type: 3}
   stateColliders: []
+  stateOffsets: []
 --- !u!114 &51915486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -743,8 +748,12 @@ MonoBehaviour:
   affectsGO: {fileID: 0}
   interactType: 0
   gameControl: {fileID: 1830021994}
+  camMovement: {fileID: 0}
   mouseControl: {fileID: 1830021995}
-  globalStates: {fileID: 1830021998}
+  globalState: {fileID: 0}
+  var1: 0
+  var2: 0
+  var3: 0
   puzzlePlacement: {fileID: 113009411}
   puzzleID: 7
   selected: 0
@@ -904,6 +913,7 @@ GameObject:
   - component: {fileID: 60459159}
   - component: {fileID: 60459158}
   - component: {fileID: 60459160}
+  - component: {fileID: 60459161}
   m_Layer: 0
   m_Name: soccer
   m_TagString: Untagged
@@ -919,13 +929,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 60459156}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 26, y: 5, z: 0}
+  m_LocalPosition: {x: 195, y: -21, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1010548282}
   - {fileID: 1652964811}
   m_Father: {fileID: 596286881}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &60459158
 Animator:
@@ -937,7 +947,7 @@ Animator:
   m_GameObject: {fileID: 60459156}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 3af8cf8ee049e104ebc9938148d13b5f, type: 2}
+  m_Controller: {fileID: 22100000, guid: 818ca9ed064e3064fac815cfd57a10a1, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -970,6 +980,30 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 80.7
+--- !u!114 &60459161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 60459156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7053b85ac080cf542b5c0fe5d55ada47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clickable: 1
+  numInteractions: 0
+  changeIntoPrefab: {fileID: 0}
+  affectsGO: {fileID: 0}
+  interactType: 5
+  gameControl: {fileID: 0}
+  camMovement: {fileID: 0}
+  mouseControl: {fileID: 0}
+  globalState: {fileID: 0}
+  var1: 0
+  var2: 0
+  var3: 0
 --- !u!1 &68283023
 GameObject:
   m_ObjectHideFlags: 0
@@ -1602,6 +1636,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 74a733e339c104a4cb5fb1234036671c, type: 3}
   - {fileID: 21300000, guid: 00b488c64764f1a438ecb6ba3f4bcb8b, type: 3}
   stateColliders: []
+  stateOffsets: []
 --- !u!95 &103687903
 Animator:
   serializedVersion: 3
@@ -1786,7 +1821,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &113009410
 Transform:
   m_ObjectHideFlags: 0
@@ -1811,7 +1846,7 @@ Transform:
   - {fileID: 979806100}
   - {fileID: 51915484}
   m_Father: {fileID: 596286881}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &113009411
 MonoBehaviour:
@@ -1825,6 +1860,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d1379fc70ab4b6459c4c4f621ebeaa4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  globalState: {fileID: 0}
   puzzleFitLocalPositions:
   - {x: -5, y: 78}
   - {x: 35, y: 7}
@@ -1834,7 +1870,8 @@ MonoBehaviour:
   - {x: 12.4, y: 134}
   - {x: 12.4, y: 134}
   errorAllowedPuzzles: 15
-  errorAllowedFlowers: 40
+  errorAllowedFlowers: 50
+  brokenVase: {fileID: 0}
   puzzleFit: 
   puzzleCheckNum: 0
   puzzlePieces:
@@ -1855,7 +1892,7 @@ Animator:
   m_GameObject: {fileID: 113009409}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 3af8cf8ee049e104ebc9938148d13b5f, type: 2}
+  m_Controller: {fileID: 22100000, guid: 5f6c35f6c5f78a7409c200573dcfc0cb, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1928,8 +1965,12 @@ MonoBehaviour:
   affectsGO: {fileID: 1830021994}
   interactType: 0
   gameControl: {fileID: 0}
+  camMovement: {fileID: 0}
   mouseControl: {fileID: 0}
-  globalStates: {fileID: 0}
+  globalState: {fileID: 0}
+  var1: 0
+  var2: 0
+  var3: 0
 --- !u!95 &128943566
 Animator:
   serializedVersion: 3
@@ -2367,8 +2408,12 @@ MonoBehaviour:
   affectsGO: {fileID: 820974696}
   interactType: 0
   gameControl: {fileID: 0}
+  camMovement: {fileID: 0}
   mouseControl: {fileID: 0}
-  globalStates: {fileID: 0}
+  globalState: {fileID: 0}
+  var1: 0
+  var2: 0
+  var3: 0
 --- !u!114 &165999753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4173,8 +4218,12 @@ MonoBehaviour:
   affectsGO: {fileID: 0}
   interactType: 0
   gameControl: {fileID: 1830021994}
+  camMovement: {fileID: 0}
   mouseControl: {fileID: 1830021995}
-  globalStates: {fileID: 1830021998}
+  globalState: {fileID: 0}
+  var1: 0
+  var2: 0
+  var3: 0
   puzzlePlacement: {fileID: 113009411}
   puzzleID: 3
   selected: 0
@@ -4621,8 +4670,12 @@ MonoBehaviour:
   affectsGO: {fileID: 0}
   interactType: 4
   gameControl: {fileID: 0}
+  camMovement: {fileID: 0}
   mouseControl: {fileID: 0}
-  globalStates: {fileID: 0}
+  globalState: {fileID: 0}
+  var1: 0
+  var2: 0
+  var3: 0
 --- !u!95 &276176694
 Animator:
   serializedVersion: 3
@@ -9632,6 +9685,8 @@ GameObject:
   - component: {fileID: 288516799}
   - component: {fileID: 288516798}
   - component: {fileID: 288516797}
+  - component: {fileID: 288516800}
+  - component: {fileID: 288516801}
   m_Layer: 0
   m_Name: broken_vase
   m_TagString: Untagged
@@ -9652,6 +9707,7 @@ Transform:
   m_Children:
   - {fileID: 279873682}
   - {fileID: 580385353}
+  - {fileID: 1307672383}
   m_Father: {fileID: 596286881}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9670,9 +9726,14 @@ MonoBehaviour:
   stateImgs:
   - {fileID: 21300000, guid: 620c9081bcfb4404b825fe9433c6e041, type: 3}
   - {fileID: 21300000, guid: 196deeaa89d0d4c44aa8eca72d2fdcf7, type: 3}
-  - {fileID: 21300000, guid: 76a596725d124dc42a08a440a6b20e57, type: 3}
-  - {fileID: 21300000, guid: 76a596725d124dc42a08a440a6b20e57, type: 3}
-  stateColliders: []
+  - {fileID: 21300000, guid: 13a8030c3d1ca4f4f85b5637638794e4, type: 3}
+  - {fileID: 21300000, guid: 5cea4b076e34fbc4a800be751da9056e, type: 3}
+  stateColliders:
+  - {fileID: 0}
+  - {fileID: 288516801}
+  stateOffsets:
+  - {x: 0, y: 0}
+  - {x: -146, y: 109}
 --- !u!95 &288516795
 Animator:
   serializedVersion: 3
@@ -9748,6 +9809,46 @@ CircleCollider2D:
   m_Offset: {x: -9.2, y: 48.97}
   serializedVersion: 2
   m_Radius: 52.43253
+--- !u!114 &288516800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 288516792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7053b85ac080cf542b5c0fe5d55ada47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clickable: 1
+  numInteractions: 0
+  changeIntoPrefab: {fileID: 0}
+  affectsGO: {fileID: 0}
+  interactType: 5
+  gameControl: {fileID: 0}
+  camMovement: {fileID: 0}
+  mouseControl: {fileID: 0}
+  globalState: {fileID: 0}
+  var1: 0
+  var2: 0
+  var3: 0
+--- !u!70 &288516801
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 288516792}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -141.7, y: 68.88}
+  m_Size: {x: 87.7, y: 252.69}
+  m_Direction: 0
 --- !u!1 &289170436
 GameObject:
   m_ObjectHideFlags: 0
@@ -9949,8 +10050,12 @@ MonoBehaviour:
   affectsGO: {fileID: 0}
   interactType: 4
   gameControl: {fileID: 0}
+  camMovement: {fileID: 0}
   mouseControl: {fileID: 0}
-  globalStates: {fileID: 0}
+  globalState: {fileID: 0}
+  var1: 0
+  var2: 0
+  var3: 0
 --- !u!95 &293563026
 Animator:
   serializedVersion: 3
@@ -10513,7 +10618,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1862218409}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -11168,6 +11273,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: d8c5225fffb07a7409a12c9ea2cf7573, type: 3}
   - {fileID: 21300000, guid: 81f93d4d044dc724aa32d309e25e9354, type: 3}
   stateColliders: []
+  stateOffsets: []
 --- !u!1 &370161033
 GameObject:
   m_ObjectHideFlags: 0
@@ -11551,8 +11657,12 @@ MonoBehaviour:
   affectsGO: {fileID: 1625476335}
   interactType: 0
   gameControl: {fileID: 0}
+  camMovement: {fileID: 0}
   mouseControl: {fileID: 0}
-  globalStates: {fileID: 0}
+  globalState: {fileID: 0}
+  var1: 0
+  var2: 0
+  var3: 0
 --- !u!114 &391716697
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12484,8 +12594,12 @@ MonoBehaviour:
   affectsGO: {fileID: 0}
   interactType: 3
   gameControl: {fileID: 0}
+  camMovement: {fileID: 0}
   mouseControl: {fileID: 0}
-  globalStates: {fileID: 0}
+  globalState: {fileID: 0}
+  var1: 0
+  var2: 0
+  var3: 0
 --- !u!95 &422173516
 Animator:
   serializedVersion: 3
@@ -12996,6 +13110,49 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 445415452}
   m_CullTransparentMesh: 0
+--- !u!1 &446509602
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 446509603}
+  - component: {fileID: 446509604}
+  m_Layer: 0
+  m_Name: DependencyInjection
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &446509603
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 446509602}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1830021996}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &446509604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 446509602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 636c57210ed6ae747a76e1d68f708313, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &452491276
 GameObject:
   m_ObjectHideFlags: 0
@@ -14083,6 +14240,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 69f157bfbcf6d0142af06d03f032df83, type: 3}
   - {fileID: 21300000, guid: 88adecd4cc7a1f147a0754547710bbe9, type: 3}
   stateColliders: []
+  stateOffsets: []
 --- !u!95 &507896629
 Animator:
   serializedVersion: 3
@@ -15520,7 +15678,6 @@ RectTransform:
   m_Children:
   - {fileID: 1858763150}
   - {fileID: 288516793}
-  - {fileID: 1307672383}
   - {fileID: 60459157}
   - {fileID: 1013337744}
   - {fileID: 1862218409}
@@ -16789,8 +16946,12 @@ MonoBehaviour:
   affectsGO: {fileID: 0}
   interactType: 0
   gameControl: {fileID: 1830021994}
+  camMovement: {fileID: 0}
   mouseControl: {fileID: 1830021995}
-  globalStates: {fileID: 1830021998}
+  globalState: {fileID: 0}
+  var1: 0
+  var2: 0
+  var3: 0
   puzzlePlacement: {fileID: 113009411}
   puzzleID: 1
   selected: 0
@@ -18451,8 +18612,12 @@ MonoBehaviour:
   affectsGO: {fileID: 0}
   interactType: 0
   gameControl: {fileID: 1830021994}
+  camMovement: {fileID: 0}
   mouseControl: {fileID: 1830021995}
-  globalStates: {fileID: 1830021998}
+  globalState: {fileID: 0}
+  var1: 0
+  var2: 0
+  var3: 0
   puzzlePlacement: {fileID: 113009411}
   puzzleID: 4
   selected: 0
@@ -18516,6 +18681,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: bb176b2195a8fd544890aea66d095ec6, type: 3}
   stateColliders:
   - {fileID: 761257044}
+  stateOffsets: []
 --- !u!95 &761257042
 Animator:
   serializedVersion: 3
@@ -18601,8 +18767,12 @@ MonoBehaviour:
   affectsGO: {fileID: 0}
   interactType: 0
   gameControl: {fileID: 0}
+  camMovement: {fileID: 0}
   mouseControl: {fileID: 0}
-  globalStates: {fileID: 0}
+  globalState: {fileID: 0}
+  var1: 0
+  var2: 0
+  var3: 0
 --- !u!1 &763225728
 GameObject:
   m_ObjectHideFlags: 0
@@ -20220,8 +20390,12 @@ MonoBehaviour:
   affectsGO: {fileID: 0}
   interactType: 1
   gameControl: {fileID: 0}
+  camMovement: {fileID: 0}
   mouseControl: {fileID: 0}
-  globalStates: {fileID: 0}
+  globalState: {fileID: 0}
+  var1: 0
+  var2: 0
+  var3: 0
 --- !u!114 &820974701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20379,8 +20553,12 @@ MonoBehaviour:
   affectsGO: {fileID: 0}
   interactType: 3
   gameControl: {fileID: 0}
+  camMovement: {fileID: 0}
   mouseControl: {fileID: 0}
-  globalStates: {fileID: 0}
+  globalState: {fileID: 0}
+  var1: 0
+  var2: 0
+  var3: 0
 --- !u!95 &825801896
 Animator:
   serializedVersion: 3
@@ -21410,6 +21588,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 7ad2a2a507821534c8da97a420d90c72, type: 3}
   - {fileID: 21300000, guid: bc44c4f0e25e22243b1a54267d40a08d, type: 3}
   stateColliders: []
+  stateOffsets: []
 --- !u!95 &936671988
 Animator:
   serializedVersion: 3
@@ -22003,6 +22182,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stateImgs: []
   stateColliders: []
+  stateOffsets: []
 --- !u!1 &963211252
 GameObject:
   m_ObjectHideFlags: 0
@@ -22191,8 +22371,12 @@ MonoBehaviour:
   affectsGO: {fileID: 0}
   interactType: 1
   gameControl: {fileID: 0}
+  camMovement: {fileID: 0}
   mouseControl: {fileID: 0}
-  globalStates: {fileID: 0}
+  globalState: {fileID: 0}
+  var1: 0
+  var2: 0
+  var3: 0
 --- !u!114 &964262229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22647,7 +22831,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &979806100
 RectTransform:
   m_ObjectHideFlags: 0
@@ -22687,6 +22871,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 3845d2527521f4b4d95ad4266f362c2a, type: 3}
   - {fileID: 21300000, guid: d1274e38eb809864b80a4fa29ce2c22e, type: 3}
   stateColliders: []
+  stateOffsets: []
 --- !u!114 &979806102
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22705,8 +22890,12 @@ MonoBehaviour:
   affectsGO: {fileID: 0}
   interactType: 0
   gameControl: {fileID: 1830021994}
+  camMovement: {fileID: 0}
   mouseControl: {fileID: 1830021995}
-  globalStates: {fileID: 1830021998}
+  globalState: {fileID: 0}
+  var1: 0
+  var2: 0
+  var3: 0
   puzzlePlacement: {fileID: 113009411}
   puzzleID: 6
   selected: 0
@@ -23257,6 +23446,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 354691743e0d78b44b7dbdc5b3861d7f, type: 3}
   - {fileID: 21300000, guid: 354691743e0d78b44b7dbdc5b3861d7f, type: 3}
   stateColliders: []
+  stateOffsets: []
 --- !u!95 &998209262
 Animator:
   serializedVersion: 3
@@ -23819,7 +24009,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1013337744
 Transform:
   m_ObjectHideFlags: 0
@@ -23834,7 +24024,7 @@ Transform:
   - {fileID: 226722250}
   - {fileID: 98066746}
   m_Father: {fileID: 596286881}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1013337745
 MonoBehaviour:
@@ -23851,11 +24041,14 @@ MonoBehaviour:
   stateImgs:
   - {fileID: 21300000, guid: 7641c875a364b4f42ac85327f610622f, type: 3}
   - {fileID: 21300000, guid: 69be7cb2d2a7ddd478e45c11afe091e3, type: 3}
+  - {fileID: 21300000, guid: 0deea22596bd9da4da97fdd4e03ed495, type: 3}
+  - {fileID: 21300000, guid: fe448fea5283c8b48914daf668dbfcb5, type: 3}
   - {fileID: 21300000, guid: de4c5ea621110b745915124c5d96144c, type: 3}
   - {fileID: 21300000, guid: 81eaf2125d7b68343b134a4fbf9b34dc, type: 3}
-  - {fileID: 21300000, guid: 22a0743b7ffaa5047bb47f3fd53d1e8a, type: 3}
+  - {fileID: 21300000, guid: 33f03760c1ff21944ab541b96157f655, type: 3}
   - {fileID: 21300000, guid: 33f03760c1ff21944ab541b96157f655, type: 3}
   stateColliders: []
+  stateOffsets: []
 --- !u!95 &1013337746
 Animator:
   serializedVersion: 3
@@ -23974,8 +24167,12 @@ MonoBehaviour:
   affectsGO: {fileID: 1988572719}
   interactType: 0
   gameControl: {fileID: 0}
+  camMovement: {fileID: 0}
   mouseControl: {fileID: 0}
-  globalStates: {fileID: 0}
+  globalState: {fileID: 0}
+  var1: 0
+  var2: 0
+  var3: 0
 --- !u!95 &1020848003
 Animator:
   serializedVersion: 3
@@ -25059,8 +25256,12 @@ MonoBehaviour:
   affectsGO: {fileID: 1830021994}
   interactType: 0
   gameControl: {fileID: 0}
+  camMovement: {fileID: 0}
   mouseControl: {fileID: 0}
-  globalStates: {fileID: 0}
+  globalState: {fileID: 0}
+  var1: 0
+  var2: 0
+  var3: 0
 --- !u!95 &1075879358
 Animator:
   serializedVersion: 3
@@ -25736,8 +25937,12 @@ MonoBehaviour:
   affectsGO: {fileID: 0}
   interactType: 0
   gameControl: {fileID: 1830021994}
+  camMovement: {fileID: 0}
   mouseControl: {fileID: 1830021995}
-  globalStates: {fileID: 1830021998}
+  globalState: {fileID: 0}
+  var1: 0
+  var2: 0
+  var3: 0
   puzzlePlacement: {fileID: 113009411}
   puzzleID: 2
   selected: 0
@@ -30911,12 +31116,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1307672382}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -208, y: -351, z: 0}
+  m_LocalPosition: {x: 135, y: -47, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1055715794}
   - {fileID: 1136148978}
-  m_Father: {fileID: 596286881}
+  m_Father: {fileID: 288516793}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1307672384
@@ -31043,6 +31248,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 603c142b9f5d9d04a9c59d2d5d55e952, type: 3}
   - {fileID: 21300000, guid: 59d5a09fddfcd1140aa80c8e8956501e, type: 3}
   stateColliders: []
+  stateOffsets: []
 --- !u!60 &1310918877
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -34817,8 +35023,12 @@ MonoBehaviour:
   affectsGO: {fileID: 0}
   interactType: 3
   gameControl: {fileID: 0}
+  camMovement: {fileID: 0}
   mouseControl: {fileID: 0}
-  globalStates: {fileID: 0}
+  globalState: {fileID: 0}
+  var1: 0
+  var2: 0
+  var3: 0
 --- !u!95 &1500550219
 Animator:
   serializedVersion: 3
@@ -36270,6 +36480,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 37d6c06e025d21f49808037e0daafb2f, type: 3}
   - {fileID: 21300000, guid: 8b5b7f39227cda3439a1da0fedb3ef91, type: 3}
   stateColliders: []
+  stateOffsets: []
 --- !u!114 &1625476340
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37051,7 +37262,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1677735883
 RectTransform:
   m_ObjectHideFlags: 0
@@ -37091,6 +37302,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 2b10db9480e9d4b4a91e6f9227bbadde, type: 3}
   - {fileID: 21300000, guid: 443bc505ff7e3634d8b032c4742d87ca, type: 3}
   stateColliders: []
+  stateOffsets: []
 --- !u!114 &1677735885
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37109,8 +37321,12 @@ MonoBehaviour:
   affectsGO: {fileID: 0}
   interactType: 0
   gameControl: {fileID: 1830021994}
+  camMovement: {fileID: 0}
   mouseControl: {fileID: 1830021995}
-  globalStates: {fileID: 1830021998}
+  globalState: {fileID: 0}
+  var1: 0
+  var2: 0
+  var3: 0
   puzzlePlacement: {fileID: 113009411}
   puzzleID: 5
   selected: 0
@@ -37631,7 +37847,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1862218409}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -38113,6 +38329,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: ab065234e30332e4384dd57ddf520e48, type: 3}
   - {fileID: 21300000, guid: 8a6323765ab227a469b9434b89eefe38, type: 3}
   stateColliders: []
+  stateOffsets: []
 --- !u!95 &1733489009
 Animator:
   serializedVersion: 3
@@ -38329,6 +38546,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 71caa8cb7734bf147b0e8f66ae10dd9a, type: 3}
   - {fileID: 21300000, guid: 3b3bc983d195e9342b0958ed77f53775, type: 3}
   stateColliders: []
+  stateOffsets: []
 --- !u!222 &1739235431
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -40096,11 +40314,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b657cc2aeb7e6c943b7c38c1c2e0470b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouseCursor: {fileID: 0}
+  mouseCursor: {fileID: 2800000, guid: ea2543743e2722c4a8a524e1bc1da771, type: 3}
   handCursor: {fileID: 2800000, guid: a18152ea2324f7b4684cfc4dffd93542, type: 3}
   cursorMode: 0
   hotSpot: {x: 33, y: 11}
   globalState: {fileID: 1830021998}
+  mouseMode: 0
 --- !u!4 &1830021996
 Transform:
   m_ObjectHideFlags: 0
@@ -40111,7 +40330,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -69.8067, y: -40.13409, z: -1825.4064}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 446509603}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -40180,6 +40400,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56a8e997caa5be24283ef0157fc3341d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  globalState: {fileID: 0}
   mainCam: {fileID: 519420030}
   darkCover: {fileID: 492814608}
   credits: {fileID: 1237388134}
@@ -40297,9 +40518,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enable: {fileID: 1830021999}
   test: 1
-  startLevel: 1
+  startLevel: 2
   speedUpRate: 10
-  swc: {fileID: 761257041}
+  swc: {fileID: 1013337745}
 --- !u!114 &1830022002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40730,6 +40951,7 @@ GameObject:
   - component: {fileID: 1858763152}
   - component: {fileID: 1858763151}
   - component: {fileID: 1858763154}
+  - component: {fileID: 1858763155}
   m_Layer: 0
   m_Name: sofa
   m_TagString: Untagged
@@ -40771,6 +40993,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: cc7a576a841f8d6428f0ead0f2695bb1, type: 3}
   - {fileID: 21300000, guid: 3591af7af6fb8f244885c8ea7d89763b, type: 3}
   stateColliders: []
+  stateOffsets: []
 --- !u!95 &1858763152
 Animator:
   serializedVersion: 3
@@ -40833,6 +41056,30 @@ PolygonCollider2D:
       - {x: 135.61084, y: 215.63593}
       - {x: 34.279205, y: 250.20947}
       - {x: -26.07782, y: 321.64874}
+--- !u!114 &1858763155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1858763149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7053b85ac080cf542b5c0fe5d55ada47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clickable: 0
+  numInteractions: 0
+  changeIntoPrefab: {fileID: 0}
+  affectsGO: {fileID: 0}
+  interactType: 2
+  gameControl: {fileID: 0}
+  camMovement: {fileID: 0}
+  mouseControl: {fileID: 0}
+  globalState: {fileID: 0}
+  var1: 0
+  var2: 0
+  var3: 0
 --- !u!1 &1861655856
 GameObject:
   m_ObjectHideFlags: 0
@@ -40925,7 +41172,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1862218409
 Transform:
   m_ObjectHideFlags: 0
@@ -40937,10 +41184,11 @@ Transform:
   m_LocalPosition: {x: -345, y: -298, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 2073244930}
   - {fileID: 323597653}
   - {fileID: 1712281634}
   m_Father: {fileID: 596286881}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1862218410
 Animator:
@@ -40952,7 +41200,7 @@ Animator:
   m_GameObject: {fileID: 1862218408}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 3af8cf8ee049e104ebc9938148d13b5f, type: 2}
+  m_Controller: {fileID: 22100000, guid: 01eaa129cf9438644a398743f1e2f464, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -42893,7 +43141,7 @@ RectTransform:
   - {fileID: 1034041198}
   - {fileID: 481509395}
   m_Father: {fileID: 596286881}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -42990,6 +43238,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 2d23b76ff94209f4daad85653a96ac23, type: 3}
   - {fileID: 21300000, guid: 58d9616c68ff07b4c9c40d5757473567, type: 3}
   stateColliders: []
+  stateOffsets: []
 --- !u!70 &1979520611
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -43106,8 +43355,12 @@ MonoBehaviour:
   affectsGO: {fileID: 0}
   interactType: 0
   gameControl: {fileID: 0}
+  camMovement: {fileID: 0}
   mouseControl: {fileID: 0}
-  globalStates: {fileID: 0}
+  globalState: {fileID: 0}
+  var1: 0
+  var2: 0
+  var3: 0
 --- !u!114 &1988572723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43128,6 +43381,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 8e981625edb099646ade3433f2d13753, type: 3}
   - {fileID: 21300000, guid: 2ba6a07bc7038ec4f9205700cb69fe03, type: 3}
   stateColliders: []
+  stateOffsets: []
 --- !u!60 &1988572724
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -43694,6 +43948,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: e206609311ca5eb4fb9a041f4de15f1a, type: 3}
   - {fileID: 21300000, guid: 11f5d97b09d355c49a8e678c7b09d148, type: 3}
   stateColliders: []
+  stateOffsets: []
 --- !u!1 &2023102653
 GameObject:
   m_ObjectHideFlags: 0
@@ -43757,6 +44012,7 @@ MonoBehaviour:
   - {fileID: 2023102660}
   - {fileID: 2023102659}
   - {fileID: 2023102658}
+  stateOffsets: []
 --- !u!95 &2023102656
 Animator:
   serializedVersion: 3
@@ -44751,6 +45007,80 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2069511980}
+  m_CullTransparentMesh: 0
+--- !u!1 &2073244929
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2073244930}
+  - component: {fileID: 2073244932}
+  - component: {fileID: 2073244931}
+  m_Layer: 0
+  m_Name: fill
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2073244930
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2073244929}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1862218409}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 911, y: 292}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2073244931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2073244929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 0947434b305d56049a45ad6f621dbf3c, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &2073244932
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2073244929}
   m_CullTransparentMesh: 0
 --- !u!1 &2077918190
 GameObject:

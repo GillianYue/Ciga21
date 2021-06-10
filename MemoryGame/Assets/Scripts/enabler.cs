@@ -5,6 +5,8 @@ using UnityEngine;
 //general game level logic 
 public class enabler : MonoBehaviour
 {
+    public globalStateStore globalState;
+
     public Animator mainCam, darkCover, credits;
 
     public CamMovement cam;
@@ -15,6 +17,7 @@ public class enabler : MonoBehaviour
     private void Awake()
     {
         if (cam == null) cam = FindObjectOfType<CamMovement>();
+        if(globalState == null) globalState = GetComponent<globalStateStore>();
     }
 
     void Start()
@@ -93,6 +96,7 @@ public class enabler : MonoBehaviour
             case 2: //vase
                 GetComponent<AudioManager>().stopSFX(1, 7);
 
+                globalState.vaseScene.transform.Find("soccer").GetComponent<Animator>().SetTrigger("action1"); //start bounce
 
                 break;
             case 3: //tree

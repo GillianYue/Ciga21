@@ -49,16 +49,16 @@ public class BlurManager : MonoBehaviour
                 yield return StartCoroutine(level1Clear());
                 enablr.setUpLevel(2);
                 break;
-            case 2:
-                yield return StartCoroutine(level2Clear());
-                enablr.setUpLevel(3);
+            case 4:
+                yield return StartCoroutine(level4Clear());
+                enablr.setUpLevel(5);
                 break;
-            case 3:
-                yield return StartCoroutine(level3Clear());
-                //set up level 4
+            case 9:
+                yield return StartCoroutine(level9Clear());
+                //set up level 10
                 break;
 
-            case 9:
+            case 11:
                 //
                 GetComponent<enabler>().gamePass();
                 break;
@@ -113,7 +113,7 @@ public class BlurManager : MonoBehaviour
         backBlur.setNewScale(0.1f, 0.1f);
     }
 
-    IEnumerator level2Clear()
+    IEnumerator level4Clear()
     {
         yield return new WaitForSeconds(3);
 
@@ -136,7 +136,7 @@ public class BlurManager : MonoBehaviour
 
     }
 
-    IEnumerator level3Clear()
+    IEnumerator level9Clear()
     {
         yield return new WaitForSeconds(0.5f);
         centerBlur.setNewScale(3, 0.1f);

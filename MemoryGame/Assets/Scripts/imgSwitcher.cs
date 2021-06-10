@@ -13,11 +13,13 @@ public class imgSwitcher : MonoBehaviour
     //each state has two
     public Sprite[] stateImgs;
     public Collider2D[] stateColliders; //2d colliders for different states, if any; should be half the size of stateImgs or fewer
+    public Vector2[] stateOffsets; //same as above; non-additive; is relative to the localPosition origin (0, 0)
 
     private Image img1, img2;
     private int currIndex = 0;
 
     GameObject gameControl;
+    globalStateStore globalState;
 
     void Start()
     {
@@ -25,6 +27,7 @@ public class imgSwitcher : MonoBehaviour
         img2 = transform.Find("Image (1)").GetComponent<Image>();
 
         gameControl = GameObject.FindGameObjectWithTag("GameController");
+        globalState = gameControl.GetComponent<globalStateStore>();
 
         switchToImgState(0);
     }
@@ -51,8 +54,8 @@ public class imgSwitcher : MonoBehaviour
         //the actual swap
         img1.sprite = stateImgs[idx1];
         img2.sprite = stateImgs[idx2];
-        img1.overrideSprite = stateImgs[idx1];
-        img2.overrideSprite = stateImgs[idx2];
+        //img1.overrideSprite = stateImgs[idx1];
+        //img2.overrideSprite = stateImgs[idx2];
 
         //setting pivots to sprite
         syncImagePivotWithSprite(img1);
@@ -63,10 +66,20 @@ public class imgSwitcher : MonoBehaviour
         {
             for(int sc = 0; sc < stateColliders.Length; sc++)
             {
+                if (stateColliders[sc] == null) continue;
+
                 if (sc == s) stateColliders[sc].enabled = true;
                 else stateColliders[sc].enabled = false;
             }
         }
+
+        if(stateOffsets.Length > s)
+        {
+            img1.transform.localPosition = (Vector3)stateOffsets[s];
+            img2.transform.localPosition = (Vector3)stateOffsets[s];
+        }
+
+
     }
 
     public void switchToNextImgState()
@@ -100,7 +113,12 @@ public class imgSwitcher : MonoBehaviour
                 gameControl.GetComponent<AudioManager>().playSFX(1, 6);
                 if (currIndex == 3) StartCoroutine(pastaFinish());
                 break;
+            case "sofa":
+                switchToNextImgState();
 
+                StartCoroutine(coverBlanket());
+
+                break;
         }
     }
 
@@ -129,6 +147,20 @@ public class imgSwitcher : MonoBehaviour
         gameControl.GetComponent<BlurManager>().scene1Clear2();
         yield return new WaitForSeconds(4);
         gameControl.GetComponent<BlurManager>().levelPassEffect(1);
+    }
+
+    IEnumerator coverBlanket()
+    {
+        yield return new WaitForSeconds(1);
+        //show blanket on top of broken vase
+        GameObject blkt = globalState.vaseScene.transform.Find("blanket").gameObject;
+
+        //TODO sfx cover
+        blkt.SetActive(true);
+        blkt.GetComponent<Animator>().SetTrigger("fadeIn");
+
+        globalState.transform.Find("soccer").GetComponent<interactable>().var1 = 1; //enable next stage of interaction
+
     }
 
 

@@ -12,12 +12,15 @@ public class interactable : MonoBehaviour
     public int numInteractions;
     public GameObject changeIntoPrefab, affectsGO; //applies when type is animThenImgChange
 
-    public enum InteractType { animThenImgChange, anim, imgSwitcher, instrument, clickInspect };
+    public enum InteractType { animThenImgChange, anim, imgSwitcher, instrument, clickInspect, custom };
     public InteractType interactType;
 
     public GameObject gameControl;
+    public CamMovement camMovement;
     public MouseControl mouseControl;
-    public globalStateStore globalStates;
+    public globalStateStore globalState;
+
+    public int var1, var2, var3; //custom variables to keep track of obj states, usage depends on specific case
 
     protected virtual void Awake()
     {
@@ -25,7 +28,12 @@ public class interactable : MonoBehaviour
 
         if (gameControl == null) gameControl = GameObject.FindGameObjectWithTag("GameController");
         mouseControl = gameControl.GetComponent<MouseControl>();
-        globalStates = gameControl.GetComponent<globalStateStore>();
+        globalState = gameControl.GetComponent<globalStateStore>();
+        camMovement = FindObjectOfType<CamMovement>();
+
+        var1 = 0; var2 = 0; var3 = 0;
+
+        tag = "Interactable"; //tagging all interactable obj
     }
 
     void Start()
@@ -132,11 +140,14 @@ public class interactable : MonoBehaviour
                 }
 
                 break;
-            case InteractType.clickInspect:
+            case InteractType.clickInspect: //start canvas obj
                 //focus on object clicked (cam focus + pos shift)
                 CamMovement cam = gameControl.GetComponent<enabler>().cam;
                 cam.camFocusOnObject(transform.position);
 
+                break;
+            case InteractType.custom:
+                StartCoroutine(customBehavior());
 
                 break;
 
@@ -245,7 +256,7 @@ public class interactable : MonoBehaviour
 
         if(gs.drums && gs.guitar && gs.accordion && !gs.hasScrolled) //everything triggered for l2
         {
-            gameControl.GetComponent<BlurManager>().levelPassEffect(2);
+            gameControl.GetComponent<BlurManager>().levelPassEffect(4);
             gs.hasScrolled = true;
         }
     }
@@ -258,11 +269,110 @@ public class interactable : MonoBehaviour
 
     public void lookOverFinished()
     {
-        gameControl.GetComponent<BlurManager>().levelPassEffect(3);
+        gameControl.GetComponent<BlurManager>().levelPassEffect(9);
     }
 
 
 
+
+
+
+    IEnumerator customBehavior()
+    {
+        switch (name)
+        {
+            case "soccer":
+                if (var1 == 0)
+                {
+                    print("play child sigh sfx");
+                    if (Random.Range(0f, 1f) < 0.5f)
+                    {
+                        myAnimator.SetTrigger("action" + ((Random.Range(0f, 1f) < 0.5f)? "2":"3")); //slight bounce or rotate
+
+                    }
+                }
+                else if (var1 == 1)
+                {
+                    myAnimator.SetTrigger("action4"); // roll away
+
+                    yield return new WaitForSeconds(10);
+
+                    //TODO sfx, footstep, muffled sound
+
+                    GameObject ma = globalState.vaseScene.transform.Find("mom").gameObject;
+                    ma.SetActive(true);
+                    ma.GetComponent<Animator>().SetTrigger("fadeIn");
+
+                    yield return new WaitForSeconds(3);
+
+                    ma.GetComponent<imgSwitcher>().switchToNextImgState(); //head tilt
+                    yield return new WaitForSeconds(3);
+                    ma.GetComponent<imgSwitcher>().switchToNextImgState(); //reach
+                    yield return new WaitForSeconds(1);
+
+                    GameObject blkt = globalState.vaseScene.transform.Find("blanket").gameObject;
+
+                    //unveil
+                    ma.GetComponent<imgSwitcher>().switchToImgState(0);
+                    blkt.GetComponent<Animator>().SetTrigger("fadeOut");
+
+                }
+                break;
+
+            case "broken_vase":
+                if (timesClicked == 1)
+                {
+                    globalState.vaseScene.transform.Find("soccer").GetComponent<Collider2D>().enabled = false; //disable collider
+
+                    //fade out self
+                    myAnimator.SetTrigger("fadeOut");
+                    transform.Find("flowers").GetComponent<Animator>().SetTrigger("fadeOut");
+
+                    foreach (Collider2D c in GetComponents<Collider2D>())
+                    {
+                        c.enabled = false;
+                    }
+
+                    //wait then reveal puzzle
+                    StartCoroutine(Global.Chain(this, Global.WaitForSeconds(1),
+                    Global.Do(() =>
+                    {
+                        GameObject pzl = globalState.vaseScene.transform.Find("puzzle").gameObject;
+                        pzl.SetActive(true);
+                        pzl.GetComponent<Animator>().Play("fadeIn"); //override controller
+                    })));
+
+                } else if (timesClicked == 2) //second time click breaks it again
+                {
+
+                    //sfx
+
+                        StartCoroutine(Global.Chain(this, 
+                        Global.WaitForSeconds(1f),
+                        Global.Do(() =>
+                        {
+                            //vase broken again
+                            GetComponent<imgSwitcher>().switchToImgState(0);
+                            Transform flo = transform.Find("flowers");
+                            flo.GetComponent<Animator>().enabled = false;
+                            flo.Find("Image").GetComponent<Image>().color = new Color(1, 1, 1, 1);
+                            flo.Find("Image (1)").GetComponent<Image>().color = new Color(1, 1, 1, 1);
+                        }), 
+                            Global.WaitForSeconds(2f),
+                            //TODO blink, slight shake of cam
+                           camMovement.glanceAndMoveBack(new Vector2(-200, 60), 0.1f),
+                            
+                            Global.Do(() => { 
+                                globalState.vaseScene.transform.Find("sofa").GetComponent<interactable>().clickable = true; //enable sofa click
+                            })
+                        ));
+                }
+
+
+
+                break;
+        }
+    }
 
 
 

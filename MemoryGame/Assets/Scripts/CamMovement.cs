@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//follows targets in world position
 public class CamMovement : MonoBehaviour
 {
     public GameObject gameControl;
@@ -102,8 +103,20 @@ public class CamMovement : MonoBehaviour
         return d < closeEnoughDist;
     }
 
+    public IEnumerator glanceAndMoveBack(Vector2 dst, float lingerTime, Vector2 returnTo)///
+    {
+        yield return moveWorldDestAccl(dst);
+        yield return new WaitForSeconds(lingerTime);
+        yield return moveWorldDestAccl(returnTo);
+    }
 
-    //non linear cam movement
+    public IEnumerator glanceAndMoveBack(Vector2 dst, float lingerTime)
+    {
+        yield return glanceAndMoveBack(dst, lingerTime, new Vector2(0, 0));
+    }
+
+
+    //non linear cam movement (linear movement mixed in if set so)
     public IEnumerator moveWorldDestAccl(Vector3 dest)
     {
         //store current cam movement data
