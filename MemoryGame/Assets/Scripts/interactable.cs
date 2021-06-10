@@ -15,11 +15,11 @@ public class interactable : MonoBehaviour
     public enum InteractType { animThenImgChange, anim, imgSwitcher, instrument, clickInspect };
     public InteractType interactType;
 
-    GameObject gameControl;
-    MouseControl mouseControl;
-    globalStateStore globalStates;
+    public GameObject gameControl;
+    public MouseControl mouseControl;
+    public globalStateStore globalStates;
 
-    void Awake()
+    protected virtual void Awake()
     {
         myAnimator = GetComponent<Animator>(); 
 
@@ -38,23 +38,24 @@ public class interactable : MonoBehaviour
         
     }
 
-
-    public void onClick()
+    //can be overridden though not necessary
+    public virtual void onClick()
     {
      //   print("clicked: " + eventData.pointerPress.name);
-        if (globalStates.globalClickable && clickable) 
+
+        if (clickable) 
         {
             timesClicked += 1;
             checkBehavior();
         }
     }
 
-    public void onEnter()
+    public virtual void onEnter()
     {
        // if (clickable) mouseControl.toHand();
     }
 
-    public void onExit()
+    public virtual void onExit()
     {
       //  if (clickable) mouseControl.toMouse();
     }

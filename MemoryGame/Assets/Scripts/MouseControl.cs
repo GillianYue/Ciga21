@@ -29,7 +29,6 @@ public class MouseControl : MonoBehaviour
                 if (itr != null)
                 {
                     //object is interactable
-                    print("clicked on " + hit.transform.name);
                     itr.onClick();
                 }
             }
