@@ -81,6 +81,6 @@ public class MouseControl : MonoBehaviour
     public void toCursor()
     {
         mouseMode = MouseMode.cursor;
-        Cursor.SetCursor(null, hotSpot, cursorMode);
+        Cursor.SetCursor(null, hotSpot, cursorMode); //passing null will reset to system default
     }
 }

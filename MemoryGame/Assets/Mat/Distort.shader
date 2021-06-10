@@ -1,88 +1,61 @@
-﻿Shader "Custom/Distort"
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+Shader "Shaders 102/Animated Displacement"
 {
-    Properties
-    {
-        _Noise("Noise", 2D) = "white" {}
-        _StrengthFilter("Strength Filter", 2D) = "white" {}
-        _Strength("Distort Strength", float) = 1.0
-        _Speed("Distort Speed", float) = 1.0
-    }
+	Properties
+	{
+		_MainTex("Texture", 2D) = "white" {}
+		_DisplaceTex("Displacement Texture", 2D) = "white" {}
+		_Magnitude("Magnitude", Range(0,0.1)) = 1
+	}
+		SubShader
+		{
+			// No culling or depth
+			Cull Off ZWrite Off ZTest Always
 
-        SubShader
-        {
-            Tags
-            {
-                "Queue" = "Transparent"
-                "DisableBatching" = "True"
-            }
+			Pass
+			{
+				CGPROGRAM
+				#pragma vertex vert
+				#pragma fragment frag
 
-            // Grab the screen behind the object into _BackgroundTexture
-            GrabPass
-            {
-                "_BackgroundTexture"
-            }
+				#include "UnityCG.cginc"
 
-            // Render the object with the texture generated above, and invert the colors
-            Pass
-            {
-                ZTest Always
+				struct appdata
+				{
+					float4 vertex : POSITION;
+					float2 uv : TEXCOORD0;
+				};
 
-                CGPROGRAM
-                #pragma vertex vert
-                #pragma fragment frag
-                #include "UnityCG.cginc"
+				struct v2f
+				{
+					float2 uv : TEXCOORD0;
+					float4 vertex : SV_POSITION;
+				};
 
-            // Properties
-            sampler2D _Noise;
-            sampler2D _StrengthFilter;
-            sampler2D _BackgroundTexture;
-            float     _Strength;
-            float     _Speed;
+				v2f vert(appdata v)
+				{
+					v2f o;
+					o.vertex = UnityObjectToClipPos(v.vertex);
+					o.uv = v.uv;
+					return o;
+				}
 
-            struct vertexInput
-            {
-                float4 vertex : POSITION;
-                float3 texCoord : TEXCOORD0;
-            };
+				sampler2D _MainTex;
+				sampler2D _DisplaceTex;
+				float _Magnitude;
 
-            struct vertexOutput
-            {
-                float4 pos : SV_POSITION;
-                float4 grabPos : TEXCOORD0;
-            };
+				float4 frag(v2f i) : SV_Target
+				{
+					float2 distuv = float2(i.uv.x + _Time.x * 2, i.uv.y + _Time.x * 2);
 
-            vertexOutput vert(vertexInput input)
-            {
-                vertexOutput output;
+					float2 disp = tex2D(_DisplaceTex, distuv).xy;
+					disp = ((disp * 2) - 1) * _Magnitude;
 
-                // billboard to camera
-                float4 pos = input.vertex;
-                pos = mul(UNITY_MATRIX_P,
-                      mul(UNITY_MATRIX_MV, float4(0, 0, 0, 1))
-                          + float4(pos.x, pos.z, 0, 0));
-                output.pos = pos;
-
-                // use ComputeGrabScreenPos function from UnityCG.cginc
-                // to get the correct texture coordinate
-                output.grabPos = ComputeGrabScreenPos(output.pos);
-
-                // distort based on noise & strength filter
-                float noise = tex2Dlod(_Noise, float4(input.texCoord, 0)).rgb;
-                float3 filt = tex2Dlod(_StrengthFilter, float4(input.texCoord, 0)).rgb;
-                output.grabPos.x += cos(noise * _Time.x * _Speed) * filt * _Strength;
-                output.grabPos.y += sin(noise * _Time.x * _Speed) * filt * _Strength;
-
-                return output;
-            }
-
-            float4 frag(vertexOutput input) : COLOR
-            {
-                //return float4(1,1,1,1); // billboard test
-                return tex2Dproj(_BackgroundTexture, input.grabPos);
-            }
-
-            ENDCG
-        }
-
-        }
+					float4 col = tex2D(_MainTex, i.uv + disp);
+					return col;
+				}
+				ENDCG
+			}
+		}
 }

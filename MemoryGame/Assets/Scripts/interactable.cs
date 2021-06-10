@@ -299,23 +299,116 @@ public class interactable : MonoBehaviour
 
                     //TODO sfx, footstep, muffled sound
 
-                    GameObject ma = globalState.vaseScene.transform.Find("mom").gameObject;
+                    GameObject ma = globalState.vaseScene.transform.Find("mom").gameObject,
+                    blkt = globalState.vaseScene.transform.Find("blanket").gameObject,
+                    vase = globalState.vaseScene.transform.Find("broken_vase").gameObject,
+                    plate = globalState.vaseScene.transform.Find("plate").gameObject,
+                    nurse = globalState.vaseScene.transform.Find("nurse").gameObject;
+
                     ma.SetActive(true);
                     ma.GetComponent<Animator>().SetTrigger("fadeIn");
 
                     yield return new WaitForSeconds(3);
 
                     ma.GetComponent<imgSwitcher>().switchToNextImgState(); //head tilt
+                    yield return new WaitForSeconds(2);
+                    ma.GetComponent<imgSwitcher>().switchToImgState(0);
                     yield return new WaitForSeconds(3);
-                    ma.GetComponent<imgSwitcher>().switchToNextImgState(); //reach
-                    yield return new WaitForSeconds(1);
 
-                    GameObject blkt = globalState.vaseScene.transform.Find("blanket").gameObject;
+                    //TODO fade in of mask
+                    //blanket masks
+                    
+                    blkt.transform.Find("mask1").gameObject.SetActive(true);
+                    blkt.GetComponent<Animator>().SetTrigger("action1"); //mask anim
+
+                    yield return new WaitForSeconds(6);
+
+                    ma.GetComponent<imgSwitcher>().switchToImgState(1); //head tilt
+                    yield return new WaitForSeconds(3);
+                    ma.GetComponent<imgSwitcher>().switchToImgState(2); //reach
+                    yield return new WaitForSeconds(2);
+
+                    
 
                     //unveil
-                    ma.GetComponent<imgSwitcher>().switchToImgState(0);
+                    ma.GetComponent<imgSwitcher>().switchToImgState(1);
                     blkt.GetComponent<Animator>().SetTrigger("fadeOut");
 
+                    yield return new WaitForSeconds(3);
+                    ma.GetComponent<imgSwitcher>().switchToImgState(0); //questioning look
+
+                    //"me" getting scared
+                    yield return new WaitForSeconds(3.5f);
+                    camMovement.vfx.Play("blink2x");
+                    yield return new WaitForSeconds(0.5f);
+                    camMovement.cam.Play("leftRightGlance");
+                    yield return new WaitForSeconds(3);
+                    camMovement.cam.Play("nervousBreathe");
+                    yield return new WaitForSeconds(2);
+
+                    //flash
+                    ma.SetActive(false);
+                    vase.SetActive(false);
+                    nurse.SetActive(true);
+                    plate.SetActive(true);
+                    yield return new WaitForSeconds(0.2f);
+                    ma.SetActive(true);
+                    vase.SetActive(true);
+                    nurse.SetActive(false);
+                    plate.SetActive(false);
+                    yield return new WaitForSeconds(2f);
+
+                    ma.SetActive(false);
+                    vase.SetActive(false);
+                    nurse.SetActive(true);
+                    plate.SetActive(true);
+                    yield return new WaitForSeconds(0.3f);
+                    ma.SetActive(true);
+                    vase.SetActive(true);
+                    nurse.SetActive(false);
+                    plate.SetActive(false);
+                    yield return new WaitForSeconds(2f);
+
+                    ma.SetActive(false);
+                    vase.SetActive(false);
+                    nurse.SetActive(true);
+                    plate.SetActive(true);
+                    yield return new WaitForSeconds(0.5f);
+                    nurse.GetComponent<imgSwitcher>().switchToNextImgState();
+                    plate.GetComponent<imgSwitcher>().switchToNextImgState();
+                    yield return new WaitForSeconds(1.5f);
+
+                    ma.SetActive(true);
+                    vase.SetActive(true);
+                    nurse.SetActive(false);
+                    plate.SetActive(false);
+                    yield return new WaitForSeconds(2f);
+
+
+                    ma.GetComponent<Animator>().SetTrigger("fadeOut");
+                    yield return new WaitForSeconds(2); //TODO sfx
+                    camMovement.vfx.Play("blink");
+                    yield return new WaitForSeconds(6);
+
+                    ma.GetComponent<Animator>().SetTrigger("fadeIn");
+                    Transform bin = globalState.vaseScene.transform.Find("bin");
+                    bin.gameObject.SetActive(true);
+                    bin.GetComponent<Animator>().SetTrigger("fadeIn");
+                    camMovement.cam.Play("naturalBreathe");
+
+                    yield return new WaitForSeconds(3);
+
+                    ma.GetComponent<imgSwitcher>().switchToImgState(3); //glove reach
+                    yield return new WaitForSeconds(2);
+
+                    vase.GetComponent<Animator>().SetTrigger("fadeOut");
+                    ma.GetComponent<imgSwitcher>().switchToImgState(1);
+
+                    yield return new WaitForSeconds(4);
+                    ma.GetComponent<imgSwitcher>().switchToImgState(0);
+
+                    yield return new WaitForSeconds(6);
+                    ma.GetComponent<imgSwitcher>().switchToImgState(4);
                 }
                 break;
 

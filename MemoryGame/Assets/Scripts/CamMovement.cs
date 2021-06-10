@@ -11,7 +11,7 @@ public class CamMovement : MonoBehaviour
     public Screenshake screenshake;
     public MouseBasedCamShift mouseBasedCamShift; //natural breathing effect for cam
 
-    Animator cam;
+    public Animator cam;
     public Animator vfx;
 
     public Vector3 destPos; //cam will always move towards this pos

@@ -115,6 +115,7 @@ public class imgSwitcher : MonoBehaviour
                 break;
             case "sofa":
                 switchToNextImgState();
+                GetComponent<Collider2D>().enabled = false;
 
                 StartCoroutine(coverBlanket());
 
@@ -159,7 +160,7 @@ public class imgSwitcher : MonoBehaviour
         blkt.SetActive(true);
         blkt.GetComponent<Animator>().SetTrigger("fadeIn");
 
-        globalState.transform.Find("soccer").GetComponent<interactable>().var1 = 1; //enable next stage of interaction
+        globalState.vaseScene.transform.Find("soccer").GetComponent<interactable>().var1 = 1; //enable next stage of interaction
 
     }
 
