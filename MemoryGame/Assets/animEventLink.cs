@@ -25,14 +25,21 @@ public class animEventLink : MonoBehaviour
 
     IEnumerator treeSceneEndTransitionCoroutine()
     {
+        
         enable.setUpLevel(3, true);
-        yield return new WaitForSeconds(3); //wait for anim to fade into new scene view
+        yield return new WaitForSeconds(7); //wait for anim to fade into new scene view
+        camMovement.cam.Play("naturalBreathe");
+        yield return new WaitForSeconds(5);
 
-        camMovement.cam.Play("blink");
+        camMovement.vfx.Play("blink");
 
         yield return new WaitForSeconds(2);
 
         globalState.treeBottomScene.transform.Find("tree").GetComponent<Animator>().Play("treeBottom"); //fade in top layer sprite
+
+        yield return new WaitForSeconds(3);
+
+        camMovement.vfx.Play("blink");
     }
 
 

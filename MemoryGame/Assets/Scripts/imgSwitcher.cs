@@ -179,4 +179,14 @@ public class imgSwitcher : MonoBehaviour
 
     }
 
+
+
+
+
+
+
+    public void setGlobalClickableTrue() { globalState.globalClickable = true; }
+
+    public void setGlobalClickableFalse() { globalState.globalClickable = false; }
+
 }

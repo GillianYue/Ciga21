@@ -100,6 +100,8 @@ public class enabler : MonoBehaviour
 
                 break;
             case 3: //tree
+                if (subScene) gs.revealAndHideStuff(3, false, false); //hide main lv stuff
+
 
                 break;
             case 4: //band

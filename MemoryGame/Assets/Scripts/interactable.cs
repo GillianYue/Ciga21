@@ -542,7 +542,7 @@ public class interactable : MonoBehaviour
                     globalState.treeScene.transform.Find("egg").GetComponent<interactable>().var1 = 1;
                     var1 = 2; //no longer feedable
 
-                    yield return new WaitForSeconds(4f);
+                    yield return new WaitForSeconds(3f);
                     globalState.treeScene.transform.Find("hand_reach").GetComponent<imgSwitcher>().switchToImgState(0);
                 }
                 break;
@@ -557,7 +557,7 @@ public class interactable : MonoBehaviour
                     var1 = 1;
                     bird.GetComponent<interactable>().var1 = 2; //no longer feedable
 
-                    yield return new WaitForSeconds(4f);
+                    yield return new WaitForSeconds(3f);
                     rech.GetComponent<imgSwitcher>().switchToImgState(0);
 
                 }
@@ -576,8 +576,8 @@ public class interactable : MonoBehaviour
                     print("something magical");
                     
                     rech.GetComponent<Animator>().SetTrigger("action2");
-                    yield return new WaitForSeconds(4f);
-                    camMovement.cam.Play("camTreeFall");
+                    yield return new WaitForSeconds(1f);
+                    camMovement.cam.Play("camTreeFall"); //the fall
                 }
 
 
