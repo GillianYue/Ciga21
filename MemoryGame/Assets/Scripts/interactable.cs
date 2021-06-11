@@ -38,6 +38,17 @@ public class interactable : MonoBehaviour
 
     void Start()
     {
+        //randomly delayed anim start for lawn flowers
+
+        if (name[0] == 'f' && transform.parent.name.Equals("flowers"))
+        {
+            StartCoroutine(Global.Chain(this, 
+                    Global.WaitForSeconds(Random.Range(0f, 2f)),
+                    Global.Do(() => myAnimator.Play("lawnFloIdle")     )));
+            
+        }
+
+
 
     }
 
@@ -593,6 +604,27 @@ public class interactable : MonoBehaviour
                 break;
 
 
+        }
+
+
+        if(name[0] == 'f' && transform.parent.name.Equals("flowers"))
+        {
+            //lawn flower instance
+            myAnimator.Play("empty");
+
+            float rd = Random.Range(0f, 1f);
+
+            if(rd <= 0.333f)
+            {
+                myAnimator.Play("lawnFlo1");
+            }else if(rd <= 0.666f)
+            {
+                myAnimator.Play("lawnFlo2");
+            }
+            else
+            {
+                myAnimator.Play("lawnFlo3");
+            }
         }
     }
 
