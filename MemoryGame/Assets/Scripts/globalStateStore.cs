@@ -8,7 +8,7 @@ public class globalStateStore : MonoBehaviour
     public int globalCounter;
     public bool drums, guitar, accordion, hasScrolled;
 
-    public GameObject l1Scene, vaseScene, treeScene, bandScene, seaScene, pupScene, gardenScene, gardenCloseupScene, 
+    public GameObject l1Scene, vaseScene, treeScene, treeBottomScene, bandScene, seaScene, pupScene, gardenScene, gardenCloseupScene, 
         bickerScene, parkScene, graveyardScene, homeScene, mirrorScene;
 
     public bool globalClickable;
@@ -58,7 +58,11 @@ public class globalStateStore : MonoBehaviour
                 }*/
                 break;
             case 3:
-                treeScene.SetActive(to);
+                if (subScene)
+                {
+                    treeBottomScene.SetActive(to);
+                }else
+                    treeScene.SetActive(to);
 /*                foreach (Transform go in treeScene.transform)
                 {
                     go.gameObject.SetActive(to);

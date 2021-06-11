@@ -72,20 +72,20 @@ public class enabler : MonoBehaviour
         
     }
 
+    public void setUpLevel(int l) { setUpLevel(l, false); }
 
-
-    public void setUpLevel(int l)
+    public void setUpLevel(int l, bool subScene)
     {
-        StartCoroutine(setUpLevelCoroutine(l));
+        StartCoroutine(setUpLevelCoroutine(l, subScene));
     }
 
-    IEnumerator setUpLevelCoroutine(int l)
+    IEnumerator setUpLevelCoroutine(int l, bool subScene)
     {
 
         globalStateStore gs = GetComponent<globalStateStore>();
         gs.globalCounter = 0;
-        if (l != 1) gs.revealAndHideStuff(l - 1, false); //hide stuff from prev lv
-        gs.revealAndHideStuff(l, true); //show curr lv stuff
+        if (l != 1) gs.revealAndHideStuff(l - 1, false, subScene); //hide stuff from prev lv
+        gs.revealAndHideStuff(l, true, subScene); //show curr lv stuff
 
         switch (l)
         {

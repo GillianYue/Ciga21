@@ -200,6 +200,10 @@ public class interactable : MonoBehaviour
 
     public void setClickableFalse() { clickable = false; }
 
+    public void setGlobalClickableTrue() { globalState.globalClickable = true; }
+
+    public void setGlobalClickableFalse() { globalState.globalClickable = false; }
+
     static void setChildrenInvisible(GameObject obj)
     {
         Color col0 = obj.transform.GetChild(0).GetComponent<Image>().color,
@@ -225,6 +229,32 @@ public class interactable : MonoBehaviour
             case "Her":
                 myAnimator.Play("awayFadeIn");
                 break;
+            case "leaf3":
+                myAnimator.SetTrigger("action2");
+                var1 = 1; //signals worm ready to come out by end of this clip
+                break;
+
+        }
+    }
+
+    //gets called at the end of each leaf fall (except l3)
+    public void checkSquirrelAppearance()
+    {
+        interactable sqr = globalState.treeScene.transform.Find("squirrel").GetComponent<interactable>();
+        sqr.var1 += 1;
+
+        if(sqr.var1 >= 4) {
+            sqr.onClick();
+        }
+    }
+
+    //gets called at the end of leaf3's action2 clip
+    public void checkWormAppearance()
+    {
+        if(var1 == 1)
+        {
+            affectsGO.GetComponent<Animator>().SetTrigger("action1");
+
         }
     }
 
@@ -424,7 +454,7 @@ public class interactable : MonoBehaviour
                     ma.GetComponent<imgSwitcher>().switchToImgState(0);
 
 
-                    yield return new WaitForSeconds(5);
+                    yield return new WaitForSeconds(8);
                     camMovement.cam.Play("vaseSceneEndZoom"); 
                     //sfx thud
                     yield return new WaitForSeconds(4);
@@ -481,9 +511,88 @@ public class interactable : MonoBehaviour
                         ));
                 }
 
+                break;
+
+            case "leaf1":
+                myAnimator.SetTrigger("action1");
+                globalState.treeScene.transform.Find("hand_reach").GetComponent<Animator>().SetTrigger("action1");
+                camMovement.cam.Play("camLeafReach");
+
+                break;
+            case "leaf3":
+                if(Random.Range(0f, 1f) < 0.5f)
+                {
+                    myAnimator.SetTrigger("action1");
+                }
+                else
+                {
+                    myAnimator.SetTrigger("action2");
+                }
+                break;
+
+            case "bird":
+                if(var1 == 0)
+                {
+                    myAnimator.SetTrigger("action1");
+                    //sfx
+                }else if(var1 == 1) //feedable
+                {
+                    myAnimator.SetTrigger("action1");
+                    globalState.treeScene.transform.Find("hand_reach").GetComponent<Animator>().SetTrigger("action4");
+                    globalState.treeScene.transform.Find("egg").GetComponent<interactable>().var1 = 1;
+                    var1 = 2; //no longer feedable
+
+                    yield return new WaitForSeconds(4f);
+                    globalState.treeScene.transform.Find("hand_reach").GetComponent<imgSwitcher>().switchToImgState(0);
+                }
+                break;
+            case "egg":
+                Transform bird = globalState.treeScene.transform.Find("bird");
+                Transform rech = globalState.treeScene.transform.Find("hand_reach");
+
+                if (bird.GetComponent<interactable>().var1 == 1) //if feedable
+                {
+                    bird.GetComponent<Animator>().SetTrigger("action1");
+                    rech.GetComponent<Animator>().SetTrigger("action4");
+                    var1 = 1;
+                    bird.GetComponent<interactable>().var1 = 2; //no longer feedable
+
+                    yield return new WaitForSeconds(4f);
+                    rech.GetComponent<imgSwitcher>().switchToImgState(0);
+
+                }
+
+                else if (var1 == 0) //not feedable yet, reaches for egg
+                {
+                    myAnimator.SetTrigger("action1");
+                    rech.GetComponent<Animator>().SetTrigger("action2");
+                    camMovement.cam.Play("camEggReach");
+
+                    yield return new WaitForSeconds(0.5f);
+                    bird.GetComponent<Animator>().SetTrigger("action1");
+                }else if(var1 == 1) //fed and clicks egg
+                {
+                    //something magical
+                    print("something magical");
+                    
+                    rech.GetComponent<Animator>().SetTrigger("action2");
+                    yield return new WaitForSeconds(4f);
+                    camMovement.cam.Play("camTreeFall");
+                }
 
 
                 break;
+            case "worm":
+                myAnimator.SetTrigger("fadeOut");
+                Transform reach = globalState.treeScene.transform.Find("hand_reach");
+
+                yield return new WaitForSeconds(2f);
+                reach.GetComponent<imgSwitcher>().switchToImgState(1);
+                reach.GetComponent<Animator>().SetTrigger("action3");
+                globalState.treeScene.transform.Find("bird").GetComponent<interactable>().var1 = 1; //set to feedable
+                break;
+
+
         }
     }
 

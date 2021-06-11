@@ -68,6 +68,10 @@ public class MouseControl : MonoBehaviour
 
 
         }
+        else
+        {
+            if (mouseMode == MouseMode.hand) toCursor();
+        }
 
 
     }
