@@ -27,9 +27,9 @@ public class interactable : MonoBehaviour
         myAnimator = GetComponent<Animator>(); 
 
         if (gameControl == null) gameControl = GameObject.FindGameObjectWithTag("GameController");
-        mouseControl = gameControl.GetComponent<MouseControl>();
-        globalState = gameControl.GetComponent<globalStateStore>();
-        camMovement = FindObjectOfType<CamMovement>();
+        if (mouseControl == null) mouseControl = gameControl.GetComponent<MouseControl>();
+        if (globalState == null) globalState = gameControl.GetComponent<globalStateStore>();
+        if (camMovement == null) camMovement = FindObjectOfType<CamMovement>();
 
         var1 = 0; var2 = 0; var3 = 0;
 
@@ -44,11 +44,13 @@ public class interactable : MonoBehaviour
         {
             StartCoroutine(Global.Chain(this, 
                     Global.WaitForSeconds(Random.Range(0f, 2f)),
-                    Global.Do(() => myAnimator.Play("lawnFloIdle")     )));
+                    Global.Do(() => { 
+                        if(var1 == 0) //if flower already clicked before this, will set var1 to 1
+                        myAnimator.Play("lawnFloIdle");    } )));
             
         }
 
-        if(name.Equals("ball") || name.Equals("stick"))
+        if(name.Equals("ballAnimator") || name.Equals("stickAnimator"))
         {
             myAnimator.SetTrigger("action1"); //idle state
         }
@@ -607,108 +609,127 @@ public class interactable : MonoBehaviour
                 globalState.treeScene.transform.Find("bird").GetComponent<interactable>().var1 = 1; //set to feedable
                 break;
 
-            case "ball":
+            case "ballAnimator":
                 //initially non-clickable, will be enabled after interactions with pup
 
-                Animator hand = globalState.pupScene.transform.Find("hand").GetComponent<Animator>();
+                Animator hand = globalState.pupScene.transform.Find("hand").GetChild(0).GetComponent<Animator>();
                 Transform screenInteract = globalState.pupScene.transform.Find("screenInteract");
                 Animator pup = globalState.pupScene.transform.Find("pup").GetComponent<Animator>();
+                interactable stik = globalState.pupScene.transform.Find("stick").GetChild(0).GetComponent<interactable>();
 
-                if (var1 == 0) //on lawn
+                if (var2 >= 1 && stik.var2 >= 1 && stik.var3 >= 1)
                 {
-                    if(timesClicked == 1)
+                    //if reaches here, satisfies: thrown and played ball, thrown and played stick
+                    //trigger ending anim
+                    pup.Play("dPlayBallEnding");
+                    gameObject.SetActive(false); //deactivate ball
+                }
+
+                else if (var1 == 0) //on lawn
+                {
+                    if((!(var3 >= 3 && var2 == 0)) && (timesClicked == 1 || Random.Range(0f, 1f) < 0.5f)) //either first encounter or 50% chance will perform hold, or too many throws with no play
                     {
+                        transform.parent.SetAsLastSibling(); //so that item sprite on top of hand
+
                         //forced fetch (starts with hand motion)
                         myAnimator.SetTrigger("action2"); //hold
                         hand.SetTrigger("action1"); //hold
+
+                        //toggle on mouse based cam shift
+                        hand.transform.parent.GetComponent<MouseBasedCamShift>().active = true;
+                        transform.parent.GetComponent<MouseBasedCamShift>().active = true;
 
                         yield return new WaitForSeconds(2); //time for ball to be on hand
 
                         var1 = 1; //mark ball as being held
                         screenInteract.gameObject.SetActive(true);
                         screenInteract.GetComponent<interactable>().clickable = true; //activate click check for item throw
+
+                        var3 += 1;
                     }
                     else
                     {
-                        //50% chance fetch 50% chance play
-                        if(Random.Range(0f, 1f) < 0.5f)
-                        {
-                            myAnimator.SetTrigger("action2"); //hold
-                            hand.SetTrigger("action1"); //hold
-
-
-                            yield return new WaitForSeconds(2);
-
-                            var1 = 1; //mark ball as being held
-                            screenInteract.gameObject.SetActive(true);
-                            screenInteract.GetComponent<interactable>().clickable = true; //activate click check for item throw
-                        }
-                        else
-                        {
+                        //play
                             myAnimator.SetTrigger("fadeOut");
 
                             pup.Play("dPlayBall");
-                        }
+                        var2 += 1; //indicates play ball happened (once more)
                     }
                 }
 
                 break;
-            case "stick":
+            case "stickAnimator":
                 //initially non-clickable, will be enabled after interactions with pup
-                Animator hd = globalState.pupScene.transform.Find("hand").GetComponent<Animator>();
+                Animator hd = globalState.pupScene.transform.Find("hand").GetChild(0).GetComponent<Animator>();
                 Transform screenInteractt = globalState.pupScene.transform.Find("screenInteract");
                 Animator pupp = globalState.pupScene.transform.Find("pup").GetComponent<Animator>();
 
                 if (var1 == 0) //on lawn
                 {
 
-                    //50% chance fetch 50% chance play
-                    if (Random.Range(0f, 1f) < 0.5f)
+                    //50% chance fetch 50% chance play, or too many plays with no throw (will avoid if too many throws with no play)
+                    if ( (!(var2 >= 3 && var3 == 0)) && ((var3 >= 3 && var2 == 0) || Random.Range(0f, 1f) < 0.5f))
                     {
+
+                        transform.parent.SetAsLastSibling(); //so that item sprite on top of hand
+
                         myAnimator.SetTrigger("action2"); //hold
                         hd.SetTrigger("action1"); //hold
 
+                        //toggle on mouse based cam shift
+                        hd.transform.parent.GetComponent<MouseBasedCamShift>().active = true;
+                        transform.parent.GetComponent<MouseBasedCamShift>().active = true;
 
                         yield return new WaitForSeconds(2);
 
-                        var1 = 1; //mark ball as being held
+                        var1 = 1; //mark stick as being held
                         screenInteractt.gameObject.SetActive(true);
                         screenInteractt.GetComponent<interactable>().clickable = true; //activate click check for item throw
+
+                        var2 += 1; //indicates stick has been thrown in game (once more)
                     }
                     else
                     {
                         myAnimator.SetTrigger("fadeOut");
 
                         pupp.Play("dPlayTwig");
+
+                        var3 += 1; //indicates play stick happened (once more)
                     }
 
                 }
                 break;
 
             case "screenInteract":
-                interactable bl = globalState.pupScene.transform.Find("ball").GetComponent<interactable>();
-                interactable stk = globalState.pupScene.transform.Find("stick").GetComponent<interactable>();
+                interactable bl = globalState.pupScene.transform.Find("ball").GetChild(0).GetComponent<interactable>();
+                interactable stk = globalState.pupScene.transform.Find("stick").GetChild(0).GetComponent<interactable>();
 
-                Animator hdd = globalState.pupScene.transform.Find("hand").GetComponent<Animator>();
+                Animator hdd = globalState.pupScene.transform.Find("hand").GetChild(0).GetComponent<Animator>();
                 Animator pp = globalState.pupScene.transform.Find("pup").GetComponent<Animator>();
 
                 hdd.SetTrigger("action2"); //throw
-                
+
+                //toggle off mouse based pos offset
+                hdd.transform.parent.GetComponent<MouseBasedCamShift>().active = false;
+
 
                 if (bl.var1 == 1)
                 {
                     pp.Play("dFetchBall");
                     bl.GetComponent<Animator>().SetTrigger("action3");
+                    bl.transform.parent.GetComponent<MouseBasedCamShift>().active = false;
                 }
                 else if (stk.var1 == 1)
                 {
                     pp.Play("dFetchTwig");
                     stk.GetComponent<Animator>().SetTrigger("action3");
+                    stk.transform.parent.GetComponent<MouseBasedCamShift>().active = false;
                 }
                 else Debug.LogError("no item is being held");
 
                 yield return new WaitForSeconds(3);
 
+                hdd.transform.parent.SetAsLastSibling(); //reset hand sprite's layer status to the topmost
                 gameObject.SetActive(false); //disable self
 
                 break;
@@ -724,17 +745,80 @@ public class interactable : MonoBehaviour
 
             float rd = Random.Range(0f, 1f);
 
-            if(rd <= 0.333f)
+
+            if (rd <= 0.333f)
             {
                 myAnimator.Play("lawnFlo1");
-            }else if(rd <= 0.666f)
+                var1 = 1;
+            }
+            else if(rd <= 0.666f)
             {
                 myAnimator.Play("lawnFlo2");
+                var1 = 1;
             }
             else
             {
                 myAnimator.Play("lawnFlo3");
+                var1 = 1;
             }
+
+            
+
+        }else if (transform.parent.name.Equals("pup"))
+        {
+
+            if (name.Equals("d1") || name.Equals("d1.5"))
+            {
+                transform.parent.GetComponent<Animator>().Play("dSit");
+                transform.parent.Find("d2").GetComponent<interactable>().var2 = 1; //mark as visited
+
+                globalState.StartCoroutine(Global.Chain(globalState, Global.Do(()=> globalState.globalClickable = false), 
+                    Global.WaitForSeconds(2.5f), 
+                    Global.Do(()=> globalState.globalClickable = true)));
+
+            }
+            else if (name.Equals("d2"))
+            {
+                float rand = Random.Range(0f, 1f);
+
+                transform.parent.GetComponent<Animator>().Play((rand > 0.5f)? "dStand" : "dRollover");
+                if (rand > 0.5f) transform.parent.Find("d3").GetComponent<interactable>().var2 = 1;  //mark as visited
+                else transform.parent.Find("d1").GetComponent<interactable>().var2 = 1;  //mark as visited
+
+                globalState.StartCoroutine(Global.Chain(globalState, Global.Do(() => globalState.globalClickable = false),
+                    Global.WaitForSeconds(2.5f),
+                    Global.Do(() => globalState.globalClickable = true)));
+
+            }
+            else if (name.Equals("d3"))
+            {
+                transform.parent.GetComponent<Animator>().Play("dSit");
+                transform.parent.Find("d2").GetComponent<interactable>().var2 = 1;  //mark as visited
+
+                globalState.StartCoroutine(Global.Chain(globalState, Global.Do(() => globalState.globalClickable = false),
+                    Global.WaitForSeconds(2.5f),
+                    Global.Do(() => globalState.globalClickable = true)));
+            }
+
+            interactable d1 = transform.parent.Find("d1").GetComponent<interactable>(), d2 = transform.parent.Find("d2").GetComponent<interactable>(),
+            d3 = transform.parent.Find("d3").GetComponent<interactable>();
+
+            //if all three poses visited, unlock clickable on the two items
+            if(d1.var2 == 1 && d2.var2 == 1 && d3.var2 == 1)
+            {
+                Transform ball = globalState.pupScene.transform.Find("ball"), stick = globalState.pupScene.transform.Find("stick");
+
+                ball.gameObject.SetActive(true); stick.gameObject.SetActive(true);
+
+                ball.GetChild(0).GetComponent<Animator>().SetTrigger("fadeIn");
+                stick.GetChild(0).GetComponent<Animator>().SetTrigger("fadeIn");
+
+                ball.GetChild(0).GetComponent<interactable>().clickable = true;
+                stick.GetChild(0).GetComponent<interactable>().clickable = true;
+
+                d1.var2 = 5; //prevent this code from being reached again
+            }
+
         }
     }
 

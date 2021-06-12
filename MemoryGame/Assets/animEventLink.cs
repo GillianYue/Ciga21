@@ -49,28 +49,55 @@ public class animEventLink : MonoBehaviour
 
         if (itemIndex == 0) //ball
         {
-            Transform ball = globalState.pupScene.transform.Find("ball");
+            Transform ball = globalState.pupScene.transform.Find("ball").GetChild(0);
             ball.gameObject.SetActive(true);
             Animator ba = ball.GetComponent<Animator>();
             ba.SetTrigger("action1"); //restore default pos
             ba.SetTrigger("fadeIn"); //fadein
 
-            interactable bl = globalState.pupScene.transform.Find("ball").GetComponent<interactable>();
+            interactable bl = ball.GetComponent<interactable>();
             bl.var1 = 0;
 
         }
         else if(itemIndex == 1) //stick
         {
-            Transform stick = globalState.pupScene.transform.Find("stick");
+            Transform stick = globalState.pupScene.transform.Find("stick").GetChild(0);
             stick.gameObject.SetActive(true);
             Animator sa = stick.GetComponent<Animator>();
             sa.SetTrigger("action1");
             sa.SetTrigger("fadeIn"); //fadein
 
-            interactable stk = globalState.pupScene.transform.Find("stick").GetComponent<interactable>();
+            interactable stk = stick.GetComponent<interactable>();
             stk.var1 = 0;
+        }else if(itemIndex == 2) //still ball, but signals ending anim for scene
+        {
+            Transform ball = globalState.pupScene.transform.Find("ball").GetChild(0);
+            ball.transform.localPosition = new Vector2(0, 0);
+            ball.gameObject.SetActive(true);
+            Animator ba = ball.GetComponent<Animator>();
+            ba.SetTrigger("action4"); //roll away
         }
     }
+
+    public void pupSceneCamShift()
+    {
+        camMovement.cam.Play("camPupSceneShift");
+
+    }
+
+    public void pupSceneCamShiftEnd()
+    {
+        globalState.pupScene.transform.Find("her").GetComponent<imgSwitcher>().switchToNextImgState();
+        globalState.globalClickable = true;
+
+        //TODO scene transitions and stuff
+
+        StartCoroutine(Global.Chain(this, Global.WaitForSeconds(2),
+            Global.Do(() =>
+                    {
+                        camMovement.vfx.Play("focusOnHer");
+                    })));
+                }
 
     public void setGlobalClickableTrue() { globalState.globalClickable = true; }
 
