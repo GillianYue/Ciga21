@@ -42,6 +42,35 @@ public class animEventLink : MonoBehaviour
         camMovement.vfx.Play("blink");
     }
 
+    //called from the end of fetch item animations
+    public void pupDropItem(int itemIndex)
+    {
+        print(itemIndex + " fetched");
+
+        if (itemIndex == 0) //ball
+        {
+            Transform ball = globalState.pupScene.transform.Find("ball");
+            ball.gameObject.SetActive(true);
+            Animator ba = ball.GetComponent<Animator>();
+            ba.SetTrigger("action1"); //restore default pos
+            ba.SetTrigger("fadeIn"); //fadein
+
+            interactable bl = globalState.pupScene.transform.Find("ball").GetComponent<interactable>();
+            bl.var1 = 0;
+
+        }
+        else if(itemIndex == 1) //stick
+        {
+            Transform stick = globalState.pupScene.transform.Find("stick");
+            stick.gameObject.SetActive(true);
+            Animator sa = stick.GetComponent<Animator>();
+            sa.SetTrigger("action1");
+            sa.SetTrigger("fadeIn"); //fadein
+
+            interactable stk = globalState.pupScene.transform.Find("stick").GetComponent<interactable>();
+            stk.var1 = 0;
+        }
+    }
 
     public void setGlobalClickableTrue() { globalState.globalClickable = true; }
 

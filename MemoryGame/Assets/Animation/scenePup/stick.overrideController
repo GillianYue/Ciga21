@@ -6,10 +6,12 @@ AnimatorOverrideController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: itemGeneral
+  m_Name: stick
   m_Controller: {fileID: 9100000, guid: 3af8cf8ee049e104ebc9938148d13b5f, type: 2}
   m_Clips:
   - m_OriginalClip: {fileID: 7400000, guid: e63f02fa67df3c34990ec2bdc87095f7, type: 2}
-    m_OverrideClip: {fileID: 7400000, guid: b62cec8dcb6a0694f9522e043d101cc8, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 29dd90fb241e78d4584dd6fc09a392c1, type: 2}
   - m_OriginalClip: {fileID: 7400000, guid: 84019e67fd1ed60429e9bc34d5bfc40a, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: b62cec8dcb6a0694f9522e043d101cc8, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 27e5f77da8c295c4fb8bd7926a95a3c0, type: 2}
     m_OverrideClip: {fileID: 7400000, guid: f34594abbb64e3942be8aee6ecd88740, type: 2}
