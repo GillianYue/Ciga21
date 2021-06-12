@@ -16,6 +16,15 @@ public class animEventLink : MonoBehaviour
 
     }
 
+    private void Start()
+    {
+        if(name[0] == 'l' && transform.parent.name.Equals("up_front"))
+        {
+            GetComponent<Animator>().SetTrigger("action" + name[1]);
+            GetComponent<Animator>().SetTrigger("fadeIn"); //fades in lavendar color
+        }
+    }
+
     //called from animation after screen fades out
     public void treeSceneEndTransition()
     {
