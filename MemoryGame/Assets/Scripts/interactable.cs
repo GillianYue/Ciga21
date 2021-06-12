@@ -804,7 +804,7 @@ public class interactable : MonoBehaviour
             d3 = transform.parent.Find("d3").GetComponent<interactable>();
 
             //if all three poses visited, unlock clickable on the two items
-            if(d1.var2 == 1 && d2.var2 == 1 && d3.var2 == 1)
+            if(d1.var3 != 5 && d1.var2 == 1 && d2.var2 == 1 && d3.var2 == 1)
             {
                 Transform ball = globalState.pupScene.transform.Find("ball"), stick = globalState.pupScene.transform.Find("stick");
 
@@ -816,7 +816,7 @@ public class interactable : MonoBehaviour
                 ball.GetChild(0).GetComponent<interactable>().clickable = true;
                 stick.GetChild(0).GetComponent<interactable>().clickable = true;
 
-                d1.var2 = 5; //prevent this code from being reached again
+                d1.var3 = 5; //prevent this code from being reached again
             }
 
         }

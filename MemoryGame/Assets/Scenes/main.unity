@@ -5234,7 +5234,7 @@ RectTransform:
   - {fileID: 1459977974}
   - {fileID: 77804326}
   - {fileID: 1029321948}
-  - {fileID: 513680255}
+  - {fileID: 1248341723}
   m_Father: {fileID: 1964765846}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -13166,7 +13166,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &411657047
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15573,13 +15573,14 @@ GameObject:
   - component: {fileID: 513680255}
   - component: {fileID: 513680257}
   - component: {fileID: 513680256}
+  - component: {fileID: 513680258}
   m_Layer: 0
-  m_Name: flyer
+  m_Name: flyer_animator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &513680255
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15592,8 +15593,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1636961515}
-  m_Father: {fileID: 256202509}
-  m_RootOrder: 15
+  m_Father: {fileID: 1248341723}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -15637,6 +15638,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 513680254}
   m_CullTransparentMesh: 0
+--- !u!95 &513680258
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 513680254}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a43f8b4c636dcc347b3070330632a328, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &515829038
 GameObject:
   m_ObjectHideFlags: 0
@@ -19274,7 +19294,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &714166979
 RectTransform:
   m_ObjectHideFlags: 0
@@ -29318,7 +29338,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1129213056
 RectTransform:
   m_ObjectHideFlags: 0
@@ -32933,6 +32953,55 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &1248341722
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1248341723}
+  - component: {fileID: 1248341724}
+  m_Layer: 0
+  m_Name: flyer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1248341723
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1248341722}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 513680255}
+  m_Father: {fileID: 256202509}
+  m_RootOrder: 15
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1248341724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1248341722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 613325f2883764584856dc3809d8ec5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shakeTransform: {fileID: 1248341723}
+  moveCapacity: {x: 20, y: 20}
+  screenDimension: {x: 1600, y: 900}
+  active: 0
+  startLocalPos: {x: 0, y: 0}
 --- !u!1 &1248492965
 GameObject:
   m_ObjectHideFlags: 0
