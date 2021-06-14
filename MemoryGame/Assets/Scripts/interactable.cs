@@ -124,7 +124,7 @@ public class interactable : MonoBehaviour
                 GetComponent<imgSwitcher>().myTriggerAction();
                 break;
             case InteractType.instrument: 
-                if(gameControl.GetComponent<globalStateStore>().globalCounter < 2)
+                if(gameControl.GetComponent<globalStateStore>().globalCounter < 2) //phone and speaker not triggered sprite swap yet
                 {
                     //play sound effect
                     switch (name)
@@ -139,14 +139,24 @@ public class interactable : MonoBehaviour
                             gameControl.GetComponent<AudioManager>().playSFX(4, 2);
                             break;
                     }
-                    timesClicked -= 1;
+                    timesClicked -= 1; //reset the past click
                 }
                 else
                 {
                     if (timesClicked < numInteractions)
                     {
+                        //TODO start puzzle session; if already activated, cancel all and replay solution
+
+                        
+
                         myAnimator.SetTrigger("action" + timesClicked.ToString());
-                        //play sound effect
+                        //play sound effect (solution)
+
+                        NotesRecord notesRecord = GetComponent<NotesRecord>();
+                        //if starts another instrument, will deactivate prev instrument
+                        NotesRecord.currActiveInstrument = notesRecord.instrumentIndex;
+                        notesRecord.resetAllNoteStatus();
+
                     }
                     else
                     {
@@ -530,6 +540,7 @@ public class interactable : MonoBehaviour
 
                 break;
 
+            /////////////////////
             case "leaf1":
                 myAnimator.SetTrigger("action1");
                 globalState.treeScene.transform.Find("hand_reach").GetComponent<Animator>().SetTrigger("action1");
@@ -609,6 +620,7 @@ public class interactable : MonoBehaviour
                 globalState.treeScene.transform.Find("bird").GetComponent<interactable>().var1 = 1; //set to feedable
                 break;
 
+            /////////////////////
             case "ballAnimator":
                 //initially non-clickable, will be enabled after interactions with pup
 
@@ -700,7 +712,7 @@ public class interactable : MonoBehaviour
                 }
                 break;
 
-            case "screenInteract":
+            case "screenInteract": //clickable screen signaling item throw
                 interactable bl = globalState.pupScene.transform.Find("ball").GetChild(0).GetComponent<interactable>();
                 interactable stk = globalState.pupScene.transform.Find("stick").GetChild(0).GetComponent<interactable>();
 
@@ -734,7 +746,14 @@ public class interactable : MonoBehaviour
 
                 break;
 
+            /////////////////////
+            case "rightHandFlowers":
+                myAnimator.SetTrigger("fadeOut");
+                //TODO hand anim out, show hand anim
 
+
+
+                break;
         }
 
 
@@ -764,7 +783,7 @@ public class interactable : MonoBehaviour
 
             
 
-        }else if (transform.parent.name.Equals("pup"))
+        }else if (transform.parent.name.Equals("pup")) //one of pup sprites
         {
 
             if (name.Equals("d1") || name.Equals("d1.5"))
@@ -818,6 +837,16 @@ public class interactable : MonoBehaviour
 
                 d1.var3 = 5; //prevent this code from being reached again
             }
+
+        }else if (name[0] == 'n' && (transform.parent.name.Equals("guitar") || transform.parent.name.Equals("drums") ||
+            transform.parent.name.Equals("accordion")))
+        {
+            int noteIndex = int.Parse(name[1].ToString());
+
+            NotesRecord notesRecord = transform.parent.GetComponent<NotesRecord>();
+            notesRecord.recordNote(noteIndex);
+
+
 
         }
     }
