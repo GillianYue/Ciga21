@@ -29,6 +29,9 @@ public class imgSwitcher : MonoBehaviour
         gameControl = GameObject.FindGameObjectWithTag("GameController");
         globalState = gameControl.GetComponent<globalStateStore>();
 
+        if(name.Equals("dad")) { GetComponent<Animator>().SetTrigger("action1"); //default state
+        }
+
         switchToImgState(0);
     }
 
@@ -42,6 +45,7 @@ public class imgSwitcher : MonoBehaviour
     /// <param name="s"> which "pair" of images to use for this state s </param>
     public void switchToImgState(int s)
     {
+
         int idx1 = 2 * s, idx2 = 2 * s + 1;
 
         //in case img1 and 2 are not assigned on start
@@ -103,13 +107,18 @@ public class imgSwitcher : MonoBehaviour
                     GameObject pasta = GameObject.Find("Pasta(Clone)");
                     if (pasta != null) pasta.GetComponent<interactable>().clickable = true;
                     StartCoroutine(pointAtPasta());
-                    currIndex += 1;
+                    currIndex = 2;
                 }
-                else switchToNextImgState();
+                else if(currIndex == 0)
+                {
+                    GetComponent<Animator>().SetTrigger("action2"); //normal state
+                    currIndex = 1;
+                }
+                else GetComponent<Animator>().SetTrigger("action4"); //smile
 
                 break;
             case "Pasta(Clone)":
-                switchToNextImgState();
+                switchToNextImgState(); //bit
                 gameControl.GetComponent<AudioManager>().playSFX(1, 6);
                 if (currIndex == 3) StartCoroutine(pastaFinish());
                 break;
@@ -123,24 +132,18 @@ public class imgSwitcher : MonoBehaviour
         }
     }
 
-    public void clearOverride()
-    {
-        img1.overrideSprite = null;
-        img2.overrideSprite = null;
-
-        img1.sprite = stateImgs[currIndex * 2];
-        img2.sprite = stateImgs[currIndex * 2 + 1];
-    }
-
     IEnumerator pointAtPasta()
     {
         yield return new WaitForSeconds(1);
-        GetComponent<Animator>().SetTrigger("action1");
+        GetComponent<Animator>().SetTrigger("action3"); //point action
     }
 
 
     IEnumerator pastaFinish()
     {
+        print("pasta finished");
+        GetComponent<Collider2D>().enabled = false; //make unclickable
+
         yield return new WaitForSeconds(1);
         GameObject.Find("dad").GetComponent<imgSwitcher>().myTriggerAction();
 

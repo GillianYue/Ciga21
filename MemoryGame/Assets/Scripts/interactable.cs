@@ -143,26 +143,21 @@ public class interactable : MonoBehaviour
                 }
                 else
                 {
-                    if (timesClicked < numInteractions)
-                    {
-                        //TODO start puzzle session; if already activated, cancel all and replay solution
 
-                        
-
-                        myAnimator.SetTrigger("action" + timesClicked.ToString());
-                        //play sound effect (solution)
-
+                        //start puzzle session; if already activated, cancel all and replay solution
                         NotesRecord notesRecord = GetComponent<NotesRecord>();
+
+                        //play sound effect (solution)
+                        notesRecord.playSolution();
+
                         //if starts another instrument, will deactivate prev instrument
                         NotesRecord.currActiveInstrument = notesRecord.instrumentIndex;
-                        notesRecord.resetAllNoteStatus();
 
-                    }
-                    else
-                    {
-                        instrumentStartPlaying();
-                        //sound
-                    }
+                        notesRecord.enableNotes(); //reveal notes for this instrument if prev hidden
+
+                        notesRecord.resetAllNoteStatus(); //reset status
+
+
                 }
 
                 break;
@@ -248,7 +243,6 @@ public class interactable : MonoBehaviour
         switch (name)
         {
             case "Snakes":
-                print("fork triggered snake");
                 StartCoroutine(snakeDisappear());
 
                 break;
@@ -303,18 +297,38 @@ public class interactable : MonoBehaviour
 
         switch (name)
         {
-            case "guitar": gs.guitar = true;
-                gameControl.GetComponent<AudioManager>().playSFX(4, 9);
+            case "guitar": 
+                gs.guitar = true;
+                gameControl.GetComponent<AudioManager>().playInstrumentTrackInSync(0);
+
                 break;
-            case "drums": gs.drums = true; gameControl.GetComponent<AudioManager>().playSFX(4, 11); break;
-            case "accordion": gs.accordion = true; gameControl.GetComponent<AudioManager>().playSFX(4, 10); break;
+            case "drums": 
+                gs.drums = true;
+                gameControl.GetComponent<AudioManager>().playInstrumentTrackInSync(1);
+
+                break;
+
+            case "accordion": 
+                gs.accordion = true;
+                gameControl.GetComponent<AudioManager>().playInstrumentTrackInSync(2);
+
+                break;
         }
 
-        if(gs.drums && gs.guitar && gs.accordion && !gs.hasScrolled) //everything triggered for l2
+        if(gs.drums && gs.guitar && gs.accordion && !gs.hasScrolled) //everything triggered for l2, trigger scroll effect
         {
-            gameControl.GetComponent<BlurManager>().levelPassEffect(4);
-            gs.hasScrolled = true;
+            StartCoroutine(bandWaitTillSongEnd());
         }
+    }
+
+    public IEnumerator bandWaitTillSongEnd()
+    {
+        yield return new WaitForSeconds(38); //entirety of loop
+
+        gameControl.GetComponent<AudioManager>().playSFX(4, 18); //end of lv song
+
+        gameControl.GetComponent<BlurManager>().levelPassEffect(4);
+        gameControl.GetComponent<globalStateStore>().hasScrolled = true;
     }
 
     public void awayFadeInFinished()
@@ -838,14 +852,12 @@ public class interactable : MonoBehaviour
                 d1.var3 = 5; //prevent this code from being reached again
             }
 
-        }else if (name[0] == 'n' && (transform.parent.name.Equals("guitar") || transform.parent.name.Equals("drums") ||
-            transform.parent.name.Equals("accordion")))
+        }else if (name[0] == 'n' && transform.parent.name.Equals("notes"))
         {
             int noteIndex = int.Parse(name[1].ToString());
 
-            NotesRecord notesRecord = transform.parent.GetComponent<NotesRecord>();
+            NotesRecord notesRecord = transform.parent.parent.GetComponent<NotesRecord>();
             notesRecord.recordNote(noteIndex);
-
 
 
         }

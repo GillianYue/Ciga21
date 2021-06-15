@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BlurManager : MonoBehaviour
 {
-    public blurEffectAnim backBlur, centerBlur; //, headBlur;
+    public blurEffectAnim backBlur, centerBlur, frontBlur; 
     public imgSwitcher table;
     public Animator mainCam, darkCover, her, myHand;
     public interactable leaf;
@@ -122,17 +122,21 @@ public class BlurManager : MonoBehaviour
         //audio stuff
 
         GetComponent<AudioManager>().playSFX(4, 5);
-        centerBlur.setNewScale(20, 0.1f);
+        // centerBlur.setNewScale(20, 0.1f);
+        frontBlur.gameObject.SetActive(true);
+        frontBlur.setNewScale(20, 0.1f);
         yield return new WaitForSeconds(5);
 
         darkCover.SetTrigger("fadeIn");
         GetComponent<AudioManager>().playSFX(9, 3);
         yield return new WaitForSeconds(3);
-        centerBlur.setNewScale(0.2f, 0.1f);
+        //   centerBlur.setNewScale(0.2f, 0.1f);
+        frontBlur.setNewScale(0.2f, 0.1f);
         backBlur.setNewScale(0.1f, 0.1f);
 
         Destroy(GameObject.Find("radio(Clone)"));
         Destroy(GameObject.Find("telephone(Clone)"));
+        frontBlur.gameObject.SetActive(false);
 
     }
 

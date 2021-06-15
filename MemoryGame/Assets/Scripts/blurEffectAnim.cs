@@ -15,13 +15,20 @@ public class blurEffectAnim : MonoBehaviour
     float lerpStartSize;
     public float lerpTime = 2;
 
-    void Start()
+    private string sizeParamName = "_Size";
+
+    private void Awake()
     {
         myShader = GetComponent<Image>().material;
+    }
+
+    void Start()
+    {
+       
         maxScale = Mathf.Clamp(midPoint + intensity, 0, 12);
         minScale = Mathf.Clamp(midPoint - intensity, 0, 12);
 
-        if (Mathf.Abs(myShader.GetFloat("_Size") - midPoint) > 0.02f) lerping = true;
+        if (Mathf.Abs(myShader.GetFloat(sizeParamName) - midPoint) > 0.02f) lerping = true;
 
         if (lerpTime == 0) lerpTime = 2;
     }
@@ -32,8 +39,8 @@ public class blurEffectAnim : MonoBehaviour
 
         if (lerping)
         {
-            myShader.SetFloat("_Size", Mathf.Lerp(lerpStartSize, midPoint, Mathf.Clamp(timer / lerpTime, 0, 1)));
-            if (Mathf.Abs(myShader.GetFloat("_Size") - midPoint) < 0.02f)
+            myShader.SetFloat(sizeParamName, Mathf.Lerp(lerpStartSize, midPoint, Mathf.Clamp(timer / lerpTime, 0, 1)));
+            if (Mathf.Abs(myShader.GetFloat(sizeParamName) - midPoint) < 0.02f)
             {
                 lerping = false;
                 timer = 0.5f; // to start at midpoint
@@ -43,7 +50,7 @@ public class blurEffectAnim : MonoBehaviour
         else
         {
             float size = oscillate(timer);
-            myShader.SetFloat("_Size", oscillate(timer));
+            myShader.SetFloat(sizeParamName, oscillate(timer));
         }
     }
 
@@ -55,6 +62,8 @@ public class blurEffectAnim : MonoBehaviour
 
     public void setNewScale(float newScale, float fluctuation)
     {
+        if(myShader == null) myShader = GetComponent<Image>().material;
+
         lerping = true;
 
         midPoint = newScale;
@@ -62,7 +71,7 @@ public class blurEffectAnim : MonoBehaviour
         minScale = Mathf.Clamp(midPoint - fluctuation, 0, 20);
         intensity = fluctuation;
 
-        lerpStartSize = myShader.GetFloat("_Size");
+        lerpStartSize = myShader.GetFloat(sizeParamName);
         timer = 0;
     }
 
