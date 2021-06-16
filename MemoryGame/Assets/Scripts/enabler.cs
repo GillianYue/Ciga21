@@ -117,6 +117,7 @@ public class enabler : MonoBehaviour
 
             case 7: //garden
                 cam.GetComponent<MouseBasedCamShift>().active = false; //first turn off cam pan
+                globalState.globalClickable = false; //disable until opening done
 
                 cam.cam.Play("camGardenStart"); //art stare
                 yield return new WaitForSeconds(7);
@@ -133,8 +134,26 @@ public class enabler : MonoBehaviour
 
                 flyer.GetChild(0).GetComponent<Animator>().Play("flyerEntry");
 
-                yield return new WaitForSeconds(10);
+                yield return new WaitForSeconds(4);
+
+                Transform hand = globalState.gardenScene.transform.Find("center").Find("hand");
+
+                hand.gameObject.SetActive(true);
+                hand.GetComponent<Animator>().SetTrigger("action1"); //greet; will set global clickable true
+
+                yield return new WaitForSeconds(4);
+                
+                cam.cam.Play("nervousBreathe");
+                cam.cam.Play("camGardenGazeShift");
+
+                yield return new WaitForSeconds(2);
+                cam.vfx.Play("blink2x");
+                yield return new WaitForSeconds(6);
                 flyer.gameObject.SetActive(false);
+                cam.cam.SetTrigger("stopBreathe");
+
+                globalState.globalClickable = true;
+
                 break;
             case 8: //bicker
 

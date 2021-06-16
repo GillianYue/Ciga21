@@ -7,6 +7,7 @@ public class globalStateStore : MonoBehaviour
 {
     public int globalCounter;
     public bool drums, guitar, accordion, hasScrolled;
+    public int gardenSceneFlowerCount;
 
     public GameObject l1Scene, vaseScene, treeScene, treeBottomScene, bandScene, seaScene, pupScene, gardenScene, gardenCloseupScene, 
         bickerScene, parkScene, graveyardScene, homeScene, mirrorScene;
