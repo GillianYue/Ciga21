@@ -125,7 +125,7 @@ public class enabler : MonoBehaviour
                 yield return new WaitForSeconds(3);
 
                 //enable flyer pan
-                Transform flyer = globalState.gardenScene.transform.Find("flyer");
+                Transform flyer = globalState.gardenScene.transform.Find("center").Find("flyer");
                 flyer.GetComponent<MouseBasedCamShift>().active = true;
                 cam.GetComponent<MouseBasedCamShift>().active = true;
 
