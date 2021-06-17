@@ -770,8 +770,9 @@ public class interactable : MonoBehaviour
                 break;
         }
 
+        string parentName = transform.parent.name;
 
-        if(name[0] == 'f' && transform.parent.name.Equals("flowers"))
+        if (name[0] == 'f' && parentName.Equals("flowers"))
         {
             //lawn flower instance
             myAnimator.Play("empty");
@@ -797,7 +798,7 @@ public class interactable : MonoBehaviour
 
             
 
-        }else if (transform.parent.name.Equals("pup")) //one of pup sprites
+        }else if (parentName.Equals("pup")) //one of pup sprites
         {
 
             if (name.Equals("d1") || name.Equals("d1.5"))
@@ -852,7 +853,7 @@ public class interactable : MonoBehaviour
                 d1.var3 = 5; //prevent this code from being reached again
             }
 
-        }else if (name[0] == 'n' && transform.parent.name.Equals("notes"))
+        }else if (name[0] == 'n' && parentName.Equals("notes"))
         {
             int noteIndex = int.Parse(name[1].ToString());
 
@@ -860,7 +861,82 @@ public class interactable : MonoBehaviour
             notesRecord.recordNote(noteIndex);
 
 
+        }else if (parentName.Equals("rose") || parentName.Equals("hibiscus"))
+        {
+            if(var1 == 0)
+            {
+                myAnimator.SetTrigger("action1");
+                globalState.gardenSceneFlowerCount += 1;
+
+                if(globalState.gardenSceneFlowerCount >= 14) //total num flo
+                {
+                    //trigger effect
+                    //TODO sfx
+                    print("flo done");
+
+                    Transform center = globalState.gardenScene.transform.Find("center");
+                    Transform up_front = center.Find("up_front"), flowers1 = center.Find("flowers1"), bottomLeft = center.Find("bottomLeft"),
+                        muchaFilter = center.Find("mucha_filter");
+                    muchaFilter.gameObject.SetActive(false);
+
+                    Transform treeflower = center.Find("treeflower");
+                    Transform l1 = up_front.Find("l1"), l2 = up_front.Find("l2"), l3 = up_front.Find("l3"), l4 = up_front.Find("l4");
+
+                    yield return new WaitForSeconds(3);
+
+                    treeflower.GetComponent<Animator>().SetTrigger("fadeIn"); //override original fadeIn; fade in color
+                    l1.GetComponent<Animator>().SetTrigger("fadeIn");
+                    l2.GetComponent<Animator>().SetTrigger("fadeIn");
+                    l3.GetComponent<Animator>().SetTrigger("fadeIn");
+                    l4.GetComponent<Animator>().SetTrigger("fadeIn");
+                    flowers1.GetComponent<Animator>().SetTrigger("fadeIn");
+                    bottomLeft.GetComponent<Animator>().SetTrigger("fadeIn");
+
+                    yield return new WaitForSeconds(7);
+
+                    muchaFilter.gameObject.SetActive(true);
+                    muchaFilter.GetComponent<Animator>().SetTrigger("fadeIn");
+
+                    yield return new WaitForSeconds(4);
+
+                    Animator hand = center.Find("hand").GetComponent<Animator>();
+                    imgSwitcher her = center.Find("her").GetComponent<imgSwitcher>();
+
+                    hand.SetTrigger("action2"); //fist
+
+                    yield return new WaitForSeconds(2);
+                    camMovement.vfx.Play("blink");
+
+                    yield return new WaitForSeconds(1);
+                    camMovement.cam.Play("camGardenNod");
+
+
+                    yield return new WaitForSeconds(1f);
+                    her.switchToImgState(1);
+
+                    yield return new WaitForSeconds(1f);
+                    her.switchToImgState(0);
+
+                    yield return new WaitForSeconds(1f);
+                    her.GetComponent<Animator>().SetTrigger("fadeOut");
+                    her.transform.Find("her_shadow").GetComponent<Animator>().SetTrigger("fadeOut");
+
+                    yield return new WaitForSeconds(3f);
+                    camMovement.vfx.Play("blink2x");
+                }
+
+                var1 += 1;
+            }
+            else
+            {
+                int rand = Random.Range(2, 5);
+
+                myAnimator.SetTrigger("action" + rand);
+
+            }
         }
+
+
     }
 
 
