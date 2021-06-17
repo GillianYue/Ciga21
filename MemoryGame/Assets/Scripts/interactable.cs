@@ -48,9 +48,16 @@ public class interactable : MonoBehaviour
                         if(var1 == 0) //if flower already clicked before this, will set var1 to 1
                         myAnimator.Play("lawnFloIdle");    } )));
             
+        }else if (transform.GetChild(0).name.Equals("plant"))
+        {
+            StartCoroutine(Global.Chain(this,
+                    Global.WaitForSeconds(Random.Range(0f, 2f)),
+                    Global.Do(() => {
+                        GetComponent<Animator>().Play("plant1");
+                    })));
         }
 
-        if(name.Equals("ballAnimator") || name.Equals("stickAnimator"))
+        else if (name.Equals("ballAnimator") || name.Equals("stickAnimator"))
         {
             myAnimator.SetTrigger("action1"); //idle state
         }
@@ -764,8 +771,74 @@ public class interactable : MonoBehaviour
             case "rightHandFlowers":
                 myAnimator.SetTrigger("fadeOut");
                 //TODO hand anim out, show hand anim
+                break;
 
+            case "her_bench_head":
+                transform.parent.GetComponent<Animator>().Play("girl_bench_disappear");
+                HideAndSeek has = camMovement.edgeScroller.transform.GetComponent<HideAndSeek>();
+                has.hideStatus = -1;
+                has.found[0] = true;
+                break;
 
+            case "her_flo":
+                myAnimator.SetTrigger("action4");
+                HideAndSeek hs = camMovement.edgeScroller.transform.GetComponent<HideAndSeek>();
+                hs.hideStatus = -1;
+                hs.found[1] = true;
+
+                //arrange for bush interact
+                globalState.gardenScene.transform.Find("right").Find("flo_separated").GetComponent<Animator>().Play("plant3");
+                Transform p2 = globalState.gardenScene.transform.Find("right").Find("plants").Find("p2");
+                p2.GetComponent<Animator>().Play("plant2");
+                p2.GetComponent<Collider2D>().enabled = true;
+                break;
+
+            case "p2": //garden scene hide reveal
+                HideAndSeek hass = FindObjectOfType<HideAndSeek>();
+                hass.girl_bush.gameObject.SetActive(true);
+                hass.girl_bush.SetTrigger("action2");
+
+                hass.found[2] = true;
+
+                GetComponent<Collider2D>().enabled = false;
+                globalState.gardenScene.transform.Find("right").Find("flo_separated").GetChild(0).GetComponent<imgSwitcher>().switchToImgState(1);
+                break;
+            case "door":
+                if (!transform.Find("open_door").gameObject.activeSelf)
+                {
+                    transform.Find("open_door").gameObject.SetActive(true);
+                    GetComponent<imgSwitcher>().switchToImgState(1);
+                }
+                else
+                {
+                    transform.Find("open_door").gameObject.SetActive(false);
+                    GetComponent<imgSwitcher>().switchToImgState(0);
+                }
+                break;
+            case "her_sign":
+                HideAndSeek hss = FindObjectOfType<HideAndSeek>();
+
+                myAnimator.SetTrigger("action1");
+                hss.found[3] = true;
+                GetComponent<Collider2D>().enabled = false;
+
+                break;
+            case "her": //post hide and seek
+                GetComponent<Collider2D>().enabled = false;
+                yield return new WaitForSeconds(1.5f);
+
+                camMovement.camHolder.enabled = false; //to prevent locking of cam's position anymore
+                camMovement.vfx.Play("blink");
+                camMovement.cam.Play("camGardenWalkUp");
+
+                yield return new WaitForSeconds(1.5f);
+                camMovement.enable.darkCover.Play("fadeIn");
+
+                //transition to closeup subscene
+                yield return new WaitForSeconds(4f);
+
+                camMovement.enable.setUpLevel(7, true);
+                camMovement.enable.darkCover.Play("fadeOut");
 
                 break;
         }
@@ -868,11 +941,10 @@ public class interactable : MonoBehaviour
                 myAnimator.SetTrigger("action1");
                 globalState.gardenSceneFlowerCount += 1;
 
-                if(globalState.gardenSceneFlowerCount >= 14) //total num flo
+                if(globalState.gardenSceneFlowerCount >= 14) //total num flo; effect
                 {
                     //trigger effect
                     //TODO sfx
-                    print("flo done");
 
                     Transform center = globalState.gardenScene.transform.Find("center");
                     Transform up_front = center.Find("up_front"), flowers1 = center.Find("flowers1"), bottomLeft = center.Find("bottomLeft"),
@@ -923,6 +995,11 @@ public class interactable : MonoBehaviour
 
                     yield return new WaitForSeconds(3f);
                     camMovement.vfx.Play("blink2x");
+
+                    yield return new WaitForSeconds(2f);
+
+                    camMovement.edgeScroller.enableEdgeScroller();
+                    camMovement.edgeScroller.transform.GetComponent<HideAndSeek>().startHideAndSeek();
                 }
 
                 var1 += 1;

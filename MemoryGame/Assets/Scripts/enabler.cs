@@ -14,6 +14,8 @@ public class enabler : MonoBehaviour
     public GameObject startCanvas;
     public StartDialogueClickThrough startDialogue;
 
+    public Animator[] startMenuFocusObjects; //photo, mdc and report
+
     private void Awake()
     {
         if (cam == null) cam = FindObjectOfType<CamMovement>();
@@ -39,6 +41,11 @@ public class enabler : MonoBehaviour
     {
         startDialogue.gameObject.SetActive(true);
         startDialogue.enableStartDialogue();
+
+        foreach(Animator a in startMenuFocusObjects)
+        {
+            a.GetComponent<Collider2D>().enabled = false;
+        }
     }
 
 
@@ -116,44 +123,51 @@ public class enabler : MonoBehaviour
                 break;
 
             case 7: //garden
-                cam.GetComponent<MouseBasedCamShift>().active = false; //first turn off cam pan
-                globalState.globalClickable = false; //disable until opening done
+                if (!subScene)
+                {
+                    cam.GetComponent<MouseBasedCamShift>().active = false; //first turn off cam pan
+                    cam.camHolder.GetComponent<Animator>().enabled = false;
+                    globalState.globalClickable = false; //disable until opening done
 
-                cam.cam.Play("camGardenStart"); //art stare
-                yield return new WaitForSeconds(7);
+                    cam.cam.Play("camGardenStart"); //art stare
+                    yield return new WaitForSeconds(7);
 
-                cam.cam.Play("camGardenStartZoomOut");
-                yield return new WaitForSeconds(3);
+                    cam.cam.Play("camGardenStartZoomOut");
+                    yield return new WaitForSeconds(3);
 
-                //enable flyer pan
-                Transform flyer = globalState.gardenScene.transform.Find("center").Find("flyer");
-                flyer.GetComponent<MouseBasedCamShift>().active = true;
-                cam.GetComponent<MouseBasedCamShift>().active = true;
+                    //enable flyer pan
+                    Transform flyer = globalState.gardenScene.transform.Find("center").Find("flyer");
+                    flyer.GetComponent<MouseBasedCamShift>().active = true;
+                    cam.GetComponent<MouseBasedCamShift>().active = true;
 
-                yield return new WaitForSeconds(4);
+                    yield return new WaitForSeconds(4);
 
-                flyer.GetChild(0).GetComponent<Animator>().Play("flyerEntry");
+                    flyer.GetChild(0).GetComponent<Animator>().Play("flyerEntry");
 
-                yield return new WaitForSeconds(4);
+                    yield return new WaitForSeconds(4);
 
-                Transform hand = globalState.gardenScene.transform.Find("center").Find("hand");
+                    Transform hand = globalState.gardenScene.transform.Find("center").Find("hand");
 
-                hand.gameObject.SetActive(true);
-                hand.GetComponent<Animator>().SetTrigger("action1"); //greet; will set global clickable true
+                    hand.gameObject.SetActive(true);
+                    hand.GetComponent<Animator>().SetTrigger("action1"); //greet; will set global clickable true
 
-                yield return new WaitForSeconds(4);
-                
-                cam.cam.Play("nervousBreathe");
-                cam.cam.Play("camGardenGazeShift");
+                    yield return new WaitForSeconds(4);
 
-                yield return new WaitForSeconds(2);
-                cam.vfx.Play("blink2x");
-                yield return new WaitForSeconds(6);
-                flyer.gameObject.SetActive(false);
-                cam.cam.SetTrigger("stopBreathe");
+                    cam.cam.Play("nervousBreathe");
+                    cam.cam.Play("camGardenGazeShift");
 
-                globalState.globalClickable = true;
+                    yield return new WaitForSeconds(2);
+                    cam.vfx.Play("blink2x");
+                    yield return new WaitForSeconds(8);
+                    flyer.gameObject.SetActive(false);
+                    cam.cam.SetTrigger("stopBreathe");
 
+                    globalState.globalClickable = true;
+                }
+                else
+                {
+                    gs.revealAndHideStuff(7, false, false); //hide main lv stuff
+                }
                 break;
             case 8: //bicker
 

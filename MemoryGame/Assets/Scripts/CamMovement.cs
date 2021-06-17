@@ -7,11 +7,14 @@ public class CamMovement : MonoBehaviour
 {
     public GameObject gameControl;
     globalStateStore globalStates;
+    public enabler enable;
 
     public Screenshake screenshake;
     public MouseBasedCamShift mouseBasedCamShift; //natural breathing effect for cam
 
-    public Animator cam;
+    public edgeScroller edgeScroller;
+
+    public Animator cam, camHolder;
     public Animator vfx;
 
     public Vector3 destPos; //cam will always move towards this pos
@@ -21,16 +24,17 @@ public class CamMovement : MonoBehaviour
 
     public bool followActive; //will always be following destPos
 
-
-
     private void Awake()
     {
         if (gameControl == null) gameControl = GameObject.FindGameObjectWithTag("GameController");
+        if (enable == null) enable = gameControl.GetComponent<enabler>();
         if (globalStates == null) globalStates = gameControl.GetComponent<globalStateStore>();
         if (screenshake == null) screenshake = GetComponent<Screenshake>();
         if (mouseBasedCamShift == null) mouseBasedCamShift = GetComponent<MouseBasedCamShift>();
+        if (edgeScroller == null) edgeScroller = FindObjectOfType<edgeScroller>();
 
         if (cam == null) cam = transform.GetChild(0).GetComponent<Animator>();
+        if (camHolder == null) camHolder = GetComponent<Animator>();
         if (vfx == null) Debug.LogError("vfx animator not assigned");
 
         if (followSpeedPercent == 0) followSpeedPercent = 0.05f;
@@ -201,14 +205,16 @@ public class CamMovement : MonoBehaviour
         if (dt.pBreatheActive) mouseBasedCamShift.startCamShift();
         if (dt.pFollowActive) destPos = dt.pDest;
     }
+
+
+    public void edgeScrollerArrive(int destLv) { edgeScroller.active = true; edgeScroller.currSubsceneIndex = destLv;  }
 }
 
 //temporarily stores data on camMovement before a (non)linear movement is about to begin
 //cam movement will restore to prev settings based on this
 public class CamMovementData
 {
-    public bool pFollowActive,
-    pBreatheActive;
+    public bool pFollowActive, pBreatheActive;
 
     public Vector3 pDest;
 

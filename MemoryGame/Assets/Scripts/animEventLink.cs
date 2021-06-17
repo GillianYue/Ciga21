@@ -22,6 +22,14 @@ public class animEventLink : MonoBehaviour
         {
             GetComponent<Animator>().SetTrigger("action" + name[1]);
          //   GetComponent<Animator>().SetTrigger("fadeIn"); //fades in lavendar color
+        }else if (transform.GetChild(0).name.Equals("bush"))
+        {
+            StartCoroutine(Global.Chain(this,
+                    Global.WaitForSeconds(Random.Range(0f, 2f)),
+                    Global.Do(() => {
+                        GetComponent<Animator>().Play("bush" + (Random.Range(1, 3)));
+                    })));
+
         }
     }
 
@@ -111,4 +119,6 @@ public class animEventLink : MonoBehaviour
     public void setGlobalClickableTrue() { globalState.globalClickable = true; }
 
     public void setGlobalClickableFalse() { globalState.globalClickable = false; }
+
+
 }
