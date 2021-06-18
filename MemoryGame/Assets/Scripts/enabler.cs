@@ -99,32 +99,39 @@ public class enabler : MonoBehaviour
             case 1: //dine
                 GetComponent<AudioManager>().playSFX(1, 7);
 
+                darkCover.SetTrigger("fadeOut");
                 break;
             case 2: //vase
                 GetComponent<AudioManager>().stopSFX(1, 7);
 
                 globalState.vaseScene.transform.Find("soccer").GetComponent<Animator>().SetTrigger("action1"); //start bounce
 
+                darkCover.SetTrigger("fadeOut");
                 break;
             case 3: //tree
                 if (subScene) gs.revealAndHideStuff(3, false, false); //hide main lv stuff
 
-
+                darkCover.SetTrigger("fadeOut");
                 break;
             case 4: //band
 
+                darkCover.SetTrigger("fadeOut");
                 break;
 
             case 5: //sea
 
+                darkCover.SetTrigger("fadeOut");
                 break;
             case 6: //pup
 
+                darkCover.SetTrigger("fadeOut");
                 break;
 
             case 7: //garden
                 if (!subScene)
                 {
+                    darkCover.SetTrigger("fadeOut");
+
                     cam.GetComponent<MouseBasedCamShift>().active = false; //first turn off cam pan
                     cam.camHolder.GetComponent<Animator>().enabled = false;
                     globalState.globalClickable = false; //disable until opening done
@@ -167,29 +174,35 @@ public class enabler : MonoBehaviour
                 else
                 {
                     gs.revealAndHideStuff(7, false, false); //hide main lv stuff
+                    darkCover.SetTrigger("fadeOut");
                 }
                 break;
             case 8: //bicker
 
+                darkCover.SetTrigger("fadeOut");
                 break;
 
             case 9: //park
+
                 GetComponent<AudioManager>().playSFX(9, 1);
 
                 yield return new WaitForSeconds(7);
                 GetComponent<BlurManager>().leaf.onClick(); //will trigger leaf fall
 
+                darkCover.SetTrigger("fadeOut");
                 break;
             case 10: //graveyard
 
+                darkCover.SetTrigger("fadeOut");
                 break;
             case 11: //home/mirror
 
+                darkCover.SetTrigger("fadeOut");
                 break;
         }
 
 
-        darkCover.SetTrigger("fadeOut");
+        
 
     }
 

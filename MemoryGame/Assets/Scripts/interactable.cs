@@ -770,7 +770,13 @@ public class interactable : MonoBehaviour
             /////////////////////
             case "rightHandFlowers":
                 myAnimator.SetTrigger("fadeOut");
-                //TODO hand anim out, show hand anim
+                GetComponent<interactable>().clickable = false;
+                yield return new WaitForSeconds(2);
+
+                Transform scene = globalState.gardenCloseupScene.transform;
+                scene.Find("hand").GetComponent<Animator>().SetTrigger("action1"); //hand out
+                scene.Find("herCloseup").GetComponent<interactable>().clickable = true;
+
                 break;
 
             case "her_bench_head":
@@ -824,7 +830,11 @@ public class interactable : MonoBehaviour
 
                 break;
             case "her": //post hide and seek
+
                 GetComponent<Collider2D>().enabled = false;
+                //camMovement.enable.darkCover.enabled = true;
+                //camMovement.enable.darkCover.Play("idle");
+
                 yield return new WaitForSeconds(1.5f);
 
                 camMovement.camHolder.enabled = false; //to prevent locking of cam's position anymore
@@ -837,8 +847,53 @@ public class interactable : MonoBehaviour
                 //transition to closeup subscene
                 yield return new WaitForSeconds(4f);
 
+                
                 camMovement.enable.setUpLevel(7, true);
                 camMovement.enable.darkCover.Play("fadeOut");
+
+                break;
+            case "herCloseup":
+                if (var1 == 0)
+                {
+                    GetComponent<Animator>().SetTrigger("action1"); //turn
+                    GetComponent<interactable>().clickable = false;
+
+                    var1 = 1;
+
+                    Transform closeupScene = globalState.gardenCloseupScene.transform;
+                    Animator handCloseup = closeupScene.Find("hand").GetComponent<Animator>(),
+                        mucha = closeupScene.Find("mucha_filter").GetComponent<Animator>(), klimt = closeupScene.Find("klimt").GetComponent<Animator>();
+
+
+                    yield return new WaitForSeconds(1f);
+                    handCloseup.SetTrigger("action2"); //quick hide
+
+                    yield return new WaitForSeconds(3f);
+                    camMovement.vfx.Play("blink");
+                    yield return new WaitForSeconds(7f);
+
+                    mucha.gameObject.SetActive(true);
+                    mucha.Play("muchaFadeIn");
+                    yield return new WaitForSeconds(10f);
+                    handCloseup.SetTrigger("action1"); //offer flower
+
+                    yield return new WaitForSeconds(3f);
+                    GetComponent<interactable>().clickable = true;
+                }
+                else
+                {
+                    GetComponent<interactable>().clickable = false;
+                    globalState.gardenCloseupScene.transform.Find("hand").GetComponent<Animator>().SetTrigger("fadeOut");
+                    yield return new WaitForSeconds(3f);
+
+                    GetComponent<Animator>().SetTrigger("action2"); //wear flower
+                    yield return new WaitForSeconds(3f);
+
+                    //end scene transition
+                }
+
+                
+
 
                 break;
         }
@@ -941,7 +996,9 @@ public class interactable : MonoBehaviour
                 myAnimator.SetTrigger("action1");
                 globalState.gardenSceneFlowerCount += 1;
 
-                if(globalState.gardenSceneFlowerCount >= 14) //total num flo; effect
+                var1 += 1;
+
+                if (globalState.gardenSceneFlowerCount >= 14) //total num flo; effect
                 {
                     //trigger effect
                     //TODO sfx
@@ -1002,7 +1059,7 @@ public class interactable : MonoBehaviour
                     camMovement.edgeScroller.transform.GetComponent<HideAndSeek>().startHideAndSeek();
                 }
 
-                var1 += 1;
+                
             }
             else
             {

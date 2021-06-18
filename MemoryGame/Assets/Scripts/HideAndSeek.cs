@@ -112,7 +112,7 @@ public class HideAndSeek : MonoBehaviour
         her.gameObject.SetActive(true);
         her.SetTrigger("fadeIn");
         her.GetComponent<Collider2D>().enabled = true;
-
+        her.GetComponent<interactable>().clickable = true;
 
     }
 }

@@ -20,8 +20,11 @@ public class animEventLink : MonoBehaviour
     {
         if(name[0] == 'l' && transform.parent.name.Equals("up_front"))
         {
+
             GetComponent<Animator>().SetTrigger("action" + name[1]);
          //   GetComponent<Animator>().SetTrigger("fadeIn"); //fades in lavendar color
+
+
         }else if (transform.GetChild(0).name.Equals("bush"))
         {
             StartCoroutine(Global.Chain(this,
@@ -30,6 +33,12 @@ public class animEventLink : MonoBehaviour
                         GetComponent<Animator>().Play("bush" + (Random.Range(1, 3)));
                     })));
 
+        }else if(name[0] == 'f' && transform.parent.name.Equals("foxtail"))
+        {
+            GetComponent<Animator>().SetTrigger("action" + Random.Range(1, 5));
+        }else if (name.Equals("bushesCloseup"))
+        {
+            GetComponent<Animator>().SetTrigger("action1");
         }
     }
 
