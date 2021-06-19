@@ -48,7 +48,7 @@ public class interactable : MonoBehaviour
                         if(var1 == 0) //if flower already clicked before this, will set var1 to 1
                         myAnimator.Play("lawnFloIdle");    } )));
             
-        }else if (transform.GetChild(0).name.Equals("plant"))
+        }else if (transform.childCount > 0 && transform.GetChild(0).name.Equals("plant"))
         {
             StartCoroutine(Global.Chain(this,
                     Global.WaitForSeconds(Random.Range(0f, 2f)),
@@ -892,9 +892,16 @@ public class interactable : MonoBehaviour
                     //end scene transition
                 }
 
-                
+                break;
+            /////////////////////
+            case "sunImage":
+                if(var1 < 3)
+                {
+                    transform.parent.parent.GetComponent<Animator>().Play("sunset" + (var1 + 1)); //find the actual sun GO which carries the animator
+                    var1 += 1;
 
-
+                    if (var1 == 3) clickable = false; //disable sun interact after fades out
+                }
                 break;
         }
 

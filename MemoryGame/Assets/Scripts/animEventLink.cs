@@ -123,7 +123,138 @@ public class animEventLink : MonoBehaviour
                     {
                         camMovement.vfx.Play("focusOnHer");
                     })));
-                }
+    }
+
+    public void sunsetDone()
+    {
+        StartCoroutine(sunsetDoneCoroutine());
+    }
+
+    IEnumerator sunsetDoneCoroutine()
+    {
+
+        yield return new WaitForSeconds(2);
+        //play sfx, footsteps and voice
+
+        yield return new WaitForSeconds(2);
+
+        camMovement.camHolder.Play("camShiftRight"); //turn right
+        yield return new WaitForSeconds(2);
+
+        Transform f1 = globalState.seaScene.transform.Find("beach/friend1"), f2 = globalState.seaScene.transform.Find("beach/friend2"),
+            f3 = globalState.seaScene.transform.Find("beach/friend3");
+
+        f3.gameObject.SetActive(true);
+        f3.GetComponent<Animator>().SetTrigger("hide"); //hide sprite for friend 3
+        f3.Find("light").gameObject.SetActive(false); //hide reflection
+
+        Transform stand = f3.Find("friend3Standing");
+        stand.gameObject.SetActive(true);
+        stand.GetComponent<Animator>().SetTrigger("fadeIn");
+
+        yield return new WaitForSeconds(3);
+        f2.GetComponent<imgSwitcher>().switchToImgState(1);
+
+        yield return new WaitForSeconds(1.5f);
+        f1.GetComponent<imgSwitcher>().switchToImgState(2); //looking at 3
+
+        yield return new WaitForSeconds(3);
+        stand.GetComponent<Animator>().SetTrigger("fadeOut");
+        f2.GetComponent<imgSwitcher>().switchToImgState(2); //take beer
+        yield return new WaitForSeconds(1.5f);
+        f1.GetComponent<imgSwitcher>().switchToImgState(3); //take beer
+        Transform friendBeer = f1.Find("beer");
+        friendBeer.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(5);
+        Transform hand = globalState.seaScene.transform.Find("hand_beer");
+        hand.gameObject.SetActive(true);
+        Animator handAnim = hand.GetChild(0).GetComponent<Animator>();
+        handAnim.SetTrigger("action1"); //hand out
+
+        yield return new WaitForSeconds(1.5f);
+        f3.GetComponent<Animator>().SetTrigger("fadeIn"); //fade in f3 sprite
+        f3.Find("light").GetComponent<Animator>().SetTrigger("fadeIn"); //will auto-transition to light flicker
+        yield return new WaitForSeconds(1.5f);
+        f3.GetComponent<imgSwitcher>().switchToImgState(1); 
+
+        yield return new WaitForSeconds(3);
+        camMovement.camHolder.Play("camShiftLeftBack");
+        yield return new WaitForSeconds(4);
+
+        camMovement.camHolder.enabled = false;
+        camMovement.cam.Play("camBeerDrink"); 
+        //TODO sfx
+        yield return new WaitForSeconds(3);
+
+        camMovement.camHolder.enabled = true;
+
+        camMovement.camHolder.Play("camShiftDown");
+
+        yield return new WaitForSeconds(4);
+        camMovement.camHolder.Play("camShiftUp");
+
+        yield return new WaitForSeconds(3);
+        //TODO sfx to the right
+        camMovement.camHolder.Play("camShiftRight"); //turn right
+
+        handAnim.SetTrigger("action1"); //out
+
+        yield return new WaitForSeconds(1);
+        friendBeer.GetComponent<Animator>().SetTrigger("action1"); //raise
+
+        yield return new WaitForSeconds(3);
+
+        handAnim.enabled = false;
+        handAnim.GetComponent<MouseBasedCamShift>().active = true; //enable mouse based movement
+
+        yield return new WaitUntil(() => { return (Vector2.Distance(hand.position, friendBeer.position) < 50); });
+        //TODO check above
+
+        //TODO sfx of chatter
+        //blur
+
+        yield return new WaitForSeconds(5);
+        camMovement.camHolder.Play("camShiftLeftBack");
+        yield return new WaitForSeconds(3);
+        enable.darkCover.SetTrigger("fadeInSlow"); //very slowly fades to black
+
+        yield return new WaitForSeconds(5);
+
+        //set up for night
+        Transform sea = globalState.transform.Find("sea");
+        sea.Find("dusk").gameObject.SetActive(false);
+        sea.Find("night").gameObject.SetActive(true);
+        sea.Find("waves").GetComponent<Animator>().Play("wave1Hold"); //wave anim transition
+
+        //disable sunset reflections
+        friendBeer.gameObject.SetActive(false);
+        hand.gameObject.SetActive(false);
+        f3.Find("light").gameObject.SetActive(false);
+        f2.Find("light").gameObject.SetActive(false);
+        f1.Find("light").gameObject.SetActive(false);
+
+        camMovement.camHolder.Play("camShiftDown"); //so that when eyes open is staring at self
+
+        yield return new WaitForSeconds(3);
+        enable.darkCover.SetTrigger("fadeOutSlow");
+
+        yield return new WaitForSeconds(3);
+        camMovement.vfx.Play("blink");
+        yield return new WaitForSeconds(1);
+
+        camMovement.camHolder.Play("camShiftUp");
+        yield return new WaitForSeconds(3);
+
+        camMovement.camHolder.Play("camShiftRight");
+        //TODO maybe sfx of voice "stars"
+        yield return new WaitForSeconds(3);
+
+        camMovement.camHolder.Play("camShiftLeftBack");
+        yield return new WaitForSeconds(3);
+
+        //TODO start stars interact
+    }
 
     public void setGlobalClickableTrue() { globalState.globalClickable = true; }
 

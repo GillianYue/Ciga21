@@ -119,18 +119,26 @@ public class enabler : MonoBehaviour
                 break;
 
             case 5: //sea
+                globalState.seaScene.transform.Find("beach/friend3").gameObject.SetActive(false);
+                globalState.seaScene.transform.Find("hand_beer").gameObject.SetActive(false);
+
                 yield return new WaitForSeconds(3);
                 darkCover.gameObject.SetActive(false);
                 cam.vfx.Play("blinkOpenEyes");
 
-                yield return new WaitForSeconds(8);
+                yield return new WaitForSeconds(16);
 
-                cam.cam.Play("camShift0to1"); //turn right
-                yield return new WaitForSeconds(3);
+                cam.camHolder.enabled = true; //needs cam holder to be active 
+
+                cam.camHolder.Play("camShiftRight"); //turn right
+                yield return new WaitForSeconds(5);
                 cam.vfx.Play("blink");
 
-                yield return new WaitForSeconds(1.5f);
-                cam.cam.Play("camShift1to0"); //turn back
+                yield return new WaitForSeconds(5f);
+                cam.camHolder.Play("camShiftLeftBack"); //turn back
+
+                Transform sun = globalState.seaScene.transform.Find("sea/dusk/sun/sunMask/sunImage");
+                sun.GetComponent<interactable>().clickable = true; //enable sun interact
 
 
                 break;
