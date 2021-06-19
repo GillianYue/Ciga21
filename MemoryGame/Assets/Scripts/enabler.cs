@@ -119,8 +119,20 @@ public class enabler : MonoBehaviour
                 break;
 
             case 5: //sea
+                yield return new WaitForSeconds(3);
+                darkCover.gameObject.SetActive(false);
+                cam.vfx.Play("blinkOpenEyes");
 
-                darkCover.SetTrigger("fadeOut");
+                yield return new WaitForSeconds(8);
+
+                cam.cam.Play("camShift0to1"); //turn right
+                yield return new WaitForSeconds(3);
+                cam.vfx.Play("blink");
+
+                yield return new WaitForSeconds(1.5f);
+                cam.cam.Play("camShift1to0"); //turn back
+
+
                 break;
             case 6: //pup
 
