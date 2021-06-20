@@ -245,7 +245,9 @@ public class animEventLink : MonoBehaviour
 
         enable.darkCover.enabled = true;
 
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(2);
+        camMovement.vfx.Play("blink");
+        yield return new WaitForSeconds(1);
 
         enable.darkCover.SetTrigger("fadeInSlow"); //very slowly fades to black
         Transform sea = globalState.seaScene.transform.Find("sea"),
@@ -302,7 +304,10 @@ public class animEventLink : MonoBehaviour
         camMovement.camHolder.Play("camShiftLeftBack");
         yield return new WaitForSeconds(3);
 
-        //TODO start stars interact
+        //hide friends, no longer needed in game
+        f1.gameObject.SetActive(false);
+        f2.gameObject.SetActive(false);
+        f3.gameObject.SetActive(false);
 
         Transform handPoint = globalState.seaScene.transform.Find("hand_point");
         handPoint.gameObject.SetActive(true);

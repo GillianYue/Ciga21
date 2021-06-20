@@ -6,12 +6,14 @@ public class starsManager : MonoBehaviour
 {
     public Animator[] stars;
     public int currActiveStarIndex;
+    public CamMovement camMovement;
 
     public globalStateStore globalState;
 
     void Start()
     {
         if (globalState == null) globalState = FindObjectOfType<globalStateStore>();
+        if (camMovement == null) camMovement = FindObjectOfType<CamMovement>();
     }
 
     void Update()
@@ -54,7 +56,7 @@ public class starsManager : MonoBehaviour
 
     public IEnumerator revealStarBatch(int which)
     {
-
+        //TODO bgm
         yield return new WaitForSeconds(1);
 
         Transform s = globalState.seaScene.transform.Find("sea/night/starsBatch"+which);
@@ -66,5 +68,52 @@ public class starsManager : MonoBehaviour
 
         globalState.globalClickable = true;
 
+        if (which == 3)
+        {
+
+            yield return new WaitForSeconds(8);
+
+
+
+            yield return new WaitForSeconds(1);
+
+            camMovement.camHolder.gameObject.SetActive(true);
+            camMovement.camHolder.Play("camShiftRight");
+
+            yield return new WaitForSeconds(3);
+
+            camMovement.vfx.Play("blink");
+
+            yield return new WaitForSeconds(1);
+
+
+            //setup friends stuff
+            imgSwitcher fds = globalState.seaScene.transform.Find("beach/friends_away").GetComponent<imgSwitcher>();
+            fds.gameObject.SetActive(true);
+            fds.GetComponent<Animator>().SetTrigger("fadeIn");
+
+            yield return new WaitForSeconds(2);
+
+            camMovement.vfx.Play("blink");
+
+            yield return new WaitForSeconds(2);
+
+            fds.switchToImgState(1);
+
+            yield return new WaitForSeconds(2);
+
+            fds.switchToImgState(2);
+
+            yield return new WaitForSeconds(3);
+
+            camMovement.vfx.Play("blink");
+
+            yield return new WaitForSeconds(3);
+
+            camMovement.vfx.Play("blink");
+
+            yield return new WaitForSeconds(2);
+
+        }
     }
 }
