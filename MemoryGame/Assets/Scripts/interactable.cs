@@ -351,9 +351,6 @@ public class interactable : MonoBehaviour
 
 
 
-
-
-
     IEnumerator customBehavior()
     {
         switch (name)
@@ -364,7 +361,7 @@ public class interactable : MonoBehaviour
                     print("play child sigh sfx");
                     if (Random.Range(0f, 1f) < 0.5f)
                     {
-                        myAnimator.SetTrigger("action" + ((Random.Range(0f, 1f) < 0.5f)? "2":"3")); //slight bounce or rotate
+                        myAnimator.SetTrigger("action" + ((Random.Range(0f, 1f) < 0.5f) ? "2" : "3")); //slight bounce or rotate
 
                     }
                 }
@@ -395,7 +392,7 @@ public class interactable : MonoBehaviour
 
                     //TODO fade in of mask
                     //blanket masks
-                    
+
                     blkt.transform.Find("mask1").gameObject.SetActive(true);
                     blkt.GetComponent<Animator>().SetTrigger("action1"); //mask anim
 
@@ -408,11 +405,11 @@ public class interactable : MonoBehaviour
                     blkt.GetComponent<Animator>().SetTrigger("fadeOut");
                     yield return new WaitForSeconds(2);
 
-                    
+
 
                     //unveil
                     ma.GetComponent<imgSwitcher>().switchToImgState(1);
-                    
+
 
                     yield return new WaitForSeconds(3);
                     ma.GetComponent<imgSwitcher>().switchToImgState(0); //questioning look
@@ -502,7 +499,7 @@ public class interactable : MonoBehaviour
 
 
                     yield return new WaitForSeconds(8);
-                    camMovement.cam.Play("vaseSceneEndZoom"); 
+                    camMovement.cam.Play("vaseSceneEndZoom");
                     //sfx thud
                     yield return new WaitForSeconds(4);
                     ma.GetComponent<imgSwitcher>().switchToImgState(4);
@@ -532,31 +529,31 @@ public class interactable : MonoBehaviour
                         pzl.GetComponent<Animator>().Play("fadeIn"); //override controller
                     })));
 
-                } 
+                }
                 else if (timesClicked == 2) //second time click breaks it again
                 {
 
                     //sfx
 
-                        StartCoroutine(Global.Chain(this, 
-                        Global.WaitForSeconds(1f),
-                        Global.Do(() =>
-                        {
+                    StartCoroutine(Global.Chain(this,
+                    Global.WaitForSeconds(1f),
+                    Global.Do(() =>
+                    {
                             //vase broken again
                             GetComponent<imgSwitcher>().switchToImgState(0);
-                            Transform flo = transform.Find("flowers");
-                            flo.GetComponent<Animator>().enabled = false;
-                            flo.Find("Image").GetComponent<Image>().color = new Color(1, 1, 1, 1);
-                            flo.Find("Image (1)").GetComponent<Image>().color = new Color(1, 1, 1, 1);
-                        }), 
-                            Global.WaitForSeconds(2f),
-                            //TODO blink, slight shake of cam
-                           camMovement.glanceAndMoveBack(new Vector2(-200, 60), 0.1f),
-                            
-                            Global.Do(() => { 
-                                globalState.vaseScene.transform.Find("sofa").GetComponent<interactable>().clickable = true; //enable sofa click
+                        Transform flo = transform.Find("flowers");
+                        flo.GetComponent<Animator>().enabled = false;
+                        flo.Find("Image").GetComponent<Image>().color = new Color(1, 1, 1, 1);
+                        flo.Find("Image (1)").GetComponent<Image>().color = new Color(1, 1, 1, 1);
+                    }),
+                        Global.WaitForSeconds(2f),
+                       //TODO blink, slight shake of cam
+                       camMovement.glanceAndMoveBack(new Vector2(-200, 60), 0.1f),
+
+                        Global.Do(() => {
+                            globalState.vaseScene.transform.Find("sofa").GetComponent<interactable>().clickable = true; //enable sofa click
                             })
-                        ));
+                    ));
                 }
 
                 break;
@@ -569,7 +566,7 @@ public class interactable : MonoBehaviour
 
                 break;
             case "leaf3":
-                if(Random.Range(0f, 1f) < 0.5f)
+                if (Random.Range(0f, 1f) < 0.5f)
                 {
                     myAnimator.SetTrigger("action1");
                 }
@@ -580,11 +577,11 @@ public class interactable : MonoBehaviour
                 break;
 
             case "bird":
-                if(var1 == 0)
+                if (var1 == 0)
                 {
                     myAnimator.SetTrigger("action1");
                     //sfx
-                }else if(var1 == 1) //feedable
+                } else if (var1 == 1) //feedable
                 {
                     myAnimator.SetTrigger("action1");
                     globalState.treeScene.transform.Find("hand_reach").GetComponent<Animator>().SetTrigger("action4");
@@ -619,11 +616,11 @@ public class interactable : MonoBehaviour
 
                     yield return new WaitForSeconds(0.5f);
                     bird.GetComponent<Animator>().SetTrigger("action1");
-                }else if(var1 == 1) //fed and clicks egg
+                } else if (var1 == 1) //fed and clicks egg
                 {
                     //something magical
                     print("something magical");
-                    
+
                     rech.GetComponent<Animator>().SetTrigger("action2");
                     yield return new WaitForSeconds(1f);
                     camMovement.cam.Play("camTreeFall"); //the fall
@@ -660,7 +657,7 @@ public class interactable : MonoBehaviour
 
                 else if (var1 == 0) //on lawn
                 {
-                    if((!(var3 >= 3 && var2 == 0)) && (timesClicked == 1 || Random.Range(0f, 1f) < 0.5f)) //either first encounter or 50% chance will perform hold, or too many throws with no play
+                    if ((!(var3 >= 3 && var2 == 0)) && (timesClicked == 1 || Random.Range(0f, 1f) < 0.5f)) //either first encounter or 50% chance will perform hold, or too many throws with no play
                     {
                         transform.parent.SetAsLastSibling(); //so that item sprite on top of hand
 
@@ -683,9 +680,9 @@ public class interactable : MonoBehaviour
                     else
                     {
                         //play
-                            myAnimator.SetTrigger("fadeOut");
+                        myAnimator.SetTrigger("fadeOut");
 
-                            pup.Play("dPlayBall");
+                        pup.Play("dPlayBall");
                         var2 += 1; //indicates play ball happened (once more)
                     }
                 }
@@ -701,7 +698,7 @@ public class interactable : MonoBehaviour
                 {
 
                     //50% chance fetch 50% chance play, or too many plays with no throw (will avoid if too many throws with no play)
-                    if ( (!(var2 >= 3 && var3 == 0)) && ((var3 >= 3 && var2 == 0) || Random.Range(0f, 1f) < 0.5f))
+                    if ((!(var2 >= 3 && var3 == 0)) && ((var3 >= 3 && var2 == 0) || Random.Range(0f, 1f) < 0.5f))
                     {
 
                         transform.parent.SetAsLastSibling(); //so that item sprite on top of hand
@@ -847,7 +844,7 @@ public class interactable : MonoBehaviour
                 //transition to closeup subscene
                 yield return new WaitForSeconds(4f);
 
-                
+
                 camMovement.enable.setUpLevel(7, true);
                 camMovement.enable.darkCover.Play("fadeOut");
 
@@ -895,7 +892,7 @@ public class interactable : MonoBehaviour
                 break;
             /////////////////////
             case "sunImage":
-                if(var1 < 3)
+                if (var1 < 3)
                 {
                     transform.parent.parent.GetComponent<Animator>().Play("sunset" + (var1 + 1)); //find the actual sun GO which carries the animator
                     var1 += 1;
@@ -920,7 +917,7 @@ public class interactable : MonoBehaviour
                 myAnimator.Play("lawnFlo1");
                 var1 = 1;
             }
-            else if(rd <= 0.666f)
+            else if (rd <= 0.666f)
             {
                 myAnimator.Play("lawnFlo2");
                 var1 = 1;
@@ -931,9 +928,9 @@ public class interactable : MonoBehaviour
                 var1 = 1;
             }
 
-            
 
-        }else if (parentName.Equals("pup")) //one of pup sprites
+
+        } else if (parentName.Equals("pup")) //one of pup sprites
         {
 
             if (name.Equals("d1") || name.Equals("d1.5"))
@@ -941,16 +938,16 @@ public class interactable : MonoBehaviour
                 transform.parent.GetComponent<Animator>().Play("dSit");
                 transform.parent.Find("d2").GetComponent<interactable>().var2 = 1; //mark as visited
 
-                globalState.StartCoroutine(Global.Chain(globalState, Global.Do(()=> globalState.globalClickable = false), 
-                    Global.WaitForSeconds(2.5f), 
-                    Global.Do(()=> globalState.globalClickable = true)));
+                globalState.StartCoroutine(Global.Chain(globalState, Global.Do(() => globalState.globalClickable = false),
+                    Global.WaitForSeconds(2.5f),
+                    Global.Do(() => globalState.globalClickable = true)));
 
             }
             else if (name.Equals("d2"))
             {
                 float rand = Random.Range(0f, 1f);
 
-                transform.parent.GetComponent<Animator>().Play((rand > 0.5f)? "dStand" : "dRollover");
+                transform.parent.GetComponent<Animator>().Play((rand > 0.5f) ? "dStand" : "dRollover");
                 if (rand > 0.5f) transform.parent.Find("d3").GetComponent<interactable>().var2 = 1;  //mark as visited
                 else transform.parent.Find("d1").GetComponent<interactable>().var2 = 1;  //mark as visited
 
@@ -973,7 +970,7 @@ public class interactable : MonoBehaviour
             d3 = transform.parent.Find("d3").GetComponent<interactable>();
 
             //if all three poses visited, unlock clickable on the two items
-            if(d1.var3 != 5 && d1.var2 == 1 && d2.var2 == 1 && d3.var2 == 1)
+            if (d1.var3 != 5 && d1.var2 == 1 && d2.var2 == 1 && d3.var2 == 1)
             {
                 Transform ball = globalState.pupScene.transform.Find("ball"), stick = globalState.pupScene.transform.Find("stick");
 
@@ -988,7 +985,7 @@ public class interactable : MonoBehaviour
                 d1.var3 = 5; //prevent this code from being reached again
             }
 
-        }else if (name[0] == 'n' && parentName.Equals("notes"))
+        } else if (name[0] == 'n' && parentName.Equals("notes"))
         {
             int noteIndex = int.Parse(name[1].ToString());
 
@@ -996,9 +993,9 @@ public class interactable : MonoBehaviour
             notesRecord.recordNote(noteIndex);
 
 
-        }else if (parentName.Equals("rose") || parentName.Equals("hibiscus"))
+        } else if (parentName.Equals("rose") || parentName.Equals("hibiscus"))
         {
-            if(var1 == 0)
+            if (var1 == 0)
             {
                 myAnimator.SetTrigger("action1");
                 globalState.gardenSceneFlowerCount += 1;
@@ -1066,7 +1063,7 @@ public class interactable : MonoBehaviour
                     camMovement.edgeScroller.transform.GetComponent<HideAndSeek>().startHideAndSeek();
                 }
 
-                
+
             }
             else
             {
@@ -1075,6 +1072,14 @@ public class interactable : MonoBehaviour
                 myAnimator.SetTrigger("action" + rand);
 
             }
+        } else if (parentName.Equals("stars"))
+        {
+            clickable = false; //disable star clicking check
+            starsManager starsManage = FindObjectOfType<starsManager>();
+
+            myAnimator.Play("starFound");
+            starsManage.currActiveStarIndex += 1;
+            starsManage.startStarCheck();
         }
 
 

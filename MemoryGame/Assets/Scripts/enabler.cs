@@ -123,7 +123,7 @@ public class enabler : MonoBehaviour
                 globalState.seaScene.transform.Find("hand_beer").gameObject.SetActive(false);
 
                 yield return new WaitForSeconds(3);
-                darkCover.gameObject.SetActive(false);
+                darkCover.enabled = false;
                 cam.vfx.Play("blinkOpenEyes");
 
                 yield return new WaitForSeconds(16);
