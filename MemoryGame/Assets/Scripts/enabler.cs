@@ -198,8 +198,21 @@ public class enabler : MonoBehaviour
                 }
                 break;
             case 8: //bicker
+                yield return new WaitForSeconds(2);
+                globalState.globalClickable = false;
+                //TODO sfx
+
+                yield return new WaitForSeconds(4);
 
                 darkCover.SetTrigger("fadeOut");
+
+                yield return new WaitForSeconds(6);
+
+                globalState.globalClickable = true;
+
+                //wait on click on her
+
+
                 break;
 
             case 9: //park

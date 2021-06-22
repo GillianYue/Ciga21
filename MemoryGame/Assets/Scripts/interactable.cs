@@ -900,6 +900,134 @@ public class interactable : MonoBehaviour
                     if (var1 == 3) clickable = false; //disable sun interact after fades out
                 }
                 break;
+
+            /////////////////////
+            case "faceaway":
+                clickable = false;
+
+                //disgruntled sfx
+                yield return new WaitForSeconds(3);
+
+                //cam zoom on nspp
+                //nspp fade
+                //enter closeup nspp
+
+                yield return new WaitForSeconds(2);
+
+                //toggle mouse shift
+
+                yield return new WaitUntil(() => {
+                    return (Vector2.Distance(Input.mousePosition, new Vector2(0, 0)) < 40); //TODO adjust
+                }); //wait until mouse scrolls to position that reveals face
+
+                //peek at "us" when discovered
+                Transform away = globalState.bickerScene.transform.Find("her/faceaway"), awayPeek = globalState.bickerScene.transform.Find("her/faceaway_peek"),
+                    normalSit = globalState.bickerScene.transform.Find("her/normalsit");
+                away.gameObject.SetActive(false);
+                awayPeek.gameObject.SetActive(true);
+
+                yield return new WaitForSeconds(2);
+
+                away.gameObject.SetActive(true);
+                awayPeek.gameObject.SetActive(false);
+
+                //subtle change of sprite here
+                Transform mdrn = globalState.bickerScene.transform.Find("fruitPlatter/mandarin"), apple = globalState.bickerScene.transform.Find("fruitPlatter/apple");
+                mdrn.gameObject.SetActive(false);
+                apple.gameObject.SetActive(true);
+
+                yield return new WaitForSeconds(4);
+                away.gameObject.SetActive(false);
+                normalSit.gameObject.SetActive(true); //staring at fishtank
+
+                //cam + nspp anim, zoom in as if reading closely, do this for a while and zoom out and check on her (nspp down a bit, blink)
+
+                awayPeek.gameObject.SetActive(false);
+                normalSit.gameObject.SetActive(true);
+                //change fishtank pos (-30, -110)
+
+                //her doing occasional peeks
+
+                //wait for fish interact
+
+                break;
+
+            case "fish1":
+                //fish anim
+                //her peek
+                //newspaper evade anim
+
+                yield return new WaitForSeconds(6);
+
+                //put away fishtank (local pos -533, -21)
+
+                Transform normSit = globalState.bickerScene.transform.Find("her/normalsit"), casualSit = globalState.bickerScene.transform.Find("her/casualsit"),
+                    cough = globalState.bickerScene.transform.Find("her/casualsit_cough"), lean = globalState.bickerScene.transform.Find("her/leanback"),
+                    read = globalState.bickerScene.transform.Find("her/read");
+
+                normSit.gameObject.SetActive(false);
+                casualSit.gameObject.SetActive(true);
+
+                yield return new WaitForSeconds(4);
+
+                casualSit.gameObject.SetActive(false);
+                lean.gameObject.SetActive(true);
+
+                yield return new WaitForSeconds(4);
+
+                //cough
+
+                //cam worried turn (quick shift)
+
+                Transform f1 = transform, f2 = globalState.bickerScene.transform.Find("fishtank/fish/fish2");
+                f1.gameObject.SetActive(false);
+                f2.gameObject.SetActive(true);
+
+                //fruit sprite change back
+                Transform mdr = globalState.bickerScene.transform.Find("fruitPlatter/mandarin"), appl = globalState.bickerScene.transform.Find("fruitPlatter/apple");
+                mdr.gameObject.SetActive(true);
+                appl.gameObject.SetActive(false);
+
+                yield return new WaitForSeconds(4);
+
+                //disable prev states
+                read.gameObject.SetActive(true);
+                //no occasional peeks if mouse close; otherwise trigger
+
+                yield return new WaitUntil(() => {
+                    return (Vector2.Distance(Input.mousePosition, new Vector2(0, 0)) < 40); //TODO adjust
+                }); //wait til mouse close enough to goal (peek through nspp)
+
+                //nspp off anim, wait on mandarin click
+
+
+                break;
+
+            case "mandarin":
+                GetComponent<Animator>().SetTrigger("fadeOut");
+                yield return new WaitForSeconds(4);
+
+                Transform mandarin_peeled = globalState.bickerScene.transform.Find("mandarin_peeled");
+                mandarin_peeled.gameObject.SetActive(true);
+                mandarin_peeled.GetComponent<Animator>().SetTrigger("fadeIn");
+
+                //peek
+
+                break;
+            case "screenInteract2": //activated every time a slice is clicked
+                //eat animation, turn off si2
+
+                if(var1 == 1)
+                {
+                    //means this is the 5th slice, will set sprite to table glance after anim done
+
+                }else if(var1 == 2)
+                {
+                    //trigger ending anim
+                }
+
+                break;
+
         }
 
         string parentName = transform.parent.name;
@@ -1080,6 +1208,37 @@ public class interactable : MonoBehaviour
             myAnimator.Play("starFound");
             starsManage.currActiveStarIndex += 1;
             starsManage.startStarCheck();
+        }else if (parentName.Equals("mandarin_peeled")) //mandarin slice
+        {
+
+            //play closeup anim
+
+            Transform closeup = globalState.bickerScene.transform.Find("slice_closeup");
+
+            Transform si2 = globalState.bickerScene.transform.Find("screenInteract2");
+            si2.gameObject.SetActive(true);
+
+            int numSlice = int.Parse(name[5].ToString());
+
+            switch (numSlice)
+            {
+                case 0:
+                    //her turn
+                    break;
+                case 3:
+                    //her turn, a little more restless
+                    break;
+                case 4:
+                    si2.GetComponent<interactable>().var1 = 1;
+                    //her turn, then face forward
+                    //glance at table, then turn as fork is raised
+                    break;
+                case 5:
+                    
+                    si2.GetComponent<interactable>().var1 = 2; //identify anim
+                    break;
+            }
+            
         }
 
 
