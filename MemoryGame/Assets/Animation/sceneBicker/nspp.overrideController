@@ -6,6 +6,8 @@ AnimatorOverrideController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: newspaper_closeup
+  m_Name: nspp
   m_Controller: {fileID: 9100000, guid: 3af8cf8ee049e104ebc9938148d13b5f, type: 2}
-  m_Clips: []
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: d96f5a31605e94f4baa794266d5a7c8f, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 269ce7c9aa747fd45b3df493ded5145e, type: 2}

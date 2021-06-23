@@ -212,7 +212,6 @@ public class enabler : MonoBehaviour
 
                 //wait on click on her
 
-
                 break;
 
             case 9: //park

@@ -25,12 +25,12 @@ public class MouseControl : MonoBehaviour
         {
 
             Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            RaycastHit2D hit = Physics2D.Raycast(mouseWorldPos, Vector2.zero);
+            Collider2D hit = Physics2D.OverlapPoint(mouseWorldPos);
 
-            if (hit.transform != null)
+            if (hit != null)
             {
 
-                interactable itr = hit.transform.GetComponent<interactable>();
+                interactable itr = hit.GetComponent<interactable>();
 
                 if (itr != null && itr.clickable) //object is interactable
                 {
@@ -54,7 +54,7 @@ public class MouseControl : MonoBehaviour
 
                 }else //not hovering on clickable obj
                 {
-                  //  print("not hovering");
+                    //print("not hovering");
                     if (mouseMode == MouseMode.hand) toCursor();
                 }
 
@@ -62,7 +62,7 @@ public class MouseControl : MonoBehaviour
             }
             else //not hovering on clickable obj
             {
-                //  print("not hovering");
+                  //print("not hovering");
                 if (mouseMode == MouseMode.hand) toCursor();
             }
 

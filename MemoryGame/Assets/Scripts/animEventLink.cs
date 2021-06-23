@@ -38,8 +38,9 @@ public class animEventLink : MonoBehaviour
             GetComponent<Animator>().SetTrigger("action" + Random.Range(1, 5));
         }else if (name.Equals("bushesCloseup"))
         {
-            GetComponent<Animator>().SetTrigger("action1");
+            GetComponent<Animator>().SetTrigger("action1"); //default action
         }
+
     }
 
     //called from animation after screen fades out
@@ -130,11 +131,33 @@ public class animEventLink : MonoBehaviour
         StartCoroutine(sunsetDoneCoroutine());
     }
 
+    public void girlFall()
+    {
+        camMovement.cam.Play("camBickerFall");
+    }
+
+    public void girlFallMidSetup()
+    {
+        Animator her = globalState.bickerScene.transform.Find("her_closeup").GetComponent<Animator>();
+        her.gameObject.SetActive(true);
+        globalState.bickerScene.transform.Find("her").gameObject.SetActive(false);
+
+        globalState.bickerScene.transform.Find("slice_closeup").GetComponent<Animator>().SetTrigger("action4");
+        her.SetTrigger("action1");
+
+    }
+
     //called at the end of animations
     public void activateMouseBasedCamShift()
     {
         GetComponent<Animator>().enabled = false;
         GetComponent<MouseBasedCamShift>().active = true;
+    }
+
+    public void deactivateMouseBasedCamShift(GameObject go) //and enable animator
+    {
+        go.GetComponent<Animator>().enabled = true;
+        go.GetComponent<MouseBasedCamShift>().active = false;
     }
 
     IEnumerator sunsetDoneCoroutine()
@@ -317,6 +340,98 @@ public class animEventLink : MonoBehaviour
         starsManager stars = FindObjectOfType<starsManager>();
         stars.startStarCheck(); //activate first star
     }
+
+    //called from faceaway interactable script, this script on "her" GO
+    public void faceawayInteract()
+    {
+        StartCoroutine(faceawayInteractCoroutine());
+    }
+
+    IEnumerator faceawayInteractCoroutine()
+    {
+        Animator h = GetComponent<Animator>();
+        transform.Find("faceaway").GetComponent<interactable>().clickable = false;
+        h.Play("girlShrug");
+
+        //disgruntled sfx
+        yield return new WaitForSeconds(5);
+
+        camMovement.cam.Play("camGrabNspp");
+        yield return new WaitForSeconds(1);
+        Transform m_nspp = globalState.bickerScene.transform.Find("newspaper");
+        m_nspp.GetComponent<Animator>().SetTrigger("fadeOut");
+
+        Animator nspp_closeup = globalState.bickerScene.transform.Find("newspaper_closeup").GetComponent<Animator>();
+
+        yield return new WaitForSeconds(2);
+        nspp_closeup.gameObject.SetActive(true);
+        nspp_closeup.Play("nsppOut"); //out
+
+        yield return new WaitForSeconds(2);
+
+        //toggle mouse shift
+        nspp_closeup.enabled = false;
+        nspp_closeup.GetComponent<MouseBasedCamShift>().active = true;
+
+        yield return new WaitForSeconds(2);
+
+
+        h.Play("girlAwayQuickPeek");
+
+        yield return new WaitForSeconds(1.5f);
+
+        yield return new WaitUntil(() => mouseAtCornerBottomLeft()); //wait until mouse scrolls to position that reveals face
+
+        //peek at "us" when discovered
+        h.Play("girlAwayPeek");
+
+        yield return new WaitForSeconds(1.5f);
+
+        //subtle change of sprite here
+        Transform mdrn = globalState.bickerScene.transform.Find("fruitPlatter/mandarin"), apple = globalState.bickerScene.transform.Find("fruitPlatter/apple");
+        mdrn.gameObject.SetActive(false);
+        apple.gameObject.SetActive(true);
+
+        //cam + nspp anim, zoom in as if reading closely, do this for a while and zoom out and check on her (nspp down a bit, blink)
+        nspp_closeup.GetComponent<MouseBasedCamShift>().active = false;
+        nspp_closeup.enabled = true;
+
+        nspp_closeup.Play("nsppFocus"); //focus
+        camMovement.cam.Play("camNsppFocus");
+
+        yield return new WaitForSeconds(4);
+
+        camMovement.vfx.Play("blink");
+
+        //move fishtank and change sprite
+
+        h.Play("girlNormalsit"); //staring at fishtank
+        Transform fshtank = globalState.bickerScene.transform.Find("fishtank");
+        fshtank.transform.localPosition = new Vector2(-30, -110);
+
+        yield return new WaitForSeconds(4); //wait for cam and nspp anim above to end
+
+        yield return new WaitUntil(() => mouseAtCornerBottomLeft());
+        deactivateMouseBasedCamShift(nspp_closeup.gameObject);
+
+        //yield return new WaitForSeconds(1.5f);
+        //down
+        nspp_closeup.Play("nsppDown");
+
+        yield return new WaitForSeconds(3);
+        //wait for fish interact
+
+        yield return new WaitForSeconds(2);
+
+        globalState.bickerScene.transform.Find("fishtank/fish/fish/fish1").GetComponent<interactable>().var1 = 1; //toggle interact mode
+    }
+
+    public bool mouseAtCornerBottomLeft()
+    {
+        float dist = Vector2.Distance(Input.mousePosition, new Vector2(0, 0));
+        return (dist < 50);
+    }
+
 
     public void setGlobalClickableTrue() { globalState.globalClickable = true; }
 
