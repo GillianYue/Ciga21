@@ -15,9 +15,13 @@ public class globalStateStore : MonoBehaviour
 
     public bool globalClickable;
 
+    public BlurManager blurManager;
+
     private void Awake()
     {
         globalClickable = true;
+
+        if (blurManager == null) blurManager = FindObjectOfType<BlurManager>();
     }
 
     void Start()

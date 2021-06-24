@@ -140,6 +140,7 @@ public class BlurManager : MonoBehaviour
 
     }
 
+    //TODO revise
     IEnumerator level9Clear()
     {
         yield return new WaitForSeconds(0.5f);

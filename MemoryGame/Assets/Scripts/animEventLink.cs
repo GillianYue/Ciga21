@@ -432,7 +432,7 @@ public class animEventLink : MonoBehaviour
         return (dist < 50);
     }
 
-
+    public void blink() { camMovement.vfx.Play("blink"); }
     public void setGlobalClickableTrue() { globalState.globalClickable = true; }
 
     public void setGlobalClickableFalse() { globalState.globalClickable = false; }
