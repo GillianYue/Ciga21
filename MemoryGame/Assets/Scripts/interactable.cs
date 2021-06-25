@@ -363,17 +363,18 @@ public class interactable : MonoBehaviour
             hand3 = globalState.parkScene.transform.Find("MyHand3").GetComponent<Animator>();
 
         Transform hosp = globalState.parkScene.transform.Find("hosp"), glitch = globalState.parkScene.transform.Find("glitch");
+        hosp.gameObject.SetActive(true);
         Transform screen = hosp.Find("screen");
         screen.gameObject.SetActive(false);
 
-        yield return new WaitForSeconds(4);
+        yield return new WaitForSeconds(8);
         her.Play("cough"); //will auto-transition to next state
 
-        yield return new WaitForSeconds(4);
+        yield return new WaitForSeconds(1);
 
         camMovement.cam.Play("camTiltHead");
 
-        yield return new WaitForSeconds(4);
+        yield return new WaitForSeconds(8);
 
         her.Play("fallAsleep");
 
@@ -383,53 +384,70 @@ public class interactable : MonoBehaviour
 
         yield return new WaitForSeconds(2);
 
+        hand2.gameObject.SetActive(true);
         hand2.SetTrigger("action2"); //offer flower
 
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(7);
+
+        camMovement.vfx.Play("blink");
+
+        yield return new WaitForSeconds(4);
         camMovement.cam.Play("nervousBreathe");
+        yield return new WaitForSeconds(4);
 
-        hosp.Find("bg").GetComponent<Animator>().SetTrigger("action1"); //fade in a bit and away
-
-
-        yield return new WaitForSeconds(2);
+        hosp.Find("bg").GetComponent<Animator>().Play("hspFadeAction1"); //fade in a bit and away
 
 
-        //blur effect in and out
-        yield return new WaitForSeconds(0.5f);
-        globalState.blurManager.centerBlur.setNewScale(3, 0.1f);
-        yield return new WaitForSeconds(1);
-        globalState.blurManager.centerBlur.setNewScale(0.2f, 0.1f);
-        yield return new WaitForSeconds(1.2f);
-        globalState.blurManager.centerBlur.setNewScale(2.7f, 0.1f);
-        yield return new WaitForSeconds(1.5f);
-        globalState.blurManager.centerBlur.setNewScale(0.5f, 0.1f);
+        yield return new WaitForSeconds(4);
 
         screen.gameObject.SetActive(true);
         Animator sr = screen.Find("screenR").GetComponent<Animator>();
         sr.Play("screenDistantEnter");
+        sr.Play("screenHeightFluctuate");
+
+        //blur effect in and out
+        yield return new WaitForSeconds(1.5f);
+        globalState.blurManager.centerBlur.setNewScale(3, 0.1f);
+        yield return new WaitForSeconds(2);
+        globalState.blurManager.centerBlur.setNewScale(0.2f, 0.1f);
+        yield return new WaitForSeconds(2.2f);
+        //blocking lines in 
+        Transform lz = her.transform.Find("linesAway");
+        her.Play("herLinesAway"); //toggle GO on
+        lz.GetComponent<Animator>().SetTrigger("fadeIn");
+
+        globalState.blurManager.centerBlur.setNewScale(2.7f, 0.1f);
+        yield return new WaitForSeconds(2.5f);
+        globalState.blurManager.centerBlur.setNewScale(0.5f, 0.1f);
 
         yield return new WaitForSeconds(5);
 
-        //blocking lines in 
-        Transform lz = her.transform.Find("linesHere");
-        lz.gameObject.SetActive(true);
-        lz.GetComponent<Animator>().SetTrigger("fadeIn");
+        //hand block
+        hand3.gameObject.SetActive(true);
+        hand3.SetTrigger("action3"); //block anim
+
+        yield return new WaitForSeconds(5.5f);
+        hosp.Find("bg").GetComponent<Animator>().Play("hspFadeAction1");
 
         yield return new WaitForSeconds(2);
 
-        //hand block
-        hand3.SetTrigger("action3"); //block anim
+        camMovement.vfx.Play("blink");
 
+        yield return new WaitForSeconds(6);
         //bgm
 
         //effects, insert glitch 
-        her.gameObject.SetActive(false);
+        her.Play("transparent"); 
         glitch.gameObject.SetActive(true);
         Animator g = glitch.Find("her").GetComponent<Animator>();
         g.Play("glitch1");
 
-        //TODO
+        yield return new WaitForSeconds(3f); //glitch ends
+        her.Play("opaque"); //toggle back Image & Image (1)
+        her.Play("herLinesAway");
 
+        yield return new WaitForSeconds(2);
+        glitch.gameObject.SetActive(false);
     }
 
     IEnumerator customBehavior()

@@ -42,6 +42,16 @@ public class Tester : MonoBehaviour
                 Time.timeScale = 1.0f;
             }
 
+            if (Input.GetKeyDown("s"))
+            {
+                Time.timeScale = 0.1f;
+            }
+
+
+            if (Input.GetKeyUp("s")) 
+            {
+                Time.timeScale = 1.0f;
+            }
 
         }
 

@@ -147,6 +147,8 @@ public class animEventLink : MonoBehaviour
 
     }
 
+    public void deactivateGO() { gameObject.SetActive(false); }
+
     //called at the end of animations
     public void activateMouseBasedCamShift()
     {
