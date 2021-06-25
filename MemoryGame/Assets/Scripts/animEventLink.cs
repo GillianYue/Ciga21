@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class animEventLink : MonoBehaviour
 {
@@ -25,7 +26,7 @@ public class animEventLink : MonoBehaviour
          //   GetComponent<Animator>().SetTrigger("fadeIn"); //fades in lavendar color
 
 
-        }else if (transform.GetChild(0).name.Equals("bush"))
+        }else if (transform.childCount > 0 && transform.GetChild(0).name.Equals("bush"))
         {
             StartCoroutine(Global.Chain(this,
                     Global.WaitForSeconds(Random.Range(0f, 2f)),
@@ -435,9 +436,177 @@ public class animEventLink : MonoBehaviour
     }
 
     public void blink() { camMovement.vfx.Play("blink"); }
+
+    public void rippleInteract()
+    {
+        globalState.globalClickable = false;
+
+    }
+
     public void setGlobalClickableTrue() { globalState.globalClickable = true; }
 
     public void setGlobalClickableFalse() { globalState.globalClickable = false; }
 
+
+
+    public void klimt() { StartCoroutine(klimtCoroutine()); }
+
+    IEnumerator klimtCoroutine()
+    {
+        camMovement.cam.SetTrigger("stopBreathe");
+
+        yield return new WaitForSeconds(4);
+
+        Animator bg = transform.Find("bg/pattern").GetComponent<Animator>(), fl = transform.Find("her/flowers").GetComponent<Animator>(),
+            cloth = transform.Find("her/clothMask").GetComponent<Animator>();
+
+        fl.Play("onOffGlitch");
+
+        Transform objs = transform.Find("objects");
+        globalState.globalClickable = true;
+
+        foreach (Transform obj in objs)
+        {
+            obj.transform.GetChild(0).GetComponent<Rigidbody2D>().AddTorque(Random.Range(20000, 100000) * ((Random.Range(0, 2) > 0) ? 1 : -1));
+        }
+
+        camMovement.enable.darkCover.SetTrigger("fadeOut");
+
+        yield return new WaitForSeconds(2);
+
+
+
+    }
+
+    public void collage()
+    {
+        StartCoroutine(collageCoroutine());
+    }
+
+    IEnumerator collageCoroutine()
+    {
+        transform.Find("clothMask").GetComponent<Animator>().Play("clothGlitch2");
+
+
+        globalState.parkScene.transform.Find("klimt").gameObject.SetActive(false);
+
+        enable.darkCover.SetTrigger("fadeOutWhite");
+        yield return new WaitForSeconds(2);
+
+
+    }
+
+    public void flat()
+    {
+        StartCoroutine(flatCoroutine());
+    }
+
+    IEnumerator flatCoroutine()
+    {
+        Transform hr = transform.Find("her");
+        hr.gameObject.SetActive(true);
+        hr.GetComponent<Animator>().SetTrigger("hide");
+
+
+        globalState.enable.darkCover.SetTrigger("fadeInWhite");
+        yield return new WaitForSeconds(2);
+        globalState.parkScene.transform.Find("collage").gameObject.SetActive(false);
+
+        globalState.enable.darkCover.SetTrigger("fadeOutWhite");
+        yield return new WaitForSeconds(2);
+
+
+
+    }
+
+    public void roses()
+    {
+        StartCoroutine(rosesCoroutine());
+    }
+
+    IEnumerator rosesCoroutine()
+    {
+        globalState.globalClickable = false;
+        camMovement.vfx.Play("noises");
+        globalState.parkScene.transform.Find("flat").gameObject.SetActive(false);
+
+        globalState.enable.darkCover.SetTrigger("fadeOutWhite");
+        yield return new WaitForSeconds(2);
+
+        globalState.globalClickable = true;
+    }
+
+    public void rosesFadeOut()
+    {
+        StartCoroutine(rosesFadeOutCoroutine());
+    }
+
+    IEnumerator rosesFadeOutCoroutine()
+    {
+        Transform roses = globalState.parkScene.transform.Find("roses/rosesRotate"), rosesScene = globalState.parkScene.transform.Find("roses"),
+            glitch = globalState.parkScene.transform.Find("glitch"), herGlitch = globalState.parkScene.transform.Find("glitch/her"),
+            screen = globalState.parkScene.transform.Find("hosp/screen"), herHosp = globalState.parkScene.transform.Find("hosp/Her"),
+            hosp = globalState.parkScene.transform.Find("hosp/bg");
+
+        //setup
+        herHosp.Find("face").gameObject.SetActive(false);
+
+        int count = 0;
+        foreach(Transform r in roses)
+        {
+            count += 1;
+
+            StartCoroutine(Global.Chain(this,
+                Global.WaitForSeconds(count * 0.6f),
+                Global.Do(() => {
+                    r.GetComponent<Animator>().Play("roseRotateDisappear");
+                })));
+        }
+
+        yield return new WaitForSeconds(4);
+        GameObject sr = screen.Find("screenR").gameObject;
+        sr.SetActive(false);
+        Animator sw = screen.Find("screenW").GetComponent<Animator>();
+        sw.gameObject.SetActive(true);
+        screen.gameObject.SetActive(true);
+        sw.Play("screenFadeIn");
+
+        camMovement.vfx.Play("noisesFadeOut");
+
+        yield return new WaitForSeconds(5);
+
+        rosesScene.gameObject.SetActive(false);
+        glitch.gameObject.SetActive(true);
+        herGlitch.GetComponent<Image>().enabled = true; //bg
+        herGlitch.GetComponent<Animator>().Play("glitch1");
+        
+
+        yield return new WaitForSeconds(3);
+        glitch.gameObject.SetActive(false);
+        hosp.GetComponent<Image>().enabled = true;
+        herHosp.gameObject.SetActive(true);
+        Transform fc = herHosp.Find("face");
+        fc.gameObject.SetActive(false);
+
+        yield return new WaitForSeconds(3);
+        //fade in hosp bg
+        hosp.GetComponent<Animator>().Play("hospFadeIn");
+        yield return new WaitForSeconds(9);
+
+        fc.gameObject.SetActive(true);
+        fc.GetComponent<Animator>().SetTrigger("fadeInSlow"); //fade in face
+        yield return new WaitForSeconds(5);
+
+        sw.gameObject.SetActive(false);
+        yield return new WaitForSeconds(2);
+        sr.GetComponent<Animator>().enabled = false;
+        sr.transform.localPosition = new Vector2(371, 227);
+        sr.SetActive(true);
+        //TODO play sfx machine long beep
+
+        yield return new WaitForSeconds(5);
+
+        //lv pass
+    }
 
 }

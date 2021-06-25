@@ -20,6 +20,9 @@ public class PuzzlePlacement : MonoBehaviour
 
     private void Awake()
     {
+
+        if (globalState == null) globalState = FindObjectOfType<globalStateStore>();
+
         if (puzzleType == 0)
         {
             puzzleFit = new bool[puzzleFitLocalPositions.Length];
@@ -32,7 +35,7 @@ public class PuzzlePlacement : MonoBehaviour
                 puzzlePieces[p].gameObject.SetActive(false);
             }
 
-            if (globalState == null) globalState = FindObjectOfType<globalStateStore>();
+            
 
 
             if (brokenVase == null) brokenVase = globalState.vaseScene.transform.Find("broken_vase").gameObject;
@@ -117,7 +120,10 @@ public class PuzzlePlacement : MonoBehaviour
         }
         else if (puzzleType == 1)
         {
-            //TODO
+            //abstract puzzle complete, fade out collage 
+            animEventLink flat = globalState.parkScene.transform.Find("flat").GetComponent<animEventLink>();
+            flat.gameObject.SetActive(true);
+            flat.flat();
 
         }
 

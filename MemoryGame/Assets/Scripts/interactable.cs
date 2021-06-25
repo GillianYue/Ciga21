@@ -60,6 +60,22 @@ public class interactable : MonoBehaviour
         else if (name.Equals("ballAnimator") || name.Equals("stickAnimator"))
         {
             myAnimator.SetTrigger("action1"); //idle state
+        }else if (name.Equals("img") && transform.parent.parent.name.Equals("objects"))
+        {
+                    StartCoroutine(Global.Chain(this,
+                Global.WaitForSeconds(Random.Range(0f, 3f)),
+                Global.Do(() => {
+                    GetComponent<Animator>().Play("darkCol");
+                })));
+
+            StartCoroutine(Global.Chain(this,
+                Global.WaitForSeconds(Random.Range(0f, 2f)),
+                Global.Do(() => {
+                    transform.parent.GetComponent<Animator>().Play("posGlitch");
+                })));
+
+            
+
         }
 
     }
@@ -125,6 +141,17 @@ public class interactable : MonoBehaviour
                 {
                     myAnimator.SetTrigger("action" + timesClicked.ToString());
 
+                    if (transform.parent.name.Equals("rosesRotate"))
+                    {
+                        clickable = false;
+                        globalState.rosesRotate += 1;
+                        if(globalState.rosesRotate >= 6)
+                        {
+                            Transform hosp = globalState.parkScene.transform.Find("hosp");
+                            hosp.gameObject.SetActive(true);
+                            hosp.GetComponent<animEventLink>().rosesFadeOut();
+                        }
+                    }
                 }
                 break;
             case InteractType.imgSwitcher: //change base images to the next pair (with effects)
@@ -402,6 +429,7 @@ public class interactable : MonoBehaviour
 
         screen.gameObject.SetActive(true);
         Animator sr = screen.Find("screenR").GetComponent<Animator>();
+        sr.gameObject.SetActive(true);
         sr.Play("screenDistantEnter");
         sr.Play("screenHeightFluctuate");
 
@@ -446,8 +474,35 @@ public class interactable : MonoBehaviour
         her.Play("opaque"); //toggle back Image & Image (1)
         her.Play("herLinesAway");
 
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
+        Time.timeScale = 0.4f;
+
+        yield return new WaitForSeconds(1);
+        Time.timeScale = 1.2f;
+
         glitch.gameObject.SetActive(false);
+
+        globalState.blurManager.centerBlur.setNewScale(3, 0.1f);
+        yield return new WaitForSeconds(1);
+        Time.timeScale = 1;
+
+        yield return new WaitForSeconds(3);
+        globalState.blurManager.centerBlur.setNewScale(0.2f, 0.1f);
+
+        yield return new WaitForSeconds(2);
+        hand3.gameObject.SetActive(true);
+        hand3.SetTrigger("action4"); //reach
+        camMovement.enable.darkCover.SetTrigger("fadeIn");
+        //wait then sfx tunnel footsteps
+
+        yield return new WaitForSeconds(2);
+        her.gameObject.SetActive(false);
+        Transform kmt = globalState.parkScene.transform.Find("klimt");
+        kmt.gameObject.SetActive(true);
+        kmt.GetComponent<animEventLink>().klimt();
+
+        sr.gameObject.SetActive(false);
+        hand3.gameObject.SetActive(false);
     }
 
     IEnumerator customBehavior()
@@ -1161,6 +1216,88 @@ public class interactable : MonoBehaviour
 
                 break;
 
+            /////////////////////
+            case "ripple":
+                var1 += 1;
+                myAnimator.Play("rippleInteract");
+
+                Transform leafBatch = globalState.parkScene.transform.Find("flat/her/leaves" + var1);
+                leafBatch.gameObject.SetActive(true);
+
+                foreach(Transform leaf in leafBatch)
+                {
+                    StartCoroutine(Global.Chain(this, 
+                    Global.WaitForSeconds(Random.Range(0f, 0.7f)),
+                    Global.Do(() => {
+                        leaf.GetComponent<Animator>().Play("leafFall"+Random.Range(1, 5));
+                    })));
+
+                }
+
+                yield return new WaitForSeconds(6f);
+
+                globalState.globalClickable = true;
+                
+                if(var1 < 3)
+                {
+                    //continue
+
+                }
+                else
+                {
+                    clickable = false;
+
+                    globalState.parkScene.transform.Find("flat/her").GetComponent<Animator>().SetTrigger("fadeIn");
+
+                    //enable individual leaves interact
+                    for (int r=1; r<=3; r++)
+                    {
+
+                        Transform currBatch = globalState.parkScene.transform.Find("flat/her/leaves" + r);
+
+                        foreach (Transform leaf in currBatch)
+                        {
+                            leaf.Find("leafLine").GetComponent<interactable>().clickable = true;
+
+                        }
+                    }
+
+
+
+                }
+
+                break;
+
+            case "leafLine":
+                clickable = false;
+                GetComponent<Collider2D>().enabled = false;
+
+                Animator l = transform.parent.GetComponent<Animator>();
+                l.Play("leafShow");
+                l.Play("leafFallDown"+Random.Range(1,5));
+                globalState.globalClickable = false;
+
+                yield return new WaitForSeconds(1f);
+
+                globalState.globalClickable = true;
+                globalState.leavesFall += 1;
+                if(globalState.leavesFall >= 30) //all clicked
+                {
+                    yield return new WaitForSeconds(1);
+                    //some sfx reaction
+
+                    yield return new WaitForSeconds(1);
+                    animEventLink roses = globalState.parkScene.transform.Find("roses").GetComponent<animEventLink>();
+
+                    globalState.enable.darkCover.SetTrigger("fadeInWhite");
+                    yield return new WaitForSeconds(2);
+
+                    roses.gameObject.SetActive(true);
+                    roses.roses();
+                }
+                break;
+
+
         }
 
         string parentName = transform.parent.name;
@@ -1410,11 +1547,61 @@ public class interactable : MonoBehaviour
             globalState.globalClickable = true;
 
 
+        }else if (name.Equals("img") && transform.parent.parent.name.Equals("objects"))
+        {
+            Rigidbody2D rb = GetComponent<Rigidbody2D>();
+
+            if (Mathf.Abs(rb.rotation) < 100) //TODO change to 8000
+            {
+                int sign = (rb.rotation > 0) ? 1 : -1;
+                rb.AddTorque(120000 * sign); 
+            }
+            else
+            {
+                clickable = false;
+                GetComponent<Animator>().Play("brighten");
+                globalState.klimtRotate += 1;
+
+                Animator pt = globalState.parkScene.transform.Find("klimt/bg/pattern").GetComponent<Animator>();
+
+
+                switch (globalState.klimtRotate)
+                {
+
+                    case 3:
+                        pt.Play("opacity0_2");
+                        break;
+                    case 7:
+                        pt.Play("opacity0_4");
+                        break;
+                    case 11:
+                        pt.Play("opacity0_9");
+                        break;
+
+                    case 14:
+                        animEventLink collage = globalState.parkScene.transform.Find("collage").GetComponent<animEventLink>();
+
+                        StartCoroutine(Global.Chain(this, Global.Do(() => {
+                            //TODO sfx
+
+                        }), 
+                        Global.WaitForSeconds(2), Global.Do(()=> {
+                            globalState.enable.darkCover.SetTrigger("fadeInWhite");
+                        }), 
+                            Global.WaitForSeconds(3), 
+                            Global.Do(()=> {
+                                collage.gameObject.SetActive(true);
+                                collage.collage();
+                            })));
+
+                        break;
+                }
+
+            }
         }
 
 
     }
-
 
 
 

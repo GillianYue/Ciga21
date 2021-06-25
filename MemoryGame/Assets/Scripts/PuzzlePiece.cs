@@ -39,9 +39,10 @@ public class PuzzlePiece : interactable
     public override void onClick()
     {
         //   print("clicked: " + eventData.pointerPress.name);
-        if (clickable && !selected)
+        if (clickable && !globalState.holdingPuzzlePiece && !selected)
         {
             selected = true;
+            globalState.holdingPuzzlePiece = true;
 
         }else if(clickable && selected) //waiting to be placed
         {
@@ -55,6 +56,8 @@ public class PuzzlePiece : interactable
                 if (changeSpriteAfterPlacement) imgSwitch.switchToNextImgState();
 
                 transform.localPosition += (Vector3)placementOffset;
+
+                globalState.holdingPuzzlePiece = false;
             }
             else
             {
@@ -73,7 +76,7 @@ public class PuzzlePiece : interactable
     {
         //  if (clickable) mouseControl.toMouse();
 
-        if (clickable && selected) //waiting to be placed
+        if (clickable && selected && globalState.holdingPuzzlePiece) //waiting to be placed
         {
             bool success = puzzlePlacement.checkForPlacement(puzzleID, this);
             if (success)
@@ -84,6 +87,7 @@ public class PuzzlePiece : interactable
                 if (changeSpriteAfterPlacement) imgSwitch.switchToNextImgState();
 
                 transform.localPosition += (Vector3)placementOffset;
+                globalState.holdingPuzzlePiece = false;
             }
             else
             {

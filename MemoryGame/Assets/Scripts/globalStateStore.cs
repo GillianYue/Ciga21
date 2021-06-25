@@ -7,8 +7,8 @@ public class globalStateStore : MonoBehaviour
 {
     public int globalCounter;
     public bool drums, guitar, accordion, hasScrolled;
-    public int gardenSceneFlowerCount, mandarinConsumed;
-    public bool screenInteract2On;
+    public int gardenSceneFlowerCount, mandarinConsumed, klimtRotate, leavesFall, rosesRotate;
+    public bool screenInteract2On, holdingPuzzlePiece;
 
     public GameObject l1Scene, vaseScene, treeScene, treeBottomScene, bandScene, seaScene, pupScene, gardenScene, gardenCloseupScene, 
         bickerScene, parkScene, graveyardScene, homeScene, mirrorScene;
@@ -16,12 +16,14 @@ public class globalStateStore : MonoBehaviour
     public bool globalClickable;
 
     public BlurManager blurManager;
+    public enabler enable;
 
     private void Awake()
     {
         globalClickable = true;
 
         if (blurManager == null) blurManager = FindObjectOfType<BlurManager>();
+        if (enable == null) enable = GetComponent<enabler>();
     }
 
     void Start()

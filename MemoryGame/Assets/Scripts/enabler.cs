@@ -215,6 +215,10 @@ public class enabler : MonoBehaviour
                 break;
 
             case 9: //park
+                //setup
+                Transform h = globalState.parkScene.transform.Find("hosp/Her");
+                h.gameObject.SetActive(false);
+                h.parent.gameObject.SetActive(false); 
 
                 GetComponent<AudioManager>().playSFX(9, 1);
 
