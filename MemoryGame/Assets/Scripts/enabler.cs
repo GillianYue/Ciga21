@@ -229,7 +229,11 @@ public class enabler : MonoBehaviour
                 break;
             case 10: //graveyard
 
-                darkCover.SetTrigger("fadeOut");
+                cam.cam.Play("camStormShake");
+                weather w = globalState.graveyardScene.transform.Find("sky").GetComponent<weather>();
+                w.startLightening();
+
+                darkCover.gameObject.SetActive(false); //a sudden transition
                 break;
             case 11: //home/mirror
 

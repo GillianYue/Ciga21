@@ -6,8 +6,8 @@ AnimatorOverrideController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: rain
+  m_Name: leaf1
   m_Controller: {fileID: 9100000, guid: 3af8cf8ee049e104ebc9938148d13b5f, type: 2}
   m_Clips:
-  - m_OriginalClip: {fileID: 7400000, guid: 830fa03dcca75284db8318c30f1b6d0a, type: 2}
-    m_OverrideClip: {fileID: 7400000, guid: e7d80311037d6604b8fa147b232fdffc, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: e63f02fa67df3c34990ec2bdc87095f7, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: e327375e3de0f3d4a9c34890176c00ee, type: 2}

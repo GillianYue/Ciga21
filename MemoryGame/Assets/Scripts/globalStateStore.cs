@@ -7,8 +7,8 @@ public class globalStateStore : MonoBehaviour
 {
     public int globalCounter;
     public bool drums, guitar, accordion, hasScrolled;
-    public int gardenSceneFlowerCount, mandarinConsumed, klimtRotate, leavesFall, rosesRotate;
-    public bool screenInteract2On, holdingPuzzlePiece;
+    public int gardenSceneFlowerCount, mandarinConsumed, klimtRotate, leavesFall, rosesRotate, graveyardLeaves, leavesColored;
+    public bool screenInteract2On, holdingPuzzlePiece, graveClicked, graveyardConditionMetTriggered;
 
     public GameObject l1Scene, vaseScene, treeScene, treeBottomScene, bandScene, seaScene, pupScene, gardenScene, gardenCloseupScene, 
         bickerScene, parkScene, graveyardScene, homeScene, mirrorScene;

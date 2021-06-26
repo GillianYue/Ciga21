@@ -1298,6 +1298,86 @@ public class interactable : MonoBehaviour
                 break;
 
 
+            case "grave":
+
+                globalState.globalClickable = false;
+
+                if (var1 == 1) //if at offer flower checkpoint
+                {
+                    Transform bouquet = globalState.graveyardScene.transform.Find("flower");
+                    yield return new WaitForSeconds(1);
+
+                    bouquet.GetComponent<Animator>().SetTrigger("fadeIn");
+
+                    yield return new WaitForSeconds(3);
+
+                    camMovement.cam.Play("camShiftGraveyardSky");
+
+                    yield return new WaitForSeconds(4);
+
+                }
+                else
+                {
+
+                    if (!globalState.graveyardConditionMetTriggered)
+                    {
+                        camMovement.cam.Play("camGraveInteract1");
+
+                        globalState.graveClicked = true;
+
+                        yield return new WaitForSeconds(3);
+
+
+                        if (globalState.graveyardLeaves >= 5)
+                        {
+                            StartCoroutine(graveyardConditionMetCoroutine());
+                        }
+
+
+                    }
+                    else
+                    {
+                        camMovement.cam.Play("camGraveInteract2");
+                        yield return new WaitForSeconds(3);
+                        camMovement.cam.Play("camShiftGraveyardSky");
+                        yield return new WaitForSeconds(3);
+                    }
+
+                }
+
+                globalState.globalClickable = true;
+
+                break;
+
+            case "doggo":
+                //sfx
+                clickable = false;
+
+                yield return new WaitForSeconds(2);
+
+                
+
+                globalState.graveyardScene.transform.Find("dark_cover").GetComponent<Animator>().Play("s1s2transition"); //will auto-transition to s2
+                //disable lightening
+                globalState.graveyardScene.transform.Find("sky").GetComponent<weather>().terminateLightning();
+
+                Transform lvs = globalState.graveyardScene.transform.Find("leavesInteractable");
+                foreach(Transform lf in lvs)
+                {
+                    interactable ita = lf.GetComponent<interactable>();
+                    ita.var1 = 1;
+                    ita.clickable = true; //clicking will toggle on col
+
+                }
+
+                myAnimator.SetTrigger("fadeOut");
+                yield return new WaitForSeconds(2);
+                GetComponent<imgSwitcher>().switchToImgState(1);
+                myAnimator.SetTrigger("fadeIn");
+
+                globalState.graveyardConditionMetTriggered = true;
+
+                break;
         }
 
         string parentName = transform.parent.name;
@@ -1598,6 +1678,86 @@ public class interactable : MonoBehaviour
                 }
 
             }
+
+        }else if (parentName.Equals("leavesInteractable"))
+        {
+            globalState.globalClickable = false;
+
+            if (var1 == 0) { 
+                
+                myAnimator.SetTrigger("action1");
+                var1 = 1;
+                clickable = false;
+                globalState.graveyardLeaves += 1;
+
+                if (globalState.graveyardLeaves == 5 && globalState.graveClicked)
+                {
+                    StartCoroutine(graveyardConditionMetCoroutine());
+
+                }
+
+            }
+            else if (var1 == 1)
+            {
+                //this is after lightning ends, clicking will toggle on color
+                clickable = false;
+                var1 = 2;
+
+                Transform c = transform.Find("c");
+                c.gameObject.SetActive(true);
+                c.GetComponent<Animator>().SetTrigger("fadeIn");
+                transform.Find("cbw").GetComponent<Animator>().SetTrigger("fadeOut");
+
+                globalState.leavesColored += 1;
+
+                if(globalState.leavesColored >= 13)
+                {
+                    //all leaves clicked
+                    yield return new WaitForSeconds(2);
+                    //sfx
+
+                    Transform tree = globalState.graveyardScene.transform.Find("tree"), leavesCol = globalState.graveyardScene.transform.Find("leavesCol"),
+                        sky = globalState.graveyardScene.transform.Find("sky"), darkScreen = globalState.graveyardScene.transform.Find("dark_cover"),
+                        leaves = globalState.graveyardScene.transform.Find("leaves"), blown = globalState.graveyardScene.transform.Find("blown_leaves"),
+                        rain = globalState.graveyardScene.transform.Find("rain"), lz = globalState.graveyardScene.transform.Find("grave/lines"),
+                        gve = globalState.graveyardScene.transform.Find("grave");
+
+
+                    leaves.Find("c").gameObject.SetActive(true);
+                    leaves.Find("c").GetComponent<Animator>().SetTrigger("fadeInSlow");
+                    tree.Find("c").gameObject.SetActive(true);
+                    tree.Find("c").GetComponent<Animator>().SetTrigger("fadeInSlow");
+
+                    sky.Find("storm").gameObject.SetActive(false);
+
+                    foreach(Transform bll in blown)
+                    {
+                        bll.GetComponent<imgSwitcher>().switchToImgState(1);
+                        bll.GetComponent<Animator>().SetTrigger("fadeIn");
+                    }
+
+                    rain.gameObject.SetActive(false);
+
+                    yield return new WaitForSeconds(4);
+
+                    leavesCol.gameObject.SetActive(true);
+                    leavesCol.GetComponent<Animator>().SetTrigger("fadeInSlow");
+
+                    darkScreen.GetComponent<Animator>().Play("s2Out");
+
+                    yield return new WaitForSeconds(3);
+
+                    lz.GetComponent<Animator>().SetTrigger("fadeOut");
+
+                    yield return new WaitForSeconds(3);
+
+                    gve.GetComponent<interactable>().var1 = 1; //after this, click will trigger flower action
+                }
+            }
+
+
+            globalState.globalClickable = true;
+
         }
 
 
@@ -1609,7 +1769,25 @@ public class interactable : MonoBehaviour
 
 
 
+    IEnumerator graveyardConditionMetCoroutine()
+    {
+        if (!globalState.graveyardConditionMetTriggered) { 
 
+            globalState.globalClickable = false;
+            //sfx
+
+            yield return new WaitForSeconds(2);
+
+            Transform dg = globalState.graveyardScene.transform.Find("doggo");
+            dg.gameObject.SetActive(true);
+
+            dg.GetComponent<Animator>().SetTrigger("fadeIn");
+            yield return new WaitForSeconds(2);
+
+            globalState.globalClickable = true;
+
+        }
+    }
 
 
     public bool mouseAtCornerBottomLeft()
