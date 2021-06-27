@@ -13,6 +13,7 @@ public class enabler : MonoBehaviour
     public imgSwitcher titleImg;
     public GameObject startCanvas;
     public StartDialogueClickThrough startDialogue;
+    public BlurManager blurManager;
 
     public Animator[] startMenuFocusObjects; //photo, mdc and report
 
@@ -20,6 +21,7 @@ public class enabler : MonoBehaviour
     {
         if (cam == null) cam = FindObjectOfType<CamMovement>();
         if(globalState == null) globalState = GetComponent<globalStateStore>();
+        if (blurManager == null) blurManager = GetComponent<BlurManager>();
     }
 
     void Start()
@@ -236,8 +238,22 @@ public class enabler : MonoBehaviour
                 darkCover.gameObject.SetActive(false); //a sudden transition
                 break;
             case 11: //home/mirror
+                if (!subScene)
+                {
+                    blurManager.centerBlur.setNewScale(1f, 0.3f);
 
-                darkCover.SetTrigger("fadeOut");
+                    darkCover.SetTrigger("fadeOut");
+                }
+                else
+                {
+                    //streets
+
+                    //anim
+                    //...
+
+                    //dialogue
+
+                }
                 break;
         }
 

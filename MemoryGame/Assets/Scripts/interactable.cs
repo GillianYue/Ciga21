@@ -1297,7 +1297,7 @@ public class interactable : MonoBehaviour
                 }
                 break;
 
-
+            /////////////////////
             case "grave":
 
                 globalState.globalClickable = false;
@@ -1384,6 +1384,119 @@ public class interactable : MonoBehaviour
                 myAnimator.SetTrigger("fadeIn");
 
                 globalState.graveyardConditionMetTriggered = true;
+
+                break;
+
+            /////////////////////
+            case "glasses":
+                globalState.globalClickable = false;
+
+                //sfx
+                clickable = false;
+                myAnimator.SetTrigger("fadeOut");
+
+                gameControl.GetComponent<BlurManager>().centerBlur.setNewScale(0.1f, 0.1f);
+
+                yield return new WaitForSeconds(2);
+
+                Transform bk = globalState.homeScene.transform.Find("book");
+                bk.Find("textsBlur").gameObject.SetActive(false);
+                bk.Find("texts").gameObject.SetActive(true);
+
+                yield return new WaitForSeconds(2);
+
+                //sfx 
+                Transform dg = globalState.homeScene.transform.Find("dog_closeby");
+                dg.GetComponent<Animator>().SetTrigger("fadeIn");
+                yield return new WaitForSeconds(1);
+                dg.GetComponent<Animator>().SetTrigger("action1"); //hop in
+
+                yield return new WaitForSeconds(2);
+
+                globalState.globalClickable = true;
+
+                break;
+
+            case "dog_closeby":
+                globalState.globalClickable = false;
+
+                yield return new WaitForSeconds(1);
+                GetComponent<imgSwitcher>().switchToImgState(1);
+
+                yield return new WaitForSeconds(2.5f);
+                myAnimator.SetTrigger("fadeOut");
+
+                yield return new WaitForSeconds(2);
+                camMovement.camHolder.enabled = true;
+                camMovement.camHolder.Play("camShift0to1");
+
+                yield return new WaitForSeconds(4);
+
+                camMovement.camHolder.Play("camShift1to0");
+
+                yield return new WaitForSeconds(2);
+                camMovement.camHolder.enabled = false;
+
+                Transform pen = globalState.homeScene.transform.Find("pen"),
+                    mug = globalState.homeScene.transform.Find("mug"), mobile = globalState.homeScene.transform.Find("mobile");
+
+                pen.GetComponent<interactable>().clickable = true;
+                mug.GetComponent<interactable>().clickable = true;
+                mobile.GetComponent<interactable>().clickable = true;
+
+                globalState.globalClickable = true;
+
+                break;
+            case "pen":
+                globalState.penTriggered = true;
+                myAnimator.SetTrigger("action1");
+
+                //check for condition met after interact
+                if (globalState.checkHomeSceneItemCondition())
+                {
+                    Transform phone = globalState.homeScene.transform.Find("phone");
+                    phone.gameObject.SetActive(true);
+                    phone.GetComponent<animEventLink>().initiatePhoneCheck();
+                }
+                break;
+
+            case "mobile":
+
+                globalState.mobileTriggered = true;
+                myAnimator.SetTrigger("action1");
+                if (globalState.checkHomeSceneItemCondition())
+                {
+                    Transform phone = globalState.homeScene.transform.Find("phone");
+                    phone.gameObject.SetActive(true);
+                    phone.GetComponent<animEventLink>().initiatePhoneCheck();
+                }
+                break;
+
+            case "mug":
+
+                globalState.globalClickable = false;
+                globalState.mugTriggered = true;
+
+                Transform mg = globalState.homeScene.transform.Find("mug"), 
+                    mug_hand = globalState.homeScene.transform.Find("hand_mug");
+                mug_hand.gameObject.SetActive(true);
+                mug_hand.GetComponent<Animator>().SetTrigger("action1"); //hand out and in 
+
+                mg.GetComponent<Animator>().SetTrigger("fadeOut");
+
+                yield return new WaitForSeconds(6f);
+
+                mug_hand.gameObject.SetActive(false);
+                mg.GetComponent<Animator>().SetTrigger("fadeIn");
+
+                globalState.globalClickable = true;
+
+                if (globalState.checkHomeSceneItemCondition())
+                {
+                    Transform phone = globalState.homeScene.transform.Find("phone");
+                    phone.gameObject.SetActive(true);
+                    phone.GetComponent<animEventLink>().initiatePhoneCheck();
+                }
 
                 break;
         }

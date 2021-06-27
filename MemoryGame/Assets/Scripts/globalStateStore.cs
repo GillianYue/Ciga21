@@ -10,8 +10,10 @@ public class globalStateStore : MonoBehaviour
     public int gardenSceneFlowerCount, mandarinConsumed, klimtRotate, leavesFall, rosesRotate, graveyardLeaves, leavesColored;
     public bool screenInteract2On, holdingPuzzlePiece, graveClicked, graveyardConditionMetTriggered;
 
+    public bool penTriggered, mugTriggered, mobileTriggered;
+
     public GameObject l1Scene, vaseScene, treeScene, treeBottomScene, bandScene, seaScene, pupScene, gardenScene, gardenCloseupScene, 
-        bickerScene, parkScene, graveyardScene, homeScene, mirrorScene;
+        bickerScene, parkScene, graveyardScene, homeScene, mirrorScene, streetScene;
 
     public bool globalClickable;
 
@@ -144,7 +146,7 @@ public class globalStateStore : MonoBehaviour
             case 11:
                 if (subScene)
                 {
-                    homeScene.SetActive(to);
+                    streetScene.SetActive(to);
 /*                    foreach (Transform go in homeScene.transform)
                     {
                         go.gameObject.SetActive(to);
@@ -153,7 +155,7 @@ public class globalStateStore : MonoBehaviour
                 }
                 else
                 {
-                    mirrorScene.SetActive(to);
+                    homeScene.SetActive(to);
 /*                    foreach (Transform go in mirrorScene.transform)
                     {
                         go.gameObject.SetActive(to);
@@ -164,5 +166,7 @@ public class globalStateStore : MonoBehaviour
     }
 
 
+
+    public bool checkHomeSceneItemCondition() { return penTriggered && mugTriggered && mobileTriggered;  }
 
 }

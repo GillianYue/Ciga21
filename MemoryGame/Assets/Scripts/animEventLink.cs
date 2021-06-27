@@ -609,4 +609,94 @@ public class animEventLink : MonoBehaviour
         //lv pass
     }
 
+
+    public void initiatePhoneCheck() { StartCoroutine(phoneCheckCoroutine()); }
+
+    IEnumerator phoneCheckCoroutine()
+    {
+
+        yield return new WaitForSeconds(3);
+        camMovement.vfx.Play("blink");
+
+        yield return new WaitForSeconds(1);
+        //sfx phone beep
+        Animator mob = globalState.homeScene.transform.Find("mobile").GetComponent<Animator>();
+        mob.SetTrigger("action2");
+
+        yield return new WaitForSeconds(1.5f);
+
+        mob.SetTrigger("fadeOut");
+
+        yield return new WaitForSeconds(1.5f);
+
+        GetComponent<Animator>().SetTrigger("action1"); //phone check anim
+    }
+
+    //called from phone anim
+    public void bookPatternChange()
+    {
+        Transform bk = globalState.homeScene.transform.Find("book");
+        bk.Find("texts").gameObject.SetActive(false);
+        bk.Find("textsBtfl").gameObject.SetActive(true);
+        
+        globalState.homeScene.transform.Find("btfl").gameObject.SetActive(true);
+        globalState.homeScene.transform.Find("dog_away").gameObject.SetActive(false);
+    }
+
+    //also called from phone anim
+    public void btflFlyAction() { 
+        
+        globalState.homeScene.transform.Find("btfl").GetComponent<Animator>().SetTrigger("action1");
+        StartCoroutine(flyActionSequence());
+
+
+    }
+
+    IEnumerator flyActionSequence()
+    {
+        yield return new WaitForSeconds(4);
+
+        camMovement.camHolder.enabled = true;
+        camMovement.camHolder.Play("camShift0to1");
+
+        Transform couch = globalState.homeScene.transform.Find("couch");
+        couch.Find("patternYellow").gameObject.SetActive(false);
+        couch.GetComponent<Animator>().SetTrigger("action1"); //scrolling of second pattern
+
+        globalState.homeScene.transform.Find("plant").GetComponent<imgSwitcher>().switchToImgState(1);
+
+        yield return new WaitForSeconds(3);
+
+        camMovement.camHolder.enabled = false;
+        camMovement.vfx.Play("blink");
+        yield return new WaitForSeconds(1);
+
+        camMovement.cam.Play("leftRightGlance");
+
+        yield return new WaitForSeconds(2);
+
+        globalState.homeScene.transform.Find("btfl").GetComponent<Animator>().SetTrigger("action2"); //reappearance and exit
+
+    }
+
+    //called from btfl anim
+    public void handReachOut()
+    {
+        Transform hd = globalState.homeScene.transform.Find("myHand");
+        hd.gameObject.SetActive(true);
+        hd.GetComponent<Animator>().SetTrigger("action1"); //reach out
+
+        StartCoroutine(Global.Chain(this, Global.WaitForSeconds(2), Global.Do(() => {
+            //scene ending 
+
+            //sfx hurried footsteps out
+            //rushed exit
+            camMovement.enable.darkCover.SetTrigger("fadeIn");
+            globalState.revealAndHideStuff(11, false); //hide curr scene GOs
+
+            enable.setUpLevel(11, true); //subscene logic
+        })));
+    }
+
+
 }
