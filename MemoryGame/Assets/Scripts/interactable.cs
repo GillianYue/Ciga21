@@ -1307,11 +1307,17 @@ public class interactable : MonoBehaviour
                     Transform bouquet = globalState.graveyardScene.transform.Find("flower");
                     yield return new WaitForSeconds(1);
 
-                    bouquet.GetComponent<Animator>().SetTrigger("fadeIn");
+                    bouquet.gameObject.SetActive(true);
+                    Animator bq = bouquet.GetComponent<Animator>();
+                    bq.SetTrigger("fadeIn");
+
+                    yield return new WaitForSeconds(5);
+
+                    bq.SetTrigger("action1"); //flower petals
 
                     yield return new WaitForSeconds(3);
 
-                    camMovement.cam.Play("camShiftGraveyardSky");
+                    camMovement.cam.Play("camShiftGraveyardSky2");
 
                     yield return new WaitForSeconds(4);
 
@@ -1360,6 +1366,8 @@ public class interactable : MonoBehaviour
                 globalState.graveyardScene.transform.Find("dark_cover").GetComponent<Animator>().Play("s1s2transition"); //will auto-transition to s2
                 //disable lightening
                 globalState.graveyardScene.transform.Find("sky").GetComponent<weather>().terminateLightning();
+
+                yield return new WaitForSeconds(3);
 
                 Transform lvs = globalState.graveyardScene.transform.Find("leavesInteractable");
                 foreach(Transform lf in lvs)
@@ -1712,7 +1720,7 @@ public class interactable : MonoBehaviour
 
                 if(globalState.leavesColored >= 13)
                 {
-                    //all leaves clicked
+                    //all leaves clicked, show env cols
                     yield return new WaitForSeconds(2);
                     //sfx
 
@@ -1720,8 +1728,8 @@ public class interactable : MonoBehaviour
                         sky = globalState.graveyardScene.transform.Find("sky"), darkScreen = globalState.graveyardScene.transform.Find("dark_cover"),
                         leaves = globalState.graveyardScene.transform.Find("leaves"), blown = globalState.graveyardScene.transform.Find("blown_leaves"),
                         rain = globalState.graveyardScene.transform.Find("rain"), lz = globalState.graveyardScene.transform.Find("grave/lines"),
-                        gve = globalState.graveyardScene.transform.Find("grave");
-
+                        gve = globalState.graveyardScene.transform.Find("grave"), lighterGray = globalState.graveyardScene.transform.Find("lighter_darkness");
+                    
 
                     leaves.Find("c").gameObject.SetActive(true);
                     leaves.Find("c").GetComponent<Animator>().SetTrigger("fadeInSlow");
