@@ -49,22 +49,47 @@ public class BlurManager : MonoBehaviour
                 yield return StartCoroutine(level1Clear());
                 enablr.setUpLevel(2);
                 break;
-            case 4:
+            case 2:
+                enablr.cam.cam.Play("idle"); //reset cam pos
+                yield return StartCoroutine(generalLevelPassEffect());
+                enablr.setUpLevel(level + 1);
+                break;
+            case 4: //band
                 yield return StartCoroutine(level4Clear());
                 enablr.setUpLevel(5);
                 break;
             case 9:
-                yield return StartCoroutine(level9Clear());
+                //yield return StartCoroutine(level9Clear()); TODO
                 //set up level 10
+
+                yield return StartCoroutine(generalLevelPassEffect());
+                enablr.setUpLevel(10);
                 break;
 
             case 11:
                 //
                 GetComponent<enabler>().gamePass();
                 break;
+
+            default: //if not specified, use general level pass effect
+                yield return StartCoroutine(generalLevelPassEffect());
+                enablr.setUpLevel(level+1);
+                break;
         }
     }
 
+    IEnumerator generalLevelPassEffect()
+    {
+        frontBlur.setNewScale(20, 0.1f);
+        yield return new WaitForSeconds(2);
+
+        darkCover.SetTrigger("fadeIn");
+        GetComponent<AudioManager>().playSFX(9, 3);
+        yield return new WaitForSeconds(3);
+
+        frontBlur.setNewScale(0.2f, 0.1f);
+        backBlur.setNewScale(0.1f, 0.1f);
+    }
 
     public IEnumerator level1Clear()
     {
@@ -99,18 +124,10 @@ public class BlurManager : MonoBehaviour
         table.switchToImgState(1);
         yield return new WaitForSeconds(0.5f);
 
-        centerBlur.setNewScale(20, 0.1f);
-        yield return new WaitForSeconds(2);
-
-        darkCover.SetTrigger("fadeIn");
-        GetComponent<AudioManager>().playSFX(9, 3);
-
         Destroy(GameObject.Find("Pasta(Clone)"));
         Destroy(GameObject.Find("Pepper(Clone)"));
 
-        yield return new WaitForSeconds(3);
-        centerBlur.setNewScale(0.2f, 0.1f);
-        backBlur.setNewScale(0.1f, 0.1f);
+        yield return StartCoroutine(generalLevelPassEffect());
     }
 
     IEnumerator level4Clear()
@@ -122,17 +139,11 @@ public class BlurManager : MonoBehaviour
         //audio stuff
 
         GetComponent<AudioManager>().playSFX(4, 5);
-        // centerBlur.setNewScale(20, 0.1f);
-        frontBlur.gameObject.SetActive(true);
-        frontBlur.setNewScale(20, 0.1f);
-        yield return new WaitForSeconds(5);
 
-        darkCover.SetTrigger("fadeIn");
-        GetComponent<AudioManager>().playSFX(9, 3);
         yield return new WaitForSeconds(3);
-        //   centerBlur.setNewScale(0.2f, 0.1f);
-        frontBlur.setNewScale(0.2f, 0.1f);
-        backBlur.setNewScale(0.1f, 0.1f);
+
+        yield return StartCoroutine(generalLevelPassEffect());
+
 
         Destroy(GameObject.Find("radio(Clone)"));
         Destroy(GameObject.Find("telephone(Clone)"));

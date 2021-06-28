@@ -68,6 +68,11 @@ public class animEventLink : MonoBehaviour
         yield return new WaitForSeconds(3);
 
         camMovement.vfx.Play("blink");
+
+        yield return new WaitForSeconds(5);
+
+        //end of scene
+        enable.GetComponent<BlurManager>().levelPassEffect(3);
     }
 
     //called from the end of fetch item animations
@@ -124,6 +129,9 @@ public class animEventLink : MonoBehaviour
             Global.Do(() =>
                     {
                         camMovement.vfx.Play("focusOnHer");
+                    }), Global.WaitForSeconds(4.5f), Global.Do(()=> {         
+                        //end of scene
+                        enable.GetComponent<BlurManager>().levelPassEffect(6);
                     })));
     }
 
@@ -146,7 +154,16 @@ public class animEventLink : MonoBehaviour
         globalState.bickerScene.transform.Find("slice_closeup").GetComponent<Animator>().SetTrigger("action4");
         her.SetTrigger("action1");
 
+        StartCoroutine(Global.Chain(this, Global.WaitForSeconds(4),
+                        Global.Do(() =>
+                        {
+                           //sfx laughter
+                        }), Global.WaitForSeconds(1), Global.Do(() => {
+                       //end of scene
+                       enable.GetComponent<BlurManager>().levelPassEffect(8);
+    })));
     }
+
 
     public void deactivateGO() { gameObject.SetActive(false); }
 
@@ -607,6 +624,9 @@ public class animEventLink : MonoBehaviour
         yield return new WaitForSeconds(5);
 
         //lv pass
+
+        //end of scene
+        enable.GetComponent<BlurManager>().levelPassEffect(9);
     }
 
 

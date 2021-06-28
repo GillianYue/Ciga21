@@ -69,7 +69,7 @@ public class starsManager : MonoBehaviour
         globalState.globalClickable = true;
 
         if (which == 3)
-        {
+        {//ending
 
             yield return new WaitForSeconds(8);
 
@@ -114,6 +114,8 @@ public class starsManager : MonoBehaviour
 
             yield return new WaitForSeconds(2);
 
+            //end of scene
+            globalState.GetComponent<BlurManager>().levelPassEffect(5);
         }
     }
 }

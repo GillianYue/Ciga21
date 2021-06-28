@@ -319,7 +319,9 @@ public class interactable : MonoBehaviour
         GameObject pasta = swapSpriteToTarget();
         yield return new WaitForSeconds(3);
         gameControl.GetComponent<BlurManager>().scene1Clear1();
-        gameControl.GetComponent<BlurManager>().backBlur.GetComponent<CanvasGroup>().blocksRaycasts = false;
+
+        yield return new WaitForSeconds(3);
+        globalState.l1Scene.transform.Find("Butterfly").GetComponent<interactable>().clickable = true;
     }
 
     public void instrumentStartPlaying()
@@ -520,7 +522,8 @@ public class interactable : MonoBehaviour
                     }
                 }
                 else if (var1 == 1)
-                {
+                {//hiding it behind the couch
+
                     myAnimator.SetTrigger("action4"); // roll away
 
                     yield return new WaitForSeconds(10);
@@ -657,6 +660,9 @@ public class interactable : MonoBehaviour
                     //sfx thud
                     yield return new WaitForSeconds(4);
                     ma.GetComponent<imgSwitcher>().switchToImgState(4);
+
+                    //end of scene
+                    gameControl.GetComponent<BlurManager>().levelPassEffect(2);
                 }
                 break;
 
@@ -1041,6 +1047,8 @@ public class interactable : MonoBehaviour
                     yield return new WaitForSeconds(3f);
 
                     //end scene transition
+                    //end of scene
+                    gameControl.GetComponent<BlurManager>().levelPassEffect(8);
                 }
 
                 break;
@@ -1321,6 +1329,8 @@ public class interactable : MonoBehaviour
 
                     yield return new WaitForSeconds(4);
 
+                    //end of scene
+                    gameControl.GetComponent<BlurManager>().levelPassEffect(10);
                 }
                 else
                 {

@@ -11,7 +11,7 @@ public class blurEffectAnim : MonoBehaviour
     float minScale, maxScale;
     public float intensity; //calculated from above values
     public float fluctuateSpeed = 2;
-    bool lerping;
+    public bool lerping;
     float lerpStartSize;
     public float lerpTime = 2;
 

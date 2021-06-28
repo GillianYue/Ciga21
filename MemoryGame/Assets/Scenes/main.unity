@@ -25194,7 +25194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7053b85ac080cf542b5c0fe5d55ada47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clickable: 1
+  clickable: 0
   numInteractions: 4
   changeIntoPrefab: {fileID: 9023647655525281201, guid: 00764f8c06a3ab24b9502112a7c7066f,
     type: 3}
@@ -28498,6 +28498,7 @@ MonoBehaviour:
   midPoint: 0.2
   intensity: 0.05
   fluctuateSpeed: 2
+  lerping: 0
   lerpTime: 2
 --- !u!114 &452491279
 MonoBehaviour:
@@ -47165,7 +47166,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &816063527
 RectTransform:
   m_ObjectHideFlags: 0
@@ -54316,7 +54317,6 @@ GameObject:
   - component: {fileID: 957040845}
   - component: {fileID: 957040844}
   - component: {fileID: 957040846}
-  - component: {fileID: 957040847}
   m_Layer: 0
   m_Name: Blur
   m_TagString: Untagged
@@ -54395,19 +54395,8 @@ MonoBehaviour:
   midPoint: 3
   intensity: 1
   fluctuateSpeed: 3
+  lerping: 0
   lerpTime: 2.5
---- !u!225 &957040847
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 957040842}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
 --- !u!1 &957745568
 GameObject:
   m_ObjectHideFlags: 0
@@ -54550,7 +54539,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &959833454
 RectTransform:
   m_ObjectHideFlags: 0
@@ -81059,7 +81048,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1374501587
 RectTransform:
   m_ObjectHideFlags: 0
@@ -106006,7 +105995,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enable: {fileID: 1830021999}
   test: 1
-  startLevel: 11
+  startLevel: 3
   speedUpRate: 10
   swc: {fileID: 1013337745}
 --- !u!114 &1830022002
@@ -112647,6 +112636,7 @@ MonoBehaviour:
   midPoint: 0.2
   intensity: 0.05
   fluctuateSpeed: 2
+  lerping: 0
   lerpTime: 2
 --- !u!114 &1929076274
 MonoBehaviour:
@@ -116716,6 +116706,7 @@ MonoBehaviour:
   midPoint: 0.1
   intensity: 0.1
   fluctuateSpeed: 3
+  lerping: 0
   lerpTime: 2.5
 --- !u!114 &2006746046
 MonoBehaviour:
@@ -116729,7 +116720,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: bfd6d2ba9981d694e93afffe3359cd48, type: 2}
+  m_Material: {fileID: 2100000, guid: 323a816f752bfc5479d36c396b18acec, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
