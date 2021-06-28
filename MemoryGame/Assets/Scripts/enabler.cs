@@ -240,19 +240,25 @@ public class enabler : MonoBehaviour
             case 11: //home/mirror
                 if (!subScene)
                 {
-                    blurManager.centerBlur.setNewScale(1f, 0.3f);
+                    blurManager.centerBlur.setNewScale(2f, 0.3f);
 
                     darkCover.SetTrigger("fadeOut");
                 }
                 else
                 {
+                    yield return new WaitForSeconds(2);
+                    cam.cam.Play("idle");   //reset cam position
+                    darkCover.SetTrigger("fadeOut");
+
                     //streets
 
                     //anim
                     //...
 
                     //dialogue
-
+                    StartDialogueClickThrough dlg = globalState.streetScene.transform.Find("StartDialogue").GetComponent<StartDialogueClickThrough>();
+                    dlg.gameObject.SetActive(true);
+                    dlg.enableStartDialogue();
                 }
                 break;
         }

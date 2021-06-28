@@ -1407,8 +1407,8 @@ public class interactable : MonoBehaviour
 
                 //sfx 
                 Transform dg = globalState.homeScene.transform.Find("dog_closeby");
+                dg.gameObject.SetActive(true);
                 dg.GetComponent<Animator>().SetTrigger("fadeIn");
-                yield return new WaitForSeconds(1);
                 dg.GetComponent<Animator>().SetTrigger("action1"); //hop in
 
                 yield return new WaitForSeconds(2);
@@ -1418,15 +1418,17 @@ public class interactable : MonoBehaviour
                 break;
 
             case "dog_closeby":
+                clickable = false;
                 globalState.globalClickable = false;
 
                 yield return new WaitForSeconds(1);
                 GetComponent<imgSwitcher>().switchToImgState(1);
+                //sfx
 
-                yield return new WaitForSeconds(2.5f);
+                yield return new WaitForSeconds(3.5f);
                 myAnimator.SetTrigger("fadeOut");
 
-                yield return new WaitForSeconds(2);
+                yield return new WaitForSeconds(3);
                 camMovement.camHolder.enabled = true;
                 camMovement.camHolder.Play("camShift0to1");
 
@@ -1449,6 +1451,7 @@ public class interactable : MonoBehaviour
                 break;
             case "pen":
                 globalState.penTriggered = true;
+
                 myAnimator.SetTrigger("action1");
 
                 //check for condition met after interact
@@ -1463,6 +1466,7 @@ public class interactable : MonoBehaviour
             case "mobile":
 
                 globalState.mobileTriggered = true;
+
                 myAnimator.SetTrigger("action1");
                 if (globalState.checkHomeSceneItemCondition())
                 {
@@ -1474,8 +1478,9 @@ public class interactable : MonoBehaviour
 
             case "mug":
 
-                globalState.globalClickable = false;
                 globalState.mugTriggered = true;
+
+                globalState.globalClickable = false;
 
                 Transform mg = globalState.homeScene.transform.Find("mug"), 
                     mug_hand = globalState.homeScene.transform.Find("hand_mug");

@@ -614,8 +614,8 @@ public class animEventLink : MonoBehaviour
 
     IEnumerator phoneCheckCoroutine()
     {
-
-        yield return new WaitForSeconds(3);
+        globalState.globalClickable = false;
+        yield return new WaitForSeconds(2);
         camMovement.vfx.Play("blink");
 
         yield return new WaitForSeconds(1);
@@ -667,11 +667,11 @@ public class animEventLink : MonoBehaviour
 
         yield return new WaitForSeconds(3);
 
-        camMovement.camHolder.enabled = false;
         camMovement.vfx.Play("blink");
         yield return new WaitForSeconds(1);
 
-        camMovement.cam.Play("leftRightGlance");
+        camMovement.camHolder.enabled = false;
+        camMovement.cam.Play("lrGlanceRightside");
 
         yield return new WaitForSeconds(2);
 
@@ -682,7 +682,7 @@ public class animEventLink : MonoBehaviour
     //called from btfl anim
     public void handReachOut()
     {
-        Transform hd = globalState.homeScene.transform.Find("myHand");
+        Transform hd = globalState.homeScene.transform.Find("MyHand");
         hd.gameObject.SetActive(true);
         hd.GetComponent<Animator>().SetTrigger("action1"); //reach out
 

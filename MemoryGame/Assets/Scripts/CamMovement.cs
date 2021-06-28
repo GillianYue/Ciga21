@@ -207,7 +207,7 @@ public class CamMovement : MonoBehaviour
     }
 
 
-    public void edgeScrollerArrive(int destLv) { edgeScroller.active = true; edgeScroller.currSubsceneIndex = destLv;  }
+    public void edgeScrollerArrive(int destLv) { if (edgeScroller != null) { edgeScroller.active = true; edgeScroller.currSubsceneIndex = destLv; } }
 }
 
 //temporarily stores data on camMovement before a (non)linear movement is about to begin
