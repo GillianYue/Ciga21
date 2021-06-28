@@ -49,10 +49,10 @@ public class BlurManager : MonoBehaviour
                 yield return StartCoroutine(level1Clear());
                 enablr.setUpLevel(2);
                 break;
-            case 2:
-                enablr.cam.cam.Play("idle"); //reset cam pos
+            case 3:
                 yield return StartCoroutine(generalLevelPassEffect());
-                enablr.setUpLevel(level + 1);
+                enablr.globalState.revealAndHideStuff(3, false, true); //also needs to hide subscene
+                enablr.setUpLevel(4);
                 break;
             case 4: //band
                 yield return StartCoroutine(level4Clear());

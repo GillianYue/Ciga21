@@ -576,7 +576,7 @@ public class interactable : MonoBehaviour
                     camMovement.vfx.Play("blink2x");
                     yield return new WaitForSeconds(0.5f);
                     camMovement.cam.Play("leftRightGlance");
-                    yield return new WaitForSeconds(1);
+                    yield return new WaitForSeconds(2.2f);
                     camMovement.cam.Play("nervousBreathe");
                     yield return new WaitForSeconds(7);
 
@@ -1048,7 +1048,7 @@ public class interactable : MonoBehaviour
 
                     //end scene transition
                     //end of scene
-                    gameControl.GetComponent<BlurManager>().levelPassEffect(8);
+                    gameControl.GetComponent<BlurManager>().levelPassEffect(7);
                 }
 
                 break;

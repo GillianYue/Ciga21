@@ -111,12 +111,13 @@ public class enabler : MonoBehaviour
                 darkCover.SetTrigger("fadeOut");
                 break;
             case 3: //tree
+                if (!subScene) cam.cam.Play("idle"); //reset cam pos (only when transitioning from scene 2)
                 if (subScene) gs.revealAndHideStuff(3, false, false); //hide main lv stuff
 
                 darkCover.SetTrigger("fadeOut");
                 break;
             case 4: //band
-
+                cam.cam.SetTrigger("stopBreathe");
                 darkCover.SetTrigger("fadeOut");
                 break;
 
@@ -124,8 +125,9 @@ public class enabler : MonoBehaviour
                 globalState.seaScene.transform.Find("beach/friend3").gameObject.SetActive(false);
                 globalState.seaScene.transform.Find("hand_beer").gameObject.SetActive(false);
 
-                yield return new WaitForSeconds(3);
-                darkCover.enabled = false;
+                yield return new WaitForSeconds(5);
+
+                darkCover.SetTrigger("transparent");
                 cam.vfx.Play("blinkOpenEyes");
 
                 yield return new WaitForSeconds(16);
@@ -145,13 +147,15 @@ public class enabler : MonoBehaviour
 
                 break;
             case 6: //pup
-
+                cam.cam.Play("idle");
                 darkCover.SetTrigger("fadeOut");
                 break;
 
             case 7: //garden
                 if (!subScene)
                 {
+                    cam.edgeScroller = globalState.gardenScene.GetComponent<edgeScroller>();
+
                     darkCover.SetTrigger("fadeOut");
 
                     cam.GetComponent<MouseBasedCamShift>().active = false; //first turn off cam pan
