@@ -58,6 +58,11 @@ public class BlurManager : MonoBehaviour
                 yield return StartCoroutine(level4Clear());
                 enablr.setUpLevel(5);
                 break;
+            case 7: //garden
+                yield return StartCoroutine(generalLevelPassEffect());
+                enablr.globalState.revealAndHideStuff(7, false, true); //also needs to hide subscene
+                enablr.setUpLevel(8);
+                break;
             case 9:
                 //yield return StartCoroutine(level9Clear()); TODO
                 //set up level 10

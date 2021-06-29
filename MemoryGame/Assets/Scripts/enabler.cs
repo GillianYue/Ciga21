@@ -204,7 +204,8 @@ public class enabler : MonoBehaviour
                 }
                 break;
             case 8: //bicker
-                yield return new WaitForSeconds(2);
+
+                yield return new WaitForSeconds(4);
                 globalState.globalClickable = false;
                 //TODO sfx
 
@@ -250,8 +251,9 @@ public class enabler : MonoBehaviour
                 }
                 else
                 {
+                    cam.cam.Play("idle");
                     yield return new WaitForSeconds(2);
-                    cam.cam.Play("idle");   //reset cam position
+                       //reset cam position
                     darkCover.SetTrigger("fadeOut");
 
                     //streets
