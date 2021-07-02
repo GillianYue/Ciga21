@@ -147,6 +147,7 @@ public class enabler : MonoBehaviour
 
                 break;
             case 6: //pup
+                cam.camHolder.enabled = false;
                 cam.cam.Play("idle");
                 darkCover.SetTrigger("fadeOut");
                 break;
@@ -235,7 +236,7 @@ public class enabler : MonoBehaviour
                 darkCover.SetTrigger("fadeOut");
                 break;
             case 10: //graveyard
-
+                cam.vfx.transform.Find("Noises").gameObject.SetActive(false);
                 cam.cam.Play("camStormShake");
                 weather w = globalState.graveyardScene.transform.Find("sky").GetComponent<weather>();
                 w.startLightening();
@@ -245,7 +246,10 @@ public class enabler : MonoBehaviour
             case 11: //home/mirror
                 if (!subScene)
                 {
-                    blurManager.centerBlur.setNewScale(2f, 0.3f);
+                    cam.cam.Play("idle");
+                    yield return new WaitForSeconds(2);
+
+                    blurManager.centerBlur.setNewScale(2f, 0.3f); //initial blur
 
                     darkCover.SetTrigger("fadeOut");
                 }

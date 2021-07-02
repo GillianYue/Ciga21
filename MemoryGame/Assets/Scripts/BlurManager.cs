@@ -205,7 +205,7 @@ public class BlurManager : MonoBehaviour
         yield return new WaitForSeconds(3f);
         centerBlur.setNewScale(1.2f, 0.1f);
 
-        //        her.SetTrigger("eyeMask");
+        //her.SetTrigger("eyeMask");
         yield return new WaitForSeconds(3);
         centerBlur.setNewScale(2.7f, 0.1f);
         yield return new WaitForSeconds(3);
