@@ -1688,6 +1688,7 @@ public class interactable : MonoBehaviour
             }
         } else if (parentName.Equals("stars"))
         {
+            GetComponent<AudioSource>().Play();
             clickable = false; //disable star clicking check
             starsManager starsManage = FindObjectOfType<starsManager>();
 
