@@ -129,10 +129,10 @@ public class BlurManager : MonoBehaviour
         table.switchToImgState(1);
         yield return new WaitForSeconds(0.5f);
 
+        yield return StartCoroutine(generalLevelPassEffect());
+
         Destroy(GameObject.Find("Pasta(Clone)"));
         Destroy(GameObject.Find("Pepper(Clone)"));
-
-        yield return StartCoroutine(generalLevelPassEffect());
     }
 
     IEnumerator level4Clear()

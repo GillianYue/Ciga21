@@ -17,6 +17,8 @@ public class enabler : MonoBehaviour
 
     public Animator[] startMenuFocusObjects; //photo, mdc and report
 
+    public int language; //0 eng, 1 chn
+
     private void Awake()
     {
         if (cam == null) cam = FindObjectOfType<CamMovement>();
@@ -111,7 +113,8 @@ public class enabler : MonoBehaviour
                 darkCover.SetTrigger("fadeOut");
                 break;
             case 3: //tree
-                if (!subScene) cam.cam.Play("idle"); //reset cam pos (only when transitioning from scene 2)
+
+                if (!subScene) { cam.cam.Play("idle"); cam.cam.SetTrigger("stopBreathe"); }//reset cam pos (only when transitioning from scene 2)
                 if (subScene) gs.revealAndHideStuff(3, false, false); //hide main lv stuff
 
                 darkCover.SetTrigger("fadeOut");
@@ -298,5 +301,17 @@ public class enabler : MonoBehaviour
     public void showCredits()
     {
         credits.Play("textFade");
+    }
+
+    public void switchLanguage()
+    {
+        language = (language == 1) ? 0 : 1;
+
+        textAutoLanguage[] activeTexts = FindObjectsOfType<textAutoLanguage>();
+
+        foreach(textAutoLanguage t in activeTexts)
+        {
+            t.switchTextDisplayToCurrentLanguage(); //manual switch when button been clicked
+        }
     }
 }

@@ -88,13 +88,13 @@ public class CamMovement : MonoBehaviour
         //vfx.Play("blink");
 
         //yield return moveToLinearInSecs(gameObject, pos, 1f * scale, new bool[1]);
-        yield return moveWorldDestAccl(pos);
+        yield return moveWorldDestAccl(pos, false); //stay on the object after reach
 
         yield return new WaitForSeconds(3); //linger time
 
         cam.Play("generalCamZoomOut");
         //yield return moveToLinearInSecs(gameObject, originalPos, 1.5f * scale, new bool[1]);
-        yield return moveWorldDestAccl(originalPos);
+        yield return moveWorldDestAccl(originalPos, false);
         yield return new WaitForSeconds(1);
 
         globalStates.globalClickable = true;
@@ -119,9 +119,13 @@ public class CamMovement : MonoBehaviour
         yield return glanceAndMoveBack(dst, lingerTime, new Vector2(0, 0));
     }
 
-
-    //non linear cam movement (linear movement mixed in if set so)
     public IEnumerator moveWorldDestAccl(Vector3 dest)
+    {
+        yield return moveWorldDestAccl(dest, true);
+    }
+
+        //non linear cam movement (linear movement mixed in if set so)
+        public IEnumerator moveWorldDestAccl(Vector3 dest, bool restoreToPrevState)
     {
         //store current cam movement data
         CamMovementData data = new CamMovementData(followActive, mouseBasedCamShift.active, destPos);
@@ -136,7 +140,7 @@ public class CamMovement : MonoBehaviour
         yield return new WaitUntil(() => {
             if (destReached())
             {
-                restoreData(data); //restore to prev states
+                if(restoreToPrevState) restoreData(data); //restore to prev states
 
                 //print("time taken: " + (Time.time - startTime));
                 return true;
@@ -145,7 +149,7 @@ public class CamMovement : MonoBehaviour
             {
                 Debug.LogError("dest not reached within 10 seconds, skipped");
 
-                restoreData(data); //restore to prev states
+                if (restoreToPrevState) restoreData(data); //restore to prev states
                 return true;
             }
 

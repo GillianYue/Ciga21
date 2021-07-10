@@ -307,8 +307,8 @@ public class interactable : MonoBehaviour
     {
         if(var1 == 1)
         {
+            clickable = false;
             affectsGO.GetComponent<Animator>().SetTrigger("action1");
-
         }
     }
 

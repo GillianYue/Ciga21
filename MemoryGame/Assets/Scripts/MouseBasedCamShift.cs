@@ -41,8 +41,11 @@ public class MouseBasedCamShift : MonoBehaviour
 
     public void endCamShift()
     {
-        active = false;
-        shakeTransform.localPosition = startLocalPos;
+        if (active == true)
+        {
+            active = false;
+            shakeTransform.localPosition = startLocalPos;
+        }
     }
 
 
