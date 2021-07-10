@@ -203,10 +203,14 @@ public class animEventLink : MonoBehaviour
         stand.GetComponent<Animator>().SetTrigger("fadeIn");
 
         yield return new WaitForSeconds(3);
-        f2.GetComponent<imgSwitcher>().switchToImgState(1);
+        f2.GetComponent<imgSwitcher>().switchToImgState(1); 
+        f2.Find("light").gameObject.SetActive(false);
+        f2.Find("lightAway").gameObject.SetActive(true);
 
         yield return new WaitForSeconds(1.5f);
         f1.GetComponent<imgSwitcher>().switchToImgState(2); //looking at 3
+        f1.Find("light").gameObject.SetActive(false);
+        f1.Find("lightAway").gameObject.SetActive(true);
 
         yield return new WaitForSeconds(3);
         stand.GetComponent<Animator>().SetTrigger("fadeOut");
@@ -229,6 +233,8 @@ public class animEventLink : MonoBehaviour
         f3Light.GetComponent<Animator>().SetTrigger("fadeIn"); //will auto-transition to light flicker
 
         f1.GetComponent<imgSwitcher>().switchToImgState(1);
+        f1.Find("light").gameObject.SetActive(true);
+        f1.Find("lightAway").gameObject.SetActive(false);
 
         yield return new WaitForSeconds(1.5f);
         f3.GetComponent<imgSwitcher>().switchToImgState(1); 
@@ -282,6 +288,8 @@ public class animEventLink : MonoBehaviour
 
         yield return new WaitForSeconds(3);
         f1.GetComponent<imgSwitcher>().switchToImgState(3);
+        f1.Find("light").gameObject.SetActive(false);
+        f1.Find("lightAway").gameObject.SetActive(true);
 
         yield return new WaitForSeconds(2);
         camMovement.camHolder.Play("camShiftLeftBack");
@@ -315,6 +323,8 @@ public class animEventLink : MonoBehaviour
         f3.Find("light").gameObject.SetActive(false);
         f2.Find("light").gameObject.SetActive(false);
         f1.Find("light").gameObject.SetActive(false);
+        f2.Find("lightAway").gameObject.SetActive(false);
+        f1.Find("lightAway").gameObject.SetActive(false);
 
         //adjust character sprites
         f1.GetComponent<imgSwitcher>().switchToImgState(2);
@@ -563,7 +573,7 @@ public class animEventLink : MonoBehaviour
         Transform roses = globalState.parkScene.transform.Find("roses/rosesRotate"), rosesScene = globalState.parkScene.transform.Find("roses"),
             glitch = globalState.parkScene.transform.Find("glitch"), herGlitch = globalState.parkScene.transform.Find("glitch/her"),
             screen = globalState.parkScene.transform.Find("hosp/screen"), herHosp = globalState.parkScene.transform.Find("hosp/Her"),
-            hosp = globalState.parkScene.transform.Find("hosp/bg");
+            hosp = globalState.parkScene.transform.Find("hosp/bg"), herRoses = globalState.parkScene.transform.Find("roses/her");
 
         //setup
         herHosp.Find("face").gameObject.SetActive(false);
@@ -580,12 +590,15 @@ public class animEventLink : MonoBehaviour
                 })));
         }
 
-        yield return new WaitForSeconds(4);
+        yield return new WaitForSeconds(6);
+        herRoses.GetComponent<imgSwitcher>().switchToImgState(1);
+        yield return new WaitForSeconds(1);
+
         GameObject sr = screen.Find("screenR").gameObject;
         sr.SetActive(false);
         Animator sw = screen.Find("screenW").GetComponent<Animator>();
-        sw.gameObject.SetActive(true);
         screen.gameObject.SetActive(true);
+        sw.gameObject.SetActive(true);
         sw.Play("screenFadeIn");
 
         camMovement.vfx.Play("noisesFadeOut");
@@ -596,16 +609,30 @@ public class animEventLink : MonoBehaviour
         glitch.gameObject.SetActive(true);
         herGlitch.GetComponent<Image>().enabled = true; //bg
         herGlitch.GetComponent<Animator>().Play("glitch1");
-        
 
-        yield return new WaitForSeconds(3);
-        glitch.gameObject.SetActive(false);
+
         hosp.GetComponent<Image>().enabled = true;
         herHosp.gameObject.SetActive(true);
         Transform fc = herHosp.Find("face");
         fc.gameObject.SetActive(false);
 
+        hosp.GetComponent<Animator>().Play("hspFadeAction1");
+
         yield return new WaitForSeconds(3);
+        glitch.gameObject.SetActive(false);
+
+        yield return new WaitForSeconds(2);
+
+
+        Animator hh = herHosp.GetComponent<Animator>();
+        hh.SetTrigger("fadeIn"); //universe 
+        hh.SetTrigger("action1");
+
+        yield return new WaitForSeconds(9);
+        herHosp.GetComponent<Animator>().SetTrigger("fadeOut"); //only fade out bg
+
+        yield return new WaitForSeconds(3);
+
         //fade in hosp bg
         hosp.GetComponent<Animator>().Play("hospFadeIn");
         yield return new WaitForSeconds(9);

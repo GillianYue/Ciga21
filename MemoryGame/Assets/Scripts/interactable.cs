@@ -399,11 +399,11 @@ public class interactable : MonoBehaviour
         yield return new WaitForSeconds(8);
         her.Play("cough"); //will auto-transition to next state
 
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(7);
 
         camMovement.cam.Play("camTiltHead");
 
-        yield return new WaitForSeconds(8);
+        yield return new WaitForSeconds(2);
 
         her.Play("fallAsleep");
 
@@ -421,7 +421,7 @@ public class interactable : MonoBehaviour
         camMovement.vfx.Play("blink");
 
         yield return new WaitForSeconds(4);
-        camMovement.cam.Play("nervousBreathe");
+        camMovement.cam.Play("naturalBreathe");
         yield return new WaitForSeconds(4);
 
         hosp.Find("bg").GetComponent<Animator>().Play("hspFadeAction1"); //fade in a bit and away
@@ -477,7 +477,7 @@ public class interactable : MonoBehaviour
         her.Play("herLinesAway");
 
         yield return new WaitForSeconds(1);
-        Time.timeScale = 0.4f;
+        Time.timeScale = 0.8f;
 
         yield return new WaitForSeconds(1);
         Time.timeScale = 1.2f;
@@ -1521,7 +1521,7 @@ public class interactable : MonoBehaviour
         if (name[0] == 'f' && parentName.Equals("flowers"))
         {
             //lawn flower instance
-            myAnimator.Play("empty");
+            //myAnimator.Play("empty");
 
             float rd = Random.Range(0f, 1f);
 
