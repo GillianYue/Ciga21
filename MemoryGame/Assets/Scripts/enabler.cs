@@ -175,7 +175,7 @@ public class enabler : MonoBehaviour
                     //enable flyer pan
                     Transform flyer = globalState.gardenScene.transform.Find("center").Find("flyer");
                     flyer.GetComponent<MouseBasedCamShift>().setActive(true);
-                    cam.GetComponent<MouseBasedCamShift>().setActive(true);
+                    
 
                     yield return new WaitForSeconds(4);
 
@@ -197,6 +197,7 @@ public class enabler : MonoBehaviour
                     cam.vfx.Play("blink2x");
                     yield return new WaitForSeconds(8);
                     flyer.gameObject.SetActive(false);
+                    cam.GetComponent<MouseBasedCamShift>().setActive(true);
                     cam.cam.SetTrigger("stopBreathe");
 
                     globalState.globalClickable = true;

@@ -1207,15 +1207,13 @@ public class interactable : MonoBehaviour
                         yield return new WaitForSeconds(0.3f);
                         herr.Play("girlTurnedCloserTiltHead");
                     }
-                    else if (var1 == 3)
-                    {//trigger ending anim
-
-                    }
 
                     gameObject.SetActive(false);
                 }
                 else
-                {
+                { //trigger ending
+                    camMovement.mouseBasedCamShift.setActive(false); //deactivate cam shift
+
                     GameObject mdrSlice = globalState.bickerScene.transform.Find("slice_closeup").gameObject;
                     deactivateMouseBasedCamShift(mdrSlice);
                     mdrSlice.GetComponent<Animator>().SetTrigger("action3");
@@ -1332,7 +1330,7 @@ public class interactable : MonoBehaviour
 
                     camMovement.cam.Play("camShiftGraveyardSky2");
 
-                    yield return new WaitForSeconds(4);
+                    yield return new WaitForSeconds(6);
 
                     //end of scene
                     gameControl.GetComponent<BlurManager>().levelPassEffect(10);
