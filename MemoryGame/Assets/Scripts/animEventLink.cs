@@ -171,13 +171,13 @@ public class animEventLink : MonoBehaviour
     public void activateMouseBasedCamShift()
     {
         GetComponent<Animator>().enabled = false;
-        GetComponent<MouseBasedCamShift>().active = true;
+        GetComponent<MouseBasedCamShift>().setActive(true);
     }
 
     public void deactivateMouseBasedCamShift(GameObject go) //and enable animator
     {
         go.GetComponent<Animator>().enabled = true;
-        go.GetComponent<MouseBasedCamShift>().active = false;
+        go.GetComponent<MouseBasedCamShift>().setActive(false);
     }
 
     IEnumerator sunsetDoneCoroutine()
@@ -273,12 +273,12 @@ public class animEventLink : MonoBehaviour
         yield return new WaitForSeconds(2);
 
         handAnim.enabled = false;
-        handAnim.GetComponent<MouseBasedCamShift>().active = true; //enable mouse based movement
+        handAnim.GetComponent<MouseBasedCamShift>().setActive(true); //enable mouse based movement
 
         yield return new WaitUntil(() => {
             return (Vector2.Distance(handAnim.transform.position, friendBeer.position) < 410); }); //wait til close enough
 
-        handAnim.GetComponent<MouseBasedCamShift>().active = false;
+        handAnim.GetComponent<MouseBasedCamShift>().setActive(false);
         handAnim.enabled = true;
 
         //TODO sfx of chatter
@@ -331,7 +331,7 @@ public class animEventLink : MonoBehaviour
         f2.GetComponent<imgSwitcher>().switchToImgState(1);
         f3.GetComponent<imgSwitcher>().switchToImgState(0);
 
-        camMovement.camHolder.GetComponent<MouseBasedCamShift>().active = false;
+        camMovement.camHolder.GetComponent<MouseBasedCamShift>().setActive(false);
 
         camMovement.camHolder.Play("camShiftDown"); //so that when eyes open is staring at self
 
@@ -401,7 +401,7 @@ public class animEventLink : MonoBehaviour
 
         //toggle mouse shift
         nspp_closeup.enabled = false;
-        nspp_closeup.GetComponent<MouseBasedCamShift>().active = true;
+        nspp_closeup.GetComponent<MouseBasedCamShift>().setActive(true);
 
         yield return new WaitForSeconds(2);
 
@@ -423,7 +423,7 @@ public class animEventLink : MonoBehaviour
         apple.gameObject.SetActive(true);
 
         //cam + nspp anim, zoom in as if reading closely, do this for a while and zoom out and check on her (nspp down a bit, blink)
-        nspp_closeup.GetComponent<MouseBasedCamShift>().active = false;
+        nspp_closeup.GetComponent<MouseBasedCamShift>().setActive(false);
         nspp_closeup.enabled = true;
 
         nspp_closeup.Play("nsppFocus"); //focus

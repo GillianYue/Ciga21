@@ -9,7 +9,7 @@ public class MouseBasedCamShift : MonoBehaviour
     public Vector2 moveCapacity; //cam will shift at most +moveCapacity.x upward, -moveCapacity.x downward, same for y
     public Vector2 screenDimension; //width*height; will only cause the effect to be within range of screen, if outside will curb to max/min
 
-    public bool active;
+    bool active;
     public Vector2 startLocalPos;
 
     void Start()
@@ -35,8 +35,6 @@ public class MouseBasedCamShift : MonoBehaviour
     {
         startLocalPos = shakeTransform.localPosition;
         active = true;
-
-
     }
 
     public void endCamShift()
@@ -48,5 +46,10 @@ public class MouseBasedCamShift : MonoBehaviour
         }
     }
 
+    public bool getActive() { return active; }
 
+    public void setActive(bool a) {
+        if (a) startCamShift();
+        else endCamShift();
+    }
 }

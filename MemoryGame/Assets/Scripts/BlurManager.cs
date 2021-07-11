@@ -71,6 +71,12 @@ public class BlurManager : MonoBehaviour
                 enablr.setUpLevel(10);
                 break;
 
+            case 10://grave
+
+                darkCover.gameObject.SetActive(true); //a sudden transition
+                yield return StartCoroutine(generalLevelPassEffect());
+                enablr.setUpLevel(11);
+                break;
             case 11:
                 //
                 GetComponent<enabler>().gamePass();

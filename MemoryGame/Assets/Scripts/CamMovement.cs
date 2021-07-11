@@ -128,7 +128,7 @@ public class CamMovement : MonoBehaviour
         public IEnumerator moveWorldDestAccl(Vector3 dest, bool restoreToPrevState)
     {
         //store current cam movement data
-        CamMovementData data = new CamMovementData(followActive, mouseBasedCamShift.active, destPos);
+        CamMovementData data = new CamMovementData(followActive, mouseBasedCamShift.getActive(), destPos);
 
         followActive = true;
         mouseBasedCamShift.endCamShift();
@@ -161,7 +161,7 @@ public class CamMovement : MonoBehaviour
     {
 
         //store current cam movement data
-        CamMovementData data = new CamMovementData(this.followActive, mouseBasedCamShift.active, destPos);
+        CamMovementData data = new CamMovementData(this.followActive, mouseBasedCamShift.getActive(), destPos);
 
 
         destPos = new Vector3(dest.x, dest.y, destPos.z);
@@ -179,7 +179,7 @@ public class CamMovement : MonoBehaviour
     public static IEnumerator moveCamToLinearInSecs(CamMovement cam, GameObject e, int x, int y, float sec, bool[] done)
     {
         //store current cam movement data
-        CamMovementData data = new CamMovementData(cam.followActive, cam.mouseBasedCamShift.active, cam.destPos);
+        CamMovementData data = new CamMovementData(cam.followActive, cam.mouseBasedCamShift.getActive(), cam.destPos);
 
 
         float xDist = x - e.transform.position.x;

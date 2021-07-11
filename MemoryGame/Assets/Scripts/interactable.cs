@@ -826,8 +826,8 @@ public class interactable : MonoBehaviour
                         hand.SetTrigger("action1"); //hold
 
                         //toggle on mouse based cam shift
-                        hand.transform.parent.GetComponent<MouseBasedCamShift>().active = true;
-                        transform.parent.GetComponent<MouseBasedCamShift>().active = true;
+                        hand.transform.parent.GetComponent<MouseBasedCamShift>().setActive(true);
+                        transform.parent.GetComponent<MouseBasedCamShift>().setActive(true);
 
                         yield return new WaitForSeconds(2); //time for ball to be on hand
 
@@ -867,8 +867,8 @@ public class interactable : MonoBehaviour
                         hd.SetTrigger("action1"); //hold
 
                         //toggle on mouse based cam shift
-                        hd.transform.parent.GetComponent<MouseBasedCamShift>().active = true;
-                        transform.parent.GetComponent<MouseBasedCamShift>().active = true;
+                        hd.transform.parent.GetComponent<MouseBasedCamShift>().setActive(true);
+                        transform.parent.GetComponent<MouseBasedCamShift>().setActive(true);
 
                         yield return new WaitForSeconds(2);
 
@@ -900,20 +900,20 @@ public class interactable : MonoBehaviour
                 hdd.SetTrigger("action2"); //throw
 
                 //toggle off mouse based pos offset
-                hdd.transform.parent.GetComponent<MouseBasedCamShift>().active = false;
+                hdd.transform.parent.GetComponent<MouseBasedCamShift>().setActive(false);
 
 
                 if (bl.var1 == 1)
                 {
                     pp.Play("dFetchBall");
                     bl.GetComponent<Animator>().SetTrigger("action3");
-                    bl.transform.parent.GetComponent<MouseBasedCamShift>().active = false;
+                    bl.transform.parent.GetComponent<MouseBasedCamShift>().setActive(false);
                 }
                 else if (stk.var1 == 1)
                 {
                     pp.Play("dFetchTwig");
                     stk.GetComponent<Animator>().SetTrigger("action3");
-                    stk.transform.parent.GetComponent<MouseBasedCamShift>().active = false;
+                    stk.transform.parent.GetComponent<MouseBasedCamShift>().setActive(false);
                 }
                 else Debug.LogError("no item is being held");
 
@@ -1021,6 +1021,7 @@ public class interactable : MonoBehaviour
                     Animator handCloseup = closeupScene.Find("hand").GetComponent<Animator>(),
                         mucha = closeupScene.Find("mucha_filter").GetComponent<Animator>(), klimt = closeupScene.Find("klimt").GetComponent<Animator>();
 
+                    handCloseup.GetComponent<animEventLink>().deactivateMouseBasedCamShift(handCloseup.gameObject);
 
                     yield return new WaitForSeconds(1f);
                     handCloseup.SetTrigger("action2"); //quick hide
@@ -1039,8 +1040,12 @@ public class interactable : MonoBehaviour
                 }
                 else
                 {
+
+                    Animator handCloseup = globalState.gardenCloseupScene.transform.Find("hand").GetComponent<Animator>();
+
                     GetComponent<interactable>().clickable = false;
-                    globalState.gardenCloseupScene.transform.Find("hand").GetComponent<Animator>().SetTrigger("fadeOut");
+                    handCloseup.GetComponent<animEventLink>().deactivateMouseBasedCamShift(handCloseup.gameObject);
+                    handCloseup.SetTrigger("fadeOut");
                     yield return new WaitForSeconds(3f);
 
                     GetComponent<Animator>().SetTrigger("action2"); //wear flower
@@ -1621,7 +1626,11 @@ public class interactable : MonoBehaviour
                     //trigger effect
                     //TODO sfx
 
-                    Transform center = globalState.gardenScene.transform.Find("center");
+                    camMovement.mouseBasedCamShift.setActive(false);
+
+                    Transform center = globalState.gardenScene.transform.Find("center"), left = globalState.gardenScene.transform.Find("left"), 
+                        right = globalState.gardenScene.transform.Find("right");
+
                     Transform up_front = center.Find("up_front"), flowers1 = center.Find("flowers1"), bottomLeft = center.Find("bottomLeft"),
                         muchaFilter = center.Find("mucha_filter");
                     muchaFilter.gameObject.SetActive(false);
@@ -1630,6 +1639,9 @@ public class interactable : MonoBehaviour
                     Transform l1 = up_front.Find("l1"), l2 = up_front.Find("l2"), l3 = up_front.Find("l3"), l4 = up_front.Find("l4");
 
                     yield return new WaitForSeconds(3);
+
+                    left.SetAsLastSibling();
+                    right.SetAsLastSibling(); //so that center is behind those two 
 
                     treeflower.GetComponent<Animator>().SetTrigger("fadeIn"); //override original fadeIn; fade in color
                     l1.GetComponent<Animator>().SetTrigger("fadeIn");
@@ -1937,12 +1949,12 @@ public class interactable : MonoBehaviour
     public void activateMouseBasedCamShift(GameObject go)
     {
         go.GetComponent<Animator>().enabled = false;
-        go.GetComponent<MouseBasedCamShift>().active = true;
+        go.GetComponent<MouseBasedCamShift>().setActive(true);
     }
 
     public void deactivateMouseBasedCamShift(GameObject go) //and enable animator
     {
         go.GetComponent<Animator>().enabled = true;
-        go.GetComponent<MouseBasedCamShift>().active = false;
+        go.GetComponent<MouseBasedCamShift>().setActive(false);
     }
 }

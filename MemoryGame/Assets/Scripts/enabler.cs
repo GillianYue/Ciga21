@@ -162,7 +162,7 @@ public class enabler : MonoBehaviour
 
                     darkCover.SetTrigger("fadeOut");
 
-                    cam.GetComponent<MouseBasedCamShift>().active = false; //first turn off cam pan
+                    cam.GetComponent<MouseBasedCamShift>().setActive(false); //first turn off cam pan
                     cam.camHolder.GetComponent<Animator>().enabled = false;
                     globalState.globalClickable = false; //disable until opening done
 
@@ -174,8 +174,8 @@ public class enabler : MonoBehaviour
 
                     //enable flyer pan
                     Transform flyer = globalState.gardenScene.transform.Find("center").Find("flyer");
-                    flyer.GetComponent<MouseBasedCamShift>().active = true;
-                    cam.GetComponent<MouseBasedCamShift>().active = true;
+                    flyer.GetComponent<MouseBasedCamShift>().setActive(true);
+                    cam.GetComponent<MouseBasedCamShift>().setActive(true);
 
                     yield return new WaitForSeconds(4);
 
@@ -203,6 +203,7 @@ public class enabler : MonoBehaviour
                 }
                 else
                 {
+                    cam.mouseBasedCamShift.setActive(true);
                     gs.revealAndHideStuff(7, false, false); //hide main lv stuff
                     darkCover.SetTrigger("fadeOut");
                 }
@@ -239,6 +240,8 @@ public class enabler : MonoBehaviour
                 darkCover.SetTrigger("fadeOut");
                 break;
             case 10: //graveyard
+                globalState.graveyardScene.transform.Find("dark_cover").GetComponent<MouseBasedCamShift>().setActive(true);
+
                 cam.vfx.transform.Find("Noises").gameObject.SetActive(false);
                 cam.cam.Play("camStormShake");
                 weather w = globalState.graveyardScene.transform.Find("sky").GetComponent<weather>();
