@@ -25,7 +25,7 @@ public class AudioManager : MonoBehaviour
     {
         if (level > levelAudios.Length) { Debug.LogError("level exceeds levelAudios array"); return; }
 
-        audioSources[level-1][index].Play();
+        audioSources[level][index].Play();
 
     }
 
@@ -34,7 +34,7 @@ public class AudioManager : MonoBehaviour
     {
         if (level > levelAudios.Length) { Debug.LogError("level exceeds levelAudios array"); return; }
 
-        audioSources[level - 1][index].Stop();
+        audioSources[level][index].Stop();
 
     }
 
@@ -61,6 +61,7 @@ public class AudioManager : MonoBehaviour
 
     public void playInstrumentTrackInSync(int instrumentIndex)
     {
+        int bandSceneIndex = 4;
 
         bool lastOne = (globalState.guitar && globalState.drums && globalState.accordion);
 
@@ -77,18 +78,18 @@ public class AudioManager : MonoBehaviour
 
             for(int s=9; s<12; s++)
             {
-                audioSources[3][s].Stop();
-                audioSources[3][s].time = 0;
-                audioSources[3][s].loop = false;
-                audioSources[3][s].volume = 0.8f;
-                audioSources[3][s].Play();
+                audioSources[bandSceneIndex][s].Stop();
+                audioSources[bandSceneIndex][s].time = 0;
+                audioSources[bandSceneIndex][s].loop = false;
+                audioSources[bandSceneIndex][s].volume = 0.8f;
+                audioSources[bandSceneIndex][s].Play();
             }
             
         }
         else
         {
-            audioSources[3][clipIndex].time = Mathf.Max(audioSources[3][9].time, audioSources[3][10].time, audioSources[3][11].time);
-            audioSources[3][clipIndex].Play();
+            audioSources[bandSceneIndex][clipIndex].time = Mathf.Max(audioSources[bandSceneIndex][9].time, audioSources[bandSceneIndex][10].time, audioSources[bandSceneIndex][11].time);
+            audioSources[bandSceneIndex][clipIndex].Play();
         }
         
         
