@@ -38,6 +38,27 @@ public class AudioManager : MonoBehaviour
 
     }
 
+    public void fadeVolumeSFX(int level, int index, float duration, float targetVolume)
+    {
+        StartCoroutine(fadeVolumeSFXCoroutine(audioSources[level - 1][index], duration, targetVolume));
+    }
+
+    IEnumerator fadeVolumeSFXCoroutine(AudioSource audioSource, float duration, float targetVolume)
+    {
+        float currentTime = 0;
+        float startVol = audioSource.volume;
+
+        while(currentTime < duration)
+        {
+            currentTime += Time.deltaTime;
+            audioSource.volume = Mathf.Lerp(startVol, targetVolume, currentTime / duration);
+            yield return null;
+        }
+
+        if (targetVolume == 0) audioSource.Stop();
+        yield break;
+    }
+
     public void playInstrumentTrackInSync(int instrumentIndex)
     {
 
