@@ -11824,6 +11824,7 @@ GameObject:
   - component: {fileID: 214203183}
   - component: {fileID: 214203182}
   - component: {fileID: 214203181}
+  - component: {fileID: 214203184}
   m_Layer: 5
   m_Name: 2.3
   m_TagString: Untagged
@@ -11910,6 +11911,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 214203179}
   m_CullTransparentMesh: 0
+--- !u!114 &214203184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 214203179}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4a692a9d3bb0c54e8011ee8ab5a1b42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enable: {fileID: 1830021999}
+  languageTexts:
+  - Ok, bye.
+  - "\u597D\uFF0C\u518D\u89C1\u3002"
+  myText: {fileID: 0}
 --- !u!1 &215089285
 GameObject:
   m_ObjectHideFlags: 0
@@ -20185,6 +20203,7 @@ GameObject:
   - component: {fileID: 286628134}
   - component: {fileID: 286628133}
   - component: {fileID: 286628132}
+  - component: {fileID: 286628135}
   m_Layer: 5
   m_Name: 2.2
   m_TagString: Untagged
@@ -20271,6 +20290,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 286628130}
   m_CullTransparentMesh: 0
+--- !u!114 &286628135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 286628130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4a692a9d3bb0c54e8011ee8ab5a1b42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enable: {fileID: 1830021999}
+  languageTexts:
+  - Alright sir, take care. Don't go wander off like that again!
+  - "\u8001\u5148\u751F\uFF0C\u4FDD\u91CD\u8EAB\u4F53\u3002\u522B\u518D\u5728\u5916\u9762\u4E71\u8D70\u4E86\uFF01"
+  myText: {fileID: 0}
 --- !u!1 &288516792
 GameObject:
   m_ObjectHideFlags: 0
@@ -21773,6 +21809,7 @@ GameObject:
   - component: {fileID: 317789072}
   - component: {fileID: 317789071}
   - component: {fileID: 317789070}
+  - component: {fileID: 317789073}
   m_Layer: 5
   m_Name: 1.1
   m_TagString: Untagged
@@ -21859,6 +21896,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 317789068}
   m_CullTransparentMesh: 0
+--- !u!114 &317789073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 317789068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4a692a9d3bb0c54e8011ee8ab5a1b42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enable: {fileID: 1830021999}
+  languageTexts:
+  - ...sir? Are you lost?
+  - "...\u8001\u5148\u751F\uFF1F\u4F60\u8FF7\u8DEF\u4E86\u5417\uFF1F"
+  myText: {fileID: 0}
 --- !u!1 &318480179
 GameObject:
   m_ObjectHideFlags: 0
@@ -23998,6 +24052,7 @@ GameObject:
   - component: {fileID: 357801845}
   - component: {fileID: 357801844}
   - component: {fileID: 357801843}
+  - component: {fileID: 357801846}
   m_Layer: 5
   m_Name: 2.1
   m_TagString: Untagged
@@ -24084,6 +24139,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 357801841}
   m_CullTransparentMesh: 0
+--- !u!114 &357801846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 357801841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4a692a9d3bb0c54e8011ee8ab5a1b42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enable: {fileID: 1830021999}
+  languageTexts:
+  - 'Here we are. '
+  - "\u6211\u4EEC\u5230\u5566\u3002"
+  myText: {fileID: 0}
 --- !u!1 &358467348
 GameObject:
   m_ObjectHideFlags: 0
@@ -27777,6 +27849,7 @@ GameObject:
   - component: {fileID: 417974195}
   - component: {fileID: 417974194}
   - component: {fileID: 417974196}
+  - component: {fileID: 417974197}
   m_Layer: 5
   m_Name: 2.1
   m_TagString: Untagged
@@ -27863,6 +27936,23 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &417974197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 417974192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4a692a9d3bb0c54e8011ee8ab5a1b42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enable: {fileID: 1830021999}
+  languageTexts:
+  - "I don\u2019t have trouble living daily, though. "
+  - "\u6211\u65E5\u5E38\u5012\u662F\u6CA1\u6709\u4EC0\u4E48\u56F0\u96BE\u3002"
+  myText: {fileID: 0}
 --- !u!1 &418265857
 GameObject:
   m_ObjectHideFlags: 0
@@ -33482,6 +33572,7 @@ GameObject:
   - component: {fileID: 544763945}
   - component: {fileID: 544763944}
   - component: {fileID: 544763946}
+  - component: {fileID: 544763947}
   m_Layer: 5
   m_Name: 2.2
   m_TagString: Untagged
@@ -33568,6 +33659,23 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &544763947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 544763942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4a692a9d3bb0c54e8011ee8ab5a1b42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enable: {fileID: 1830021999}
+  languageTexts:
+  - 'I live a very simple life. '
+  - "\u6211\u7684\u751F\u6D3B\u5F88\u7B80\u5355\u3002"
+  myText: {fileID: 0}
 --- !u!1 &545820672
 GameObject:
   m_ObjectHideFlags: 0
@@ -37960,6 +38068,7 @@ GameObject:
   - component: {fileID: 618440274}
   - component: {fileID: 618440273}
   - component: {fileID: 618440275}
+  - component: {fileID: 618440276}
   m_Layer: 5
   m_Name: 3.1
   m_TagString: Untagged
@@ -38046,6 +38155,23 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &618440276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 618440271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4a692a9d3bb0c54e8011ee8ab5a1b42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enable: {fileID: 1830021999}
+  languageTexts:
+  - "I don\u2019t want to forget things. "
+  - "\u6211\u4E0D\u60F3\u8981\u5FD8\u8BB0\u3002"
+  myText: {fileID: 0}
 --- !u!1 &619757637
 GameObject:
   m_ObjectHideFlags: 0
@@ -54203,6 +54329,7 @@ GameObject:
   - component: {fileID: 922949004}
   - component: {fileID: 922949003}
   - component: {fileID: 922949002}
+  - component: {fileID: 922949005}
   m_Layer: 5
   m_Name: 1.2
   m_TagString: Untagged
@@ -54289,6 +54416,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 922949000}
   m_CullTransparentMesh: 0
+--- !u!114 &922949005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 922949000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4a692a9d3bb0c54e8011ee8ab5a1b42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enable: {fileID: 1830021999}
+  languageTexts:
+  - Would you want me to walk you home?
+  - "\u6211\u628A\u4F60\u9001\u56DE\u5BB6\u5427\uFF1F"
+  myText: {fileID: 0}
 --- !u!1 &923035555
 GameObject:
   m_ObjectHideFlags: 0
@@ -58944,6 +59088,7 @@ GameObject:
   - component: {fileID: 1005468710}
   - component: {fileID: 1005468709}
   - component: {fileID: 1005468711}
+  - component: {fileID: 1005468712}
   m_Layer: 5
   m_Name: 3.2
   m_TagString: Untagged
@@ -59030,6 +59175,23 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1005468712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1005468707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4a692a9d3bb0c54e8011ee8ab5a1b42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enable: {fileID: 1830021999}
+  languageTexts:
+  - ...time for bed.
+  - "...\u8BE5\u7761\u4E86\u3002"
+  myText: {fileID: 0}
 --- !u!1 &1006686978
 GameObject:
   m_ObjectHideFlags: 0
@@ -65056,6 +65218,7 @@ GameObject:
   - component: {fileID: 1114924194}
   - component: {fileID: 1114924193}
   - component: {fileID: 1114924195}
+  - component: {fileID: 1114924196}
   m_Layer: 5
   m_Name: 1.1
   m_TagString: Untagged
@@ -65142,6 +65305,23 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1114924196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1114924191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4a692a9d3bb0c54e8011ee8ab5a1b42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enable: {fileID: 1830021999}
+  languageTexts:
+  - 'I am an old man already. '
+  - "\u6211\u5DF2\u7ECF\u8001\u4E86\u3002"
+  myText: {fileID: 0}
 --- !u!1 &1116823964
 GameObject:
   m_ObjectHideFlags: 0
@@ -65577,6 +65757,7 @@ GameObject:
   - component: {fileID: 1124153801}
   - component: {fileID: 1124153800}
   - component: {fileID: 1124153802}
+  - component: {fileID: 1124153803}
   m_Layer: 5
   m_Name: 2.3
   m_TagString: Untagged
@@ -65664,6 +65845,24 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1124153803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1124153798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4a692a9d3bb0c54e8011ee8ab5a1b42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enable: {fileID: 1830021999}
+  languageTexts:
+  - "Sometimes I can\u2019t sleep, so I take two sleeping pills before I go to bed.
+    And then, I would dream. And dream some more."
+  - "\u6709\u65F6\u5019\u6211\u7761\u4E0D\u7740\uFF0C\u5C31\u5728\u7761\u89C9\u524D\u5403\u4E24\u7247\u5B89\u7720\u836F\u3002\u4E4B\u540E\uFF0C\u6211\u5C31\u4F1A\u505A\u68A6\u3002\u7136\u540E\u505A\u66F4\u591A\u7684\u68A6\u3002"
+  myText: {fileID: 0}
 --- !u!1 &1125584138
 GameObject:
   m_ObjectHideFlags: 0
@@ -83888,6 +84087,7 @@ GameObject:
   - component: {fileID: 1387114481}
   - component: {fileID: 1387114480}
   - component: {fileID: 1387114482}
+  - component: {fileID: 1387114483}
   m_Layer: 5
   m_Name: 1.3
   m_TagString: Untagged
@@ -83975,6 +84175,24 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1387114483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1387114478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4a692a9d3bb0c54e8011ee8ab5a1b42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enable: {fileID: 1830021999}
+  languageTexts:
+  - Some time ago, my doctor told me that I have Alzheimer's disease. Apparently,
+    it makes you forget things.
+  - "\u4E0D\u4E45\u524D\uFF0C\u533B\u751F\u8DDF\u6211\u8BF4\u6211\u5F97\u4E86\u201C\u963F\u5C14\u8328\u6D77\u9ED8\u75C7\u201D\u3002\u5F88\u663E\u7136\uFF0C\u8FD9\u4F1A\u8BA9\u4EBA\u5FD8\u8BB0\u4E00\u4E9B\u4E8B\u60C5\u3002"
+  myText: {fileID: 0}
 --- !u!1 &1390768603
 GameObject:
   m_ObjectHideFlags: 0
@@ -95653,6 +95871,7 @@ GameObject:
   - component: {fileID: 1602761193}
   - component: {fileID: 1602761192}
   - component: {fileID: 1602761191}
+  - component: {fileID: 1602761194}
   m_Layer: 5
   m_Name: 1.3
   m_TagString: Untagged
@@ -95739,6 +95958,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1602761189}
   m_CullTransparentMesh: 0
+--- !u!114 &1602761194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1602761189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4a692a9d3bb0c54e8011ee8ab5a1b42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enable: {fileID: 1830021999}
+  languageTexts:
+  - 'Where do you live? '
+  - "\u4F60\u4F4F\u5728\u54EA\u91CC\u5440\uFF1F"
+  myText: {fileID: 0}
 --- !u!1 &1604134750
 GameObject:
   m_ObjectHideFlags: 0
@@ -100354,6 +100590,7 @@ GameObject:
   - component: {fileID: 1696158136}
   - component: {fileID: 1696158135}
   - component: {fileID: 1696158134}
+  - component: {fileID: 1696158137}
   m_Layer: 5
   m_Name: 1.4
   m_TagString: Untagged
@@ -100440,6 +100677,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1696158132}
   m_CullTransparentMesh: 0
+--- !u!114 &1696158137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1696158132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4a692a9d3bb0c54e8011ee8ab5a1b42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enable: {fileID: 1830021999}
+  languageTexts:
+  - ...You don't remember?
+  - "...\u4F60\u4E0D\u8BB0\u5F97\u4E86\uFF1F"
+  myText: {fileID: 0}
 --- !u!1 &1702121335
 GameObject:
   m_ObjectHideFlags: 0
@@ -115646,6 +115900,7 @@ GameObject:
   - component: {fileID: 1927796734}
   - component: {fileID: 1927796733}
   - component: {fileID: 1927796735}
+  - component: {fileID: 1927796736}
   m_Layer: 5
   m_Name: 1.2
   m_TagString: Untagged
@@ -115732,6 +115987,23 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1927796736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1927796731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4a692a9d3bb0c54e8011ee8ab5a1b42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enable: {fileID: 1830021999}
+  languageTexts:
+  - I live alone.
+  - "\u6211\u81EA\u5DF1\u4E00\u4E2A\u4EBA\u4F4F\u3002"
+  myText: {fileID: 0}
 --- !u!1 &1928698548
 GameObject:
   m_ObjectHideFlags: 0
@@ -116133,6 +116405,7 @@ GameObject:
   - component: {fileID: 1931144354}
   - component: {fileID: 1931144353}
   - component: {fileID: 1931144352}
+  - component: {fileID: 1931144355}
   m_Layer: 5
   m_Name: 1.5
   m_TagString: Untagged
@@ -116219,6 +116492,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1931144350}
   m_CullTransparentMesh: 0
+--- !u!114 &1931144355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1931144350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4a692a9d3bb0c54e8011ee8ab5a1b42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enable: {fileID: 1830021999}
+  languageTexts:
+  - Hey, wait, where are you going?
+  - "\u7B49\u7B49\uFF0C\u8981\u53BB\u54EA\u513F\u554A\uFF1F"
+  myText: {fileID: 0}
 --- !u!1 &1935256353
 GameObject:
   m_ObjectHideFlags: 0
