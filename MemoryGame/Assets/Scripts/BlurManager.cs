@@ -79,6 +79,7 @@ public class BlurManager : MonoBehaviour
                 break;
             case 11:
                 //
+                yield return StartCoroutine(generalLevelPassEffect());
                 GetComponent<enabler>().gamePass();
                 break;
 

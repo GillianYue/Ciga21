@@ -79,15 +79,45 @@ public class StartDialogueClickThrough : MonoBehaviour
                     yield return new WaitForSeconds(1f);
                     break;
                 case 9:
+
                     for (int i = 5; i < 8; i++)
                     {
                         textAnimators[i].SetTrigger("fadeOutText");
                     }
+
+                    Transform mirrorScene = myEnabler.globalState.mirrorScene.transform;
+
+                    mirrorScene.gameObject.SetActive(true);
+                    Transform mirror = mirrorScene.Find("mirror"), things = mirrorScene.Find("things");
+                    mirror.gameObject.SetActive(false); things.gameObject.SetActive(false);
                     backPanel.SetTrigger("fadeOutSlow"); //text panel fade 
 
                     yield return new WaitForSeconds(3f);
-                    //TODO set up mirror scene
 
+                    mirror.gameObject.SetActive(true); things.gameObject.SetActive(true);
+                    mirror.GetComponent<Animator>().SetTrigger("fadeIn");
+                    things.GetComponent<Animator>().SetTrigger("fadeIn");
+
+                    yield return new WaitForSeconds(6f);
+                    Transform girl = mirrorScene.Find("girl");
+                    girl.gameObject.SetActive(true);
+                   // girl.GetComponent<Animator>().SetTrigger("fadeIn");
+                   // yield return new WaitForSeconds(4f);
+
+                    girl.GetComponent<imgSwitcher>().switchToImgState(1);
+
+                    girl.GetComponent<Animator>().SetTrigger("action1"); //pollock
+                    //will trigger fade out by end of animation
+
+                    yield return new WaitForSeconds(14f);
+                    Transform me = mirrorScene.Find("me");
+                    me.gameObject.SetActive(true);
+                    me.GetComponent<Animator>().SetTrigger("fadeIn");
+                    me.GetComponent<Animator>().SetTrigger("action1");
+
+                    yield return new WaitForSeconds(8f);
+
+                    myEnabler.GetComponent<BlurManager>().levelPassEffect(11);
 
                     yield return new WaitForSeconds(2f);
                     backPanel.gameObject.SetActive(false);
@@ -181,5 +211,6 @@ public class StartDialogueClickThrough : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         counter = 1;
         animating = false;
+
     }
 }

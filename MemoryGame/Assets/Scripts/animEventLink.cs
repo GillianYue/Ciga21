@@ -739,11 +739,55 @@ public class animEventLink : MonoBehaviour
             //sfx hurried footsteps out
             //rushed exit
             camMovement.enable.darkCover.SetTrigger("fadeIn");
+
+        }), Global.WaitForSeconds(2), Global.Do(()=> {
             globalState.revealAndHideStuff(11, false); //hide curr scene GOs
 
             enable.setUpLevel(11, true); //subscene logic
         })));
+        }
+
+
+    public void b1FadeIn()
+    {
+        Transform b1 = transform.Find("b1");
+        b1.gameObject.SetActive(true);
+        Animator a = b1.GetComponent<Animator>();
+
+        a.SetTrigger("fadeIn");
+
     }
 
+    public void b8FadeIn()
+    {
+        Transform b8 = transform.Find("b8");
+        b8.gameObject.SetActive(true);
+        Animator a = b8.GetComponent<Animator>();
+        
+        a.SetTrigger("fadeIn");
+        a.SetTrigger("action1");
 
+    }
+    
+    public void triggerStreetDialogue()
+    {
+        GetComponent<Animator>().enabled = false;
+        //dialogue
+        StartDialogueClickThrough dlg = globalState.streetScene.transform.Find("StartDialogue").GetComponent<StartDialogueClickThrough>();
+        dlg.gameObject.SetActive(true);
+        dlg.enableStartDialogue();
+    }
+
+    public void fadeOut() { GetComponent<Animator>().SetTrigger("fadeOut"); }
+
+    public void endingFadeOutThings()
+    {
+        enable.startCanvas.transform.Find("water").GetComponent<Animator>().SetTrigger("fadeOut");
+
+        enable.cam.vfx.transform.Find("sakura").gameObject.SetActive(true);
+
+        //sfx
+
+
+    }
 }

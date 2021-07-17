@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 //general game level logic 
 public class enabler : MonoBehaviour
@@ -261,21 +262,24 @@ public class enabler : MonoBehaviour
                     darkCover.SetTrigger("fadeOut");
                 }
                 else
-                {
+                { //street
                     cam.cam.Play("idle");
                     yield return new WaitForSeconds(2);
                        //reset cam position
                     darkCover.SetTrigger("fadeOut");
+                    yield return new WaitForSeconds(2.5f);
 
                     //streets
+                    Transform lines = globalState.streetScene.transform.Find("lines");
+                    Animator a = lines.GetComponent<Animator>();
+                    a.Play("linesFadeIn");
+
+                    yield return new WaitForSeconds(2);
+                    a.Play("streetIn");
+
 
                     //anim
                     //...
-
-                    //dialogue
-                    StartDialogueClickThrough dlg = globalState.streetScene.transform.Find("StartDialogue").GetComponent<StartDialogueClickThrough>();
-                    dlg.gameObject.SetActive(true);
-                    dlg.enableStartDialogue();
                 }
                 break;
         }
@@ -294,12 +298,54 @@ public class enabler : MonoBehaviour
 
     IEnumerator gamePassCoroutine()
     {
+        darkCover.SetTrigger("fadeOut");
+
+        Transform her = globalState.mirrorScene.transform.Find("Her");
+        her.gameObject.SetActive(true);
+        her.GetComponent<Animator>().SetTrigger("fadeIn");
+        yield return new WaitForSeconds(4);
+
+        Transform hd = globalState.mirrorScene.transform.Find("MyHand");
+        hd.gameObject.SetActive(true);
+        hd.GetComponent<Animator>().SetTrigger("action1");
+
+        yield return new WaitForSeconds(14);
+
+        //sfx
+        darkCover.SetTrigger("fadeInWhite");
+        yield return new WaitForSeconds(3);
+        //sfx
+
+        globalState.mirrorScene.SetActive(false);
+        startCanvas.SetActive(true);
+        startCanvas.transform.Find("photo/lines").gameObject.SetActive(false);
+        //hide menu buttons
+        startCanvas.transform.Find("Start").gameObject.SetActive(false);
+        startCanvas.transform.Find("Language").gameObject.SetActive(false);
+        startCanvas.transform.Find("Credits").gameObject.SetActive(false);
+        startCanvas.transform.Find("Quit").gameObject.SetActive(false);
+        startCanvas.transform.Find("TitleText").GetComponent<Text>().color = new Color(1, 1, 1, 0);
+
+        //show photo content
+        startCanvas.transform.Find("photo/photo_content").gameObject.SetActive(true);
+
+
         yield return new WaitForSeconds(5);
         startCanvas.SetActive(true);
-        startCanvas.transform.position += new Vector3(0, 0, 0.15f);
-        yield return new WaitForSeconds(3);
-        GetComponent<BlurManager>().darkCover.SetTrigger("fadeOut");
+        darkCover.SetTrigger("fadeOutWhite");
 
+        yield return new WaitForSeconds(3);
+        cam.cam.Play("endCameraZoom");
+
+        yield return new WaitForSeconds(10);
+        Transform endTitle = startCanvas.transform.Find("EndingTitle"), endCredits = startCanvas.transform.Find("EndingCredits");
+        endTitle.gameObject.SetActive(true); 
+
+        endTitle.GetComponent<Animator>().SetTrigger("fadeInText");
+
+        yield return new WaitForSeconds(6);
+        endCredits.gameObject.SetActive(true);
+        endCredits.GetComponent<Animator>().SetTrigger("fadeInText");
     }
 
     public void showCredits()

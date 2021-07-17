@@ -21,7 +21,7 @@ public class imgSwitcher : MonoBehaviour
     GameObject gameControl;
     globalStateStore globalState;
 
-    void Start()
+    void Awake()
     {
         img1 = transform.Find("Image").GetComponent<Image>();
         img2 = transform.Find("Image (1)").GetComponent<Image>();
