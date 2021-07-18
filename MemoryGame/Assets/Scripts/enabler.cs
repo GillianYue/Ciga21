@@ -242,19 +242,30 @@ public class enabler : MonoBehaviour
                     cam.mouseBasedCamShift.setActive(true);
                     gs.revealAndHideStuff(7, false, false); //hide main lv stuff
                     darkCover.SetTrigger("fadeOut");
+
+                    yield return new WaitForSeconds(2f);
+                    globalState.audio.playSFX(7, 9, 0.4f);
+                    globalState.audio.playSFX(7, 10, 0);
+                    globalState.audio.playSFX(7, 13, 0.1f);
+                    globalState.audio.fadeVolumeSFX(7, 13, 5, 0.2f); //fade out bgm
+                    globalState.audio.fadeVolumeSFX(7, 9, 5, 0.7f); //fade out bgm
                 }
                 break;
             case 8: //bicker
 
-                yield return new WaitForSeconds(4);
+                yield return new WaitForSeconds(6);
                 globalState.globalClickable = false;
                 //TODO sfx
+                globalState.audio.playSFX(8, 0);
 
-                yield return new WaitForSeconds(4);
+                yield return new WaitForSeconds(2);
 
                 darkCover.SetTrigger("fadeOut");
 
-                yield return new WaitForSeconds(6);
+                yield return new WaitForSeconds(2);
+
+                globalState.audio.playSFX(8, 14);
+                yield return new WaitForSeconds(4);
 
                 globalState.globalClickable = true;
 

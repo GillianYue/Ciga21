@@ -421,6 +421,8 @@ public class interactable : MonoBehaviour
         camMovement.vfx.Play("blink");
 
         yield return new WaitForSeconds(4);
+        globalState.audio.fadeVolumeSFX(9, 1, 3, 0.2f);
+
         camMovement.cam.Play("naturalBreathe");
         yield return new WaitForSeconds(4);
 
@@ -433,6 +435,8 @@ public class interactable : MonoBehaviour
         Animator sr = screen.Find("screenR").GetComponent<Animator>();
         sr.gameObject.SetActive(true);
         sr.Play("screenDistantEnter");
+        globalState.audio.playSFX(9, 10, 0.1f);
+        globalState.audio.fadeVolumeSFX(9, 10, 8, 1f);
         sr.Play("screenHeightFluctuate");
 
         //blur effect in and out
@@ -463,8 +467,9 @@ public class interactable : MonoBehaviour
 
         camMovement.vfx.Play("blink");
 
-        yield return new WaitForSeconds(6);
+        yield return new WaitForSeconds(4);
         //bgm
+        globalState.audio.playSFX(9, 22);
 
         //effects, insert glitch 
         her.Play("transparent"); 
@@ -497,7 +502,18 @@ public class interactable : MonoBehaviour
         camMovement.enable.darkCover.SetTrigger("fadeIn");
         //wait then sfx tunnel footsteps
 
+
         yield return new WaitForSeconds(2);
+        globalState.audio.fadeVolumeSFX(9, 1, 2, 0);
+        globalState.audio.fadeVolumeSFX(9, 10, 2, 0);
+        globalState.audio.fadeVolumeSFX(9, 22, 2, 0);
+
+        yield return new WaitForSeconds(0.5f);
+        globalState.audio.playSFX(9, 29); //run down corridot
+
+        yield return new WaitForSeconds(3);
+
+
         her.gameObject.SetActive(false);
         Transform kmt = globalState.parkScene.transform.Find("klimt");
         kmt.gameObject.SetActive(true);
@@ -956,6 +972,7 @@ public class interactable : MonoBehaviour
 
             /////////////////////
             case "rightHandFlowers":
+                
                 myAnimator.SetTrigger("fadeOut");
                 GetComponent<interactable>().clickable = false;
                 yield return new WaitForSeconds(2);
@@ -975,6 +992,7 @@ public class interactable : MonoBehaviour
 
             case "her_flo":
                 myAnimator.SetTrigger("action4");
+                
                 HideAndSeek hs = camMovement.edgeScroller.transform.GetComponent<HideAndSeek>();
                 hs.hideStatus = -1;
                 hs.found[1] = true;
@@ -987,6 +1005,7 @@ public class interactable : MonoBehaviour
                 break;
 
             case "p2": //garden scene hide reveal
+                globalState.audio.playSFX(7, 2);
                 HideAndSeek hass = FindObjectOfType<HideAndSeek>();
                 hass.girl_bush.gameObject.SetActive(true);
                 hass.girl_bush.SetTrigger("action2");
@@ -997,6 +1016,7 @@ public class interactable : MonoBehaviour
                 globalState.gardenScene.transform.Find("right").Find("flo_separated").GetChild(0).GetComponent<imgSwitcher>().switchToImgState(1);
                 break;
             case "door":
+                globalState.audio.playSFX(7, 1);
                 if (!transform.Find("open_door").gameObject.activeSelf)
                 {
                     transform.Find("open_door").gameObject.SetActive(true);
@@ -1031,9 +1051,11 @@ public class interactable : MonoBehaviour
                 yield return new WaitForSeconds(1.5f);
                 camMovement.enable.darkCover.Play("fadeIn");
 
+                yield return new WaitForSeconds(3f);
+                globalState.audio.fadeVolumeSFX(7, 7, 3, 0); //fade out bgm
+
                 //transition to closeup subscene
                 yield return new WaitForSeconds(4f);
-
 
                 camMovement.enable.setUpLevel(7, true);
                 camMovement.enable.darkCover.Play("fadeOut");
@@ -1062,6 +1084,11 @@ public class interactable : MonoBehaviour
 
                     mucha.gameObject.SetActive(true);
                     mucha.Play("muchaFadeIn");
+
+                    globalState.audio.fadeVolumeSFX(7, 9, 3, 0);
+                    globalState.audio.fadeVolumeSFX(7, 10, 3, 1f);
+                    globalState.audio.fadeVolumeSFX(7, 13, 1.5f, 0.9f); //heartbeats louder
+
                     yield return new WaitForSeconds(10f);
                     handCloseup.SetTrigger("action1"); //offer flower
 
@@ -1076,10 +1103,12 @@ public class interactable : MonoBehaviour
                     GetComponent<interactable>().clickable = false;
                     handCloseup.GetComponent<animEventLink>().deactivateMouseBasedCamShift(handCloseup.gameObject);
                     handCloseup.SetTrigger("fadeOut");
-                    yield return new WaitForSeconds(3f);
+                    globalState.audio.fadeVolumeSFX(7, 10, 3, 0);
+                    yield return new WaitForSeconds(4f);
+                    globalState.audio.playSFX(7, 11);
 
                     GetComponent<Animator>().SetTrigger("action2"); //wear flower
-                    yield return new WaitForSeconds(3f);
+                    yield return new WaitForSeconds(12f);
 
                     //end scene transition
                     //end of scene
@@ -1175,6 +1204,7 @@ public class interactable : MonoBehaviour
                     yield return new WaitForSeconds(2);
 
                     h.Play("girlRead");
+                    globalState.audio.playSFX(8, 15);
                     //candle to (-148, -216)
                     globalState.bickerScene.transform.Find("topBook").gameObject.SetActive(false);
                     globalState.bickerScene.transform.Find("candle").transform.localPosition = new Vector2(-148, -216);
@@ -1196,8 +1226,9 @@ public class interactable : MonoBehaviour
                 break;
             case "mandarin":
                 GetComponent<Animator>().SetTrigger("fadeOut");
-                yield return new WaitForSeconds(4);
-                //TODO sfx?
+                //peel sfx
+                globalState.audio.playSFX(8, 7);
+                yield return new WaitForSeconds(6);
 
                 Transform mandarin_peeled = globalState.bickerScene.transform.Find("mandarin_peeled");
                 mandarin_peeled.gameObject.SetActive(true);
@@ -1760,8 +1791,9 @@ public class interactable : MonoBehaviour
             myAnimator.SetTrigger("fadeOut");
             globalState.globalClickable = false;
 
-            yield return new WaitForSeconds(2);
-
+            yield return new WaitForSeconds(1);
+            globalState.audio.playSFX(8, 8);
+            yield return new WaitForSeconds(1);
 
             //play closeup anim
             Transform closeup = globalState.bickerScene.transform.Find("slice_closeup");
@@ -1814,8 +1846,10 @@ public class interactable : MonoBehaviour
                 int sign = (rb.rotation > 0) ? 1 : -1;
                 rb.AddTorque(120000 * sign); 
             }
-            else
+            else //light up
             {
+                globalState.audio.playSFX(9, Random.Range(12, 17)); //play random bell sound
+
                 clickable = false;
                 GetComponent<Animator>().Play("brighten");
                 globalState.klimtRotate += 1;
@@ -1839,12 +1873,10 @@ public class interactable : MonoBehaviour
                     case 14:
                         animEventLink collage = globalState.parkScene.transform.Find("collage").GetComponent<animEventLink>();
 
-                        StartCoroutine(Global.Chain(this, Global.Do(() => {
-                            //TODO sfx
-
-                        }), 
-                        Global.WaitForSeconds(2), Global.Do(()=> {
+                        StartCoroutine(Global.Chain(this, Global.WaitForSeconds(2), Global.Do(()=> {
                             globalState.enable.darkCover.SetTrigger("fadeInWhite");
+                            //sfx
+                            globalState.audio.playSFX(9, 30); //deep thud
                         }), 
                             Global.WaitForSeconds(3), 
                             Global.Do(()=> {

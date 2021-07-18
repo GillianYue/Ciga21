@@ -32,7 +32,7 @@ public class imgSwitcher : MonoBehaviour
         if(name.Equals("dad")) { GetComponent<Animator>().SetTrigger("action1"); //default state
         }
 
-        switchToImgState(0);
+        if(img1 != null && img2 != null && stateImgs.Length >= 2) switchToImgState(0);
     }
 
 

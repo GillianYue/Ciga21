@@ -514,6 +514,7 @@ public class animEventLink : MonoBehaviour
 
         fl.Play("onOffGlitch");
 
+
         Transform objs = transform.Find("objects");
         globalState.globalClickable = true;
 
@@ -523,6 +524,9 @@ public class animEventLink : MonoBehaviour
         }
 
         camMovement.enable.darkCover.SetTrigger("fadeOut");
+
+        globalState.audio.playSFX(9, 20, 0.1f); //scary violins
+        globalState.audio.fadeVolumeSFX(9, 20, 3, 1);
 
         yield return new WaitForSeconds(2);
 
@@ -537,6 +541,9 @@ public class animEventLink : MonoBehaviour
 
     IEnumerator collageCoroutine()
     {
+        globalState.audio.playSFX(9, 31, 0.1f); //clock with reverb
+        globalState.audio.fadeVolumeSFX(9, 31, 3, 1);
+
         transform.Find("clothMask").GetComponent<Animator>().Play("clothGlitch2");
 
 
