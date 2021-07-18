@@ -359,7 +359,7 @@ public class interactable : MonoBehaviour
 
     public IEnumerator bandWaitTillSongEnd()
     {
-        yield return new WaitForSeconds(38); //entirety of loop
+        yield return new WaitForSeconds(24); //entirety of loop
 
         globalState.audio.playSFX(4, 18); //end of lv song
 
@@ -837,7 +837,12 @@ public class interactable : MonoBehaviour
                     //if reaches here, satisfies: thrown and played ball, thrown and played stick
                     //trigger ending anim
                     pup.Play("dPlayBallEnding");
+                   
                     gameObject.SetActive(false); //deactivate ball
+
+                    yield return new WaitForSeconds(5);
+                    globalState.audio.fadeVolumeSFX(6, 6, 2, 0.2f);
+                    globalState.audio.fadeVolumeSFX(6, 0, 2, 0);
                 }
 
                 else if (var1 == 0) //on lawn
@@ -1574,6 +1579,7 @@ public class interactable : MonoBehaviour
 
         } else if (parentName.Equals("pup")) //one of pup sprites
         {
+            globalState.audio.playSFX(6, Random.Range(1, 4));
 
             if (name.Equals("d1") || name.Equals("d1.5"))
             {
@@ -1581,7 +1587,7 @@ public class interactable : MonoBehaviour
                 transform.parent.Find("d2").GetComponent<interactable>().var2 = 1; //mark as visited
 
                 globalState.StartCoroutine(Global.Chain(globalState, Global.Do(() => globalState.globalClickable = false),
-                    Global.WaitForSeconds(2.5f),
+                    Global.WaitForSeconds(1.5f),
                     Global.Do(() => globalState.globalClickable = true)));
 
             }
@@ -1594,7 +1600,7 @@ public class interactable : MonoBehaviour
                 else transform.parent.Find("d1").GetComponent<interactable>().var2 = 1;  //mark as visited
 
                 globalState.StartCoroutine(Global.Chain(globalState, Global.Do(() => globalState.globalClickable = false),
-                    Global.WaitForSeconds(2.5f),
+                    Global.WaitForSeconds(1.5f),
                     Global.Do(() => globalState.globalClickable = true)));
 
             }
@@ -1604,7 +1610,7 @@ public class interactable : MonoBehaviour
                 transform.parent.Find("d2").GetComponent<interactable>().var2 = 1;  //mark as visited
 
                 globalState.StartCoroutine(Global.Chain(globalState, Global.Do(() => globalState.globalClickable = false),
-                    Global.WaitForSeconds(2.5f),
+                    Global.WaitForSeconds(1.5f),
                     Global.Do(() => globalState.globalClickable = true)));
             }
 

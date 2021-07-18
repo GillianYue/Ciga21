@@ -206,6 +206,7 @@ public class animEventLink : MonoBehaviour
         Transform stand = f3.Find("friend3Standing");
         stand.gameObject.SetActive(true);
         stand.GetComponent<Animator>().SetTrigger("fadeIn");
+        globalState.audio.playSFX(5, 0);
 
         yield return new WaitForSeconds(3);
         f2.GetComponent<imgSwitcher>().switchToImgState(1); 
@@ -221,6 +222,7 @@ public class animEventLink : MonoBehaviour
         stand.GetComponent<Animator>().SetTrigger("fadeOut");
         f2.GetComponent<imgSwitcher>().switchToImgState(2); //take beer
         yield return new WaitForSeconds(1.5f);
+        
         f1.GetComponent<imgSwitcher>().switchToImgState(3); //take beer
         Transform friendBeer = f1.Find("beer");
         friendBeer.gameObject.SetActive(true);
@@ -231,7 +233,11 @@ public class animEventLink : MonoBehaviour
         Animator handAnim = hand.GetChild(0).GetComponent<Animator>();
         handAnim.SetTrigger("action1"); //hand out
 
+        globalState.audio.playSFX(5, 8); //faint laughters
+
         yield return new WaitForSeconds(1.5f);
+
+        globalState.audio.playSFX(5, 1);
         f3.GetComponent<Animator>().SetTrigger("fadeIn"); //fade in f3 sprite
         Transform f3Light = f3.Find("light");
         f3Light.gameObject.SetActive(true);
@@ -253,8 +259,9 @@ public class animEventLink : MonoBehaviour
         yield return new WaitForSeconds(4);
 
         camMovement.camHolder.enabled = false;
-        camMovement.cam.Play("camBeerDrink"); 
+        camMovement.cam.Play("camBeerDrink");
         //TODO sfx
+        globalState.audio.playSFX(5, 2);
         yield return new WaitForSeconds(6);
 
         camMovement.camHolder.enabled = true;
@@ -310,10 +317,16 @@ public class animEventLink : MonoBehaviour
             myself = globalState.seaScene.transform.Find("myself");
         myself.Find("myself_light").gameObject.SetActive(false); //disable reflection
 
-        yield return new WaitForSeconds(5);
+       
+        globalState.audio.fadeVolumeSFX(5, 8, 1, 0);
+        globalState.audio.fadeVolumeSFX(5, 6, 3, 0.15f);
+
+        yield return new WaitForSeconds(3);
+        globalState.audio.fadeVolumeSFX(5, 4, 5, 0);
+        yield return new WaitForSeconds(2);
 
         //set up for night
-        
+
         sea.Find("dusk/duskSky").gameObject.SetActive(false);
         sea.Find("dusk/sun/sunMask").gameObject.SetActive(false);
         sea.Find("dusk/sun/sunGlowMask").gameObject.SetActive(false);
@@ -351,13 +364,16 @@ public class animEventLink : MonoBehaviour
         yield return new WaitForSeconds(6);
 
         camMovement.camHolder.Play("camShiftRight");
-        //TODO maybe sfx of voice "stars"
+
         yield return new WaitForSeconds(5);
         f2.GetComponent<imgSwitcher>().switchToImgState(0);
         yield return new WaitForSeconds(3);
 
         f2.GetComponent<imgSwitcher>().switchToImgState(3);
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(1);
+        //sfx of voice "stars"
+        globalState.audio.playSFX(5, 7);
+        yield return new WaitForSeconds(2);
 
         camMovement.camHolder.Play("camShiftLeftBack");
         yield return new WaitForSeconds(3);
@@ -374,6 +390,10 @@ public class animEventLink : MonoBehaviour
         globalState.seaScene.transform.Find("sea/night/stars").gameObject.SetActive(true);
         starsManager stars = FindObjectOfType<starsManager>();
         stars.startStarCheck(); //activate first star
+
+        yield return new WaitForSeconds(2);
+
+        globalState.audio.playSFX(5, 5); //stars bgm
     }
 
     //called from faceaway interactable script, this script on "her" GO

@@ -58,6 +58,12 @@ public class BlurManager : MonoBehaviour
                 yield return StartCoroutine(level4Clear());
                 enablr.setUpLevel(5);
                 break;
+            case 6: //pup
+                enablr.audio.fadeVolumeSFX(6, 6, 2, 0);
+
+                yield return StartCoroutine(generalLevelPassEffect());
+                enablr.setUpLevel(7);
+                break;
             case 7: //garden
                 yield return StartCoroutine(generalLevelPassEffect());
                 enablr.globalState.revealAndHideStuff(7, false, true); //also needs to hide subscene

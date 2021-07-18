@@ -149,10 +149,16 @@ public class enabler : MonoBehaviour
                 break;
 
             case 5: //sea
+
                 globalState.seaScene.transform.Find("beach/friend3").gameObject.SetActive(false);
                 globalState.seaScene.transform.Find("hand_beer").gameObject.SetActive(false);
 
-                yield return new WaitForSeconds(5);
+                yield return new WaitForSeconds(2);
+
+                audio.playSFX(5, 4); //sunset
+                audio.playSFX(5, 6); //waves
+                
+                yield return new WaitForSeconds(3);
 
                 darkCover.SetTrigger("transparent");
                 cam.vfx.Play("blinkOpenEyes");
@@ -174,12 +180,17 @@ public class enabler : MonoBehaviour
 
                 break;
             case 6: //pup
+
+                audio.playSFX(6, 6);
+                audio.playSFX(6, 0); //panting
+
                 cam.camHolder.enabled = false;
                 cam.cam.Play("idle");
                 darkCover.SetTrigger("fadeOut");
                 break;
 
             case 7: //garden
+
                 if (!subScene)
                 {
                     cam.edgeScroller = globalState.gardenScene.GetComponent<edgeScroller>();

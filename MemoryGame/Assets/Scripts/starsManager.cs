@@ -51,6 +51,9 @@ public class starsManager : MonoBehaviour
             hand.enabled = true;
             hand.Play("handWithdraw");
 
+
+            globalState.audio.fadeVolumeSFX(5, 5, 2, 0);
+            
         }
     }
 
@@ -71,7 +74,9 @@ public class starsManager : MonoBehaviour
         if (which == 3)
         {//ending
 
-            yield return new WaitForSeconds(8);
+            yield return new WaitForSeconds(1f);
+            globalState.audio.playSFX(5, 9);
+            yield return new WaitForSeconds(14.5f);
 
 
 
