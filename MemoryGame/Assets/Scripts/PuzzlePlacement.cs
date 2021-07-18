@@ -124,6 +124,7 @@ public class PuzzlePlacement : MonoBehaviour
             flat.gameObject.SetActive(true);
             flat.flat();
 
+
         }
 
 

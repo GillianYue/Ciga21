@@ -312,6 +312,11 @@ public class interactable : MonoBehaviour
         }
     }
 
+    public void playRandomCoughSound()
+    {
+        globalState.audio.playSFX(9, Random.Range(25, 28));
+    }
+
     IEnumerator snakeDisappear()
     {
         myAnimator.SetTrigger("action1"); //hiss
@@ -1292,6 +1297,9 @@ public class interactable : MonoBehaviour
             case "ripple":
                 var1 += 1;
                 myAnimator.Play("rippleInteract");
+                globalState.audio.playSFX(9, 6 + var1); //distant bell
+                globalState.audio.playSFX(9, 24); //windbell
+                
 
                 Transform leafBatch = globalState.parkScene.transform.Find("flat/her/leaves" + var1);
                 leafBatch.gameObject.SetActive(true);
@@ -1306,7 +1314,11 @@ public class interactable : MonoBehaviour
 
                 }
 
-                yield return new WaitForSeconds(6f);
+                yield return new WaitForSeconds(1f);
+
+                globalState.audio.playSFX(9, 0);
+
+                yield return new WaitForSeconds(5f);
 
                 globalState.globalClickable = true;
                 
@@ -1343,6 +1355,8 @@ public class interactable : MonoBehaviour
             case "leafLine":
                 clickable = false;
                 GetComponent<Collider2D>().enabled = false;
+                globalState.audio.playSFX(0, Random.Range(4, 8)); //fall sfx
+
 
                 Animator l = transform.parent.GetComponent<Animator>();
                 l.Play("leafShow");
@@ -1362,6 +1376,7 @@ public class interactable : MonoBehaviour
                     animEventLink roses = globalState.parkScene.transform.Find("roses").GetComponent<animEventLink>();
 
                     globalState.enable.darkCover.SetTrigger("fadeInWhite");
+                    globalState.audio.playSFX(9, 30);
                     yield return new WaitForSeconds(2);
 
                     roses.gameObject.SetActive(true);

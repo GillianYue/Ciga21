@@ -566,6 +566,9 @@ public class animEventLink : MonoBehaviour
         hr.gameObject.SetActive(true);
         hr.GetComponent<Animator>().SetTrigger("hide");
 
+        globalState.audio.playSFX(9, 30); //deep thud
+        globalState.audio.fadeVolumeSFX(9, 20, 5, 0); //fade out scary violins
+
 
         globalState.enable.darkCover.SetTrigger("fadeInWhite");
         yield return new WaitForSeconds(2);
@@ -585,6 +588,8 @@ public class animEventLink : MonoBehaviour
 
     IEnumerator rosesCoroutine()
     {
+        globalState.audio.fadeVolumeSFX(9, 31, 3, 0.3f); //fade out clock
+
         globalState.globalClickable = false;
         camMovement.vfx.Play("noises");
         globalState.parkScene.transform.Find("flat").gameObject.SetActive(false);
@@ -624,6 +629,8 @@ public class animEventLink : MonoBehaviour
 
         yield return new WaitForSeconds(6);
         herRoses.GetComponent<imgSwitcher>().switchToImgState(1);
+        globalState.audio.playSFX(9, 11);
+
         yield return new WaitForSeconds(1);
 
         GameObject sr = screen.Find("screenR").gameObject;
@@ -638,10 +645,6 @@ public class animEventLink : MonoBehaviour
         yield return new WaitForSeconds(5);
 
         rosesScene.gameObject.SetActive(false);
-        glitch.gameObject.SetActive(true);
-        herGlitch.GetComponent<Image>().enabled = true; //bg
-        herGlitch.GetComponent<Animator>().Play("glitch1");
-
 
         hosp.GetComponent<Image>().enabled = true;
         herHosp.gameObject.SetActive(true);
@@ -651,7 +654,6 @@ public class animEventLink : MonoBehaviour
         hosp.GetComponent<Animator>().Play("hspFadeAction1");
 
         yield return new WaitForSeconds(3);
-        glitch.gameObject.SetActive(false);
 
         yield return new WaitForSeconds(2);
 
@@ -674,15 +676,20 @@ public class animEventLink : MonoBehaviour
         yield return new WaitForSeconds(5);
 
         sw.gameObject.SetActive(false);
+
+        globalState.audio.playSFX(9, 18); //reverse cymbal
         yield return new WaitForSeconds(2);
         sr.GetComponent<Animator>().enabled = false;
         sr.transform.localPosition = new Vector2(371, 227);
         sr.SetActive(true);
-        //TODO play sfx machine long beep
+        //play sfx machine long beep
+        globalState.audio.playSFX(9, 23);
 
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(4);
 
+        globalState.audio.fadeVolumeSFX(9, 23, 5, 0);
         //lv pass
+        yield return new WaitForSeconds(3);
 
         //end of scene
         enable.GetComponent<BlurManager>().levelPassEffect(9);
