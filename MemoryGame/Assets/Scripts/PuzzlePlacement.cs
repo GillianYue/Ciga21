@@ -66,7 +66,6 @@ public class PuzzlePlacement : MonoBehaviour
         if(Vector2.Distance(puzzlePiece.transform.localPosition, puzzleFitLocalPositions[puzzleID - 1]) <= errorAllowed)
         {
             puzzlePiece.transform.localPosition = puzzleFitLocalPositions[puzzleID - 1]; //fitting
-            //sfx
 
             puzzleFit[puzzleID - 1] = true;
 

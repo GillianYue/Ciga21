@@ -507,6 +507,13 @@ public class interactable : MonoBehaviour
         hand3.gameObject.SetActive(false);
     }
 
+    public void playSfx(string levelUnderlineIndex) //e.g. 11_2
+    {
+        string[] splits = levelUnderlineIndex.Split('_');
+        int lv = int.Parse(splits[0]), sfx = int.Parse(splits[1]);
+        globalState.audio.playSFX(lv, sfx);
+    }
+
     IEnumerator customBehavior()
     {
         switch (name)
@@ -514,7 +521,7 @@ public class interactable : MonoBehaviour
             case "soccer":
                 if (var1 == 0)
                 {
-                    print("play child sigh sfx");
+                    globalState.audio.playSFX(2, 2);
                     if (Random.Range(0f, 1f) < 0.5f)
                     {
                         myAnimator.SetTrigger("action" + ((Random.Range(0f, 1f) < 0.5f) ? "2" : "3")); //slight bounce or rotate
@@ -526,10 +533,10 @@ public class interactable : MonoBehaviour
 
                     myAnimator.SetTrigger("action4"); // roll away
 
-                    yield return new WaitForSeconds(10);
+                    yield return new WaitForSeconds(7);
 
-                    //TODO sfx, footstep, muffled sound
-
+                    //sfx, footstep, muffled sound
+                    globalState.audio.playSFX(2, 7);
                     GameObject ma = globalState.vaseScene.transform.Find("mom").gameObject,
                     blkt = globalState.vaseScene.transform.Find("blanket").gameObject,
                     vase = globalState.vaseScene.transform.Find("broken_vase").gameObject,
@@ -537,8 +544,16 @@ public class interactable : MonoBehaviour
                     nurse = globalState.vaseScene.transform.Find("nurse").gameObject,
                     sofa = globalState.vaseScene.transform.Find("sofa").gameObject;
 
+                    yield return new WaitForSeconds(8);
+
                     ma.SetActive(true);
                     ma.GetComponent<Animator>().SetTrigger("fadeIn");
+                    globalState.audio.playSFX(2, 8);
+
+                    yield return new WaitForSeconds(2);
+
+                    globalState.audio.fadeVolumeSFX(2, 14, 4, 0);
+                    globalState.audio.fadeVolumeSFX(2, 15, 4, 0.2f);
 
                     yield return new WaitForSeconds(3);
 
@@ -547,8 +562,8 @@ public class interactable : MonoBehaviour
                     ma.GetComponent<imgSwitcher>().switchToImgState(0);
                     yield return new WaitForSeconds(3);
 
-                    //TODO fade in of mask
-                    //blanket masks
+
+                    globalState.audio.playSFX(2, 3);
 
                     blkt.transform.Find("mask1").gameObject.SetActive(true);
                     blkt.GetComponent<Animator>().SetTrigger("action1"); //mask anim
@@ -560,15 +575,14 @@ public class interactable : MonoBehaviour
                     ma.GetComponent<imgSwitcher>().switchToImgState(2); //reach
                     yield return new WaitForSeconds(1);
                     blkt.GetComponent<Animator>().SetTrigger("fadeOut");
+                    globalState.audio.playSFX(2, 5);
                     yield return new WaitForSeconds(2);
-
-
 
                     //unveil
                     ma.GetComponent<imgSwitcher>().switchToImgState(1);
 
-
                     yield return new WaitForSeconds(3);
+                    
                     ma.GetComponent<imgSwitcher>().switchToImgState(0); //questioning look
 
                     //"me" getting scared
@@ -577,6 +591,7 @@ public class interactable : MonoBehaviour
                     yield return new WaitForSeconds(0.5f);
                     camMovement.cam.Play("leftRightGlance");
                     yield return new WaitForSeconds(2.2f);
+                    
                     camMovement.cam.Play("nervousBreathe");
                     yield return new WaitForSeconds(7);
 
@@ -631,7 +646,6 @@ public class interactable : MonoBehaviour
                     plate.SetActive(false);
                     yield return new WaitForSeconds(2f);
 
-
                     ma.GetComponent<Animator>().SetTrigger("fadeOut");
                     yield return new WaitForSeconds(2); //TODO sfx
                     camMovement.vfx.Play("blink");
@@ -641,12 +655,16 @@ public class interactable : MonoBehaviour
                     Transform bin = globalState.vaseScene.transform.Find("bin");
                     bin.gameObject.SetActive(true);
                     bin.GetComponent<Animator>().SetTrigger("fadeIn");
+                    globalState.audio.playSFX(2, 10);
                     camMovement.cam.Play("naturalBreathe");
 
                     yield return new WaitForSeconds(3);
 
                     ma.GetComponent<imgSwitcher>().switchToImgState(3); //glove reach
-                    yield return new WaitForSeconds(4);
+
+                    yield return new WaitForSeconds(1);
+                    globalState.audio.playSFX(2, 11);
+                    yield return new WaitForSeconds(3);
 
                     vase.GetComponent<Animator>().SetTrigger("fadeOut");
                     ma.GetComponent<imgSwitcher>().switchToImgState(1);
@@ -658,8 +676,11 @@ public class interactable : MonoBehaviour
                     yield return new WaitForSeconds(8);
                     camMovement.cam.Play("vaseSceneEndZoom");
                     //sfx thud
+                    globalState.audio.playSFX(2, 12);
                     yield return new WaitForSeconds(4);
                     ma.GetComponent<imgSwitcher>().switchToImgState(4);
+                    globalState.audio.playSFX(2, 9); //laugh
+                    yield return new WaitForSeconds(1.5f);
 
                     //end of scene
                     gameControl.GetComponent<BlurManager>().levelPassEffect(2);
@@ -701,6 +722,7 @@ public class interactable : MonoBehaviour
                     {
                             //vase broken again
                             GetComponent<imgSwitcher>().switchToImgState(0);
+                        globalState.audio.playSFX(2, 0, 0.35f);
                         Transform flo = transform.Find("flowers");
                         flo.GetComponent<Animator>().enabled = false;
                         flo.Find("Image").GetComponent<Image>().color = new Color(1, 1, 1, 1);

@@ -20,12 +20,15 @@ public class globalStateStore : MonoBehaviour
     public BlurManager blurManager;
     public enabler enable;
 
+    public AudioManager audio;
+
     private void Awake()
     {
         globalClickable = true;
 
         if (blurManager == null) blurManager = FindObjectOfType<BlurManager>();
         if (enable == null) enable = GetComponent<enabler>();
+        if (audio == null) audio = GetComponent<AudioManager>();
     }
 
     void Start()

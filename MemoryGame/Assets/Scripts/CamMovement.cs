@@ -88,12 +88,14 @@ public class CamMovement : MonoBehaviour
         //vfx.Play("blink");
 
         //yield return moveToLinearInSecs(gameObject, pos, 1f * scale, new bool[1]);
+        globalStates.audio.playSFX(0, 0); // servo sfx
         yield return moveWorldDestAccl(pos, false); //stay on the object after reach
 
         yield return new WaitForSeconds(3); //linger time
 
         cam.Play("generalCamZoomOut");
         //yield return moveToLinearInSecs(gameObject, originalPos, 1.5f * scale, new bool[1]);
+        globalStates.audio.playSFX(0, 0);
         yield return moveWorldDestAccl(originalPos, false);
         yield return new WaitForSeconds(1);
 

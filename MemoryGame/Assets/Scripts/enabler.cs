@@ -20,11 +20,14 @@ public class enabler : MonoBehaviour
 
     public int language; //0 eng, 1 chn
 
+    public AudioManager audio;
+
     private void Awake()
     {
         if (cam == null) cam = FindObjectOfType<CamMovement>();
         if(globalState == null) globalState = GetComponent<globalStateStore>();
         if (blurManager == null) blurManager = GetComponent<BlurManager>();
+        if (audio == null) audio = GetComponent<AudioManager>();
     }
 
     void Start()
@@ -44,6 +47,7 @@ public class enabler : MonoBehaviour
 
     public void startButtonPressed()
     {
+        
         startDialogue.gameObject.SetActive(true);
         startDialogue.enableStartDialogue();
 
@@ -102,18 +106,26 @@ public class enabler : MonoBehaviour
         switch (l)
         {
             case 1: //dine
-                GetComponent<AudioManager>().playSFX(1, 7);
+                audio.playSFX(1, 7);
 
                 darkCover.SetTrigger("fadeOut");
                 break;
             case 2: //vase
-                GetComponent<AudioManager>().stopSFX(1, 7);
+                audio.fadeVolumeSFX(1, 7, 1, 0);
+                audio.playSFX(2, 0); //vase break
+
+                yield return new WaitForSeconds(2);
+                audio.playSFX(2, 14); //gloom
+                audio.playSFX(2, 15); //mix
+                audio.setVolumeSfx(2, 15, 0);
 
                 globalState.vaseScene.transform.Find("soccer").GetComponent<Animator>().SetTrigger("action1"); //start bounce
 
                 darkCover.SetTrigger("fadeOut");
                 break;
             case 3: //tree
+                audio.fadeVolumeSFX(2, 15, 1, 0);
+                yield return new WaitForSeconds(1);
 
                 if (!subScene) { cam.cam.Play("idle"); cam.cam.SetTrigger("stopBreathe"); }//reset cam pos (only when transitioning from scene 2)
                 if (subScene) gs.revealAndHideStuff(3, false, false); //hide main lv stuff

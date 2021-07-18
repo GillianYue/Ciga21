@@ -29,6 +29,16 @@ public class AudioManager : MonoBehaviour
 
     }
 
+    public void playSFX(int level, int index, float vol)
+    {
+        if (level > levelAudios.Length) { Debug.LogError("level exceeds levelAudios array"); return; }
+
+        //float origVol = audioSources[level][index].volume;
+        audioSources[level][index].volume = vol;
+        audioSources[level][index].Play();
+
+
+    }
 
     public void stopSFX(int level, int index)
     {
@@ -38,9 +48,11 @@ public class AudioManager : MonoBehaviour
 
     }
 
+    public void setVolumeSfx(int level, int index, float targetVolume) { audioSources[level][index].volume = targetVolume; }
+
     public void fadeVolumeSFX(int level, int index, float duration, float targetVolume)
     {
-        StartCoroutine(fadeVolumeSFXCoroutine(audioSources[level - 1][index], duration, targetVolume));
+        StartCoroutine(fadeVolumeSFXCoroutine(audioSources[level][index], duration, targetVolume));
     }
 
     IEnumerator fadeVolumeSFXCoroutine(AudioSource audioSource, float duration, float targetVolume)

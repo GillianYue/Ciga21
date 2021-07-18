@@ -151,6 +151,13 @@ public class StartDialogueClickThrough : MonoBehaviour
                     {
                         textAnimators[i].SetTrigger("fadeOutText");
                     }
+
+                    yield return new WaitForSeconds(1);
+
+                    myEnabler.audio.playSFX(0, 1);
+
+                    yield return new WaitForSeconds(12);
+
                     backPanel.SetTrigger("fadeOutSlow"); //text panel fade 
 
                     yield return new WaitForSeconds(3f);

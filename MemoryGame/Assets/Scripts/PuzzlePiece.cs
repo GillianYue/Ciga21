@@ -41,6 +41,7 @@ public class PuzzlePiece : interactable
         //   print("clicked: " + eventData.pointerPress.name);
         if (clickable && !globalState.holdingPuzzlePiece && !selected)
         {
+            if (name[0] != 'f') globalState.audio.playSFX(0, 2);
             selected = true;
             globalState.holdingPuzzlePiece = true;
 
@@ -49,6 +50,10 @@ public class PuzzlePiece : interactable
             bool success = puzzlePlacement.checkForPlacement(puzzleID, this);
             if (success)
             {
+                //sfx
+                if(name[0] == 'f') globalState.audio.playSFX(2, 6);
+                else globalState.audio.playSFX(0, 3);
+
                 clickable = false; //disable clicking
                 selected = false;
                 transform.GetComponent<Collider2D>().enabled = false;
