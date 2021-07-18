@@ -127,6 +127,17 @@ public class enabler : MonoBehaviour
                 audio.fadeVolumeSFX(2, 15, 1, 0);
                 yield return new WaitForSeconds(1);
 
+                if (!subScene)
+                {
+                    audio.playSFX(3, 10);
+                    audio.playSFX(3, 11);
+                }
+                else
+                {
+                    audio.fadeVolumeSFX(3, 10, 2, 0);
+                    audio.fadeVolumeSFX(3, 11, 2, 0);
+                }
+
                 if (!subScene) { cam.cam.Play("idle"); cam.cam.SetTrigger("stopBreathe"); }//reset cam pos (only when transitioning from scene 2)
                 if (subScene) gs.revealAndHideStuff(3, false, false); //hide main lv stuff
 

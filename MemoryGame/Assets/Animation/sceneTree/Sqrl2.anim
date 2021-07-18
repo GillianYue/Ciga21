@@ -135,7 +135,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: 506, y: 286, z: 0}
+        value: {x: 506, y: 275.07, z: 0}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -145,8 +145,8 @@ AnimationClip:
       - serializedVersion: 3
         time: 0.65
         value: {x: 372.35672, y: 136, z: 0}
-        inSlope: {x: -287.27426, y: -307.013, z: 0}
-        outSlope: {x: -287.27426, y: -307.013, z: 0}
+        inSlope: {x: -287.27426, y: -298.49612, z: 0}
+        outSlope: {x: -287.27426, y: -298.49612, z: 0}
         tangentMode: 0
         weightedMode: 0
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
@@ -356,7 +356,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 286
+        value: 275.07
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -366,8 +366,8 @@ AnimationClip:
       - serializedVersion: 3
         time: 0.65
         value: 136
-        inSlope: -307.013
-        outSlope: -307.013
+        inSlope: -298.49612
+        outSlope: -298.49612
         tangentMode: 136
         weightedMode: 0
         inWeight: 0.33333334
@@ -896,4 +896,11 @@ AnimationClip:
     script: {fileID: 0}
   m_HasGenericRootTransform: 1
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 0
+    functionName: playSfx
+    data: 3_3
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0

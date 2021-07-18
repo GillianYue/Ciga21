@@ -361,7 +361,7 @@ public class interactable : MonoBehaviour
     {
         yield return new WaitForSeconds(38); //entirety of loop
 
-        gameControl.GetComponent<AudioManager>().playSFX(4, 18); //end of lv song
+        globalState.audio.playSFX(4, 18); //end of lv song
 
         gameControl.GetComponent<BlurManager>().levelPassEffect(4);
         gameControl.GetComponent<globalStateStore>().hasScrolled = true;
@@ -743,6 +743,7 @@ public class interactable : MonoBehaviour
             /////////////////////
             case "leaf1":
                 myAnimator.SetTrigger("action1");
+
                 globalState.treeScene.transform.Find("hand_reach").GetComponent<Animator>().SetTrigger("action1");
                 camMovement.cam.Play("camLeafReach");
 
@@ -792,11 +793,13 @@ public class interactable : MonoBehaviour
 
                 else if (var1 == 0) //not feedable yet, reaches for egg
                 {
+                    globalState.audio.playSFX(3, 1);
                     myAnimator.SetTrigger("action1");
                     rech.GetComponent<Animator>().SetTrigger("action2");
                     camMovement.cam.Play("camEggReach");
 
                     yield return new WaitForSeconds(0.5f);
+
                     bird.GetComponent<Animator>().SetTrigger("action1");
                 } else if (var1 == 1) //fed and clicks egg
                 {

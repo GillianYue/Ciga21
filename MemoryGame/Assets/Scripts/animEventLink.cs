@@ -55,9 +55,14 @@ public class animEventLink : MonoBehaviour
     {
         
         enable.setUpLevel(3, true);
+        globalState.audio.playSFX(3, 9); //tree wind
+
         yield return new WaitForSeconds(7); //wait for anim to fade into new scene view
         camMovement.cam.Play("naturalBreathe");
-        yield return new WaitForSeconds(5);
+
+        yield return new WaitForSeconds(1);
+
+        yield return new WaitForSeconds(4);
 
         camMovement.vfx.Play("blink");
 
@@ -654,6 +659,13 @@ public class animEventLink : MonoBehaviour
 
         //end of scene
         enable.GetComponent<BlurManager>().levelPassEffect(9);
+    }
+
+    public void playSfx(string levelUnderlineIndex) //e.g. 11_2
+    {
+        string[] splits = levelUnderlineIndex.Split('_');
+        int lv = int.Parse(splits[0]), sfx = int.Parse(splits[1]);
+        globalState.audio.playSFX(lv, sfx);
     }
 
 

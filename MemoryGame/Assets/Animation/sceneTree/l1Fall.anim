@@ -615,6 +615,13 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
+  - time: 1.05
+    functionName: playSfx
+    data: 0_4
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
   - time: 2.7833333
     functionName: setGlobalClickableTrue
     data: 

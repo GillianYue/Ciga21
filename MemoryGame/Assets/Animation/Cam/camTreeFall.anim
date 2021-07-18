@@ -1967,9 +1967,30 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
+  - time: 1.5166667
+    functionName: playSfx
+    data: 3_8
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
   - time: 4.8333335
     functionName: treeSceneEndTransition
     data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 6.133333
+    functionName: playSfx
+    data: 3_5
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 8.9
+    functionName: playSfx
+    data: 3_6
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
