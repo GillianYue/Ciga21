@@ -588,8 +588,7 @@ public class animEventLink : MonoBehaviour
 
     IEnumerator rosesCoroutine()
     {
-        globalState.audio.fadeVolumeSFX(9, 31, 3, 0.3f); //fade out clock
-
+        
         globalState.globalClickable = false;
         camMovement.vfx.Play("noises");
         globalState.parkScene.transform.Find("flat").gameObject.SetActive(false);
@@ -640,9 +639,13 @@ public class animEventLink : MonoBehaviour
         sw.gameObject.SetActive(true);
         sw.Play("screenFadeIn");
 
-        camMovement.vfx.Play("noisesFadeOut");
+        yield return new WaitForSeconds(4);
 
-        yield return new WaitForSeconds(5);
+        globalState.audio.playSFX(9, 2, 0.1f);
+        globalState.audio.fadeVolumeSFX(9, 2, 10, 0.8f);
+        globalState.audio.fadeVolumeSFX(9, 31, 3, 0.3f); //fade out clock
+
+        yield return new WaitForSeconds(8);
 
         rosesScene.gameObject.SetActive(false);
 
@@ -650,6 +653,10 @@ public class animEventLink : MonoBehaviour
         herHosp.gameObject.SetActive(true);
         Transform fc = herHosp.Find("face");
         fc.gameObject.SetActive(false);
+
+
+        camMovement.vfx.Play("noisesFadeOut");
+
 
         hosp.GetComponent<Animator>().Play("hspFadeAction1");
 
@@ -662,7 +669,7 @@ public class animEventLink : MonoBehaviour
         hh.SetTrigger("fadeIn"); //universe 
         hh.SetTrigger("action1");
 
-        yield return new WaitForSeconds(9);
+        yield return new WaitForSeconds(13);
         herHosp.GetComponent<Animator>().SetTrigger("fadeOut"); //only fade out bg
 
         yield return new WaitForSeconds(3);
@@ -678,6 +685,7 @@ public class animEventLink : MonoBehaviour
         sw.gameObject.SetActive(false);
 
         globalState.audio.playSFX(9, 18); //reverse cymbal
+        globalState.audio.fadeVolumeSFX(9, 31, 2, 0f); //fade out clock
         yield return new WaitForSeconds(2);
         sr.GetComponent<Animator>().enabled = false;
         sr.transform.localPosition = new Vector2(371, 227);
@@ -702,6 +710,10 @@ public class animEventLink : MonoBehaviour
         globalState.audio.playSFX(lv, sfx);
     }
 
+    public void playRandomThunderSound()
+    {
+        globalState.audio.playSFX(10, Random.Range(2, 6));
+    }
 
     public void initiatePhoneCheck() { StartCoroutine(phoneCheckCoroutine()); }
 
@@ -713,6 +725,7 @@ public class animEventLink : MonoBehaviour
 
         yield return new WaitForSeconds(1);
         //sfx phone beep
+        globalState.audio.playSFX(11, 4);
         Animator mob = globalState.homeScene.transform.Find("mobile").GetComponent<Animator>();
         mob.SetTrigger("action2");
 
@@ -720,7 +733,7 @@ public class animEventLink : MonoBehaviour
 
         mob.SetTrigger("fadeOut");
 
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(3f);
 
         GetComponent<Animator>().SetTrigger("action1"); //phone check anim
     }
@@ -786,7 +799,7 @@ public class animEventLink : MonoBehaviour
             //rushed exit
             camMovement.enable.darkCover.SetTrigger("fadeIn");
 
-        }), Global.WaitForSeconds(2), Global.Do(()=> {
+        }), Global.WaitForSeconds(5), Global.Do(()=> {
             globalState.revealAndHideStuff(11, false); //hide curr scene GOs
 
             enable.setUpLevel(11, true); //subscene logic

@@ -1397,8 +1397,14 @@ public class interactable : MonoBehaviour
                     bouquet.gameObject.SetActive(true);
                     Animator bq = bouquet.GetComponent<Animator>();
                     bq.SetTrigger("fadeIn");
+                    globalState.audio.playSFX(10, 8);
 
-                    yield return new WaitForSeconds(5);
+                    yield return new WaitForSeconds(1);
+
+                    globalState.audio.playSFX(10, 9, 0.2f);
+                    globalState.audio.fadeVolumeSFX(10, 9, 3, 1);
+
+                    yield return new WaitForSeconds(9.5f);
 
                     bq.SetTrigger("action1"); //flower petals
 
@@ -1406,7 +1412,7 @@ public class interactable : MonoBehaviour
 
                     camMovement.cam.Play("camShiftGraveyardSky2");
 
-                    yield return new WaitForSeconds(6);
+                    yield return new WaitForSeconds(9);
 
                     //end of scene
                     gameControl.GetComponent<BlurManager>().levelPassEffect(10);
@@ -1416,6 +1422,7 @@ public class interactable : MonoBehaviour
 
                     if (!globalState.graveyardConditionMetTriggered)
                     {
+                        globalState.audio.playSFX(10, 6, 1);
                         camMovement.cam.Play("camGraveInteract1");
 
                         globalState.graveClicked = true;
@@ -1432,6 +1439,7 @@ public class interactable : MonoBehaviour
                     }
                     else
                     {
+                        globalState.audio.playSFX(10, 6, 0.5f);
                         camMovement.cam.Play("camGraveInteract2");
                         yield return new WaitForSeconds(3);
                         camMovement.cam.Play("camShiftGraveyardSky");
@@ -1486,7 +1494,11 @@ public class interactable : MonoBehaviour
 
                 gameControl.GetComponent<BlurManager>().centerBlur.setNewScale(0.1f, 0.1f);
 
-                yield return new WaitForSeconds(2);
+                yield return new WaitForSeconds(1);
+
+                globalState.audio.playSFX(11, 0);
+
+                yield return new WaitForSeconds(1);
 
                 Transform bk = globalState.homeScene.transform.Find("book");
                 bk.Find("textsBlur").gameObject.SetActive(false);
@@ -1495,6 +1507,7 @@ public class interactable : MonoBehaviour
                 yield return new WaitForSeconds(2);
 
                 //sfx 
+                globalState.audio.playSFX(11, 1);
                 Transform dg = globalState.homeScene.transform.Find("dog_closeby");
                 dg.gameObject.SetActive(true);
                 dg.GetComponent<Animator>().SetTrigger("fadeIn");
@@ -1513,6 +1526,7 @@ public class interactable : MonoBehaviour
                 yield return new WaitForSeconds(1);
                 GetComponent<imgSwitcher>().switchToImgState(1);
                 //sfx
+                globalState.audio.playSFX(11, 2);
 
                 yield return new WaitForSeconds(3.5f);
                 myAnimator.SetTrigger("fadeOut");
@@ -1542,6 +1556,7 @@ public class interactable : MonoBehaviour
                 globalState.penTriggered = true;
 
                 myAnimator.SetTrigger("action1");
+                globalState.audio.playSFX(11, 3);
 
                 //check for condition met after interact
                 if (globalState.checkHomeSceneItemCondition())
@@ -1557,6 +1572,8 @@ public class interactable : MonoBehaviour
                 globalState.mobileTriggered = true;
 
                 myAnimator.SetTrigger("action1");
+                globalState.audio.playSFX(11, 7);
+
                 if (globalState.checkHomeSceneItemCondition())
                 {
                     Transform phone = globalState.homeScene.transform.Find("phone");
@@ -1582,6 +1599,8 @@ public class interactable : MonoBehaviour
 
                 mug_hand.gameObject.SetActive(false);
                 mg.GetComponent<Animator>().SetTrigger("fadeIn");
+                globalState.audio.playSFX(11, 5);
+
 
                 globalState.globalClickable = true;
 
@@ -1591,6 +1610,9 @@ public class interactable : MonoBehaviour
                     phone.gameObject.SetActive(true);
                     phone.GetComponent<animEventLink>().initiatePhoneCheck();
                 }
+
+                yield return new WaitForSeconds(1f);
+                
 
                 break;
         }
@@ -1856,7 +1878,7 @@ public class interactable : MonoBehaviour
         {
             Rigidbody2D rb = GetComponent<Rigidbody2D>();
 
-            if (Mathf.Abs(rb.rotation) < 100) //TODO change to 8000
+            if (Mathf.Abs(rb.rotation) < 8000) //TODO change to 8000
             {
                 int sign = (rb.rotation > 0) ? 1 : -1;
                 rb.AddTorque(120000 * sign); 
@@ -1938,8 +1960,12 @@ public class interactable : MonoBehaviour
                 if(globalState.leavesColored >= 13)
                 {
                     //all leaves clicked, show env cols
+                    camMovement.cam.SetTrigger("stormEnd");
                     yield return new WaitForSeconds(2);
                     //sfx
+
+                    globalState.audio.fadeVolumeSFX(10, 0, 5, 0);
+                    globalState.audio.fadeVolumeSFX(10, 1, 5, 0);
 
                     Transform tree = globalState.graveyardScene.transform.Find("tree"), leavesCol = globalState.graveyardScene.transform.Find("leavesCol"),
                         sky = globalState.graveyardScene.transform.Find("sky"), darkScreen = globalState.graveyardScene.transform.Find("dark_cover"),
@@ -1974,6 +2000,8 @@ public class interactable : MonoBehaviour
 
                     lz.GetComponent<Animator>().SetTrigger("fadeOut");
 
+                    
+
                     yield return new WaitForSeconds(3);
 
                     gve.GetComponent<interactable>().var1 = 1; //after this, click will trigger flower action
@@ -2000,11 +2028,14 @@ public class interactable : MonoBehaviour
 
             globalState.globalClickable = false;
             //sfx
+            globalState.audio.playSFX(10, 7);
 
             yield return new WaitForSeconds(2);
 
             Transform dg = globalState.graveyardScene.transform.Find("doggo");
             dg.gameObject.SetActive(true);
+            globalState.audio.fadeVolumeSFX(10, 0, 3, 0.6f);
+            globalState.audio.fadeVolumeSFX(10, 1, 3, 0.6f);
 
             dg.GetComponent<Animator>().SetTrigger("fadeIn");
             yield return new WaitForSeconds(2);

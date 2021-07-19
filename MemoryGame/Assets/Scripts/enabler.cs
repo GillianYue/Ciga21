@@ -287,6 +287,9 @@ public class enabler : MonoBehaviour
                 darkCover.SetTrigger("fadeOut");
                 break;
             case 10: //graveyard
+                globalState.audio.playSFX(10, 0); //wind
+                globalState.audio.playSFX(10, 1); //storm
+
                 globalState.graveyardScene.transform.Find("dark_cover").GetComponent<MouseBasedCamShift>().setActive(true);
 
                 cam.vfx.transform.Find("Noises").gameObject.SetActive(false);
@@ -299,15 +302,21 @@ public class enabler : MonoBehaviour
             case 11: //home/mirror
                 if (!subScene)
                 {
-                    cam.cam.Play("idle");
-                    yield return new WaitForSeconds(2);
+                    globalState.audio.playSFX(7, 14, 0); //basically mute cam shift sound
 
+                    cam.cam.Play("idle");
                     blurManager.centerBlur.setNewScale(2f, 0.3f); //initial blur
+                    yield return new WaitForSeconds(4);
+
+                    globalState.audio.playSFX(11, 6, 0.2f);
+                    globalState.audio.fadeVolumeSFX(11, 6, 3, 1);
 
                     darkCover.SetTrigger("fadeOut");
                 }
                 else
                 { //street
+                    globalState.audio.fadeVolumeSFX(11, 6, 2, 0);
+
                     cam.cam.Play("idle");
                     yield return new WaitForSeconds(2);
                        //reset cam position
