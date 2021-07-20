@@ -144,6 +144,8 @@ public class enabler : MonoBehaviour
                 darkCover.SetTrigger("fadeOut");
                 break;
             case 4: //band
+                globalState.audio.fadeVolumeSFX(3, 9, 1, 0);
+
                 cam.cam.SetTrigger("stopBreathe");
                 darkCover.SetTrigger("fadeOut");
                 break;
