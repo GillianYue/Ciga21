@@ -195,6 +195,8 @@ public class enabler : MonoBehaviour
 
                 if (!subScene)
                 {
+                    globalState.audio.playSFX(7, 15);
+
                     cam.edgeScroller = globalState.gardenScene.GetComponent<edgeScroller>();
 
                     darkCover.SetTrigger("fadeOut");
@@ -254,6 +256,7 @@ public class enabler : MonoBehaviour
                 }
                 break;
             case 8: //bicker
+
 
                 yield return new WaitForSeconds(6);
                 globalState.globalClickable = false;
@@ -318,6 +321,7 @@ public class enabler : MonoBehaviour
                 else
                 { //street
                     globalState.audio.fadeVolumeSFX(11, 6, 2, 0);
+                    globalState.audio.playSFX(11, 8);
 
                     cam.cam.Play("idle");
                     yield return new WaitForSeconds(2);
@@ -367,10 +371,12 @@ public class enabler : MonoBehaviour
 
         yield return new WaitForSeconds(14);
 
-        //sfx
         darkCover.SetTrigger("fadeInWhite");
         yield return new WaitForSeconds(3);
+
         //sfx
+        globalState.audio.playSFX(0, 9, 0.2f);
+        globalState.audio.fadeVolumeSFX(0, 9, 2, 1);
 
         globalState.mirrorScene.SetActive(false);
         startCanvas.SetActive(true);
@@ -385,6 +391,9 @@ public class enabler : MonoBehaviour
         //show photo content
         startCanvas.transform.Find("photo/photo_content").gameObject.SetActive(true);
 
+        //sfx
+        globalState.audio.playSFX(0, 10);
+        yield return new WaitForSeconds(3);
 
         yield return new WaitForSeconds(5);
         startCanvas.SetActive(true);
@@ -419,5 +428,15 @@ public class enabler : MonoBehaviour
         {
             t.switchTextDisplayToCurrentLanguage(); //manual switch when button been clicked
         }
+    }
+
+    public void buttonHover()
+    {
+        globalState.audio.playSFX(0, 12);
+    }
+
+    public void buttonSelect()
+    {
+        globalState.audio.playSFX(0, 11);
     }
 }

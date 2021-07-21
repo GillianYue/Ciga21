@@ -85,6 +85,8 @@ public class animEventLink : MonoBehaviour
     {
         print(itemIndex + " fetched");
 
+        globalState.audio.playSFX(6, 9);
+
         if (itemIndex == 0) //ball
         {
             Transform ball = globalState.pupScene.transform.Find("ball").GetChild(0);
@@ -830,6 +832,9 @@ public class animEventLink : MonoBehaviour
     
     public void triggerStreetDialogue()
     {
+        globalState.audio.fadeVolumeSFX(11, 8, 2, 0); //ambience sound fade away
+
+
         GetComponent<Animator>().enabled = false;
         //dialogue
         StartDialogueClickThrough dlg = globalState.streetScene.transform.Find("StartDialogue").GetComponent<StartDialogueClickThrough>();
@@ -847,6 +852,6 @@ public class animEventLink : MonoBehaviour
 
         //sfx
 
-
+        globalState.audio.playSFX(0, 13); //memories
     }
 }

@@ -5030,6 +5030,20 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
+  - time: 1.6666666
+    functionName: playSfx
+    data: 6_8
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 4.4666667
+    functionName: playSfx
+    data: 6_7
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
   - time: 8.4
     functionName: pupDropItem
     data: 

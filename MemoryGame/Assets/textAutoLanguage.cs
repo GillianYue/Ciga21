@@ -16,12 +16,12 @@ public class textAutoLanguage : MonoBehaviour
         if (enable == null) enable = FindObjectOfType<enabler>();
         if (myText == null) myText = GetComponent<Text>();
 
-        switchTextDisplayToCurrentLanguage(); //auto switch to correct language when awake
+        
     }
 
     void Start()
     {
-        
+        switchTextDisplayToCurrentLanguage(); //auto switch to correct language when awake
     }
 
     void Update()
@@ -31,10 +31,13 @@ public class textAutoLanguage : MonoBehaviour
 
     public void switchTextDisplayToCurrentLanguage()
     {
+        print("language switch pre");
         int lang_id = enable.language;
 
         if (languageTexts.Length - 1 < lang_id || myText == null) return;
 
         myText.text = languageTexts[lang_id];
+
+        print("language switch");
     }
 }

@@ -1722,6 +1722,7 @@ public class interactable : MonoBehaviour
                 {
                     //trigger effect
                     //TODO sfx
+                    globalState.audio.playSFX(7, 16);
 
                     camMovement.mouseBasedCamShift.setActive(false);
 
