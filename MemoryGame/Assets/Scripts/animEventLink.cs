@@ -832,7 +832,7 @@ public class animEventLink : MonoBehaviour
     
     public void triggerStreetDialogue()
     {
-        globalState.audio.fadeVolumeSFX(11, 8, 2, 0); //ambience sound fade away
+        globalState.audio.fadeVolumeSFX(11, 8, 2, 0.4f); //ambience sound lower volume
 
 
         GetComponent<Animator>().enabled = false;

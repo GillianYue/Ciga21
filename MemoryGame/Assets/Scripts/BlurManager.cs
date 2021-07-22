@@ -58,8 +58,15 @@ public class BlurManager : MonoBehaviour
                 yield return StartCoroutine(level4Clear());
                 enablr.setUpLevel(5);
                 break;
+            case 5: //sea
+                enablr.audio.fadeVolumeSFX(5, 6, 2, 0);
+
+                yield return StartCoroutine(generalLevelPassEffect());
+                enablr.setUpLevel(6);
+                break;
             case 6: //pup
                 enablr.audio.fadeVolumeSFX(6, 6, 2, 0);
+                enablr.audio.fadeVolumeSFX(6, 0, 2, 0);
 
                 yield return StartCoroutine(generalLevelPassEffect());
                 enablr.setUpLevel(7);

@@ -74,7 +74,11 @@ public class StartDialogueClickThrough : MonoBehaviour
                     {
                         textAnimators[i].SetTrigger("fadeOutText");
                     }
-                    yield return new WaitForSeconds(2f);
+                    myEnabler.audio.fadeVolumeSFX(11, 8, 5, 0);
+                    yield return new WaitForSeconds(6f);
+                    //TODO sfx
+                    myEnabler.audio.playSFX(7, 1);
+                    yield return new WaitForSeconds(3f);
                     textAnimators[5].SetTrigger("fadeInText");
                     yield return new WaitForSeconds(1f);
                     break;
@@ -87,6 +91,8 @@ public class StartDialogueClickThrough : MonoBehaviour
 
                     Transform mirrorScene = myEnabler.globalState.mirrorScene.transform;
 
+                    yield return new WaitForSeconds(3f);
+
                     mirrorScene.gameObject.SetActive(true);
                     Transform mirror = mirrorScene.Find("mirror"), things = mirrorScene.Find("things");
                     mirror.gameObject.SetActive(false); things.gameObject.SetActive(false);
@@ -98,7 +104,7 @@ public class StartDialogueClickThrough : MonoBehaviour
                     mirror.GetComponent<Animator>().SetTrigger("fadeIn");
                     things.GetComponent<Animator>().SetTrigger("fadeIn");
 
-                    yield return new WaitForSeconds(6f);
+                    yield return new WaitForSeconds(14f);
                     Transform girl = mirrorScene.Find("girl");
                     girl.gameObject.SetActive(true);
                    // girl.GetComponent<Animator>().SetTrigger("fadeIn");

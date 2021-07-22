@@ -1112,8 +1112,9 @@ public class interactable : MonoBehaviour
                     yield return new WaitForSeconds(4f);
                     globalState.audio.playSFX(7, 11);
 
+                    yield return new WaitForSeconds(2f);
                     GetComponent<Animator>().SetTrigger("action2"); //wear flower
-                    yield return new WaitForSeconds(12f);
+                    yield return new WaitForSeconds(11f);
 
                     //end scene transition
                     //end of scene
@@ -1399,10 +1400,10 @@ public class interactable : MonoBehaviour
                     bq.SetTrigger("fadeIn");
                     globalState.audio.playSFX(10, 8);
 
-                    yield return new WaitForSeconds(1);
+                    yield return new WaitForSeconds(4);
 
-                    globalState.audio.playSFX(10, 9, 0.2f);
-                    globalState.audio.fadeVolumeSFX(10, 9, 3, 1);
+                    globalState.audio.playSFX(10, 9, 0.1f);
+                    globalState.audio.fadeVolumeSFX(10, 9, 8, 1);
 
                     yield return new WaitForSeconds(9.5f);
 
@@ -1721,9 +1722,7 @@ public class interactable : MonoBehaviour
                 if (globalState.gardenSceneFlowerCount >= 14) //total num flo; effect
                 {
                     //trigger effect
-                    //TODO sfx
-                    globalState.audio.playSFX(7, 16);
-
+                    
                     camMovement.mouseBasedCamShift.setActive(false);
 
                     Transform center = globalState.gardenScene.transform.Find("center"), left = globalState.gardenScene.transform.Find("left"), 
@@ -1737,6 +1736,9 @@ public class interactable : MonoBehaviour
                     Transform l1 = up_front.Find("l1"), l2 = up_front.Find("l2"), l3 = up_front.Find("l3"), l4 = up_front.Find("l4");
 
                     yield return new WaitForSeconds(3);
+
+                    globalState.audio.playSFX(7, 16, 0.2f);
+                    globalState.audio.fadeVolumeSFX(7, 16, 2, 1);
 
                     left.SetAsLastSibling();
                     right.SetAsLastSibling(); //so that center is behind those two 
@@ -1781,7 +1783,7 @@ public class interactable : MonoBehaviour
                     yield return new WaitForSeconds(3f);
                     camMovement.vfx.Play("blink2x");
 
-                    yield return new WaitForSeconds(2f);
+                    yield return new WaitForSeconds(5f);
 
                     camMovement.edgeScroller.enableEdgeScroller();
                     camMovement.edgeScroller.transform.GetComponent<HideAndSeek>().startHideAndSeek();
@@ -1965,8 +1967,8 @@ public class interactable : MonoBehaviour
                     yield return new WaitForSeconds(2);
                     //sfx
 
-                    globalState.audio.fadeVolumeSFX(10, 0, 5, 0);
-                    globalState.audio.fadeVolumeSFX(10, 1, 5, 0);
+                    globalState.audio.fadeVolumeSFX(10, 0, 5, 0.1f);
+                    globalState.audio.fadeVolumeSFX(10, 1, 5, 0.1f);
 
                     Transform tree = globalState.graveyardScene.transform.Find("tree"), leavesCol = globalState.graveyardScene.transform.Find("leavesCol"),
                         sky = globalState.graveyardScene.transform.Find("sky"), darkScreen = globalState.graveyardScene.transform.Find("dark_cover"),

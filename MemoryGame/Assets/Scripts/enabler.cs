@@ -183,6 +183,8 @@ public class enabler : MonoBehaviour
                 break;
             case 6: //pup
 
+                yield return new WaitForSeconds(5);
+
                 audio.playSFX(6, 6);
                 audio.playSFX(6, 0); //panting
 
@@ -247,20 +249,19 @@ public class enabler : MonoBehaviour
                     gs.revealAndHideStuff(7, false, false); //hide main lv stuff
                     darkCover.SetTrigger("fadeOut");
 
-                    yield return new WaitForSeconds(2f);
-                    globalState.audio.playSFX(7, 9, 0.4f);
+                    yield return new WaitForSeconds(5f);
+                    globalState.audio.playSFX(7, 9, 0.1f);
                     globalState.audio.playSFX(7, 10, 0);
-                    globalState.audio.playSFX(7, 13, 0.1f);
-                    globalState.audio.fadeVolumeSFX(7, 13, 5, 0.2f); //fade out bgm
-                    globalState.audio.fadeVolumeSFX(7, 9, 5, 0.7f); //fade out bgm
+                    globalState.audio.playSFX(7, 13, 0.2f); //heartbeat
+                    globalState.audio.fadeVolumeSFX(7, 13, 5, 0.3f); 
+                    globalState.audio.fadeVolumeSFX(7, 9, 8, 0.7f); //fade out bgm
                 }
                 break;
             case 8: //bicker
 
-
-                yield return new WaitForSeconds(6);
+                yield return new WaitForSeconds(10);
                 globalState.globalClickable = false;
-                //TODO sfx
+
                 globalState.audio.playSFX(8, 0);
 
                 yield return new WaitForSeconds(2);
@@ -279,6 +280,8 @@ public class enabler : MonoBehaviour
                 break;
 
             case 9: //park
+                yield return new WaitForSeconds(5);
+
                 //setup
                 Transform h = globalState.parkScene.transform.Find("hosp/Her");
                 h.gameObject.SetActive(false);
@@ -292,6 +295,9 @@ public class enabler : MonoBehaviour
                 darkCover.SetTrigger("fadeOut");
                 break;
             case 10: //graveyard
+
+                yield return new WaitForSeconds(5);
+
                 globalState.audio.playSFX(10, 0); //wind
                 globalState.audio.playSFX(10, 1); //storm
 
@@ -307,6 +313,8 @@ public class enabler : MonoBehaviour
             case 11: //home/mirror
                 if (!subScene)
                 {
+                    yield return new WaitForSeconds(4);
+
                     globalState.audio.playSFX(7, 14, 0); //basically mute cam shift sound
 
                     cam.cam.Play("idle");
@@ -321,7 +329,10 @@ public class enabler : MonoBehaviour
                 else
                 { //street
                     globalState.audio.fadeVolumeSFX(11, 6, 2, 0);
-                    globalState.audio.playSFX(11, 8);
+
+                    yield return new WaitForSeconds(3);
+
+                    globalState.audio.playSFX(11, 8); //ambience
 
                     cam.cam.Play("idle");
                     yield return new WaitForSeconds(2);
@@ -374,9 +385,10 @@ public class enabler : MonoBehaviour
         darkCover.SetTrigger("fadeInWhite");
         yield return new WaitForSeconds(3);
 
-        //sfx
+        //sfx, dawn
         globalState.audio.playSFX(0, 9, 0.2f);
         globalState.audio.fadeVolumeSFX(0, 9, 2, 1);
+        yield return new WaitForSeconds(5);
 
         globalState.mirrorScene.SetActive(false);
         startCanvas.SetActive(true);
@@ -393,22 +405,27 @@ public class enabler : MonoBehaviour
 
         //sfx
         globalState.audio.playSFX(0, 10);
+        globalState.audio.fadeVolumeSFX(0, 9, 5, 0);
         yield return new WaitForSeconds(3);
 
         yield return new WaitForSeconds(5);
         startCanvas.SetActive(true);
         darkCover.SetTrigger("fadeOutWhite");
 
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(5);
         cam.cam.Play("endCameraZoom");
 
-        yield return new WaitForSeconds(10);
+        yield return new WaitForSeconds(5);
+
+        globalState.audio.playSFX(0, 13);
+
+        yield return new WaitForSeconds(5);
         Transform endTitle = startCanvas.transform.Find("EndingTitle"), endCredits = startCanvas.transform.Find("EndingCredits");
         endTitle.gameObject.SetActive(true); 
 
         endTitle.GetComponent<Animator>().SetTrigger("fadeInText");
 
-        yield return new WaitForSeconds(6);
+        yield return new WaitForSeconds(8);
         endCredits.gameObject.SetActive(true);
         endCredits.GetComponent<Animator>().SetTrigger("fadeInText");
     }
