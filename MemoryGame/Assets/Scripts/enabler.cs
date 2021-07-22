@@ -28,6 +28,8 @@ public class enabler : MonoBehaviour
         if(globalState == null) globalState = GetComponent<globalStateStore>();
         if (blurManager == null) blurManager = GetComponent<BlurManager>();
         if (audio == null) audio = GetComponent<AudioManager>();
+
+        language = PlayerPrefs.GetInt("language", 0);
     }
 
     void Start()
@@ -112,7 +114,8 @@ public class enabler : MonoBehaviour
                 break;
             case 2: //vase
                 audio.fadeVolumeSFX(1, 7, 1, 0);
-                audio.playSFX(2, 0); //vase break
+                audio.playSFX(2, 0, 0.2f); //vase break
+                audio.fadeVolumeSFX(2, 0, 3, 1);
 
                 yield return new WaitForSeconds(2);
                 audio.playSFX(2, 14); //gloom
@@ -146,7 +149,6 @@ public class enabler : MonoBehaviour
             case 4: //band
                 globalState.audio.fadeVolumeSFX(3, 9, 1, 0);
 
-                cam.cam.SetTrigger("stopBreathe");
                 darkCover.SetTrigger("fadeOut");
                 break;
 
@@ -183,14 +185,20 @@ public class enabler : MonoBehaviour
                 break;
             case 6: //pup
 
-                yield return new WaitForSeconds(5);
+                yield return new WaitForSeconds(4);
 
-                audio.playSFX(6, 6);
-                audio.playSFX(6, 0); //panting
+                audio.playSFX(6, 0, 0.1f); //panting
+                audio.fadeVolumeSFX(6, 0, 5, 1);
+
+                yield return new WaitForSeconds(4);
 
                 cam.camHolder.enabled = false;
                 cam.cam.Play("idle");
                 darkCover.SetTrigger("fadeOut");
+
+                yield return new WaitForSeconds(1);
+
+                audio.playSFX(6, 6); //bgm
                 break;
 
             case 7: //garden
@@ -438,6 +446,7 @@ public class enabler : MonoBehaviour
     public void switchLanguage()
     {
         language = (language == 1) ? 0 : 1;
+        PlayerPrefs.SetInt("language", language);
 
         textAutoLanguage[] activeTexts = FindObjectsOfType<textAutoLanguage>();
 

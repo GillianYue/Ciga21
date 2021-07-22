@@ -89,7 +89,7 @@ public class starsManager : MonoBehaviour
 
             camMovement.vfx.Play("blink");
 
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(3);
 
 
             //setup friends stuff
@@ -117,7 +117,7 @@ public class starsManager : MonoBehaviour
 
             camMovement.vfx.Play("blink");
 
-            yield return new WaitForSeconds(2);
+            yield return new WaitForSeconds(4);
 
             //end of scene
             globalState.GetComponent<BlurManager>().levelPassEffect(5);

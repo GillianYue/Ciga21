@@ -53,9 +53,11 @@ public class animEventLink : MonoBehaviour
 
     IEnumerator treeSceneEndTransitionCoroutine()
     {
-        
+        yield return new WaitForSeconds(4);
+
         enable.setUpLevel(3, true);
-        globalState.audio.playSFX(3, 9); //tree wind
+        globalState.audio.playSFX(3, 9, 0.1f); //tree wind
+        globalState.audio.fadeVolumeSFX(3, 9, 6, 1);
 
         yield return new WaitForSeconds(7); //wait for anim to fade into new scene view
         camMovement.cam.Play("naturalBreathe");
@@ -66,15 +68,15 @@ public class animEventLink : MonoBehaviour
 
         camMovement.vfx.Play("blink");
 
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(3);
 
         globalState.treeBottomScene.transform.Find("tree").GetComponent<Animator>().Play("treeBottom"); //fade in top layer sprite
 
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(2);
 
         camMovement.vfx.Play("blink");
 
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(10);
 
         //end of scene
         enable.GetComponent<BlurManager>().levelPassEffect(3);
@@ -83,7 +85,6 @@ public class animEventLink : MonoBehaviour
     //called from the end of fetch item animations
     public void pupDropItem(int itemIndex)
     {
-        print(itemIndex + " fetched");
 
         globalState.audio.playSFX(6, 9);
 

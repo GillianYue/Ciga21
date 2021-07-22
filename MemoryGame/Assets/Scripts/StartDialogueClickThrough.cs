@@ -160,9 +160,9 @@ public class StartDialogueClickThrough : MonoBehaviour
 
                     yield return new WaitForSeconds(1);
 
-                    myEnabler.audio.playSFX(0, 1);
+                    myEnabler.audio.playSFX(0, 1); //routine
 
-                    yield return new WaitForSeconds(12);
+                    yield return new WaitForSeconds(22);
 
                     backPanel.SetTrigger("fadeOutSlow"); //text panel fade 
 

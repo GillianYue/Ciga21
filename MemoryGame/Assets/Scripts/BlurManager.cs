@@ -52,6 +52,7 @@ public class BlurManager : MonoBehaviour
             case 3:
                 yield return StartCoroutine(generalLevelPassEffect());
                 enablr.globalState.revealAndHideStuff(3, false, true); //also needs to hide subscene
+                enablr.cam.cam.SetTrigger("stopBreathe");
                 enablr.setUpLevel(4);
                 break;
             case 4: //band
@@ -59,9 +60,20 @@ public class BlurManager : MonoBehaviour
                 enablr.setUpLevel(5);
                 break;
             case 5: //sea
+
                 enablr.audio.fadeVolumeSFX(5, 6, 2, 0);
 
-                yield return StartCoroutine(generalLevelPassEffect());
+                yield return new WaitForSeconds(2);
+
+                frontBlur.setNewScale(20, 0.1f);
+                darkCover.SetTrigger("fadeInSlow");
+                yield return new WaitForSeconds(2);
+                GetComponent<AudioManager>().playSFX(9, 3);
+                yield return new WaitForSeconds(3);
+
+                frontBlur.setNewScale(0.2f, 0.1f);
+                backBlur.setNewScale(0.1f, 0.1f);
+
                 enablr.setUpLevel(6);
                 break;
             case 6: //pup
@@ -79,21 +91,23 @@ public class BlurManager : MonoBehaviour
                 enablr.setUpLevel(8);
                 break;
 
-            case 8:
+            case 8: //bicker
                 yield return StartCoroutine(generalLevelPassEffect());
                 enablr.audio.fadeVolumeSFX(8, 14, 1f, 0f);
                 enablr.setUpLevel(9);
                 break;
 
-            case 9:
-                //yield return StartCoroutine(level9Clear()); TODO
-                //set up level 10
+            case 9: //park
+                    //yield return StartCoroutine(level9Clear()); TODO
+                    //set up level 10
 
                 yield return StartCoroutine(generalLevelPassEffect());
                 enablr.setUpLevel(10);
                 break;
 
             case 10://grave
+                enablr.audio.fadeVolumeSFX(10, 0, 3, 0);
+                enablr.audio.fadeVolumeSFX(10, 1, 3, 0);
 
                 darkCover.gameObject.SetActive(true); //a sudden transition
                 yield return StartCoroutine(generalLevelPassEffect());

@@ -573,8 +573,7 @@ public class interactable : MonoBehaviour
 
                     yield return new WaitForSeconds(2);
 
-                    globalState.audio.fadeVolumeSFX(2, 14, 4, 0);
-                    globalState.audio.fadeVolumeSFX(2, 15, 4, 0.2f);
+
 
                     yield return new WaitForSeconds(3);
 
@@ -584,7 +583,10 @@ public class interactable : MonoBehaviour
                     yield return new WaitForSeconds(3);
 
 
-                    globalState.audio.playSFX(2, 3);
+                    globalState.audio.playSFX(2, 3, 0.2f); //nervous breathing
+                    globalState.audio.fadeVolumeSFX(2, 3, 3, 1);
+                    globalState.audio.playSFX(0, 15, 0.5f); //faint heartbeats
+
 
                     blkt.transform.Find("mask1").gameObject.SetActive(true);
                     blkt.GetComponent<Animator>().SetTrigger("action1"); //mask anim
@@ -616,9 +618,8 @@ public class interactable : MonoBehaviour
                     camMovement.cam.Play("nervousBreathe");
                     yield return new WaitForSeconds(7);
 
-                    //TODO faint vfx
-
                     //flash
+                    globalState.audio.playSFX(0, 14); //glitch sfx
                     ma.SetActive(false);
                     vase.SetActive(false);
                     sofa.SetActive(false);
@@ -637,6 +638,7 @@ public class interactable : MonoBehaviour
 
                     print("s2");
 
+                    globalState.audio.playSFX(0, 14);
                     ma.SetActive(false);
                     vase.SetActive(false);
                     sofa.SetActive(false);
@@ -650,6 +652,8 @@ public class interactable : MonoBehaviour
                     plate.SetActive(false);
                     yield return new WaitForSeconds(2f);
 
+
+                    globalState.audio.playSFX(0, 16);
                     ma.SetActive(false);
                     vase.SetActive(false);
                     sofa.SetActive(false);
@@ -668,16 +672,23 @@ public class interactable : MonoBehaviour
                     yield return new WaitForSeconds(2f);
 
                     ma.GetComponent<Animator>().SetTrigger("fadeOut");
-                    yield return new WaitForSeconds(2); //TODO sfx
+                    yield return new WaitForSeconds(2); 
                     camMovement.vfx.Play("blink");
                     yield return new WaitForSeconds(6);
 
+                    //return with bin
                     ma.GetComponent<Animator>().SetTrigger("fadeIn");
                     Transform bin = globalState.vaseScene.transform.Find("bin");
                     bin.gameObject.SetActive(true);
                     bin.GetComponent<Animator>().SetTrigger("fadeIn");
                     globalState.audio.playSFX(2, 10);
                     camMovement.cam.Play("naturalBreathe");
+
+                    globalState.audio.fadeVolumeSFX(2, 3, 4, 0);
+                    globalState.audio.fadeVolumeSFX(0, 15, 4, 0);
+
+                    globalState.audio.fadeVolumeSFX(2, 14, 8, 0);
+                    globalState.audio.fadeVolumeSFX(2, 15, 8, 0.2f);
 
                     yield return new WaitForSeconds(3);
 
@@ -690,11 +701,12 @@ public class interactable : MonoBehaviour
                     vase.GetComponent<Animator>().SetTrigger("fadeOut");
                     ma.GetComponent<imgSwitcher>().switchToImgState(1);
 
+
                     yield return new WaitForSeconds(4);
                     ma.GetComponent<imgSwitcher>().switchToImgState(0);
 
 
-                    yield return new WaitForSeconds(8);
+                    yield return new WaitForSeconds(7);
                     camMovement.cam.Play("vaseSceneEndZoom");
                     //sfx thud
                     globalState.audio.playSFX(2, 12);
@@ -1735,10 +1747,10 @@ public class interactable : MonoBehaviour
                     Transform treeflower = center.Find("treeflower");
                     Transform l1 = up_front.Find("l1"), l2 = up_front.Find("l2"), l3 = up_front.Find("l3"), l4 = up_front.Find("l4");
 
-                    yield return new WaitForSeconds(3);
+                    yield return new WaitForSeconds(5.5f);
 
-                    globalState.audio.playSFX(7, 16, 0.2f);
-                    globalState.audio.fadeVolumeSFX(7, 16, 2, 1);
+                    globalState.audio.playSFX(7, 16, 0.2f); //warm pad
+                    globalState.audio.fadeVolumeSFX(7, 16, 2, 0.6f);
 
                     left.SetAsLastSibling();
                     right.SetAsLastSibling(); //so that center is behind those two 
