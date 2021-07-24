@@ -482,51 +482,9 @@ public class interactable : MonoBehaviour
         Animator g = glitch.Find("her").GetComponent<Animator>();
         g.Play("glitch1");
 
-        yield return new WaitForSeconds(3f); //glitch ends
-        her.Play("opaque"); //toggle back Image & Image (1)
-        her.Play("herLinesAway");
-
-        yield return new WaitForSeconds(1);
-        Time.timeScale = 0.8f;
-
-        yield return new WaitForSeconds(1);
-        Time.timeScale = 1.2f;
-
-        glitch.gameObject.SetActive(false);
-
-        globalState.blurManager.centerBlur.setNewScale(3, 0.1f);
-        yield return new WaitForSeconds(1);
-        Time.timeScale = 1;
-
-        yield return new WaitForSeconds(3);
-        globalState.blurManager.centerBlur.setNewScale(0.2f, 0.1f);
-
-        yield return new WaitForSeconds(2);
-        hand3.gameObject.SetActive(true);
-        hand3.SetTrigger("action4"); //reach
-        camMovement.enable.darkCover.SetTrigger("fadeIn");
-        //wait then sfx tunnel footsteps
-
-
-        yield return new WaitForSeconds(2);
-        globalState.audio.fadeVolumeSFX(9, 1, 2, 0);
-        globalState.audio.fadeVolumeSFX(9, 10, 2, 0);
-        globalState.audio.fadeVolumeSFX(9, 22, 2, 0);
-
-        yield return new WaitForSeconds(0.5f);
-        globalState.audio.playSFX(9, 29); //run down corridot
-
-        yield return new WaitForSeconds(3);
-
-
-        her.gameObject.SetActive(false);
-        Transform kmt = globalState.parkScene.transform.Find("klimt");
-        kmt.gameObject.SetActive(true);
-        kmt.GetComponent<animEventLink>().klimt();
-
-        sr.gameObject.SetActive(false);
-        hand3.gameObject.SetActive(false);
     }
+
+
 
     public void playSfx(string levelUnderlineIndex) //e.g. 11_2
     {
@@ -1412,6 +1370,9 @@ public class interactable : MonoBehaviour
                     bq.SetTrigger("fadeIn");
                     globalState.audio.playSFX(10, 8);
 
+                    globalState.audio.fadeVolumeSFX(10, 0, 3, 0.2f);
+                    globalState.audio.fadeVolumeSFX(10, 1, 3, 0.2f);
+
                     yield return new WaitForSeconds(4);
 
                     globalState.audio.playSFX(10, 9, 0.1f);
@@ -1795,7 +1756,7 @@ public class interactable : MonoBehaviour
                     yield return new WaitForSeconds(3f);
                     camMovement.vfx.Play("blink2x");
 
-                    yield return new WaitForSeconds(5f);
+                    yield return new WaitForSeconds(7f);
 
                     camMovement.edgeScroller.enableEdgeScroller();
                     camMovement.edgeScroller.transform.GetComponent<HideAndSeek>().startHideAndSeek();

@@ -123,7 +123,7 @@ public class animEventLink : MonoBehaviour
     public void pupSceneCamShift()
     {
         camMovement.cam.Play("camPupSceneShift");
-
+        globalState.audio.fadeVolumeSFX(6, 6, 6, 0);
     }
 
     public void pupSceneCamShiftEnd()
@@ -503,6 +503,62 @@ public class animEventLink : MonoBehaviour
     public void setGlobalClickableFalse() { globalState.globalClickable = false; }
 
 
+    public void glitchEffectEnd() { StartCoroutine(glitchEffectEndCoroutine()); }
+
+    public IEnumerator glitchEffectEndCoroutine()
+    {
+        Animator her = globalState.parkScene.transform.Find("Her").GetComponent<Animator>(),
+        hand3 = globalState.parkScene.transform.Find("MyHand3").GetComponent<Animator>();
+
+        Transform hosp = globalState.parkScene.transform.Find("hosp"), glitch = globalState.parkScene.transform.Find("glitch");
+        Transform screen = hosp.Find("screen");
+        Animator sr = screen.Find("screenR").GetComponent<Animator>();
+
+        her.Play("opaque"); //toggle back Image & Image (1)
+        her.Play("herLinesAway");
+
+        yield return new WaitForSeconds(1);
+        Time.timeScale = 0.8f;
+
+        yield return new WaitForSeconds(1);
+        Time.timeScale = 1.2f;
+
+        glitch.gameObject.SetActive(false);
+
+        globalState.blurManager.centerBlur.setNewScale(3, 0.1f);
+        yield return new WaitForSeconds(1);
+        Time.timeScale = 1;
+
+        yield return new WaitForSeconds(3);
+        globalState.blurManager.centerBlur.setNewScale(0.2f, 0.1f);
+
+        yield return new WaitForSeconds(2);
+        hand3.gameObject.SetActive(true);
+        hand3.SetTrigger("action4"); //reach
+        camMovement.enable.darkCover.SetTrigger("fadeIn");
+        //wait then sfx tunnel footsteps
+
+
+        yield return new WaitForSeconds(2);
+        globalState.audio.fadeVolumeSFX(9, 1, 2, 0);
+        globalState.audio.fadeVolumeSFX(9, 10, 2, 0);
+        globalState.audio.fadeVolumeSFX(9, 22, 2, 0);
+
+        yield return new WaitForSeconds(0.5f);
+        globalState.audio.playSFX(9, 29); //run down corridot
+
+        yield return new WaitForSeconds(3);
+
+
+        her.gameObject.SetActive(false);
+        Transform kmt = globalState.parkScene.transform.Find("klimt");
+        kmt.gameObject.SetActive(true);
+        kmt.GetComponent<animEventLink>().klimt();
+
+        sr.gameObject.SetActive(false);
+        hand3.gameObject.SetActive(false);
+    }
+
 
     public void klimt() { StartCoroutine(klimtCoroutine()); }
 
@@ -830,6 +886,8 @@ public class animEventLink : MonoBehaviour
         a.SetTrigger("action1");
 
     }
+
+    public void pollockDone() { globalState.mirrorScene.transform.Find("girl").gameObject.SetActive(false); }
     
     public void triggerStreetDialogue()
     {
@@ -848,11 +906,6 @@ public class animEventLink : MonoBehaviour
     public void endingFadeOutThings()
     {
         enable.startCanvas.transform.Find("water").GetComponent<Animator>().SetTrigger("fadeOut");
-
-        enable.cam.vfx.transform.Find("sakura").gameObject.SetActive(true);
-
-        //sfx
-
-        globalState.audio.playSFX(0, 13); //memories
     }
+
 }

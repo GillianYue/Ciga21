@@ -77,7 +77,7 @@ public class BlurManager : MonoBehaviour
                 enablr.setUpLevel(6);
                 break;
             case 6: //pup
-                enablr.audio.fadeVolumeSFX(6, 6, 2, 0);
+                
                 enablr.audio.fadeVolumeSFX(6, 0, 2, 0);
 
                 yield return StartCoroutine(generalLevelPassEffect());
@@ -180,7 +180,7 @@ public class BlurManager : MonoBehaviour
 
     IEnumerator level4Clear()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(1.5f);
 
         mainCam.SetTrigger("camShiftPiano");
         yield return new WaitForSeconds(10);

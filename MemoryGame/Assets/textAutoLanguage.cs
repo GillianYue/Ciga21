@@ -8,6 +8,8 @@ public class textAutoLanguage : MonoBehaviour
 
     public enabler enable;
     public string[] languageTexts; //will be used to change content of UI.Text, matches languageId in enabler
+    public int[] languageTextSizes; //if -1 use default text size
+    public Font[] languageFonts; //if null use default font
 
     public Text myText;
 
@@ -22,6 +24,7 @@ public class textAutoLanguage : MonoBehaviour
     void Start()
     {
         switchTextDisplayToCurrentLanguage(); //auto switch to correct language when awake
+        enable.OnChangeLanguage += switchTextDisplayToCurrentLanguage; //will trigger when called
     }
 
     void Update()
@@ -31,13 +34,14 @@ public class textAutoLanguage : MonoBehaviour
 
     public void switchTextDisplayToCurrentLanguage()
     {
-        print("language switch pre");
         int lang_id = enable.language;
 
         if (languageTexts.Length - 1 < lang_id || myText == null) return;
 
         myText.text = languageTexts[lang_id];
 
-        print("language switch");
+        if (languageTextSizes.Length - 1 >= lang_id && languageTextSizes[lang_id] != -1) myText.fontSize = languageTextSizes[lang_id];
+
+        if (languageFonts.Length - 1 >= lang_id && languageFonts[lang_id] != null) myText.font = languageFonts[lang_id];
     }
 }

@@ -25,6 +25,12 @@ public class Tester : MonoBehaviour
             enable.startCanvas.SetActive(false);
             enable.setUpLevel(startLevel);
         }
+        else
+        {
+            //if equal to 0
+            PlayerPrefs.SetInt("level", 0);
+            enable.startCanvas.SetActive(true);
+        }
     }
 
     void Update()

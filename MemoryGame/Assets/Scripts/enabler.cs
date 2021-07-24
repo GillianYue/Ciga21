@@ -11,7 +11,6 @@ public class enabler : MonoBehaviour
     public Animator mainCam, darkCover, credits;
 
     public CamMovement cam;
-    public imgSwitcher titleImg;
     public GameObject startCanvas;
     public StartDialogueClickThrough startDialogue;
     public BlurManager blurManager;
@@ -19,8 +18,15 @@ public class enabler : MonoBehaviour
     public Animator[] startMenuFocusObjects; //photo, mdc and report
 
     public int language; //0 eng, 1 chn
+    public delegate void LanguageChangeHandler();
+    public event LanguageChangeHandler OnChangeLanguage;
 
     public AudioManager audio;
+
+    public Tester test;
+
+    public Animator headphoneScreen;
+
 
     private void Awake()
     {
@@ -28,18 +34,87 @@ public class enabler : MonoBehaviour
         if(globalState == null) globalState = GetComponent<globalStateStore>();
         if (blurManager == null) blurManager = GetComponent<BlurManager>();
         if (audio == null) audio = GetComponent<AudioManager>();
+        if (test == null) test = GetComponent<Tester>();
 
         language = PlayerPrefs.GetInt("language", 0);
+
+        headphoneScreen.gameObject.SetActive(true);
+        headphoneScreen.GetComponent<Image>().color = new Color(1, 1, 1, 1);
+        headphoneScreen.transform.GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 0);
+        headphoneScreen.transform.GetChild(1).GetComponent<Image>().color = new Color(1, 1, 1, 0);
     }
 
     void Start()
     {
-
+        StartCoroutine(startSetupCoroutine());
     }
 
     void Update()
     {
         
+    }
+
+    public IEnumerator startSetupCoroutine()
+    {
+        globalState.globalClickable = false;
+
+        globalState.audio.playSFX(0, 17, 0.1f); //ambience quiet
+        globalState.audio.fadeVolumeSFX(0, 17, 5, 1);
+
+        yield return new WaitForSeconds(2);
+
+        headphoneScreen.SetTrigger("fadeIn");
+
+        yield return new WaitForSeconds(5);
+
+        headphoneScreen.SetTrigger("fadeOut");
+
+        StartCoroutine(checkLoadLevel());
+
+        yield return new WaitForSeconds(3);
+        headphoneScreen.gameObject.SetActive(false);
+        globalState.globalClickable = true;
+    }
+
+    public IEnumerator checkLoadLevel()
+    {
+        if (!test.test)
+        {
+            int loadLv = PlayerPrefs.GetInt("level");
+
+            if (loadLv > 0)
+            {
+
+                darkCover.gameObject.SetActive(true);
+                darkCover.SetTrigger("opaque");
+
+                yield return new WaitForSeconds(2);
+
+                globalState.audio.fadeVolumeSFX(0, 17, 2, 0);
+                startCanvas.SetActive(false);
+                setUpLevel(loadLv);
+            }
+            else
+            {
+                startCanvas.transform.Find("photo/lines").gameObject.SetActive(true);
+                startCanvas.transform.Find("photo/whiteout").gameObject.SetActive(false);
+                startCanvas.transform.Find("photo/photo_content").gameObject.SetActive(false);
+
+                yield return new WaitForSeconds(2);
+
+                //if equal to 0, keep ambience
+                PlayerPrefs.SetInt("level", 0);
+                startCanvas.SetActive(true);
+
+            }
+        }
+        else
+        {
+            startCanvas.transform.Find("photo/lines").gameObject.SetActive(true);
+            startCanvas.transform.Find("photo/whiteout").gameObject.SetActive(false);
+            startCanvas.transform.Find("photo/photo_content").gameObject.SetActive(false);
+            globalState.audio.fadeVolumeSFX(0, 17, 2, 0);
+        }
     }
 
     public void quitGame()
@@ -64,6 +139,8 @@ public class enabler : MonoBehaviour
     //officially starts the game and goes to l1
     public void startGame()
     {
+        globalState.audio.fadeVolumeSFX(0, 17, 5, 0);
+
         StartCoroutine(startGameCoroutine());
         GetComponent<AudioSource>().Play();
     }
@@ -84,7 +161,7 @@ public class enabler : MonoBehaviour
         setUpLevel(1);
 
         //at this point can't see title anymore so switch to ending state already 
-        titleImg.switchToImgState(1);
+
         darkCover.SetTrigger("fadeOut"); //enters scene
         yield return new WaitForSeconds(2);
         
@@ -94,6 +171,7 @@ public class enabler : MonoBehaviour
 
     public void setUpLevel(int l, bool subScene)
     {
+        PlayerPrefs.SetInt("level", l);
         StartCoroutine(setUpLevelCoroutine(l, subScene));
     }
 
@@ -147,6 +225,8 @@ public class enabler : MonoBehaviour
                 darkCover.SetTrigger("fadeOut");
                 break;
             case 4: //band
+                yield return new WaitForSeconds(2);
+
                 globalState.audio.fadeVolumeSFX(3, 9, 1, 0);
 
                 darkCover.SetTrigger("fadeOut");
@@ -337,6 +417,7 @@ public class enabler : MonoBehaviour
                 else
                 { //street
                     globalState.audio.fadeVolumeSFX(11, 6, 2, 0);
+                    globalState.streetScene.transform.Find("lines/b1").GetComponent<Animator>().SetTrigger("transparent");
 
                     yield return new WaitForSeconds(3);
 
@@ -377,6 +458,8 @@ public class enabler : MonoBehaviour
 
     IEnumerator gamePassCoroutine()
     {
+        globalState.globalClickable = false;
+
         darkCover.SetTrigger("fadeOut");
 
         Transform her = globalState.mirrorScene.transform.Find("Her");
@@ -396,11 +479,14 @@ public class enabler : MonoBehaviour
         //sfx, dawn
         globalState.audio.playSFX(0, 9, 0.2f);
         globalState.audio.fadeVolumeSFX(0, 9, 2, 1);
+
         yield return new WaitForSeconds(5);
 
         globalState.mirrorScene.SetActive(false);
         startCanvas.SetActive(true);
         startCanvas.transform.Find("photo/lines").gameObject.SetActive(false);
+        startCanvas.transform.Find("photo/whiteout").gameObject.SetActive(true);
+
         //hide menu buttons
         startCanvas.transform.Find("Start").gameObject.SetActive(false);
         startCanvas.transform.Find("Language").gameObject.SetActive(false);
@@ -411,24 +497,33 @@ public class enabler : MonoBehaviour
         //show photo content
         startCanvas.transform.Find("photo/photo_content").gameObject.SetActive(true);
 
-        //sfx
+        //sfx, get up + footsteps
         globalState.audio.playSFX(0, 10);
         globalState.audio.fadeVolumeSFX(0, 9, 5, 0);
-        yield return new WaitForSeconds(3);
 
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(15);
+
         startCanvas.SetActive(true);
         darkCover.SetTrigger("fadeOutWhite");
 
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(3);
+        cam.vfx.Play("blink");
+
+        yield return new WaitForSeconds(3);
         cam.cam.Play("endCameraZoom");
 
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(8);
 
-        globalState.audio.playSFX(0, 13);
+        startCanvas.transform.Find("photo/whiteout").GetComponent<Animator>().Play("singleImageFadeOut");
 
-        yield return new WaitForSeconds(5);
-        Transform endTitle = startCanvas.transform.Find("EndingTitle"), endCredits = startCanvas.transform.Find("EndingCredits");
+        yield return new WaitForSeconds(2);
+
+        cam.vfx.transform.Find("sakura").gameObject.SetActive(true);
+        globalState.audio.playSFX(0, 13); //memories
+
+        yield return new WaitForSeconds(2);
+        Transform endTitle = startCanvas.transform.Find("EndingTitle"), endCredits = startCanvas.transform.Find("EndingCredits"), 
+            thankYouNote = startCanvas.transform.Find("ThankYouNote");
         endTitle.gameObject.SetActive(true); 
 
         endTitle.GetComponent<Animator>().SetTrigger("fadeInText");
@@ -436,6 +531,17 @@ public class enabler : MonoBehaviour
         yield return new WaitForSeconds(8);
         endCredits.gameObject.SetActive(true);
         endCredits.GetComponent<Animator>().SetTrigger("fadeInText");
+
+        yield return new WaitForSeconds(5);
+        thankYouNote.gameObject.SetActive(true);
+        thankYouNote.GetComponent<Animator>().SetTrigger("fadeInText");
+        PlayerPrefs.SetInt("level", 0);
+
+        yield return new WaitForSeconds(25);
+        darkCover.SetTrigger("fadeInSlow");
+        yield return new WaitForSeconds(8);
+
+        Application.Quit();
     }
 
     public void showCredits()
@@ -448,12 +554,14 @@ public class enabler : MonoBehaviour
         language = (language == 1) ? 0 : 1;
         PlayerPrefs.SetInt("language", language);
 
-        textAutoLanguage[] activeTexts = FindObjectsOfType<textAutoLanguage>();
+        OnChangeLanguage(); //will trigger lang switch in all textAutoLanguage
+
+/*        textAutoLanguage[] activeTexts = FindObjectsOfType<textAutoLanguage>();
 
         foreach(textAutoLanguage t in activeTexts)
         {
             t.switchTextDisplayToCurrentLanguage(); //manual switch when button been clicked
-        }
+        }*/
     }
 
     public void buttonHover()

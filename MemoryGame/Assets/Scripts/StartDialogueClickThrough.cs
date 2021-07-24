@@ -15,9 +15,14 @@ public class StartDialogueClickThrough : MonoBehaviour
 
     public int dialogueType; //0 start, 1 streetScene
 
+    private void Awake()
+    {
+    }
+
     void Start()
     {
-        foreach(Animator a in textAnimators)
+
+        foreach (Animator a in textAnimators)
         {
             a.GetComponent<Text>().color = new Color(1, 1, 1, 0); //hide all texts
         }
@@ -26,6 +31,8 @@ public class StartDialogueClickThrough : MonoBehaviour
         if(dialogueType == 0) backPanel.gameObject.SetActive(false);
 
         counter = 0;
+
+
     }
 
 
@@ -93,18 +100,22 @@ public class StartDialogueClickThrough : MonoBehaviour
 
                     yield return new WaitForSeconds(3f);
 
+                    myEnabler.audio.playSFX(0, 17, 0.2f); //ambience white noise
+                    myEnabler.audio.fadeVolumeSFX(0, 17, 2, 1);
+
                     mirrorScene.gameObject.SetActive(true);
                     Transform mirror = mirrorScene.Find("mirror"), things = mirrorScene.Find("things");
                     mirror.gameObject.SetActive(false); things.gameObject.SetActive(false);
                     backPanel.SetTrigger("fadeOutSlow"); //text panel fade 
 
                     yield return new WaitForSeconds(3f);
+                    myEnabler.audio.playSFX(11, 9, 0.7f);
 
                     mirror.gameObject.SetActive(true); things.gameObject.SetActive(true);
                     mirror.GetComponent<Animator>().SetTrigger("fadeIn");
                     things.GetComponent<Animator>().SetTrigger("fadeIn");
 
-                    yield return new WaitForSeconds(14f);
+                    yield return new WaitForSeconds(11f);
                     Transform girl = mirrorScene.Find("girl");
                     girl.gameObject.SetActive(true);
                    // girl.GetComponent<Animator>().SetTrigger("fadeIn");
@@ -115,7 +126,7 @@ public class StartDialogueClickThrough : MonoBehaviour
                     girl.GetComponent<Animator>().SetTrigger("action1"); //pollock
                     //will trigger fade out by end of animation
 
-                    yield return new WaitForSeconds(14f);
+                    yield return new WaitForSeconds(12f);
                     Transform me = mirrorScene.Find("me");
                     me.gameObject.SetActive(true);
                     me.GetComponent<Animator>().SetTrigger("fadeIn");
@@ -219,11 +230,18 @@ public class StartDialogueClickThrough : MonoBehaviour
 
     IEnumerator backPanelFadeIn()
     {
+        myEnabler.globalState.globalClickable = false;
+
         animating = true;
         backPanel.SetTrigger("fadeIn"); //pure colored background
         yield return new WaitForSeconds(1.5f);
         counter = 1;
         animating = false;
 
+        yield return new WaitForSeconds(1.5f);
+
+        StartCoroutine(fadeInText(counter)); //text first line auto entry
+
+        myEnabler.globalState.globalClickable = true;
     }
 }
