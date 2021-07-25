@@ -19,6 +19,7 @@ public class DependencyResolver
     {
         foreach (var gameObject in allGameObjects)
         {
+
             foreach (var component in gameObject.GetComponents<MonoBehaviour>())
             {
                 var componentType = component.GetType();

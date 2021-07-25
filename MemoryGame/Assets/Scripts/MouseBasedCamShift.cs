@@ -15,6 +15,8 @@ public class MouseBasedCamShift : MonoBehaviour
     void Start()
     {
         //startCamShift();
+        scaleValuesBasedOnScreen();
+        
     }
 
 
@@ -22,12 +24,23 @@ public class MouseBasedCamShift : MonoBehaviour
     {
         if (active)
         {
+            if (name.Equals("dark_cover")) { print(Input.mousePosition); }
             Vector2 mousePos = (Vector2)Input.mousePosition - screenDimension / 2; //center point will be (0,0)
 
             Vector2 offset = new Vector2(moveCapacity.x * (mousePos.x / (screenDimension.x / 2)), moveCapacity.y * (mousePos.y / (screenDimension.y / 2)));
 
             shakeTransform.localPosition = startLocalPos + offset;
         }
+    }
+
+    public void scaleValuesBasedOnScreen()
+    {
+        Vector2 origScreenDimension = screenDimension,
+            origRatio = new Vector2(moveCapacity.x / origScreenDimension.x, moveCapacity.y / origScreenDimension.y);
+
+        screenDimension = new Vector2(Screen.width, Screen.height);
+        moveCapacity = new Vector2(screenDimension.x * origRatio.x, screenDimension.y * origRatio.y);
+
     }
 
 

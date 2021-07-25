@@ -523,7 +523,7 @@ public class animEventLink : MonoBehaviour
         yield return new WaitForSeconds(1);
         Time.timeScale = 1.2f;
 
-        glitch.gameObject.SetActive(false);
+        
 
         globalState.blurManager.centerBlur.setNewScale(3, 0.1f);
         yield return new WaitForSeconds(1);
@@ -555,8 +555,10 @@ public class animEventLink : MonoBehaviour
         kmt.gameObject.SetActive(true);
         kmt.GetComponent<animEventLink>().klimt();
 
+        
         sr.gameObject.SetActive(false);
         hand3.gameObject.SetActive(false);
+        glitch.gameObject.SetActive(false);
     }
 
 
@@ -791,6 +793,8 @@ public class animEventLink : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
 
         mob.SetTrigger("fadeOut");
+
+        globalState.homeScene.transform.Find("phone/texts").GetComponent<setDateTimeTexts>().setDateTimeText(); //sets date time, to the right language as well
 
         yield return new WaitForSeconds(3f);
 

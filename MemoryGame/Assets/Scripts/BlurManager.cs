@@ -12,9 +12,12 @@ public class BlurManager : MonoBehaviour
     public Animator scene3bg;
     public enabler enablr;
 
+    public SteamAchievements steamAchievements;
+
     void Start()
     {
         if (enablr == null) enablr = GetComponent<enabler>();
+        if (steamAchievements == null) steamAchievements = GetComponent<SteamAchievements>();
     }
 
     void Update()
@@ -38,6 +41,7 @@ public class BlurManager : MonoBehaviour
     //plays the transition effects and proceeds to next level
     public void levelPassEffect(int level)
     {
+
         StartCoroutine(levelPassEffectCoroutine(level));
     }
 
@@ -124,6 +128,9 @@ public class BlurManager : MonoBehaviour
                 enablr.setUpLevel(level+1);
                 break;
         }
+
+        if(level != 11) //if 11, wait until very end to update
+        steamAchievements.updateAch2Progress(level);
     }
 
     IEnumerator generalLevelPassEffect()
@@ -183,7 +190,7 @@ public class BlurManager : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
 
         mainCam.SetTrigger("camShiftPiano");
-        yield return new WaitForSeconds(10);
+        yield return new WaitForSeconds(11.5f);
         //audio stuff
 
         GetComponent<AudioManager>().playSFX(4, 5);

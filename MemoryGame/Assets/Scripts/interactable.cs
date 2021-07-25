@@ -1589,6 +1589,11 @@ public class interactable : MonoBehaviour
                 
 
                 break;
+            /////////////////////
+            case "resetUI":
+                globalState.enable.closeResetUIWindow();
+                break;
+
         }
 
         string parentName = transform.parent.name;
@@ -1783,6 +1788,7 @@ public class interactable : MonoBehaviour
 
         }else if (parentName.Equals("mandarin_peeled")) //mandarin slice
         {
+            globalState.globalClickable = false;
             globalState.mandarinConsumed += 1; //increment count
 
             if(globalState.mandarinConsumed == 5)
@@ -1802,8 +1808,7 @@ public class interactable : MonoBehaviour
 
             clickable = false;
             myAnimator.SetTrigger("fadeOut");
-            globalState.globalClickable = false;
-
+            
             yield return new WaitForSeconds(1);
             globalState.audio.playSFX(8, 8);
             yield return new WaitForSeconds(1);
@@ -1846,7 +1851,7 @@ public class interactable : MonoBehaviour
                     break;
             }
 
-
+            yield return new WaitForSeconds(0.5f);
             globalState.globalClickable = true;
 
 

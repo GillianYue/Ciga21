@@ -177,6 +177,13 @@ public class StartDialogueClickThrough : MonoBehaviour
 
                     backPanel.SetTrigger("fadeOutSlow"); //text panel fade 
 
+                    //hide menu buttons
+                    myEnabler.startCanvas.transform.Find("TitleText").GetComponent<Text>().color = new Color(1, 1, 1, 0);
+                    myEnabler.startCanvas.transform.Find("Start").gameObject.SetActive(false);
+                    myEnabler.startCanvas.transform.Find("Language").gameObject.SetActive(false);
+                    myEnabler.startCanvas.transform.Find("Credits").gameObject.SetActive(false);
+                    myEnabler.startCanvas.transform.Find("Quit").gameObject.SetActive(false);
+
                     yield return new WaitForSeconds(3f);
                     myEnabler.startGame();
 

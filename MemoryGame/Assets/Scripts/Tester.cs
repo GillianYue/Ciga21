@@ -25,7 +25,7 @@ public class Tester : MonoBehaviour
             enable.startCanvas.SetActive(false);
             enable.setUpLevel(startLevel);
         }
-        else
+        else if(test && startLevel == 0)
         {
             //if equal to 0
             PlayerPrefs.SetInt("level", 0);
