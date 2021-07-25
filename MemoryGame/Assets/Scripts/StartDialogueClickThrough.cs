@@ -138,6 +138,10 @@ public class StartDialogueClickThrough : MonoBehaviour
 
                     yield return new WaitForSeconds(2f);
                     backPanel.gameObject.SetActive(false);
+
+                    me.gameObject.SetActive(false);
+                    mirror.gameObject.SetActive(false);
+                    things.gameObject.SetActive(false);
                     break;
             }
         }
@@ -243,12 +247,14 @@ public class StartDialogueClickThrough : MonoBehaviour
         backPanel.SetTrigger("fadeIn"); //pure colored background
         yield return new WaitForSeconds(1.5f);
         counter = 1;
-        animating = false;
+        
 
         yield return new WaitForSeconds(1.5f);
 
         StartCoroutine(fadeInText(counter)); //text first line auto entry
 
+        yield return new WaitForSeconds(1.5f);
         myEnabler.globalState.globalClickable = true;
+        animating = false;
     }
 }

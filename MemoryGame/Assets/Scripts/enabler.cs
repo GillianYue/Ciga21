@@ -501,6 +501,14 @@ public class enabler : MonoBehaviour
     {
         globalState.globalClickable = false;
 
+        //hide menu buttons
+        startCanvas.transform.Find("TitleText").GetComponent<Text>().color = new Color(1, 1, 1, 0);
+        startCanvas.transform.Find("Start").gameObject.SetActive(false);
+        startCanvas.transform.Find("Language").gameObject.SetActive(false);
+        startCanvas.transform.Find("Credits").gameObject.SetActive(false);
+        startCanvas.transform.Find("Quit").gameObject.SetActive(false);
+
+
         darkCover.SetTrigger("fadeOut");
 
         Transform her = globalState.mirrorScene.transform.Find("Her");
