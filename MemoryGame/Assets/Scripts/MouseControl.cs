@@ -6,7 +6,7 @@ public class MouseControl : MonoBehaviour
     public Texture2D mouseCursor, handCursor;
 
     public CursorMode cursorMode = CursorMode.Auto;
-    public Vector2 hotSpot = Vector2.zero;
+    public Vector2 hotSpot = new Vector2(27, 14);
     public globalStateStore globalState;
 
     public enum MouseMode { hand, cursor }
