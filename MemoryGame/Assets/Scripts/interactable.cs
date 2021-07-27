@@ -1761,7 +1761,7 @@ public class interactable : MonoBehaviour
                     yield return new WaitForSeconds(3f);
                     camMovement.vfx.Play("blink2x");
 
-                    yield return new WaitForSeconds(7f);
+                    yield return new WaitForSeconds(5f);
 
                     camMovement.edgeScroller.enableEdgeScroller();
                     camMovement.edgeScroller.transform.GetComponent<HideAndSeek>().startHideAndSeek();

@@ -39,7 +39,7 @@ public class StartDialogueClickThrough : MonoBehaviour
     void Update()
     {
 
-            if (counter > 0 && Input.GetMouseButtonDown(0) && !animating) //show next line of text
+            if (!animating && counter > 0 && Input.GetMouseButtonDown(0)) //show next line of text
             {
                 if (dialogueType == 1)
                 {
@@ -241,9 +241,10 @@ public class StartDialogueClickThrough : MonoBehaviour
 
     IEnumerator backPanelFadeIn()
     {
+        animating = true;
+
         myEnabler.globalState.globalClickable = false;
 
-        animating = true;
         backPanel.SetTrigger("fadeIn"); //pure colored background
         yield return new WaitForSeconds(1.5f);
         counter = 1;
@@ -254,6 +255,8 @@ public class StartDialogueClickThrough : MonoBehaviour
         StartCoroutine(fadeInText(counter)); //text first line auto entry
 
         yield return new WaitForSeconds(1.5f);
+
+
         myEnabler.globalState.globalClickable = true;
         animating = false;
     }
