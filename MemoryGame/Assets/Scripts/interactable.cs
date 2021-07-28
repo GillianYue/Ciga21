@@ -1859,7 +1859,7 @@ public class interactable : MonoBehaviour
         {
             Rigidbody2D rb = GetComponent<Rigidbody2D>();
 
-            if (Mathf.Abs(rb.rotation) < 8000) //TODO change to 8000
+            if (Mathf.Abs(rb.rotation) < 5000) //TODO change to 8000
             {
                 int sign = (rb.rotation > 0) ? 1 : -1;
                 rb.AddTorque(120000 * sign); 

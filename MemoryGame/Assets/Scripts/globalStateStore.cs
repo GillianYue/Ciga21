@@ -22,6 +22,8 @@ public class globalStateStore : MonoBehaviour
 
     public AudioManager audio;
 
+    public bool puzzleRightClickHintShown;
+
     private void Awake()
     {
         globalClickable = true;

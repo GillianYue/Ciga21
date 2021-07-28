@@ -12,6 +12,8 @@ public class PuzzlePiece : interactable
     public imgSwitcher imgSwitch;
     public Vector2 placementOffset; //if changeSpriteAfterPlacement, might need to be offset from placement position 
 
+    private Vector2 originalPosition; //local pos
+
     protected override void Awake()
     {
         base.Awake(); //calls interactable awake stuff
@@ -22,7 +24,7 @@ public class PuzzlePiece : interactable
 
     void Start()
     {
-        
+        originalPosition = transform.localPosition;
     }
 
 
@@ -33,6 +35,16 @@ public class PuzzlePiece : interactable
             Vector3 newPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             newPos.z = 0;
             transform.position = newPos;
+
+            if (Input.GetMouseButtonDown(1))
+            {
+                //if right click, release
+                selected = false;
+
+                transform.localPosition = originalPosition;
+                globalState.holdingPuzzlePiece = false;
+
+            }
         }
     }
 
@@ -44,6 +56,21 @@ public class PuzzlePiece : interactable
             if (name[0] != 'f') globalState.audio.playSFX(0, 2);
             selected = true;
             globalState.holdingPuzzlePiece = true;
+
+            if (!globalState.puzzleRightClickHintShown)
+            {
+                globalState.puzzleRightClickHintShown = true;
+                Transform hint = globalState.parkScene.transform.Find("collage/rightClickHint");
+                hint.gameObject.SetActive(true);
+                hint.GetComponent<Animator>().SetTrigger("fadeInText");
+
+                StartCoroutine(Global.Chain(this, Global.WaitForSeconds(2),
+                            Global.Do(() =>
+                            {
+                                hint.GetComponent<Animator>().SetTrigger("fadeOutText");
+                            })));
+
+            }
 
         }else if(clickable && selected) //waiting to be placed
         {
