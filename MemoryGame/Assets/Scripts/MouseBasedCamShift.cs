@@ -24,8 +24,10 @@ public class MouseBasedCamShift : MonoBehaviour
     {
         if (active)
         {
-            if (name.Equals("dark_cover")) { print(Input.mousePosition); }
+            //if (name.Equals("dark_cover")) { print(Input.mousePosition); }
             Vector2 mousePos = (Vector2)Input.mousePosition - screenDimension / 2; //center point will be (0,0)
+            mousePos = new Vector2(Mathf.Clamp(mousePos.x, -screenDimension.x / 2, screenDimension.x / 2),
+                Mathf.Clamp(mousePos.y, -screenDimension.y / 2, screenDimension.y / 2));
 
             Vector2 offset = new Vector2(moveCapacity.x * (mousePos.x / (screenDimension.x / 2)), moveCapacity.y * (mousePos.y / (screenDimension.y / 2)));
 

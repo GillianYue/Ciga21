@@ -80,11 +80,15 @@ public class MouseControl : MonoBehaviour
     {
         mouseMode = MouseMode.hand;
         Cursor.SetCursor(handCursor, hotSpot, cursorMode);
+
+        //Cursor.SetCursor(handCursor, new Vector2(0, 0), cursorMode);
     }
 
     public void toCursor()
     {
         mouseMode = MouseMode.cursor;
         Cursor.SetCursor(null, hotSpot, cursorMode); //passing null will reset to system default
+
+        //Cursor.SetCursor(null, new Vector2(0,0), cursorMode);
     }
 }
