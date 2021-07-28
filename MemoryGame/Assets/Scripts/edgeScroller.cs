@@ -17,6 +17,8 @@ public class edgeScroller : MonoBehaviour
     {
         if (camMovement == null) camMovement = FindObjectOfType<CamMovement>();
         if (globalState == null) globalState = FindObjectOfType<globalStateStore>();
+
+        screenDimension = new Vector2(Screen.width, Screen.height);
     }
 
     void Start()
