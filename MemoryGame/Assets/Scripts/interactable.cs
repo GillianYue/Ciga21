@@ -178,8 +178,8 @@ public class interactable : MonoBehaviour
                 else
                 {
 
-                        //start puzzle session; if already activated, cancel all and replay solution
-                        NotesRecord notesRecord = GetComponent<NotesRecord>();
+                    //start puzzle session; if already activated, cancel all and replay solution
+                    NotesRecord notesRecord = GetComponent<NotesRecord>();
 
                         //play sound effect (solution)
                         notesRecord.playSolution();

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class NotesRecord : MonoBehaviour
 {
@@ -29,6 +30,8 @@ public class NotesRecord : MonoBehaviour
         if (globalState == null) globalState = FindObjectOfType<globalStateStore>();
 
         transform.Find("notes").gameObject.SetActive(false);
+
+        
     }
     void Start()
     {
@@ -39,6 +42,74 @@ public class NotesRecord : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void giveHint()
+    {
+        if (currActiveInstrument == -1) return;
+
+        NotesRecord nr = null; string sol = "";
+
+        switch (currActiveInstrument)
+        {
+            case 0:
+                nr = globalState.bandScene.transform.Find("guitar").GetComponent<NotesRecord>();
+                sol = guitarSolutions[nr.sequenceIndex];
+                break;
+            case 1:
+                nr = globalState.bandScene.transform.Find("drums").GetComponent<NotesRecord>();
+                sol = drumSolutions[nr.sequenceIndex];
+                break;
+            case 2:
+                nr = globalState.bandScene.transform.Find("accordion").GetComponent<NotesRecord>();
+                sol = accordionSolutions[nr.sequenceIndex];
+                break;
+
+        }
+
+        nr.playSolution();
+
+        StartCoroutine(nr.playHintNotes(sol));
+
+    }
+
+    public IEnumerator playHintNotes(string sol)
+    {
+        globalState.globalClickable = false;
+
+        foreach (char c in sol)
+        {
+            int n = int.Parse(c.ToString());
+            n -= 1;
+
+            for(int nt=0; nt<notes.Length; nt++)
+            {
+                if(nt == n)
+                {
+                    notes[nt].Play("noteOpaque");
+                }
+                else
+                {
+                    notes[nt].Play("noteHalfTransparent");
+                }
+            }
+            yield return new WaitForSeconds(0.5f);
+        }
+
+
+        foreach (Animator n in notes)
+        {
+            n.gameObject.SetActive(true);
+            StartCoroutine(Global.Chain(this, Global.WaitForSeconds(Random.Range(0f, 0.5f)), Global.Do(() =>
+            {
+                n.Play("noteIdle");
+            }))
+                );
+        }
+
+        yield return new WaitForSeconds(0.3f);
+
+        globalState.globalClickable = true;
     }
 
     public void enableNotes()
@@ -60,6 +131,11 @@ public class NotesRecord : MonoBehaviour
                     );
             }
         }
+    }
+
+    public void enableHintButton()
+    {
+        globalState.bandScene.transform.Find("HintButton").GetComponent<Button>().interactable = true;
     }
 
     public void recordNote(int noteIndex)
@@ -175,6 +251,8 @@ public class NotesRecord : MonoBehaviour
         if (sequenceIndex > 1) //no more on curr instrument
         {
             GetComponent<Collider2D>().enabled = false;
+            currActiveInstrument = -1;
+            globalState.bandScene.transform.Find("HintButton").GetComponent<Button>().interactable = false;
 
             //curr instrument done
             GetComponent<interactable>().instrumentStartPlaying();
@@ -203,7 +281,6 @@ public class NotesRecord : MonoBehaviour
     //resets notes in all instruments
     public void resetAllNoteStatus()
     {
-        print("reset all");
 
         NotesRecord[] records = FindObjectsOfType<NotesRecord>();
 

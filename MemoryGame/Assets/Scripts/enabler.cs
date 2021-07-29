@@ -32,6 +32,9 @@ public class enabler : MonoBehaviour
 
     private void Awake()
     {
+
+        Application.targetFrameRate = 30;
+
         if (cam == null) cam = FindObjectOfType<CamMovement>();
         if(globalState == null) globalState = GetComponent<globalStateStore>();
         if (blurManager == null) blurManager = GetComponent<BlurManager>();
@@ -246,6 +249,10 @@ public class enabler : MonoBehaviour
                 globalState.globalClickable = true;
                 break;
             case 4: //band
+
+                NotesRecord.currActiveInstrument = -1;
+                globalState.bandScene.transform.Find("HintButton").GetComponent<Button>().interactable = false;
+
                 yield return new WaitForSeconds(2);
 
                 globalState.audio.fadeVolumeSFX(3, 9, 1, 0);
