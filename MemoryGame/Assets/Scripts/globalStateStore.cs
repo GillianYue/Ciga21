@@ -22,7 +22,9 @@ public class globalStateStore : MonoBehaviour
 
     public AudioManager audio;
 
-    public bool puzzleRightClickHintShown;
+    public bool puzzleRightClickHintShown, bandHintButtonPresented;
+
+    public Animator interactHintAnimator;
 
     private void Awake()
     {
@@ -41,6 +43,12 @@ public class globalStateStore : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void interactHint(bool click) //if false, move hint
+    {
+        if(click) interactHintAnimator.Play("interactHintPopIn");
+        else interactHintAnimator.Play("interactMoveHint");
     }
 
     //gameControl's response to triggerTargetAction() called from some other gameobject

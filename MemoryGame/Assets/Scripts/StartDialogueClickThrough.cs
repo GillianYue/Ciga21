@@ -15,6 +15,8 @@ public class StartDialogueClickThrough : MonoBehaviour
 
     public int dialogueType; //0 start, 1 streetScene
 
+    public bool textLock; //prevent two texts from being triggered in too short of an interval
+
     private void Awake()
     {
     }
@@ -36,7 +38,7 @@ public class StartDialogueClickThrough : MonoBehaviour
     }
 
 
-    void Update()
+    void FixedUpdate()
     {
 
             if (!animating && counter > 0 && Input.GetMouseButtonDown(0)) //show next line of text
@@ -72,133 +74,140 @@ public class StartDialogueClickThrough : MonoBehaviour
     {
         animating = true;
 
-        if (dialogueType == 1)
+        if (!textLock)
         {
-            switch (c)
+            StartCoroutine(triggerTextLock());
+
+            if (dialogueType == 1)
             {
-                case 6:
-                    for (int i = 0; i < 5; i++)
-                    {
-                        textAnimators[i].SetTrigger("fadeOutText");
-                    }
-                    myEnabler.audio.fadeVolumeSFX(11, 8, 5, 0);
-                    yield return new WaitForSeconds(6f);
-                    //TODO sfx
-                    myEnabler.audio.playSFX(7, 1);
-                    yield return new WaitForSeconds(3f);
-                    textAnimators[5].SetTrigger("fadeInText");
-                    yield return new WaitForSeconds(1f);
-                    break;
-                case 9:
+                switch (c)
+                {
+                    case 6:
+                        for (int i = 0; i < 5; i++)
+                        {
+                            textAnimators[i].SetTrigger("fadeOutText");
+                        }
+                        myEnabler.audio.fadeVolumeSFX(11, 8, 5, 0);
+                        yield return new WaitForSeconds(6f);
+                        //TODO sfx
+                        myEnabler.audio.playSFX(7, 1);
+                        yield return new WaitForSeconds(3f);
+                        textAnimators[5].SetTrigger("fadeInText");
+                        yield return new WaitForSeconds(1f);
+                        break;
+                    case 9:
 
-                    for (int i = 5; i < 8; i++)
-                    {
-                        textAnimators[i].SetTrigger("fadeOutText");
-                    }
+                        for (int i = 5; i < 8; i++)
+                        {
+                            textAnimators[i].SetTrigger("fadeOutText");
+                        }
 
-                    Transform mirrorScene = myEnabler.globalState.mirrorScene.transform;
+                        Transform mirrorScene = myEnabler.globalState.mirrorScene.transform;
 
-                    yield return new WaitForSeconds(3f);
+                        yield return new WaitForSeconds(3f);
 
-                    myEnabler.audio.playSFX(0, 17, 0.2f); //ambience white noise
-                    myEnabler.audio.fadeVolumeSFX(0, 17, 2, 1);
+                        myEnabler.audio.playSFX(0, 17, 0.2f); //ambience white noise
+                        myEnabler.audio.fadeVolumeSFX(0, 17, 2, 1);
 
-                    mirrorScene.gameObject.SetActive(true);
-                    Transform mirror = mirrorScene.Find("mirror"), things = mirrorScene.Find("things");
-                    mirror.gameObject.SetActive(false); things.gameObject.SetActive(false);
-                    backPanel.SetTrigger("fadeOutSlow"); //text panel fade 
+                        mirrorScene.gameObject.SetActive(true);
+                        Transform mirror = mirrorScene.Find("mirror"), things = mirrorScene.Find("things");
+                        mirror.gameObject.SetActive(false); things.gameObject.SetActive(false);
+                        backPanel.SetTrigger("fadeOutSlow"); //text panel fade 
 
-                    yield return new WaitForSeconds(3f);
-                    myEnabler.audio.playSFX(11, 9, 0.7f);
+                        yield return new WaitForSeconds(3f);
+                        myEnabler.audio.playSFX(11, 9, 0.7f);
 
-                    mirror.gameObject.SetActive(true); things.gameObject.SetActive(true);
-                    mirror.GetComponent<Animator>().SetTrigger("fadeIn");
-                    things.GetComponent<Animator>().SetTrigger("fadeIn");
+                        mirror.gameObject.SetActive(true); things.gameObject.SetActive(true);
+                        mirror.GetComponent<Animator>().SetTrigger("fadeIn");
+                        things.GetComponent<Animator>().SetTrigger("fadeIn");
 
-                    yield return new WaitForSeconds(11f);
-                    Transform girl = mirrorScene.Find("girl");
-                    girl.gameObject.SetActive(true);
-                   // girl.GetComponent<Animator>().SetTrigger("fadeIn");
-                   // yield return new WaitForSeconds(4f);
+                        yield return new WaitForSeconds(11f);
+                        Transform girl = mirrorScene.Find("girl");
+                        girl.gameObject.SetActive(true);
+                        // girl.GetComponent<Animator>().SetTrigger("fadeIn");
+                        // yield return new WaitForSeconds(4f);
 
-                    girl.GetComponent<imgSwitcher>().switchToImgState(1);
+                        girl.GetComponent<imgSwitcher>().switchToImgState(1);
 
-                    girl.GetComponent<Animator>().SetTrigger("action1"); //pollock
-                    //will trigger fade out by end of animation
+                        girl.GetComponent<Animator>().SetTrigger("action1"); //pollock
+                                                                             //will trigger fade out by end of animation
 
-                    yield return new WaitForSeconds(12f);
-                    Transform me = mirrorScene.Find("me");
-                    me.gameObject.SetActive(true);
-                    me.GetComponent<Animator>().SetTrigger("fadeIn");
-                    me.GetComponent<Animator>().SetTrigger("action1");
+                        yield return new WaitForSeconds(12f);
+                        Transform me = mirrorScene.Find("me");
+                        me.gameObject.SetActive(true);
+                        me.GetComponent<Animator>().SetTrigger("fadeIn");
+                        me.GetComponent<Animator>().SetTrigger("action1");
 
-                    yield return new WaitForSeconds(8f);
+                        yield return new WaitForSeconds(8f);
 
-                    myEnabler.GetComponent<BlurManager>().levelPassEffect(11);
+                        myEnabler.GetComponent<BlurManager>().levelPassEffect(11);
 
-                    yield return new WaitForSeconds(2f);
-                    backPanel.gameObject.SetActive(false);
+                        yield return new WaitForSeconds(2f);
+                        backPanel.gameObject.SetActive(false);
 
-                    me.gameObject.SetActive(false);
-                    mirror.gameObject.SetActive(false);
-                    things.gameObject.SetActive(false);
-                    break;
+                        me.gameObject.SetActive(false);
+                        mirror.gameObject.SetActive(false);
+                        things.gameObject.SetActive(false);
+                        break;
+                }
             }
-        }
-        else if (dialogueType == 0)
-        {
-            switch (c)
+            else if (dialogueType == 0)
             {
-                case 4:
-                    for (int i = 0; i < 3; i++)
-                    {
-                        textAnimators[i].SetTrigger("fadeOutText");
-                    }
-                    yield return new WaitForSeconds(2f);
-                    textAnimators[3].SetTrigger("fadeInText");
-                    yield return new WaitForSeconds(1f);
-                    break;
-                case 7:
-                    for (int i = 3; i < 6; i++)
-                    {
-                        textAnimators[i].SetTrigger("fadeOutText");
-                    }
-                    yield return new WaitForSeconds(5f);
-                    textAnimators[6].SetTrigger("fadeInText");
-                    yield return new WaitForSeconds(3f);
-                    break;
-                case 9:
-                    for (int i = 6; i < 8; i++)
-                    {
-                        textAnimators[i].SetTrigger("fadeOutText");
-                    }
+                switch (c)
+                {
+                    case 4:
+                        for (int i = 0; i < 3; i++)
+                        {
+                            textAnimators[i].SetTrigger("fadeOutText");
+                        }
+                        yield return new WaitForSeconds(2f);
+                        textAnimators[3].SetTrigger("fadeInText");
+                        yield return new WaitForSeconds(1f);
+                        break;
+                    case 7:
+                        for (int i = 3; i < 6; i++)
+                        {
+                            textAnimators[i].SetTrigger("fadeOutText");
+                        }
+                        yield return new WaitForSeconds(5f);
+                        textAnimators[6].SetTrigger("fadeInText");
+                        yield return new WaitForSeconds(3f);
+                        break;
+                    case 9:
+                        for (int i = 6; i < 8; i++)
+                        {
+                            textAnimators[i].SetTrigger("fadeOutText");
+                        }
 
-                    yield return new WaitForSeconds(1);
+                        yield return new WaitForSeconds(1);
 
-                    myEnabler.audio.playSFX(0, 1); //routine
+                        myEnabler.audio.playSFX(0, 1); //routine
 
-                    yield return new WaitForSeconds(22);
+                        yield return new WaitForSeconds(22);
 
-                    backPanel.SetTrigger("fadeOutSlow"); //text panel fade 
+                        backPanel.SetTrigger("fadeOutSlow"); //text panel fade 
 
-                    //hide menu buttons
-                    myEnabler.startCanvas.transform.Find("TitleText").GetComponent<Text>().color = new Color(1, 1, 1, 0);
-                    myEnabler.startCanvas.transform.Find("Start").gameObject.SetActive(false);
-                    myEnabler.startCanvas.transform.Find("Language").gameObject.SetActive(false);
-                    myEnabler.startCanvas.transform.Find("Credits").gameObject.SetActive(false);
-                    myEnabler.startCanvas.transform.Find("Quit").gameObject.SetActive(false);
+                        //hide menu buttons
+                        myEnabler.startCanvas.transform.Find("TitleText").GetComponent<Text>().color = new Color(1, 1, 1, 0);
+                        myEnabler.startCanvas.transform.Find("Start").gameObject.SetActive(false);
+                        myEnabler.startCanvas.transform.Find("Language").gameObject.SetActive(false);
+                        myEnabler.startCanvas.transform.Find("Credits").gameObject.SetActive(false);
+                        myEnabler.startCanvas.transform.Find("Quit").gameObject.SetActive(false);
 
-                    yield return new WaitForSeconds(3f);
-                    myEnabler.startGame();
+                        yield return new WaitForSeconds(3f);
+                        myEnabler.startGame();
 
-                    yield return new WaitForSeconds(2f);
-                    backPanel.gameObject.SetActive(false);
-                    break;
+                        yield return new WaitForSeconds(2f);
+                        backPanel.gameObject.SetActive(false);
+                        break;
+                }
             }
-        }
 
 
-        counter++;
+            counter++;
+
+        }//text lock 
+
         animating = false;
     }
 
@@ -207,30 +216,42 @@ public class StartDialogueClickThrough : MonoBehaviour
 
         animating = true;
 
-        if(dialogueType == 0 && c==8) yield return new WaitForSeconds(1f);
-
-        yield return new WaitForSeconds(0.3f);
-
-        textAnimators[c-1].SetTrigger("fadeInText");
-
-        yield return new WaitForSeconds(1f);
-
-        if (dialogueType == 0 && c == 8) yield return new WaitForSeconds(3f);
-
-        counter++;
-
-        if (dialogueType == 1 && c == 3) //auto-advance to 3
+        if (!textLock)
         {
-            yield return new WaitForSeconds(2f);
+            StartCoroutine(triggerTextLock());
 
-            textAnimators[3].SetTrigger("fadeInText");
+            if (dialogueType == 0 && c == 8) yield return new WaitForSeconds(1f);
+
+            yield return new WaitForSeconds(0.3f);
+
+            textAnimators[c - 1].SetTrigger("fadeInText");
 
             yield return new WaitForSeconds(1f);
-            counter++;
-        }
 
-        
+            if (dialogueType == 0 && c == 8) yield return new WaitForSeconds(3f);
+
+            counter++;
+
+            if (dialogueType == 1 && c == 3) //auto-advance to 3
+            {
+                yield return new WaitForSeconds(2f);
+
+                textAnimators[3].SetTrigger("fadeInText");
+
+                yield return new WaitForSeconds(1f);
+                counter++;
+            }
+
+        }
         animating = false;
+    }
+
+    IEnumerator triggerTextLock()
+    {
+        textLock = true;
+        yield return new WaitForSeconds(0.5f);
+
+        textLock = false;
     }
 
     //should be tied to start button

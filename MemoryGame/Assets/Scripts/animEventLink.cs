@@ -438,6 +438,8 @@ public class animEventLink : MonoBehaviour
 
         yield return new WaitForSeconds(1.5f);
 
+        globalState.interactHint(false); //move hint
+
         yield return new WaitUntil(() => mouseAtCornerBottomLeft()); //wait until mouse scrolls to position that reveals face
 
         //peek at "us" when discovered
@@ -469,6 +471,7 @@ public class animEventLink : MonoBehaviour
 
         yield return new WaitForSeconds(4); //wait for cam and nspp anim above to end
 
+        globalState.interactHint(false); //move
         yield return new WaitUntil(() => mouseAtCornerBottomLeft());
         deactivateMouseBasedCamShift(nspp_closeup.gameObject);
 
@@ -487,7 +490,7 @@ public class animEventLink : MonoBehaviour
     public bool mouseAtCornerBottomLeft()
     {
         float dist = Vector2.Distance(Input.mousePosition, new Vector2(0, 0));
-        return (dist < 50);
+        return (dist < 80);
     }
 
     public void blink() { camMovement.vfx.Play("blink"); }

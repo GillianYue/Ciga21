@@ -191,7 +191,11 @@ public class interactable : MonoBehaviour
 
                         notesRecord.resetAllNoteStatus(); //reset status
 
-
+                    if (!globalState.bandHintButtonPresented)
+                    {
+                        globalState.bandHintButtonPresented = true;
+                        globalState.bandScene.transform.Find("HintButton").GetComponent<Animator>().Play("hintButtonEnlarge");
+                    }
                 }
 
                 break;
@@ -725,6 +729,7 @@ public class interactable : MonoBehaviour
 
                         Global.Do(() => {
                             globalState.vaseScene.transform.Find("sofa").GetComponent<interactable>().clickable = true; //enable sofa click
+                            globalState.interactHint(true);
                             })
                     ));
                 }
@@ -1593,6 +1598,9 @@ public class interactable : MonoBehaviour
             case "resetUI":
                 globalState.enable.closeResetUIWindow();
                 break;
+            case "quitUI":
+                globalState.enable.closeQuitUIWindow();
+                break;
 
         }
 
@@ -1765,6 +1773,8 @@ public class interactable : MonoBehaviour
 
                     camMovement.edgeScroller.enableEdgeScroller();
                     camMovement.edgeScroller.transform.GetComponent<HideAndSeek>().startHideAndSeek();
+                    globalState.interactHint(false); //move
+
                 }
 
 

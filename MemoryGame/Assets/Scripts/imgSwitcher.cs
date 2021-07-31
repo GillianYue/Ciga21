@@ -23,8 +23,10 @@ public class imgSwitcher : MonoBehaviour
 
     void Awake()
     {
-        img1 = transform.Find("Image").GetComponent<Image>();
-        img2 = transform.Find("Image (1)").GetComponent<Image>();
+        Transform i1 = transform.Find("Image"), i2 = transform.Find("Image (1)");
+
+        if(i1!=null) img1 = i1.GetComponent<Image>();
+        if(i2!=null) img2 = i2.GetComponent<Image>();
 
         gameControl = GameObject.FindGameObjectWithTag("GameController");
         globalState = gameControl.GetComponent<globalStateStore>();
@@ -49,21 +51,25 @@ public class imgSwitcher : MonoBehaviour
         int idx1 = 2 * s, idx2 = 2 * s + 1;
 
         //in case img1 and 2 are not assigned on start
-        if(img1 == null)
+        if(img1 == null && transform.childCount > 0)
         {
             img1 = transform.GetChild(0).GetComponent<Image>();
+        }
+
+        if(img2 == null && transform.childCount > 1)
+        {
             img2 = transform.GetChild(1).GetComponent<Image>();
         }
 
         //the actual swap
-        img1.sprite = stateImgs[idx1];
-        img2.sprite = stateImgs[idx2];
+        if (img1 != null) img1.sprite = stateImgs[idx1];
+        if (img2 != null) img2.sprite = stateImgs[idx2];
         //img1.overrideSprite = stateImgs[idx1];
         //img2.overrideSprite = stateImgs[idx2];
 
         //setting pivots to sprite
-        syncImagePivotWithSprite(img1);
-        syncImagePivotWithSprite(img2);
+        if (img1 != null) syncImagePivotWithSprite(img1);
+        if (img2 != null) syncImagePivotWithSprite(img2);
 
         //switching colliders if has different ones (if not, will keep prev collider)
         if(stateColliders.Length > s && stateColliders[s] != null)
@@ -79,8 +85,8 @@ public class imgSwitcher : MonoBehaviour
 
         if(stateOffsets.Length > s)
         {
-            img1.transform.localPosition = (Vector3)stateOffsets[s];
-            img2.transform.localPosition = (Vector3)stateOffsets[s];
+            if (img1 != null) img1.transform.localPosition = (Vector3)stateOffsets[s];
+            if (img2 != null) img2.transform.localPosition = (Vector3)stateOffsets[s];
         }
 
 

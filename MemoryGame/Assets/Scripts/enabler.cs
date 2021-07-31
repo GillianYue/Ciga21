@@ -28,7 +28,7 @@ public class enabler : MonoBehaviour
     public Animator headphoneScreen;
 
     public SteamAchievements steamAchievements;
-    public GameObject resetUIWindow;
+    public GameObject resetUIWindow, quitUIWindow;
 
     private void Awake()
     {
@@ -57,7 +57,10 @@ public class enabler : MonoBehaviour
 
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            openQuitUIWindow();
+        }
     }
 
     public IEnumerator startSetupCoroutine()
@@ -205,6 +208,7 @@ public class enabler : MonoBehaviour
                 darkCover.SetTrigger("fadeOut");
 
                 yield return new WaitForSeconds(2);
+                globalState.interactHint(true);
                 globalState.globalClickable = true;
                 break;
             case 2: //vase
@@ -246,6 +250,7 @@ public class enabler : MonoBehaviour
                 darkCover.SetTrigger("fadeOut");
 
                 yield return new WaitForSeconds(2);
+
                 globalState.globalClickable = true;
                 break;
             case 4: //band
@@ -295,6 +300,8 @@ public class enabler : MonoBehaviour
                 Transform sun = globalState.seaScene.transform.Find("sea/dusk/sun/sunMask/sunImage");
                 sun.GetComponent<interactable>().clickable = true; //enable sun interact
 
+                yield return new WaitForSeconds(2.5f);
+                globalState.interactHint(true);
 
                 break;
             case 6: //pup
@@ -633,6 +640,18 @@ public class enabler : MonoBehaviour
     public void closeResetUIWindow()
     {
         resetUIWindow.gameObject.SetActive(false);
+        Time.timeScale = 1;
+    }
+
+    public void openQuitUIWindow()
+    {
+        quitUIWindow.gameObject.SetActive(true);
+        Time.timeScale = 0;
+    }
+
+    public void closeQuitUIWindow()
+    {
+        quitUIWindow.gameObject.SetActive(false);
         Time.timeScale = 1;
     }
 
