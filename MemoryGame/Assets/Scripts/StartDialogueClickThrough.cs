@@ -181,6 +181,8 @@ public class StartDialogueClickThrough : MonoBehaviour
 
                         yield return new WaitForSeconds(1);
 
+                        myEnabler.darkCover.SetTrigger("fadeIn");
+
                         myEnabler.audio.playSFX(0, 1); //routine
 
                         yield return new WaitForSeconds(22);
@@ -194,7 +196,10 @@ public class StartDialogueClickThrough : MonoBehaviour
                         myEnabler.startCanvas.transform.Find("Credits").gameObject.SetActive(false);
                         myEnabler.startCanvas.transform.Find("Quit").gameObject.SetActive(false);
 
-                        yield return new WaitForSeconds(3f);
+                        yield return new WaitForSeconds(1f);
+
+                        myEnabler.darkCover.SetTrigger("fadeOut");
+                        yield return new WaitForSeconds(1f);
                         myEnabler.startGame();
 
                         yield return new WaitForSeconds(2f);

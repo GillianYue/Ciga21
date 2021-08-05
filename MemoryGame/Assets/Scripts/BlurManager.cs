@@ -53,15 +53,31 @@ public class BlurManager : MonoBehaviour
                 yield return StartCoroutine(level1Clear());
                 enablr.setUpLevel(2);
                 break;
+            case 2:
+                yield return StartCoroutine(generalLevelPassEffect());
+                enablr.setUpLevel(3);
+
+                Destroy(enablr.globalState.vaseScene);
+                Resources.UnloadUnusedAssets(); //unload
+
+                break;
             case 3:
                 yield return StartCoroutine(generalLevelPassEffect());
                 enablr.globalState.revealAndHideStuff(3, false, true); //also needs to hide subscene
                 enablr.cam.cam.SetTrigger("stopBreathe");
+
                 enablr.setUpLevel(4);
+
+                Destroy(enablr.globalState.treeScene);
+                Destroy(enablr.globalState.treeBottomScene);
+                Resources.UnloadUnusedAssets(); //unload
                 break;
             case 4: //band
                 yield return StartCoroutine(level4Clear());
                 enablr.setUpLevel(5);
+
+                Destroy(enablr.globalState.bandScene);
+                Resources.UnloadUnusedAssets(); //unload
                 break;
             case 5: //sea
 
@@ -79,6 +95,9 @@ public class BlurManager : MonoBehaviour
                 backBlur.setNewScale(0.1f, 0.1f);
 
                 enablr.setUpLevel(6);
+
+                Destroy(enablr.globalState.seaScene);
+                Resources.UnloadUnusedAssets(); //unload
                 break;
             case 6: //pup
                 
@@ -86,6 +105,9 @@ public class BlurManager : MonoBehaviour
 
                 yield return StartCoroutine(generalLevelPassEffect());
                 enablr.setUpLevel(7);
+
+                Destroy(enablr.globalState.pupScene);
+                Resources.UnloadUnusedAssets(); //unload
                 break;
             case 7: //garden
                 yield return StartCoroutine(generalLevelPassEffect());
@@ -93,12 +115,19 @@ public class BlurManager : MonoBehaviour
                 enablr.audio.fadeVolumeSFX(7, 15, 2, 0);
                 enablr.audio.fadeVolumeSFX(7, 13, 1f, 0f); 
                 enablr.setUpLevel(8);
+
+                Destroy(enablr.globalState.gardenScene);
+                Destroy(enablr.globalState.gardenCloseupScene);
+                Resources.UnloadUnusedAssets(); //unload
                 break;
 
             case 8: //bicker
                 yield return StartCoroutine(generalLevelPassEffect());
                 enablr.audio.fadeVolumeSFX(8, 14, 1f, 0f);
                 enablr.setUpLevel(9);
+
+                Destroy(enablr.globalState.bickerScene);
+                Resources.UnloadUnusedAssets(); //unload
                 break;
 
             case 9: //park
@@ -107,6 +136,9 @@ public class BlurManager : MonoBehaviour
 
                 yield return StartCoroutine(generalLevelPassEffect());
                 enablr.setUpLevel(10);
+
+                Destroy(enablr.globalState.parkScene);
+                Resources.UnloadUnusedAssets(); //unload
                 break;
 
             case 10://grave
@@ -116,11 +148,17 @@ public class BlurManager : MonoBehaviour
                 darkCover.gameObject.SetActive(true); //a sudden transition
                 yield return StartCoroutine(generalLevelPassEffect());
                 enablr.setUpLevel(11);
+
+                Destroy(enablr.globalState.graveyardScene);
+                Resources.UnloadUnusedAssets(); //unload
                 break;
             case 11:
                 //
                 yield return StartCoroutine(generalLevelPassEffect());
                 GetComponent<enabler>().gamePass();
+
+                Destroy(enablr.globalState.streetScene);
+                Resources.UnloadUnusedAssets(); //unload
                 break;
 
             default: //if not specified, use general level pass effect
@@ -183,6 +221,8 @@ public class BlurManager : MonoBehaviour
 
         Destroy(GameObject.Find("Pasta(Clone)"));
         Destroy(GameObject.Find("Pepper(Clone)"));
+        Destroy(enablr.globalState.l1Scene);
+        Resources.UnloadUnusedAssets(); //unload
     }
 
     IEnumerator level4Clear()

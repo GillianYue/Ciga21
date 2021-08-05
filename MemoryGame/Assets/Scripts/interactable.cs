@@ -1948,7 +1948,7 @@ public class interactable : MonoBehaviour
 
                 globalState.leavesColored += 1;
 
-                if(globalState.leavesColored >= 13)
+                if(globalState.leavesColored >= 8)
                 {
                     //all leaves clicked, show env cols
                     camMovement.cam.SetTrigger("stormEnd");
@@ -1969,6 +1969,18 @@ public class interactable : MonoBehaviour
                     leaves.Find("c").GetComponent<Animator>().SetTrigger("fadeInSlow");
                     tree.Find("c").gameObject.SetActive(true);
                     tree.Find("c").GetComponent<Animator>().SetTrigger("fadeInSlow");
+
+                    foreach(Transform li in transform.parent)
+                    {
+                        //light up non-interacted leaf
+                        Transform li_c = li.transform.Find("c");
+                        if (!li_c.gameObject.activeSelf)
+                        {
+                            li_c.gameObject.SetActive(true);
+                            li_c.GetComponent<Animator>().SetTrigger("fadeIn");
+                            li.transform.Find("cbw").GetComponent<Animator>().SetTrigger("fadeOut");
+                        }
+                    }
 
                     sky.Find("storm").gameObject.SetActive(false);
 

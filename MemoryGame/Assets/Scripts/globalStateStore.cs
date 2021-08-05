@@ -67,14 +67,14 @@ public class globalStateStore : MonoBehaviour
         switch (l)
         {
             case 1:
-                l1Scene.SetActive(to);
+                if(l1Scene!=null)l1Scene.SetActive(to);
 /*                foreach (Transform go in l1Scene.transform)
                 {
                     go.gameObject.SetActive(to);
                 }*/
                 break;
             case 2:
-                vaseScene.SetActive(to);
+                if(vaseScene!=null) vaseScene.SetActive(to);
 /*                foreach (Transform go in vaseScene.transform)
                 {
                     go.gameObject.SetActive(to);
@@ -83,9 +83,9 @@ public class globalStateStore : MonoBehaviour
             case 3:
                 if (subScene)
                 {
-                    treeBottomScene.SetActive(to);
+                    if(treeBottomScene!=null)treeBottomScene.SetActive(to);
                 }else
-                    treeScene.SetActive(to);
+                    if(treeScene!=null)treeScene.SetActive(to);
 /*                foreach (Transform go in treeScene.transform)
                 {
                     go.gameObject.SetActive(to);
@@ -93,21 +93,21 @@ public class globalStateStore : MonoBehaviour
                 break;
 
             case 4:
-                bandScene.SetActive(to);
+                if(bandScene!=null)bandScene.SetActive(to);
 /*                foreach (Transform go in bandScene.transform)
                 {
                     go.gameObject.SetActive(to);
                 }*/
                 break;
             case 5:
-                seaScene.SetActive(to);
+                if(seaScene!=null)seaScene.SetActive(to);
 /*                foreach (Transform go in seaScene.transform)
                 {
                     go.gameObject.SetActive(to);
                 }*/
                 break;
             case 6:
-                pupScene.SetActive(to);
+                if(pupScene!=null) pupScene.SetActive(to);
 /*                foreach (Transform go in pupScene.transform)
                 {
                     go.gameObject.SetActive(to);
@@ -117,7 +117,7 @@ public class globalStateStore : MonoBehaviour
             case 7:
                 if (subScene)
                 {
-                    gardenCloseupScene.SetActive(to);
+                    if(gardenCloseupScene!=null) gardenCloseupScene.SetActive(to);
 /*                    foreach (Transform go in gardenCloseupScene.transform)
                     {
                         go.gameObject.SetActive(to);
@@ -126,7 +126,7 @@ public class globalStateStore : MonoBehaviour
                 }
                 else
                 {
-                    gardenScene.SetActive(to);
+                    if (gardenScene != null) gardenScene.SetActive(to);
 /*                    foreach (Transform go in gardenScene.transform)
                     {
                         go.gameObject.SetActive(to);
@@ -135,14 +135,14 @@ public class globalStateStore : MonoBehaviour
                 }
 
             case 8:
-                bickerScene.SetActive(to);
+                if (bickerScene != null) bickerScene.SetActive(to);
 /*                foreach (Transform go in bickerScene.transform)
                 {
                     go.gameObject.SetActive(to);
                 }*/
                 break;
             case 9:
-                parkScene.SetActive(to);
+                if (parkScene != null) parkScene.SetActive(to);
 /*                foreach (Transform go in parkScene.transform)
                 {
                     go.gameObject.SetActive(to);
@@ -150,7 +150,7 @@ public class globalStateStore : MonoBehaviour
                 break;
 
             case 10:
-                graveyardScene.SetActive(to);
+                if (graveyardScene != null) graveyardScene.SetActive(to);
 /*                foreach (Transform go in graveyardScene.transform)
                 {
                     go.gameObject.SetActive(to);
@@ -159,7 +159,7 @@ public class globalStateStore : MonoBehaviour
             case 11:
                 if (subScene)
                 {
-                    streetScene.SetActive(to);
+                    if (streetScene != null) streetScene.SetActive(to);
 /*                    foreach (Transform go in homeScene.transform)
                     {
                         go.gameObject.SetActive(to);
@@ -168,7 +168,7 @@ public class globalStateStore : MonoBehaviour
                 }
                 else
                 {
-                    homeScene.SetActive(to);
+                    if (homeScene != null) homeScene.SetActive(to);
 /*                    foreach (Transform go in mirrorScene.transform)
                     {
                         go.gameObject.SetActive(to);

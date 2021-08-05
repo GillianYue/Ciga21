@@ -158,6 +158,7 @@ public class enabler : MonoBehaviour
 
     IEnumerator startGameCoroutine()
     {
+
         mainCam.Play("startCamZoom");
         yield return new WaitForSeconds(3);
 
@@ -391,6 +392,7 @@ public class enabler : MonoBehaviour
                 }
                 break;
             case 8: //bicker
+                globalState.globalClickable = false;
 
                 yield return new WaitForSeconds(10);
                 globalState.globalClickable = false;
