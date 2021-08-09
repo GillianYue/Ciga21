@@ -37,12 +37,13 @@ public class MouseBasedCamShift : MonoBehaviour
 
     public void scaleValuesBasedOnScreen()
     {
-        Vector2 origScreenDimension = screenDimension,
-            origRatio = new Vector2(moveCapacity.x / origScreenDimension.x, moveCapacity.y / origScreenDimension.y);
+     //   Vector2 origScreenDimension = screenDimension,
+     //      origRatio = new Vector2(moveCapacity.x / origScreenDimension.x, moveCapacity.y / origScreenDimension.y);
 
         screenDimension = new Vector2(Screen.width, Screen.height);
-        moveCapacity = new Vector2(screenDimension.x * origRatio.x, screenDimension.y * origRatio.y);
+        //moveCapacity = new Vector2(screenDimension.x * origRatio.x, screenDimension.y * origRatio.y);
 
+        //keep original moveCapacity since it stays the same regardless of screen dimension
     }
 
 

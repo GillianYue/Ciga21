@@ -288,7 +288,10 @@ public class animEventLink : MonoBehaviour
         yield return new WaitForSeconds(2);
 
         handAnim.enabled = false;
-        handAnim.GetComponent<MouseBasedCamShift>().setActive(true); //enable mouse based movement
+        MouseBasedCamShift camShift = handAnim.GetComponent<MouseBasedCamShift>();
+        camShift.setActive(true); //enable mouse based movement
+
+
 
         yield return new WaitUntil(() => {
             return (Vector2.Distance(handAnim.transform.position, friendBeer.position) < 410); }); //wait til close enough
