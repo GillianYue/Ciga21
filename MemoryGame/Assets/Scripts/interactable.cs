@@ -76,6 +76,13 @@ public class interactable : MonoBehaviour
 
             
 
+        }else if (name.Length>4 && name.Substring(0, 4).Equals("leaf") && name[4]!='3')
+        {
+            StartCoroutine(Global.Chain(this,
+                Global.WaitForSeconds(Random.Range(0f, 2f)),
+                Global.Do(() => {
+                    GetComponent<Animator>().SetTrigger("action2"); 
+                })));
         }
 
     }
@@ -312,6 +319,7 @@ public class interactable : MonoBehaviour
         if(var1 == 1)
         {
             clickable = false;
+            affectsGO.gameObject.SetActive(true);
             affectsGO.GetComponent<Animator>().SetTrigger("action1");
         }
     }
@@ -986,6 +994,10 @@ public class interactable : MonoBehaviour
 
             case "p2": //garden scene hide reveal
                 globalState.audio.playSFX(7, 2);
+
+                globalState.gardenScene.transform.Find("right").Find("flo_separated").GetComponent<Animator>().Play("plantIdle");
+                GetComponent<Animator>().Play("plantIdle");
+
                 HideAndSeek hass = FindObjectOfType<HideAndSeek>();
                 hass.girl_bush.gameObject.SetActive(true);
                 hass.girl_bush.SetTrigger("action2");

@@ -28,7 +28,9 @@ public class enabler : MonoBehaviour
     public Animator headphoneScreen;
 
     public SteamAchievements steamAchievements;
-    public GameObject resetUIWindow, quitUIWindow;
+    public GameObject resetUIWindow, quitUIWindow, UICanvas;
+
+    public bool mobile;
 
     private void Awake()
     {
@@ -44,6 +46,7 @@ public class enabler : MonoBehaviour
 
         language = PlayerPrefs.GetInt("language", 0);
 
+        UICanvas.gameObject.SetActive(false); //hide UICanvas on start
         headphoneScreen.gameObject.SetActive(true);
         headphoneScreen.GetComponent<Image>().color = new Color(1, 1, 1, 1);
         headphoneScreen.transform.GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 0);
@@ -88,7 +91,7 @@ public class enabler : MonoBehaviour
     {
         if (!test.test)
         {
-            int loadLv = PlayerPrefs.GetInt("level");
+            int loadLv = PlayerPrefs.GetInt("level", 0);
 
             if (loadLv > 0)
             {
@@ -97,6 +100,8 @@ public class enabler : MonoBehaviour
                 darkCover.SetTrigger("opaque");
 
                 yield return new WaitForSeconds(2);
+
+                UICanvas.gameObject.SetActive(true);
 
                 globalState.audio.fadeVolumeSFX(0, 17, 2, 0);
                 startCanvas.SetActive(false);
@@ -207,6 +212,7 @@ public class enabler : MonoBehaviour
                 audio.playSFX(1, 7);
 
                 darkCover.SetTrigger("fadeOut");
+                UICanvas.gameObject.SetActive(true);
 
                 yield return new WaitForSeconds(2);
                 globalState.interactHint(true);
