@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: db363b8bd8e1b8547a3a6be129de956b
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: AaYozhaoyirinidongleqing (Non-Commercial Use)
+  fontNames:
+  - AaYozhaoyirinidongleqing (Non-Commercial Use)
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
