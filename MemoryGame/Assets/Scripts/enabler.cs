@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 //general game level logic 
 public class enabler : MonoBehaviour
 {
     public globalStateStore globalState;
 
-    public Animator mainCam, darkCover, credits;
+    public Animator mainCam, darkCover, credits, titleScreenBtfl;
 
     public CamMovement cam;
     public GameObject startCanvas;
@@ -28,9 +29,13 @@ public class enabler : MonoBehaviour
     public Animator headphoneScreen;
 
     public SteamAchievements steamAchievements;
-    public GameObject resetUIWindow, quitUIWindow, UICanvas;
+    public GameObject resetUIWindow, quitUIWindow, UICanvas, menuUIWindow;
 
     public bool mobile;
+
+    public Animator[] capsuleHintTexts;
+
+    public CapsuleHintTexts capsuleHintController;
 
     private void Awake()
     {
@@ -81,7 +86,13 @@ public class enabler : MonoBehaviour
 
         headphoneScreen.SetTrigger("fadeOut");
 
-        StartCoroutine(checkLoadLevel());
+        //show title screen
+        startCanvas.transform.Find("photo/lines").gameObject.SetActive(true);
+        startCanvas.transform.Find("photo/whiteout").gameObject.SetActive(false);
+        startCanvas.transform.Find("photo/photo_content").gameObject.SetActive(false);
+        yield return new WaitForSeconds(2);
+        startCanvas.SetActive(true);
+        globalState.globalClickable = true;
 
         yield return new WaitForSeconds(3);
         headphoneScreen.gameObject.SetActive(false);
@@ -108,17 +119,18 @@ public class enabler : MonoBehaviour
                 setUpLevel(loadLv);
             }
             else
-            {
-                startCanvas.transform.Find("photo/lines").gameObject.SetActive(true);
-                startCanvas.transform.Find("photo/whiteout").gameObject.SetActive(false);
-                startCanvas.transform.Find("photo/photo_content").gameObject.SetActive(false);
-
-                yield return new WaitForSeconds(2);
+            { // start from beginning
 
                 //if equal to 0, keep ambience
                 PlayerPrefs.SetInt("level", 0);
-                startCanvas.SetActive(true);
-                globalState.globalClickable = true;
+
+                startDialogue.gameObject.SetActive(true);
+                startDialogue.enableStartDialogue();
+
+                foreach (Animator a in startMenuFocusObjects)
+                {
+                    a.GetComponent<Collider2D>().enabled = false;
+                }
             }
         }
         else
@@ -140,14 +152,9 @@ public class enabler : MonoBehaviour
 
     public void startButtonPressed()
     {
-        
-        startDialogue.gameObject.SetActive(true);
-        startDialogue.enableStartDialogue();
 
-        foreach(Animator a in startMenuFocusObjects)
-        {
-            a.GetComponent<Collider2D>().enabled = false;
-        }
+        StartCoroutine(checkLoadLevel());
+
     }
 
 
@@ -636,8 +643,17 @@ public class enabler : MonoBehaviour
     {
         steamAchievements.resetAchievements();
         PlayerPrefs.DeleteKey("level");
-        Application.Quit();
+
+        Scene curr = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(curr.name);
     }
+
+    public void reloadCurrentLevel()
+    {
+        Scene curr = SceneManager.GetActiveScene(); 
+        SceneManager.LoadScene(curr.name);
+    }
+
 
     public void openResetUIWindow()
     {
@@ -662,6 +678,74 @@ public class enabler : MonoBehaviour
         quitUIWindow.gameObject.SetActive(false);
         Time.timeScale = 1;
     }
+
+    public void openMenuUIWindow()
+    {
+        menuUIWindow.gameObject.SetActive(true);
+        Time.timeScale = 0;
+    }
+
+    public void closeMenuUIWindow()
+    {
+        menuUIWindow.gameObject.SetActive(false);
+        Time.timeScale = 1;
+    }
+
+
+    public void capsuleUIOnClick(int capsuleIndex)
+    {
+        globalState.menuCapsuleSelectedIndex = capsuleIndex;
+
+        //reset texts 
+        capsuleHintController.updateCapsuleHint(capsuleHintTexts, globalState.enable.language == 1, capsuleIndex);
+
+        //show hint texts
+        foreach(Animator t in capsuleHintTexts)
+        {
+            t.SetTrigger("fadeInText");
+        }
+    }
+
+    public void capsuleYes()
+    {
+        switch (globalState.menuCapsuleSelectedIndex)
+        {
+            case 1: //reset curr lv
+                reloadCurrentLevel();
+                break;
+            case 2: //reset all progress
+                resetAllProgressAndQuit();
+                break;
+            case 3: //memorabilia
+
+                break;
+            case 4: //return to main menu
+                int loadLv = PlayerPrefs.GetInt("level", 0);
+                globalState.revealAndHideStuff(loadLv, false);
+                startCanvas.SetActive(true);
+                UICanvas.gameObject.SetActive(false); //hide UICanvas
+                break;
+            case 5: //quit
+                Application.Quit();
+                break;
+
+        }
+    }
+
+    public void capsuleNo()
+    {
+        closeMenuUIWindow();
+
+        //fade hint texts
+        foreach (Animator t in capsuleHintTexts)
+        {
+            t.SetTrigger("fadeOutText");
+        }
+
+        globalState.menuCapsuleSelectedIndex = 0; //reset
+        capsuleHintController.updateCapsuleHint(capsuleHintTexts, globalState.enable.language == 1, 0);
+    }
+
 
     public void buttonHover()
     {

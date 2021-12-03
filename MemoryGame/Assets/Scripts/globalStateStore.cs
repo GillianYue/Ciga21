@@ -26,6 +26,9 @@ public class globalStateStore : MonoBehaviour
 
     public Animator interactHintAnimator;
 
+
+    public int menuCapsuleSelectedIndex;
+
     private void Awake()
     {
         globalClickable = true;

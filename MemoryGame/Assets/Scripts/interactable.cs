@@ -1607,12 +1607,15 @@ public class interactable : MonoBehaviour
 
                 break;
             /////////////////////
-            case "resetUI":
+            case "MenuUI":
+                globalState.enable.closeMenuUIWindow();
+                break;
+/*            case "resetUI":
                 globalState.enable.closeResetUIWindow();
                 break;
             case "quitUI":
                 globalState.enable.closeQuitUIWindow();
-                break;
+                break;*/
 
         }
 
