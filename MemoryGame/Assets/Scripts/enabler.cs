@@ -31,7 +31,7 @@ public class enabler : MonoBehaviour
     public SteamAchievements steamAchievements;
     public GameObject resetUIWindow, quitUIWindow, UICanvas, menuUIWindow;
 
-    public bool mobile;
+    public bool mobile, gameOnPause;
 
     public Animator[] capsuleHintTexts;
 
@@ -52,6 +52,10 @@ public class enabler : MonoBehaviour
         language = PlayerPrefs.GetInt("language", 0);
 
         UICanvas.gameObject.SetActive(false); //hide UICanvas on start
+        menuUIWindow.gameObject.SetActive(false);
+
+        gameOnPause = false;
+
         headphoneScreen.gameObject.SetActive(true);
         headphoneScreen.GetComponent<Image>().color = new Color(1, 1, 1, 1);
         headphoneScreen.transform.GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 0);
@@ -82,7 +86,7 @@ public class enabler : MonoBehaviour
 
         headphoneScreen.SetTrigger("fadeIn");
 
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(2);
 
         headphoneScreen.SetTrigger("fadeOut");
 
@@ -94,14 +98,17 @@ public class enabler : MonoBehaviour
         startCanvas.SetActive(true);
         globalState.globalClickable = true;
 
+        yield return new WaitForSeconds(1);
+        titleScreenBtfl.Play("btflDropShadow"); //entry
+
         yield return new WaitForSeconds(3);
         headphoneScreen.gameObject.SetActive(false);
     }
 
     public IEnumerator checkLoadLevel()
     {
-        if (!test.test)
-        {
+/*        if (!test.test)
+        {*/
             int loadLv = PlayerPrefs.GetInt("level", 0);
 
             if (loadLv > 0)
@@ -132,7 +139,7 @@ public class enabler : MonoBehaviour
                     a.GetComponent<Collider2D>().enabled = false;
                 }
             }
-        }
+/*        }
         else
         {
             startCanvas.transform.Find("photo/lines").gameObject.SetActive(true);
@@ -142,7 +149,7 @@ public class enabler : MonoBehaviour
 
             yield return new WaitForSeconds(3);
             globalState.globalClickable = true;
-        }
+        }*/
     }
 
     public void quitGame()
@@ -152,9 +159,37 @@ public class enabler : MonoBehaviour
 
     public void startButtonPressed()
     {
+        if (gameOnPause)
+        {//resume previously paused content
 
-        StartCoroutine(checkLoadLevel());
+            //int loadLv = PlayerPrefs.GetInt("level", 0);
 
+            //globalState.revealAndHideStuff(loadLv, true);
+
+            
+            UICanvas.gameObject.SetActive(true);
+
+            globalState.audio.fadeVolumeSFX(0, 17, 2, 0);
+            startCanvas.SetActive(false);
+
+            StartCoroutine(resumeGameCoroutine());
+
+            gameOnPause = false;
+        }
+        else
+        {
+            StartCoroutine(checkLoadLevel());
+        }
+       
+    }
+
+    IEnumerator resumeGameCoroutine()
+    {
+        Time.timeScale = 0;
+
+        yield return new WaitForSecondsRealtime(5);
+
+        Time.timeScale = 1;
     }
 
 
@@ -531,7 +566,7 @@ public class enabler : MonoBehaviour
         globalState.globalClickable = false;
 
         //hide menu buttons
-        startCanvas.transform.Find("TitleText").GetComponent<Text>().color = new Color(1, 1, 1, 0);
+        startCanvas.transform.Find("TitleText").gameObject.SetActive(false);
         startCanvas.transform.Find("Start").gameObject.SetActive(false);
         startCanvas.transform.Find("Language").gameObject.SetActive(false);
         startCanvas.transform.Find("Credits").gameObject.SetActive(false);
@@ -683,6 +718,8 @@ public class enabler : MonoBehaviour
     {
         menuUIWindow.gameObject.SetActive(true);
         Time.timeScale = 0;
+
+        capsuleHintController.updateCapsuleHint(capsuleHintTexts, language == 1, 0); //clear out hint texts
     }
 
     public void closeMenuUIWindow()
@@ -696,11 +733,26 @@ public class enabler : MonoBehaviour
     {
         globalState.menuCapsuleSelectedIndex = capsuleIndex;
 
+        StartCoroutine(capsuleUIOnClickCoroutine(capsuleIndex));
+    }
+
+    IEnumerator capsuleUIOnClickCoroutine(int capsuleIndex)
+    {
+        //hide hint texts
+        foreach (Animator t in capsuleHintTexts)
+        {
+            t.Play("transparentText");
+        }
+
+        yield return new WaitForSecondsRealtime(0.15f);
+
         //reset texts 
-        capsuleHintController.updateCapsuleHint(capsuleHintTexts, globalState.enable.language == 1, capsuleIndex);
+        capsuleHintController.updateCapsuleHint(capsuleHintTexts, language == 1, capsuleIndex);
+
+        yield return new WaitForSecondsRealtime(0.15f);
 
         //show hint texts
-        foreach(Animator t in capsuleHintTexts)
+        foreach (Animator t in capsuleHintTexts)
         {
             t.SetTrigger("fadeInText");
         }
@@ -708,6 +760,8 @@ public class enabler : MonoBehaviour
 
     public void capsuleYes()
     {
+        print("capsuling " + globalState.menuCapsuleSelectedIndex);
+
         switch (globalState.menuCapsuleSelectedIndex)
         {
             case 1: //reset curr lv
@@ -720,16 +774,24 @@ public class enabler : MonoBehaviour
 
                 break;
             case 4: //return to main menu
-                int loadLv = PlayerPrefs.GetInt("level", 0);
-                globalState.revealAndHideStuff(loadLv, false);
+                //int loadLv = PlayerPrefs.GetInt("level", 0);
+
+                //globalState.revealAndHideStuff(loadLv, false);
                 startCanvas.SetActive(true);
+                titleScreenBtfl.Play("btflDropShadowIdle");
                 UICanvas.gameObject.SetActive(false); //hide UICanvas
+
+                gameOnPause = true;
+                Time.timeScale = 0; //still pause time bc game still running
+
                 break;
             case 5: //quit
                 Application.Quit();
                 break;
 
         }
+
+        closeMenuUIWindow();
     }
 
     public void capsuleNo()
@@ -743,7 +805,7 @@ public class enabler : MonoBehaviour
         }
 
         globalState.menuCapsuleSelectedIndex = 0; //reset
-        capsuleHintController.updateCapsuleHint(capsuleHintTexts, globalState.enable.language == 1, 0);
+        capsuleHintController.updateCapsuleHint(capsuleHintTexts, language == 1, 0);
     }
 
 
@@ -756,4 +818,6 @@ public class enabler : MonoBehaviour
     {
         globalState.audio.playSFX(0, 11);
     }
+
+
 }
