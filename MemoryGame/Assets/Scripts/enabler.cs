@@ -692,30 +692,40 @@ public class enabler : MonoBehaviour
 
     public void openResetUIWindow()
     {
+        //globalState.globalClickable = false;
+
         resetUIWindow.gameObject.SetActive(true);
         Time.timeScale = 0;
     }
 
     public void closeResetUIWindow()
     {
+       // globalState.globalClickable = true;
+
         resetUIWindow.gameObject.SetActive(false);
         Time.timeScale = 1;
     }
 
     public void openQuitUIWindow()
     {
+       // globalState.globalClickable = false;
+
         quitUIWindow.gameObject.SetActive(true);
         Time.timeScale = 0;
     }
 
     public void closeQuitUIWindow()
     {
+       // globalState.globalClickable = true;
+
         quitUIWindow.gameObject.SetActive(false);
         Time.timeScale = 1;
     }
 
     public void openMenuUIWindow()
     {
+        globalState.globalUIClickOnly = true;
+
         menuUIWindow.gameObject.SetActive(true);
         Time.timeScale = 0;
 
@@ -724,6 +734,8 @@ public class enabler : MonoBehaviour
 
     public void closeMenuUIWindow()
     {
+        globalState.globalUIClickOnly = false;
+
         menuUIWindow.gameObject.SetActive(false);
         Time.timeScale = 1;
     }

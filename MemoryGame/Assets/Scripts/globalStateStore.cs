@@ -15,7 +15,7 @@ public class globalStateStore : MonoBehaviour
     public GameObject l1Scene, vaseScene, treeScene, treeBottomScene, bandScene, seaScene, pupScene, gardenScene, gardenCloseupScene, 
         bickerScene, parkScene, graveyardScene, homeScene, mirrorScene, streetScene;
 
-    public bool globalClickable;
+    public bool globalClickable, globalUIClickOnly;
 
     public BlurManager blurManager;
     public enabler enable;

@@ -25,7 +25,7 @@ public class MouseControl : MonoBehaviour
         {
 
             Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Collider2D hit = Physics2D.OverlapPoint(mouseWorldPos);
+            Collider2D hit = globalState.globalUIClickOnly ? Physics2D.OverlapPoint(mouseWorldPos, LayerMask.GetMask("UI")) : Physics2D.OverlapPoint(mouseWorldPos);
 
             if (hit != null)
             {
