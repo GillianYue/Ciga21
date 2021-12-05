@@ -29,7 +29,7 @@ public class enabler : MonoBehaviour
     public Animator headphoneScreen;
 
     public SteamAchievements steamAchievements;
-    public GameObject resetUIWindow, quitUIWindow, UICanvas, menuUIWindow;
+    public GameObject memorabiliaUI, quitUIWindow, UICanvas, menuUIWindow;
 
     public bool mobile, gameOnPause;
 
@@ -119,9 +119,9 @@ public class enabler : MonoBehaviour
 
                 yield return new WaitForSeconds(2);
 
-                UICanvas.gameObject.SetActive(true);
+            UICanvas.gameObject.SetActive(true);
 
-                globalState.audio.fadeVolumeSFX(0, 17, 2, 0);
+            globalState.audio.fadeVolumeSFX(0, 17, 2, 0);
                 startCanvas.SetActive(false);
                 setUpLevel(loadLv);
             }
@@ -254,7 +254,6 @@ public class enabler : MonoBehaviour
                 audio.playSFX(1, 7);
 
                 darkCover.SetTrigger("fadeOut");
-                UICanvas.gameObject.SetActive(true);
 
                 yield return new WaitForSeconds(2);
                 globalState.interactHint(true);
@@ -690,25 +689,38 @@ public class enabler : MonoBehaviour
     }
 
 
-    public void openResetUIWindow()
+    public void openMemorabiliaUI()
     {
-        //globalState.globalClickable = false;
+        globalState.globalUIClickOnly = true;
 
-        resetUIWindow.gameObject.SetActive(true);
         Time.timeScale = 0;
+        
+        memorabiliaUI.gameObject.SetActive(true);
+        memorabiliaUI.GetComponent<Animator>().SetTrigger("fadeIn");
+
+        menuUIWindow.gameObject.SetActive(false);
     }
 
-    public void closeResetUIWindow()
+    public void closeMemorabiliaUI()
     {
-       // globalState.globalClickable = true;
+        globalState.globalUIClickOnly = false;
 
-        resetUIWindow.gameObject.SetActive(false);
+        memorabiliaUI.GetComponent<Animator>().SetTrigger("fadeOut");
         Time.timeScale = 1;
+
+        StartCoroutine(setMemorabiliaWindowActive(1, false));
     }
+
+    IEnumerator setMemorabiliaWindowActive(float waitTime, bool active)
+    {
+        yield return new WaitForSecondsRealtime(waitTime);
+        memorabiliaUI.gameObject.SetActive(active);
+    }
+
 
     public void openQuitUIWindow()
     {
-       // globalState.globalClickable = false;
+        globalState.globalUIClickOnly = true;
 
         quitUIWindow.gameObject.SetActive(true);
         Time.timeScale = 0;
@@ -716,7 +728,7 @@ public class enabler : MonoBehaviour
 
     public void closeQuitUIWindow()
     {
-       // globalState.globalClickable = true;
+        globalState.globalUIClickOnly = false;
 
         quitUIWindow.gameObject.SetActive(false);
         Time.timeScale = 1;
@@ -766,7 +778,7 @@ public class enabler : MonoBehaviour
         //show hint texts
         foreach (Animator t in capsuleHintTexts)
         {
-            t.SetTrigger("fadeInText");
+            t.SetTrigger("fadeInTextFast");
         }
     }
 
@@ -783,7 +795,7 @@ public class enabler : MonoBehaviour
                 resetAllProgressAndQuit();
                 break;
             case 3: //memorabilia
-
+                openMemorabiliaUI();
                 break;
             case 4: //return to main menu
                 //int loadLv = PlayerPrefs.GetInt("level", 0);

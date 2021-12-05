@@ -1610,12 +1610,9 @@ public class interactable : MonoBehaviour
             case "MenuUI":
                 globalState.enable.closeMenuUIWindow();
                 break;
-/*            case "resetUI":
-                globalState.enable.closeResetUIWindow();
+            case "MemorabiliaUI":
+                globalState.enable.closeMemorabiliaUI();
                 break;
-            case "quitUI":
-                globalState.enable.closeQuitUIWindow();
-                break;*/
 
         }
 
@@ -1791,8 +1788,6 @@ public class interactable : MonoBehaviour
                     globalState.interactHint(false); //move
 
                 }
-
-
             }
             else
             {
