@@ -56,10 +56,14 @@ public class enabler : MonoBehaviour
 
         gameOnPause = false;
 
-        headphoneScreen.gameObject.SetActive(true);
-        headphoneScreen.GetComponent<Image>().color = new Color(1, 1, 1, 1);
-        headphoneScreen.transform.GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 0);
-        headphoneScreen.transform.GetChild(1).GetComponent<Image>().color = new Color(1, 1, 1, 0);
+        if (!test.test)
+        {
+
+            headphoneScreen.gameObject.SetActive(true);
+            headphoneScreen.GetComponent<Image>().color = new Color(1, 1, 1, 1);
+            headphoneScreen.transform.GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 0);
+            headphoneScreen.transform.GetChild(1).GetComponent<Image>().color = new Color(1, 1, 1, 0);
+        }
     }
 
     void Start()
@@ -82,13 +86,18 @@ public class enabler : MonoBehaviour
         globalState.audio.playSFX(0, 17, 0.1f); //ambience quiet
         globalState.audio.fadeVolumeSFX(0, 17, 5, 1);
 
-        yield return new WaitForSeconds(2);
+        if (!test.test)
+        {
 
-        headphoneScreen.SetTrigger("fadeIn");
+            yield return new WaitForSeconds(2);
 
-        yield return new WaitForSeconds(2);
+            headphoneScreen.SetTrigger("fadeIn");
 
-        headphoneScreen.SetTrigger("fadeOut");
+            yield return new WaitForSeconds(2);
+
+            headphoneScreen.SetTrigger("fadeOut");
+
+        }
 
         //show title screen
         startCanvas.transform.Find("photo/lines").gameObject.SetActive(true);
@@ -119,9 +128,9 @@ public class enabler : MonoBehaviour
 
                 yield return new WaitForSeconds(2);
 
-            UICanvas.gameObject.SetActive(true);
+                UICanvas.gameObject.SetActive(true);
 
-            globalState.audio.fadeVolumeSFX(0, 17, 2, 0);
+                globalState.audio.fadeVolumeSFX(0, 17, 2, 0);
                 startCanvas.SetActive(false);
                 setUpLevel(loadLv);
             }

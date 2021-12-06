@@ -12,7 +12,7 @@ public class interactable : MonoBehaviour
     public int numInteractions;
     public GameObject changeIntoPrefab, affectsGO; //applies when type is animThenImgChange
 
-    public enum InteractType { animThenImgChange, anim, imgSwitcher, instrument, clickInspect, custom };
+    public enum InteractType { animThenImgChange, anim, imgSwitcher, instrument, clickInspect, mmItem, custom };
     public InteractType interactType;
 
     public GameObject gameControl;
@@ -184,7 +184,6 @@ public class interactable : MonoBehaviour
                 }
                 else
                 {
-
                     //start puzzle session; if already activated, cancel all and replay solution
                     NotesRecord notesRecord = GetComponent<NotesRecord>();
 
@@ -211,6 +210,12 @@ public class interactable : MonoBehaviour
                 CamMovement cam = gameControl.GetComponent<enabler>().cam;
                 cam.camFocusOnObject(transform.position);
 
+                break;
+            case InteractType.mmItem:
+                //script attached on itemImg
+                print(name);
+                MemorabiliaItem mmItm = transform.parent.GetComponent<MemorabiliaItem>();
+                mmItm.itemOnClick();
                 break;
             case InteractType.custom:
                 StartCoroutine(customBehavior());
