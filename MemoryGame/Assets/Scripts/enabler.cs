@@ -36,6 +36,7 @@ public class enabler : MonoBehaviour
     public Animator[] capsuleHintTexts;
 
     public CapsuleHintTexts capsuleHintController;
+    public Memorabilia mm;
 
     private void Awake()
     {
@@ -48,6 +49,7 @@ public class enabler : MonoBehaviour
         if (audio == null) audio = GetComponent<AudioManager>();
         if (test == null) test = GetComponent<Tester>();
         if (steamAchievements == null) steamAchievements = GetComponent<SteamAchievements>();
+        if (mm == null) mm = FindObjectOfType<Memorabilia>();
 
         language = PlayerPrefs.GetInt("language", 0);
 

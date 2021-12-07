@@ -213,7 +213,6 @@ public class interactable : MonoBehaviour
                 break;
             case InteractType.mmItem:
                 //script attached on itemImg
-                print(name);
                 MemorabiliaItem mmItm = transform.parent.GetComponent<MemorabiliaItem>();
                 mmItm.itemOnClick();
                 break;
@@ -1616,7 +1615,17 @@ public class interactable : MonoBehaviour
                 globalState.enable.closeMenuUIWindow();
                 break;
             case "MemorabiliaUI":
-                globalState.enable.closeMemorabiliaUI();
+                if (globalState.enable.mm.showingDetail)
+                {
+                    //return to full item list if showing item detail
+                    globalState.enable.mm.itemOnDisplay.itemOnClick(); 
+
+                }
+                else
+                {
+                    globalState.enable.closeMemorabiliaUI();
+                }
+                
                 break;
 
         }
