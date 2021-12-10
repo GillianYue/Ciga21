@@ -12,12 +12,18 @@ public class BlurManager : MonoBehaviour
     public Animator scene3bg;
     public enabler enablr;
 
+    #if UNITY_STANDALONE
     public SteamAchievements steamAchievements;
+    #endif
 
     void Start()
     {
         if (enablr == null) enablr = GetComponent<enabler>();
+
+        #if UNITY_STANDALONE
         if (steamAchievements == null) steamAchievements = GetComponent<SteamAchievements>();
+        #endif
+
     }
 
     void Update()
@@ -167,8 +173,10 @@ public class BlurManager : MonoBehaviour
                 break;
         }
 
+        #if UNITY_STANDALONE
         if(level != 11) //if 11, wait until very end to update
         steamAchievements.updateAch2Progress(level);
+        #endif
     }
 
     IEnumerator generalLevelPassEffect()

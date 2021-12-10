@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 //general game level logic 
 public class enabler : MonoBehaviour
 {
+    [Inject(InjectFrom.Anywhere)]
     public globalStateStore globalState;
 
     public Animator mainCam, darkCover, credits, titleScreenBtfl;
@@ -28,7 +29,10 @@ public class enabler : MonoBehaviour
 
     public Animator headphoneScreen;
 
+    #if UNITY_STANDALONE
     public SteamAchievements steamAchievements;
+    #endif
+
     public GameObject memorabiliaUI, quitUIWindow, UICanvas, menuUIWindow;
 
     public bool mobile, gameOnPause;
@@ -36,10 +40,13 @@ public class enabler : MonoBehaviour
     public Animator[] capsuleHintTexts;
 
     public CapsuleHintTexts capsuleHintController;
+    [Inject(InjectFrom.Anywhere)]
     public Memorabilia mm;
 
     private void Awake()
     {
+
+        print("platform: " + Application.platform);
 
         Application.targetFrameRate = 30;
 
@@ -48,7 +55,11 @@ public class enabler : MonoBehaviour
         if (blurManager == null) blurManager = GetComponent<BlurManager>();
         if (audio == null) audio = GetComponent<AudioManager>();
         if (test == null) test = GetComponent<Tester>();
+
+#if UNITY_STANDALONE
         if (steamAchievements == null) steamAchievements = GetComponent<SteamAchievements>();
+#endif
+
         if (mm == null) mm = FindObjectOfType<Memorabilia>();
 
         language = PlayerPrefs.GetInt("language", 0);
@@ -220,8 +231,10 @@ public class enabler : MonoBehaviour
         mainCam.Play("startCamZoom");
         yield return new WaitForSeconds(3);
 
+        #if UNITY_STANDALONE
         //give steam achievement
         steamAchievements.ach1();
+        #endif
 
         yield return new WaitForSeconds(2);
 
@@ -636,7 +649,9 @@ public class enabler : MonoBehaviour
 
         yield return new WaitForSeconds(2);
 
+        #if UNITY_STANDALONE
         steamAchievements.updateAch2Progress(11); //unlock achievement 2
+        #endif
 
         cam.vfx.transform.Find("sakura").gameObject.SetActive(true);
         globalState.audio.playSFX(0, 13); //memories
@@ -686,7 +701,10 @@ public class enabler : MonoBehaviour
 
     public void resetAllProgressAndQuit()
     {
+        #if UNITY_STANDALONE
         steamAchievements.resetAchievements();
+#endif
+
         PlayerPrefs.DeleteKey("level");
 
         Scene curr = SceneManager.GetActiveScene();

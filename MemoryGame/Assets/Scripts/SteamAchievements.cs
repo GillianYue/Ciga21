@@ -1,6 +1,10 @@
-﻿using UnityEngine;
+﻿
+using UnityEngine;
 using System.Collections;
+
+#if UNITY_STANDALONE
 using Steamworks;
+#endif
 
 public class SteamAchievements : MonoBehaviour
 {
@@ -8,6 +12,8 @@ public class SteamAchievements : MonoBehaviour
 	{
 
 	}
+
+#if UNITY_STANDALONE
 
 	public void ach1()
     {
@@ -37,4 +43,8 @@ public class SteamAchievements : MonoBehaviour
 			SteamUserStats.StoreStats();
 		}
 	}
+
+#endif
+
 }
+

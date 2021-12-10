@@ -7,6 +7,8 @@ public class MouseControl : MonoBehaviour
 
     public CursorMode cursorMode = CursorMode.Auto;
     public Vector2 hotSpot = new Vector2(27, 14);
+
+    [Inject(InjectFrom.Anywhere)]
     public globalStateStore globalState;
 
     public enum MouseMode { hand, cursor }

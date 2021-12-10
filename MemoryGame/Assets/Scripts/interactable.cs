@@ -12,7 +12,7 @@ public class interactable : MonoBehaviour
     public int numInteractions;
     public GameObject changeIntoPrefab, affectsGO; //applies when type is animThenImgChange
 
-    public enum InteractType { animThenImgChange, anim, imgSwitcher, instrument, clickInspect, mmItem, custom };
+    public enum InteractType { animThenImgChange, anim, imgSwitcher, instrument, clickInspect, custom, mmItem};
     public InteractType interactType;
 
     public GameObject gameControl;
