@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
 public class Tester : MonoBehaviour
 {
@@ -19,18 +16,23 @@ public class Tester : MonoBehaviour
 
         if (enable == null) enable = FindObjectOfType<enabler>();
 
+        if (test)
+        {
+            PlayerPrefs.SetInt("level", startLevel);
+        }
 
-        if (test && startLevel > 0)
-        {
-            enable.startCanvas.SetActive(false);
-            enable.setUpLevel(startLevel);
-        }
-        else if(test && startLevel == 0)
-        {
-            //if equal to 0
-            PlayerPrefs.SetInt("level", 0);
-            enable.startCanvas.SetActive(true);
-        }
+        /*        if (test && startLevel > 0)
+                {
+                    //enable.startCanvas.SetActive(false);
+                    //enable.setUpLevel(startLevel);
+
+                }
+                else if(test && startLevel == 0)
+                {
+                    //if equal to 0
+                    PlayerPrefs.SetInt("level", 0);
+                    enable.startCanvas.SetActive(true);
+                }*/
     }
 
     void Update()
@@ -42,7 +44,6 @@ public class Tester : MonoBehaviour
                 Time.timeScale = 1.0f * speedUpRate;
             }
 
-
             if (Input.GetKeyUp("space")) //release to go back to normal time
             {
                 Time.timeScale = 1.0f;
@@ -53,8 +54,7 @@ public class Tester : MonoBehaviour
                 Time.timeScale = 0.1f;
             }
 
-
-            if (Input.GetKeyUp("s")) 
+            if (Input.GetKeyUp("s"))
             {
                 Time.timeScale = 1.0f;
             }

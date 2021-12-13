@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using DG.Tweening;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
 
 public class MemorabiliaItem : MonoBehaviour
 {
@@ -40,7 +39,7 @@ public class MemorabiliaItem : MonoBehaviour
 
     public void itemOnClick()
     {
-        
+
         if (unlocked)
         {
 
@@ -77,7 +76,7 @@ public class MemorabiliaItem : MonoBehaviour
             }
 
         }
-        
+
     }
 
     //animates item to start pos

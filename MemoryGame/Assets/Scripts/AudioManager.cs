@@ -13,13 +13,12 @@ public class AudioManager : MonoBehaviour
         if (globalState == null) globalState = GetComponent<globalStateStore>();
 
         audioSources = new List<AudioSource[]>();
-        for(int l=0; l<levelAudios.Length; l++)
+        for (int l = 0; l < levelAudios.Length; l++)
         {
             AudioSource[] clips = levelAudios[l].GetComponents<AudioSource>();
             audioSources.Add(clips);
         }
     }
-
 
     public void playSFX(int level, int index)
     {
@@ -36,7 +35,6 @@ public class AudioManager : MonoBehaviour
         //float origVol = audioSources[level][index].volume;
         audioSources[level][index].volume = vol;
         audioSources[level][index].Play();
-
 
     }
 
@@ -60,7 +58,7 @@ public class AudioManager : MonoBehaviour
         float currentTime = 0;
         float startVol = audioSource.volume;
 
-        while(currentTime < duration)
+        while (currentTime < duration)
         {
             currentTime += Time.deltaTime;
             audioSource.volume = Mathf.Lerp(startVol, targetVolume, currentTime / duration);
@@ -88,7 +86,7 @@ public class AudioManager : MonoBehaviour
         if (lastOne)
         {//if last instrument, start everything from beginning 
 
-            for(int s=9; s<12; s++)
+            for (int s = 9; s < 12; s++)
             {
                 audioSources[bandSceneIndex][s].Stop();
                 audioSources[bandSceneIndex][s].time = 0;
@@ -96,16 +94,14 @@ public class AudioManager : MonoBehaviour
                 audioSources[bandSceneIndex][s].volume = 0.8f;
                 audioSources[bandSceneIndex][s].Play();
             }
-            
+
         }
         else
         {
             audioSources[bandSceneIndex][clipIndex].time = Mathf.Max(audioSources[bandSceneIndex][9].time, audioSources[bandSceneIndex][10].time, audioSources[bandSceneIndex][11].time);
             audioSources[bandSceneIndex][clipIndex].Play();
         }
-        
-        
-    }
 
+    }
 
 }

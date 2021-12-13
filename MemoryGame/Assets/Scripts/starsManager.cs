@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class starsManager : MonoBehaviour
@@ -18,18 +17,18 @@ public class starsManager : MonoBehaviour
 
     void Update()
     {
-        
+
     }
 
     public void startStarCheck()
     {
-        if(currActiveStarIndex == 2)
+        if (currActiveStarIndex == 2)
         {
             //two stars lit, reveal first group of stars
             StartCoroutine(revealStarBatch(1));
 
         }
-        else if(currActiveStarIndex == 5)
+        else if (currActiveStarIndex == 5)
         {
             StartCoroutine(revealStarBatch(2));
         }
@@ -51,9 +50,8 @@ public class starsManager : MonoBehaviour
             hand.enabled = true;
             hand.Play("handWithdraw");
 
-
             globalState.audio.fadeVolumeSFX(5, 5, 2, 0);
-            
+
         }
     }
 
@@ -62,7 +60,7 @@ public class starsManager : MonoBehaviour
         //TODO bgm
         yield return new WaitForSeconds(1);
 
-        Transform s = globalState.seaScene.transform.Find("sea/night/starsBatch"+which);
+        Transform s = globalState.seaScene.transform.Find("sea/night/starsBatch" + which);
         s.gameObject.SetActive(true);
         s.GetComponent<Animator>().SetTrigger("fadeInSlow");
         globalState.globalClickable = false;
@@ -78,8 +76,6 @@ public class starsManager : MonoBehaviour
             globalState.audio.playSFX(5, 9);
             yield return new WaitForSeconds(14.5f);
 
-
-
             yield return new WaitForSeconds(1);
 
             camMovement.camHolder.gameObject.SetActive(true);
@@ -90,7 +86,6 @@ public class starsManager : MonoBehaviour
             camMovement.vfx.Play("blink");
 
             yield return new WaitForSeconds(3);
-
 
             //setup friends stuff
             imgSwitcher fds = globalState.seaScene.transform.Find("beach/friends_away").GetComponent<imgSwitcher>();

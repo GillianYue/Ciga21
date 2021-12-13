@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class Memorabilia : MonoBehaviour
@@ -16,7 +15,7 @@ public class Memorabilia : MonoBehaviour
     {
         itemList = new List<MemorabiliaItem>();
 
-        foreach(Transform i in ContentGO.transform)
+        foreach (Transform i in ContentGO.transform)
         {
             MemorabiliaItem itm = i.GetComponent<MemorabiliaItem>();
             itm.mm = this;
@@ -27,18 +26,17 @@ public class Memorabilia : MonoBehaviour
 
     void Start()
     {
-        
-    }
 
+    }
 
     void Update()
     {
-        
+
     }
 
     public void setAllItemClickable(bool to)
     {
-        foreach(MemorabiliaItem itm in itemList)
+        foreach (MemorabiliaItem itm in itemList)
         {
             itm.myItrRef.clickable = to;
         }

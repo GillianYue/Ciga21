@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class HideAndSeek : MonoBehaviour
@@ -14,9 +13,8 @@ public class HideAndSeek : MonoBehaviour
 
     void Start()
     {
-        
-    }
 
+    }
 
     void FixedUpdate()
     {
@@ -53,7 +51,6 @@ public class HideAndSeek : MonoBehaviour
                 }
 
             }
-
 
         }
     }

@@ -13,7 +13,6 @@ Shader "Custom/blur3" {
 
             Tags { "Queue" = "Transparent" "IgnoreProjector" = "True" "RenderType" = "Opaque" }
 
-
             SubShader {
 
                 GrabPass {

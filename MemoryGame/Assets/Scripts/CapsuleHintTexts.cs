@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,29 +11,28 @@ public class CapsuleHintTexts : MonoBehaviour
         capsuleHintTextContent_chn = new List<List<string>>();
 
         List<string> l0 = new List<string>();
-        l0.Add(" "); l0.Add(" "); l0.Add(" "); 
+        l0.Add(" "); l0.Add(" "); l0.Add(" ");
         capsuleHintTextContent_chn.Add(l0);
 
         List<string> l1 = new List<string>();
-        l1.Add("重置本关卡并退出？"); l1.Add("好"); l1.Add("不要"); 
+        l1.Add("重置本关卡并退出？"); l1.Add("好"); l1.Add("不要");
         capsuleHintTextContent_chn.Add(l1);
 
         List<string> l2 = new List<string>();
-        l2.Add("重置所有进度并退出？"); l2.Add("好"); l2.Add("不要"); 
+        l2.Add("重置所有进度并退出？"); l2.Add("好"); l2.Add("不要");
         capsuleHintTextContent_chn.Add(l2);
 
         List<string> l3 = new List<string>();
-        l3.Add(""); l3.Add(""); l3.Add(""); 
+        l3.Add(""); l3.Add(""); l3.Add("");
         capsuleHintTextContent_chn.Add(l3);
 
         List<string> l4 = new List<string>();
-        l4.Add("回到主菜单（暂停当前进度）？"); l4.Add("好"); l4.Add("不要"); 
+        l4.Add("回到主菜单（暂停当前进度）？"); l4.Add("好"); l4.Add("不要");
         capsuleHintTextContent_chn.Add(l4);
 
         List<string> l5 = new List<string>();
-        l5.Add("退出游戏吗（丢失本关卡进度）？"); l5.Add("好"); l5.Add("不要"); 
+        l5.Add("退出游戏吗（丢失本关卡进度）？"); l5.Add("好"); l5.Add("不要");
         capsuleHintTextContent_chn.Add(l5);
-
 
         capsuleHintTextContent_eng = new List<List<string>>();
 
@@ -66,12 +64,11 @@ public class CapsuleHintTexts : MonoBehaviour
     void Start()
     {
 
-
     }
 
     void Update()
     {
-        
+
     }
 
     //based on capsuleIndex update text of UI
@@ -79,7 +76,7 @@ public class CapsuleHintTexts : MonoBehaviour
     {
         List<List<string>> li = isChn ? capsuleHintTextContent_chn : capsuleHintTextContent_eng;
 
-        Text hintMsg = capsuleTexts[0].GetComponent<Text>(), yesText = capsuleTexts[1].GetComponent<Text>(), 
+        Text hintMsg = capsuleTexts[0].GetComponent<Text>(), yesText = capsuleTexts[1].GetComponent<Text>(),
             noText = capsuleTexts[2].GetComponent<Text>();
 
         //print(li[capsuleIndex][0] + li[capsuleIndex][1] + li[capsuleIndex][2]);

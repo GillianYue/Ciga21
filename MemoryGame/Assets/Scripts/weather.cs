@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class weather : MonoBehaviour
@@ -15,13 +14,10 @@ public class weather : MonoBehaviour
 
     void Start()
     {
-        
-    }
 
-
-    void Update()
+    }    void Update()
     {
-        
+
     }
 
     public void startLightening()

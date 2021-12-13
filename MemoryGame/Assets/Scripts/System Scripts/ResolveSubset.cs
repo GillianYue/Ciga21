@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 /// <summary>
 /// Resolves dependencies only for the game object that it is attached to (and all its children).

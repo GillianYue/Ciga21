@@ -10,7 +10,7 @@
 
 // Add 'DISABLEREDISTCOPY' to your custom platform defines to disable automatic copying!
 #if UNITY_5_3_OR_NEWER
-	#define DISABLEREDISTCOPY
+#define DISABLEREDISTCOPY
 #endif // UNITY_5_3_OR_NEWER
 
 using UnityEngine;
