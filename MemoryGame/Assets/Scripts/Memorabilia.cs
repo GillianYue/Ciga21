@@ -14,10 +14,14 @@ public class Memorabilia : MonoBehaviour
     private void Awake()
     {
         itemList = new List<MemorabiliaItem>();
+        itemDetail.gameObject.SetActive(true);
 
+        int idx = 0;
         foreach (Transform i in ContentGO.transform)
         {
             MemorabiliaItem itm = i.GetComponent<MemorabiliaItem>();
+            itm.itemIndex = idx;
+            idx++;
             itm.mm = this;
             itemList.Add(itm);
 

@@ -17,6 +17,7 @@ public class MemorabiliaItem : MonoBehaviour
 
     private Canvas c;
     public interactable myItrRef;
+    public int itemIndex;
 
     private void Awake()
     {
