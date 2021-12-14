@@ -1,6 +1,5 @@
 ﻿
 using UnityEngine;
-using System.Collections;
 
 #if UNITY_STANDALONE
 using Steamworks;
@@ -8,10 +7,10 @@ using Steamworks;
 
 public class SteamAchievements : MonoBehaviour
 {
-	void Start()
-	{
+    void Start()
+    {
 
-	}
+    }
 
 #if UNITY_STANDALONE
 

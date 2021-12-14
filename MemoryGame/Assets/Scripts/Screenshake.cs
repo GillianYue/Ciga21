@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// screenshake is somehow v sensitive about z ordering of components
@@ -44,7 +42,6 @@ public class Screenshake : MonoBehaviour
 
     }
 
-
     void Update()
     {
         if (active)
@@ -52,7 +49,7 @@ public class Screenshake : MonoBehaviour
             if (infiniteShake || shakeDuration > 0)
             {
                 Vector3 temp = initialPosition + Random.insideUnitSphere * shakeMagnitude;
-                if(Random.Range(0f, 1.0f) < singleTriggerChance) shakeTransform.localPosition = new Vector3(Mathf.FloorToInt(temp.x), Mathf.FloorToInt(temp.y), Mathf.FloorToInt(temp.z));
+                if (Random.Range(0f, 1.0f) < singleTriggerChance) shakeTransform.localPosition = new Vector3(Mathf.FloorToInt(temp.x), Mathf.FloorToInt(temp.y), Mathf.FloorToInt(temp.z));
 
                 if (!infiniteShake) shakeDuration -= Time.deltaTime * dampingSpeed;
             }
@@ -75,8 +72,6 @@ public class Screenshake : MonoBehaviour
     }
 
     public void StopInfiniteShake() { infiniteShake = false; active = false; }
-    
-
 
     /// <summary>
     /// triggers a screenShake session, will activate the script. The script auto-deactivates upon completing the duration requirement

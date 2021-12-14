@@ -1,7 +1,5 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class interactable : MonoBehaviour
@@ -12,7 +10,7 @@ public class interactable : MonoBehaviour
     public int numInteractions;
     public GameObject changeIntoPrefab, affectsGO; //applies when type is animThenImgChange
 
-    public enum InteractType { animThenImgChange, anim, imgSwitcher, instrument, clickInspect, custom, mmItem};
+    public enum InteractType { animThenImgChange, anim, imgSwitcher, instrument, clickInspect, custom, mmItem };
     public InteractType interactType;
 
     public GameObject gameControl;
@@ -24,7 +22,7 @@ public class interactable : MonoBehaviour
 
     protected virtual void Awake()
     {
-        myAnimator = GetComponent<Animator>(); 
+        myAnimator = GetComponent<Animator>();
 
         if (gameControl == null) gameControl = GameObject.FindGameObjectWithTag("GameController");
         if (mouseControl == null) mouseControl = gameControl.GetComponent<MouseControl>();
@@ -42,17 +40,21 @@ public class interactable : MonoBehaviour
 
         if (name[0] == 'f' && transform.parent.name.Equals("flowers"))
         {
-            StartCoroutine(Global.Chain(this, 
+            StartCoroutine(Global.Chain(this,
                     Global.WaitForSeconds(Random.Range(0f, 2f)),
-                    Global.Do(() => { 
-                        if(var1 == 0) //if flower already clicked before this, will set var1 to 1
-                        myAnimator.Play("lawnFloIdle");    } )));
-            
-        }else if (transform.childCount > 0 && transform.GetChild(0).name.Equals("plant"))
+                    Global.Do(() =>
+                    {
+                        if (var1 == 0) //if flower already clicked before this, will set var1 to 1
+                            myAnimator.Play("lawnFloIdle");
+                    })));
+
+        }
+        else if (transform.childCount > 0 && transform.GetChild(0).name.Equals("plant"))
         {
             StartCoroutine(Global.Chain(this,
                     Global.WaitForSeconds(Random.Range(0f, 2f)),
-                    Global.Do(() => {
+                    Global.Do(() =>
+                    {
                         GetComponent<Animator>().Play("plant1");
                     })));
         }
@@ -60,28 +62,31 @@ public class interactable : MonoBehaviour
         else if (name.Equals("ballAnimator") || name.Equals("stickAnimator"))
         {
             myAnimator.SetTrigger("action1"); //idle state
-        }else if (name.Equals("img") && transform.parent.parent.name.Equals("objects"))
+        }
+        else if (name.Equals("img") && transform.parent.parent.name.Equals("objects"))
         {
-                    StartCoroutine(Global.Chain(this,
-                Global.WaitForSeconds(Random.Range(0f, 3f)),
-                Global.Do(() => {
-                    GetComponent<Animator>().Play("darkCol");
-                })));
+            StartCoroutine(Global.Chain(this,
+        Global.WaitForSeconds(Random.Range(0f, 3f)),
+        Global.Do(() =>
+        {
+            GetComponent<Animator>().Play("darkCol");
+        })));
 
             StartCoroutine(Global.Chain(this,
                 Global.WaitForSeconds(Random.Range(0f, 2f)),
-                Global.Do(() => {
+                Global.Do(() =>
+                {
                     transform.parent.GetComponent<Animator>().Play("posGlitch");
                 })));
 
-            
-
-        }else if (name.Length>4 && name.Substring(0, 4).Equals("leaf") && name[4]!='3')
+        }
+        else if (name.Length > 4 && name.Substring(0, 4).Equals("leaf") && name[4] != '3')
         {
             StartCoroutine(Global.Chain(this,
                 Global.WaitForSeconds(Random.Range(0f, 2f)),
-                Global.Do(() => {
-                    GetComponent<Animator>().SetTrigger("action2"); 
+                Global.Do(() =>
+                {
+                    GetComponent<Animator>().SetTrigger("action2");
                 })));
         }
 
@@ -89,15 +94,15 @@ public class interactable : MonoBehaviour
 
     void Update()
     {
-        
+
     }
 
     //can be overridden though not necessary
     public virtual void onClick()
     {
-     //   print("clicked: " + eventData.pointerPress.name);
+        //   print("clicked: " + eventData.pointerPress.name);
 
-        if (clickable) 
+        if (clickable)
         {
             timesClicked += 1;
             checkBehavior();
@@ -106,12 +111,12 @@ public class interactable : MonoBehaviour
 
     public virtual void onEnter()
     {
-       // if (clickable) mouseControl.toHand();
+        // if (clickable) mouseControl.toHand();
     }
 
     public virtual void onExit()
     {
-      //  if (clickable) mouseControl.toMouse();
+        //  if (clickable) mouseControl.toMouse();
     }
 
     public void fadeIn()
@@ -140,7 +145,7 @@ public class interactable : MonoBehaviour
 
         switch (interactType)
         {
-            case InteractType.anim: 
+            case InteractType.anim:
                 myAnimator.SetTrigger("action1"); //play animation (only one in total)
                 break;
             case InteractType.animThenImgChange: //play animation (multiple in total)
@@ -152,7 +157,7 @@ public class interactable : MonoBehaviour
                     {
                         clickable = false;
                         globalState.rosesRotate += 1;
-                        if(globalState.rosesRotate >= 6)
+                        if (globalState.rosesRotate >= 6)
                         {
                             Transform hosp = globalState.parkScene.transform.Find("hosp");
                             hosp.gameObject.SetActive(true);
@@ -164,8 +169,8 @@ public class interactable : MonoBehaviour
             case InteractType.imgSwitcher: //change base images to the next pair (with effects)
                 GetComponent<imgSwitcher>().myTriggerAction();
                 break;
-            case InteractType.instrument: 
-                if(gameControl.GetComponent<globalStateStore>().globalCounter < 2) //phone and speaker not triggered sprite swap yet
+            case InteractType.instrument:
+                if (gameControl.GetComponent<globalStateStore>().globalCounter < 2) //phone and speaker not triggered sprite swap yet
                 {
                     //play sound effect
                     switch (name)
@@ -187,15 +192,15 @@ public class interactable : MonoBehaviour
                     //start puzzle session; if already activated, cancel all and replay solution
                     NotesRecord notesRecord = GetComponent<NotesRecord>();
 
-                        //play sound effect (solution)
-                        notesRecord.playSolution();
+                    //play sound effect (solution)
+                    notesRecord.playSolution();
 
-                        //if starts another instrument, will deactivate prev instrument
-                        NotesRecord.currActiveInstrument = notesRecord.instrumentIndex;
+                    //if starts another instrument, will deactivate prev instrument
+                    NotesRecord.currActiveInstrument = notesRecord.instrumentIndex;
 
-                        notesRecord.enableNotes(); //reveal notes for this instrument if prev hidden
+                    notesRecord.enableNotes(); //reveal notes for this instrument if prev hidden
 
-                        notesRecord.resetAllNoteStatus(); //reset status
+                    notesRecord.resetAllNoteStatus(); //reset status
 
                     if (!globalState.bandHintButtonPresented)
                     {
@@ -285,7 +290,6 @@ public class interactable : MonoBehaviour
         obj.SetActive(true);
     }
 
-
     //this gets called by other interactables, indicates some activity, should be overidden
     public void myTriggerAction()
     {
@@ -312,7 +316,8 @@ public class interactable : MonoBehaviour
         interactable sqr = globalState.treeScene.transform.Find("squirrel").GetComponent<interactable>();
         sqr.var1 += 1;
 
-        if(sqr.var1 >= 4) {
+        if (sqr.var1 >= 4)
+        {
             sqr.onClick();
         }
     }
@@ -320,7 +325,7 @@ public class interactable : MonoBehaviour
     //gets called at the end of leaf3's action2 clip
     public void checkWormAppearance()
     {
-        if(var1 == 1)
+        if (var1 == 1)
         {
             clickable = false;
             affectsGO.gameObject.SetActive(true);
@@ -347,32 +352,32 @@ public class interactable : MonoBehaviour
 
     public void instrumentStartPlaying()
     {
-        globalStateStore gs = gameControl.GetComponent<globalStateStore>(); 
+        globalStateStore gs = gameControl.GetComponent<globalStateStore>();
 
         myAnimator.SetInteger("state", 2);
         gs.globalCounter += 1;
 
         switch (name)
         {
-            case "guitar": 
+            case "guitar":
                 gs.guitar = true;
                 gameControl.GetComponent<AudioManager>().playInstrumentTrackInSync(0);
 
                 break;
-            case "drums": 
+            case "drums":
                 gs.drums = true;
                 gameControl.GetComponent<AudioManager>().playInstrumentTrackInSync(1);
 
                 break;
 
-            case "accordion": 
+            case "accordion":
                 gs.accordion = true;
                 gameControl.GetComponent<AudioManager>().playInstrumentTrackInSync(2);
 
                 break;
         }
 
-        if(gs.drums && gs.guitar && gs.accordion && !gs.hasScrolled) //everything triggered for l2, trigger scroll effect
+        if (gs.drums && gs.guitar && gs.accordion && !gs.hasScrolled) //everything triggered for l2, trigger scroll effect
         {
             StartCoroutine(bandWaitTillSongEnd());
         }
@@ -397,7 +402,6 @@ public class interactable : MonoBehaviour
     public void lookOverFinished()
     {
         //gameControl.GetComponent<BlurManager>().levelPassEffect(9);
-
 
         StartCoroutine(lookOverFinishedCoroutine());
 
@@ -449,7 +453,6 @@ public class interactable : MonoBehaviour
 
         hosp.Find("bg").GetComponent<Animator>().Play("hspFadeAction1"); //fade in a bit and away
 
-
         yield return new WaitForSeconds(4);
 
         screen.gameObject.SetActive(true);
@@ -493,14 +496,12 @@ public class interactable : MonoBehaviour
         globalState.audio.playSFX(9, 22);
 
         //effects, insert glitch 
-        her.Play("transparent"); 
+        her.Play("transparent");
         glitch.gameObject.SetActive(true);
         Animator g = glitch.Find("her").GetComponent<Animator>();
         g.Play("glitch1");
 
     }
-
-
 
     public void playSfx(string levelUnderlineIndex) //e.g. 11_2
     {
@@ -547,8 +548,6 @@ public class interactable : MonoBehaviour
 
                     yield return new WaitForSeconds(2);
 
-
-
                     yield return new WaitForSeconds(3);
 
                     ma.GetComponent<imgSwitcher>().switchToNextImgState(); //head tilt
@@ -556,11 +555,9 @@ public class interactable : MonoBehaviour
                     ma.GetComponent<imgSwitcher>().switchToImgState(0);
                     yield return new WaitForSeconds(3);
 
-
                     globalState.audio.playSFX(2, 3, 0.2f); //nervous breathing
                     globalState.audio.fadeVolumeSFX(2, 3, 3, 1);
                     globalState.audio.playSFX(0, 15, 0.5f); //faint heartbeats
-
 
                     blkt.transform.Find("mask1").gameObject.SetActive(true);
                     blkt.GetComponent<Animator>().SetTrigger("action1"); //mask anim
@@ -579,7 +576,7 @@ public class interactable : MonoBehaviour
                     ma.GetComponent<imgSwitcher>().switchToImgState(1);
 
                     yield return new WaitForSeconds(3);
-                    
+
                     ma.GetComponent<imgSwitcher>().switchToImgState(0); //questioning look
 
                     //"me" getting scared
@@ -588,7 +585,7 @@ public class interactable : MonoBehaviour
                     yield return new WaitForSeconds(0.5f);
                     camMovement.cam.Play("leftRightGlance");
                     yield return new WaitForSeconds(2.2f);
-                    
+
                     camMovement.cam.Play("nervousBreathe");
                     yield return new WaitForSeconds(7);
 
@@ -626,7 +623,6 @@ public class interactable : MonoBehaviour
                     plate.SetActive(false);
                     yield return new WaitForSeconds(2f);
 
-
                     globalState.audio.playSFX(0, 16);
                     ma.SetActive(false);
                     vase.SetActive(false);
@@ -646,7 +642,7 @@ public class interactable : MonoBehaviour
                     yield return new WaitForSeconds(2f);
 
                     ma.GetComponent<Animator>().SetTrigger("fadeOut");
-                    yield return new WaitForSeconds(2); 
+                    yield return new WaitForSeconds(2);
                     camMovement.vfx.Play("blink");
                     yield return new WaitForSeconds(6);
 
@@ -675,10 +671,8 @@ public class interactable : MonoBehaviour
                     vase.GetComponent<Animator>().SetTrigger("fadeOut");
                     ma.GetComponent<imgSwitcher>().switchToImgState(1);
 
-
                     yield return new WaitForSeconds(4);
                     ma.GetComponent<imgSwitcher>().switchToImgState(0);
-
 
                     yield return new WaitForSeconds(7);
                     camMovement.cam.Play("vaseSceneEndZoom");
@@ -727,8 +721,8 @@ public class interactable : MonoBehaviour
                     Global.WaitForSeconds(1f),
                     Global.Do(() =>
                     {
-                            //vase broken again
-                            GetComponent<imgSwitcher>().switchToImgState(0);
+                        //vase broken again
+                        GetComponent<imgSwitcher>().switchToImgState(0);
                         globalState.audio.playSFX(2, 0, 0.35f);
                         Transform flo = transform.Find("flowers");
                         flo.GetComponent<Animator>().enabled = false;
@@ -739,10 +733,11 @@ public class interactable : MonoBehaviour
                        //TODO blink, slight shake of cam
                        camMovement.glanceAndMoveBack(new Vector2(-200, 60), 0.1f),
 
-                        Global.Do(() => {
+                        Global.Do(() =>
+                        {
                             globalState.vaseScene.transform.Find("sofa").GetComponent<interactable>().clickable = true; //enable sofa click
                             globalState.interactHint(true);
-                            })
+                        })
                     ));
                 }
 
@@ -772,7 +767,8 @@ public class interactable : MonoBehaviour
                 {
                     myAnimator.SetTrigger("action1");
                     //sfx
-                } else if (var1 == 1) //feedable
+                }
+                else if (var1 == 1) //feedable
                 {
                     myAnimator.SetTrigger("action1");
                     globalState.treeScene.transform.Find("hand_reach").GetComponent<Animator>().SetTrigger("action4");
@@ -809,7 +805,8 @@ public class interactable : MonoBehaviour
                     yield return new WaitForSeconds(0.5f);
 
                     bird.GetComponent<Animator>().SetTrigger("action1");
-                } else if (var1 == 1) //fed and clicks egg
+                }
+                else if (var1 == 1) //fed and clicks egg
                 {
                     //something magical
                     print("something magical");
@@ -818,7 +815,6 @@ public class interactable : MonoBehaviour
                     yield return new WaitForSeconds(1f);
                     camMovement.cam.Play("camTreeFall"); //the fall
                 }
-
 
                 break;
             case "worm":
@@ -845,7 +841,7 @@ public class interactable : MonoBehaviour
                     //if reaches here, satisfies: thrown and played ball, thrown and played stick
                     //trigger ending anim
                     pup.Play("dPlayBallEnding");
-                   
+
                     gameObject.SetActive(false); //deactivate ball
 
                     yield return new WaitForSeconds(5);
@@ -940,7 +936,6 @@ public class interactable : MonoBehaviour
                 //toggle off mouse based pos offset
                 hdd.transform.parent.GetComponent<MouseBasedCamShift>().setActive(false);
 
-
                 if (bl.var1 == 1)
                 {
                     pp.Play("dFetchBall");
@@ -964,7 +959,7 @@ public class interactable : MonoBehaviour
 
             /////////////////////
             case "rightHandFlowers":
-                
+
                 myAnimator.SetTrigger("fadeOut");
                 GetComponent<interactable>().clickable = false;
                 yield return new WaitForSeconds(2);
@@ -984,7 +979,7 @@ public class interactable : MonoBehaviour
 
             case "her_flo":
                 myAnimator.SetTrigger("action4");
-                
+
                 HideAndSeek hs = camMovement.edgeScroller.transform.GetComponent<HideAndSeek>();
                 hs.hideStatus = -1;
                 hs.found[1] = true;
@@ -1037,6 +1032,8 @@ public class interactable : MonoBehaviour
                 GetComponent<Collider2D>().enabled = false;
                 //camMovement.enable.darkCover.enabled = true;
                 //camMovement.enable.darkCover.Play("idle");
+
+                camMovement.edgeScroller.disableEdgeScroller();
 
                 yield return new WaitForSeconds(1.5f);
 
@@ -1132,7 +1129,7 @@ public class interactable : MonoBehaviour
 
             case "fish1":
 
-                if(var1 == 0)
+                if (var1 == 0)
                 {
                     transform.parent.parent.GetComponent<Animator>().SetTrigger("action1");
                 }
@@ -1216,7 +1213,6 @@ public class interactable : MonoBehaviour
                 }
                 break;
 
-
             case "fish2":
                 transform.parent.parent.GetComponent<Animator>().SetTrigger("action3"); //fish interact
 
@@ -1291,17 +1287,17 @@ public class interactable : MonoBehaviour
                 myAnimator.Play("rippleInteract");
                 globalState.audio.playSFX(9, 6 + var1); //distant bell
                 globalState.audio.playSFX(9, 24); //windbell
-                
 
                 Transform leafBatch = globalState.parkScene.transform.Find("flat/her/leaves" + var1);
                 leafBatch.gameObject.SetActive(true);
 
-                foreach(Transform leaf in leafBatch)
+                foreach (Transform leaf in leafBatch)
                 {
-                    StartCoroutine(Global.Chain(this, 
+                    StartCoroutine(Global.Chain(this,
                     Global.WaitForSeconds(Random.Range(0f, 0.7f)),
-                    Global.Do(() => {
-                        leaf.GetComponent<Animator>().Play("leafFall"+Random.Range(1, 5));
+                    Global.Do(() =>
+                    {
+                        leaf.GetComponent<Animator>().Play("leafFall" + Random.Range(1, 5));
                     })));
 
                 }
@@ -1313,8 +1309,8 @@ public class interactable : MonoBehaviour
                 yield return new WaitForSeconds(5f);
 
                 globalState.globalClickable = true;
-                
-                if(var1 < 3)
+
+                if (var1 < 3)
                 {
                     //continue
 
@@ -1326,7 +1322,7 @@ public class interactable : MonoBehaviour
                     globalState.parkScene.transform.Find("flat/her").GetComponent<Animator>().SetTrigger("fadeIn");
 
                     //enable individual leaves interact
-                    for (int r=1; r<=3; r++)
+                    for (int r = 1; r <= 3; r++)
                     {
 
                         Transform currBatch = globalState.parkScene.transform.Find("flat/her/leaves" + r);
@@ -1338,8 +1334,6 @@ public class interactable : MonoBehaviour
                         }
                     }
 
-
-
                 }
 
                 break;
@@ -1349,17 +1343,16 @@ public class interactable : MonoBehaviour
                 GetComponent<Collider2D>().enabled = false;
                 globalState.audio.playSFX(0, Random.Range(4, 8)); //fall sfx
 
-
                 Animator l = transform.parent.GetComponent<Animator>();
                 l.Play("leafShow");
-                l.Play("leafFallDown"+Random.Range(1,5));
+                l.Play("leafFallDown" + Random.Range(1, 5));
                 globalState.globalClickable = false;
 
                 yield return new WaitForSeconds(1f);
 
                 globalState.globalClickable = true;
                 globalState.leavesFall += 1;
-                if(globalState.leavesFall >= 30) //all clicked
+                if (globalState.leavesFall >= 30) //all clicked
                 {
                     yield return new WaitForSeconds(1);
                     //some sfx reaction
@@ -1424,12 +1417,10 @@ public class interactable : MonoBehaviour
 
                         yield return new WaitForSeconds(3);
 
-
                         if (globalState.graveyardLeaves >= 5)
                         {
                             StartCoroutine(graveyardConditionMetCoroutine());
                         }
-
 
                     }
                     else
@@ -1453,8 +1444,6 @@ public class interactable : MonoBehaviour
 
                 yield return new WaitForSeconds(2);
 
-                
-
                 globalState.graveyardScene.transform.Find("dark_cover").GetComponent<Animator>().Play("s1s2transition"); //will auto-transition to s2
                 //disable lightening
                 globalState.graveyardScene.transform.Find("sky").GetComponent<weather>().terminateLightning();
@@ -1462,7 +1451,7 @@ public class interactable : MonoBehaviour
                 yield return new WaitForSeconds(3);
 
                 Transform lvs = globalState.graveyardScene.transform.Find("leavesInteractable");
-                foreach(Transform lf in lvs)
+                foreach (Transform lf in lvs)
                 {
                     interactable ita = lf.GetComponent<interactable>();
                     ita.var1 = 1;
@@ -1583,7 +1572,7 @@ public class interactable : MonoBehaviour
 
                 globalState.globalClickable = false;
 
-                Transform mg = globalState.homeScene.transform.Find("mug"), 
+                Transform mg = globalState.homeScene.transform.Find("mug"),
                     mug_hand = globalState.homeScene.transform.Find("hand_mug");
                 mug_hand.gameObject.SetActive(true);
                 mug_hand.GetComponent<Animator>().SetTrigger("action1"); //hand out and in 
@@ -1596,7 +1585,6 @@ public class interactable : MonoBehaviour
                 mg.GetComponent<Animator>().SetTrigger("fadeIn");
                 globalState.audio.playSFX(11, 5);
 
-
                 globalState.globalClickable = true;
 
                 if (globalState.checkHomeSceneItemCondition())
@@ -1607,7 +1595,6 @@ public class interactable : MonoBehaviour
                 }
 
                 yield return new WaitForSeconds(1f);
-                
 
                 break;
             /////////////////////
@@ -1618,14 +1605,14 @@ public class interactable : MonoBehaviour
                 if (globalState.enable.mm.showingDetail)
                 {
                     //return to full item list if showing item detail
-                    globalState.enable.mm.itemOnDisplay.itemOnClick(); 
+                    globalState.enable.mm.itemOnDisplay.itemOnClick();
 
                 }
                 else
                 {
                     globalState.enable.closeMemorabiliaUI();
                 }
-                
+
                 break;
 
         }
@@ -1638,7 +1625,6 @@ public class interactable : MonoBehaviour
             //myAnimator.Play("empty");
 
             float rd = Random.Range(0f, 1f);
-
 
             if (rd <= 0.333f)
             {
@@ -1656,9 +1642,8 @@ public class interactable : MonoBehaviour
                 var1 = 1;
             }
 
-
-
-        } else if (parentName.Equals("pup")) //one of pup sprites
+        }
+        else if (parentName.Equals("pup")) //one of pup sprites
         {
             globalState.audio.playSFX(6, Random.Range(1, 4));
 
@@ -1714,15 +1699,16 @@ public class interactable : MonoBehaviour
                 d1.var3 = 5; //prevent this code from being reached again
             }
 
-        } else if (name[0] == 'n' && parentName.Equals("notes"))
+        }
+        else if (name[0] == 'n' && parentName.Equals("notes"))
         {
             int noteIndex = int.Parse(name[1].ToString());
 
             NotesRecord notesRecord = transform.parent.parent.GetComponent<NotesRecord>();
             notesRecord.recordNote(noteIndex);
 
-
-        } else if (parentName.Equals("rose") || parentName.Equals("hibiscus"))
+        }
+        else if (parentName.Equals("rose") || parentName.Equals("hibiscus"))
         {
             if (var1 == 0)
             {
@@ -1734,10 +1720,10 @@ public class interactable : MonoBehaviour
                 if (globalState.gardenSceneFlowerCount >= 14) //total num flo; effect
                 {
                     //trigger effect
-                    
+
                     camMovement.mouseBasedCamShift.setActive(false);
 
-                    Transform center = globalState.gardenScene.transform.Find("center"), left = globalState.gardenScene.transform.Find("left"), 
+                    Transform center = globalState.gardenScene.transform.Find("center"), left = globalState.gardenScene.transform.Find("left"),
                         right = globalState.gardenScene.transform.Find("right");
 
                     Transform up_front = center.Find("up_front"), flowers1 = center.Find("flowers1"), bottomLeft = center.Find("bottomLeft"),
@@ -1781,7 +1767,6 @@ public class interactable : MonoBehaviour
                     yield return new WaitForSeconds(1);
                     camMovement.cam.Play("camGardenNod");
 
-
                     yield return new WaitForSeconds(1f);
                     her.switchToImgState(1);
 
@@ -1810,7 +1795,8 @@ public class interactable : MonoBehaviour
                 myAnimator.SetTrigger("action" + rand);
 
             }
-        } else if (parentName.Equals("stars"))
+        }
+        else if (parentName.Equals("stars"))
         {
             GetComponent<AudioSource>().Play();
             clickable = false; //disable star clicking check
@@ -1820,29 +1806,31 @@ public class interactable : MonoBehaviour
             starsManage.currActiveStarIndex += 1;
             starsManage.startStarCheck();
 
-        }else if (parentName.Equals("mandarin_peeled")) //mandarin slice
+        }
+        else if (parentName.Equals("mandarin_peeled")) //mandarin slice
         {
             globalState.globalClickable = false;
             globalState.mandarinConsumed += 1; //increment count
 
-            if(globalState.mandarinConsumed == 5)
+            if (globalState.mandarinConsumed == 5)
             {//if at 5th piece
 
                 Animator hhh = globalState.bickerScene.transform.Find("her").GetComponent<Animator>();
                 Transform si_2 = globalState.bickerScene.transform.Find("screenInteract2");
 
-                StartCoroutine(Global.Chain(this, Global.Do(()=> {
+                StartCoroutine(Global.Chain(this, Global.Do(() =>
+                {
                     si_2.GetComponent<interactable>().var1 = 2;
                     //her turn, then face forward
-                    
+
                     hhh.Play("girlTurnedTiltHead");
-                }), Global.WaitForSeconds(2.5f), 
-                    Global.Do(()=> { hhh.Play("girlTurned"); })));
+                }), Global.WaitForSeconds(2.5f),
+                    Global.Do(() => { hhh.Play("girlTurned"); })));
             }
 
             clickable = false;
             myAnimator.SetTrigger("fadeOut");
-            
+
             yield return new WaitForSeconds(1);
             globalState.audio.playSFX(8, 8);
             yield return new WaitForSeconds(1);
@@ -1852,7 +1840,6 @@ public class interactable : MonoBehaviour
 
             closeup.gameObject.SetActive(true);
             closeup.GetComponent<Animator>().SetTrigger("action1"); //fork out
-            
 
             Transform si2 = globalState.bickerScene.transform.Find("screenInteract2");
             si2.gameObject.SetActive(true);
@@ -1888,15 +1875,15 @@ public class interactable : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
             globalState.globalClickable = true;
 
-
-        }else if (name.Equals("img") && transform.parent.parent.name.Equals("objects"))
+        }
+        else if (name.Equals("img") && transform.parent.parent.name.Equals("objects"))
         {
             Rigidbody2D rb = GetComponent<Rigidbody2D>();
 
             if (Mathf.Abs(rb.rotation) < 5000) //TODO change to 8000
             {
                 int sign = (rb.rotation > 0) ? 1 : -1;
-                rb.AddTorque(120000 * sign); 
+                rb.AddTorque(120000 * sign);
             }
             else //light up
             {
@@ -1907,7 +1894,6 @@ public class interactable : MonoBehaviour
                 globalState.klimtRotate += 1;
 
                 Animator pt = globalState.parkScene.transform.Find("klimt/bg/pattern").GetComponent<Animator>();
-
 
                 switch (globalState.klimtRotate)
                 {
@@ -1925,13 +1911,15 @@ public class interactable : MonoBehaviour
                     case 14:
                         animEventLink collage = globalState.parkScene.transform.Find("collage").GetComponent<animEventLink>();
 
-                        StartCoroutine(Global.Chain(this, Global.WaitForSeconds(2), Global.Do(()=> {
+                        StartCoroutine(Global.Chain(this, Global.WaitForSeconds(2), Global.Do(() =>
+                        {
                             globalState.enable.darkCover.SetTrigger("fadeInWhite");
                             //sfx
                             globalState.audio.playSFX(9, 30); //deep thud
-                        }), 
-                            Global.WaitForSeconds(3), 
-                            Global.Do(()=> {
+                        }),
+                            Global.WaitForSeconds(3),
+                            Global.Do(() =>
+                            {
                                 collage.gameObject.SetActive(true);
                                 collage.collage();
                             })));
@@ -1941,12 +1929,14 @@ public class interactable : MonoBehaviour
 
             }
 
-        }else if (parentName.Equals("leavesInteractable"))
+        }
+        else if (parentName.Equals("leavesInteractable"))
         {
             globalState.globalClickable = false;
 
-            if (var1 == 0) { 
-                
+            if (var1 == 0)
+            {
+
                 myAnimator.SetTrigger("action1");
                 var1 = 1;
                 clickable = false;
@@ -1972,7 +1962,7 @@ public class interactable : MonoBehaviour
 
                 globalState.leavesColored += 1;
 
-                if(globalState.leavesColored >= 8)
+                if (globalState.leavesColored >= 8)
                 {
                     //all leaves clicked, show env cols
                     camMovement.cam.SetTrigger("stormEnd");
@@ -1987,14 +1977,13 @@ public class interactable : MonoBehaviour
                         leaves = globalState.graveyardScene.transform.Find("leaves"), blown = globalState.graveyardScene.transform.Find("blown_leaves"),
                         rain = globalState.graveyardScene.transform.Find("rain"), lz = globalState.graveyardScene.transform.Find("grave/lines"),
                         gve = globalState.graveyardScene.transform.Find("grave"), lighterGray = globalState.graveyardScene.transform.Find("lighter_darkness");
-                    
 
                     leaves.Find("c").gameObject.SetActive(true);
                     leaves.Find("c").GetComponent<Animator>().SetTrigger("fadeInSlow");
                     tree.Find("c").gameObject.SetActive(true);
                     tree.Find("c").GetComponent<Animator>().SetTrigger("fadeInSlow");
 
-                    foreach(Transform li in transform.parent)
+                    foreach (Transform li in transform.parent)
                     {
                         //light up non-interacted leaf
                         Transform li_c = li.transform.Find("c");
@@ -2008,7 +1997,7 @@ public class interactable : MonoBehaviour
 
                     sky.Find("storm").gameObject.SetActive(false);
 
-                    foreach(Transform bll in blown)
+                    foreach (Transform bll in blown)
                     {
                         bll.GetComponent<imgSwitcher>().switchToImgState(1);
                         bll.GetComponent<Animator>().SetTrigger("fadeIn");
@@ -2027,31 +2016,22 @@ public class interactable : MonoBehaviour
 
                     lz.GetComponent<Animator>().SetTrigger("fadeOut");
 
-                    
-
                     yield return new WaitForSeconds(3);
 
                     gve.GetComponent<interactable>().var1 = 1; //after this, click will trigger flower action
                 }
             }
 
-
             globalState.globalClickable = true;
 
         }
 
-
     }
-
-
-
-
-
-
 
     IEnumerator graveyardConditionMetCoroutine()
     {
-        if (!globalState.graveyardConditionMetTriggered) { 
+        if (!globalState.graveyardConditionMetTriggered)
+        {
 
             globalState.globalClickable = false;
             //sfx
@@ -2071,7 +2051,6 @@ public class interactable : MonoBehaviour
 
         }
     }
-
 
     public bool mouseAtCornerBottomLeft()
     {

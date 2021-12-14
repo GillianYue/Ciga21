@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 //follows targets in world position
@@ -66,7 +65,6 @@ public class CamMovement : MonoBehaviour
         }
     }
 
-
     //given world pos, cam will zoom in on the object for a few secs and zoom out
     public void camFocusOnObject(Vector2 pos)
     {
@@ -102,7 +100,6 @@ public class CamMovement : MonoBehaviour
         globalStates.globalClickable = true;
     }
 
-
     public bool destReached()
     {
         float d = Vector2.Distance(new Vector2(destPos.x, destPos.y), new Vector2(transform.position.x, transform.position.y));
@@ -126,8 +123,8 @@ public class CamMovement : MonoBehaviour
         yield return moveWorldDestAccl(dest, true);
     }
 
-        //non linear cam movement (linear movement mixed in if set so)
-        public IEnumerator moveWorldDestAccl(Vector3 dest, bool restoreToPrevState)
+    //non linear cam movement (linear movement mixed in if set so)
+    public IEnumerator moveWorldDestAccl(Vector3 dest, bool restoreToPrevState)
     {
         //store current cam movement data
         CamMovementData data = new CamMovementData(followActive, mouseBasedCamShift.getActive(), destPos);
@@ -139,10 +136,11 @@ public class CamMovement : MonoBehaviour
 
         float startTime = Time.time;
 
-        yield return new WaitUntil(() => {
+        yield return new WaitUntil(() =>
+        {
             if (destReached())
             {
-                if(restoreToPrevState) restoreData(data); //restore to prev states
+                if (restoreToPrevState) restoreData(data); //restore to prev states
 
                 //print("time taken: " + (Time.time - startTime));
                 return true;
@@ -165,7 +163,6 @@ public class CamMovement : MonoBehaviour
         //store current cam movement data
         CamMovementData data = new CamMovementData(this.followActive, mouseBasedCamShift.getActive(), destPos);
 
-
         destPos = new Vector3(dest.x, dest.y, destPos.z);
 
         float startTime = Time.time;
@@ -175,14 +172,11 @@ public class CamMovement : MonoBehaviour
         restoreData(data); //restore to prev states
     }
 
-
-
     //linear cam movement
     public static IEnumerator moveCamToLinearInSecs(CamMovement cam, GameObject e, int x, int y, float sec, bool[] done)
     {
         //store current cam movement data
         CamMovementData data = new CamMovementData(cam.followActive, cam.mouseBasedCamShift.getActive(), cam.destPos);
-
 
         float xDist = x - e.transform.position.x;
         float yDist = y - e.transform.position.y;
@@ -204,14 +198,12 @@ public class CamMovement : MonoBehaviour
         return moveCamToLinearInSecs(cam, e, (int)dest.x, (int)dest.y, sec, done);
     }
 
-
     public void restoreData(CamMovementData dt)
     {
         followActive = dt.pFollowActive;
         if (dt.pBreatheActive) mouseBasedCamShift.startCamShift();
         if (dt.pFollowActive) destPos = dt.pDest;
     }
-
 
     public void edgeScrollerArrive(int destLv) { if (edgeScroller != null) { edgeScroller.active = true; edgeScroller.currSubsceneIndex = destLv; } }
 }
@@ -230,6 +222,5 @@ public class CamMovementData
         pBreatheActive = prevBreatheActive;
         pDest = prevDest;
     }
-
 
 }

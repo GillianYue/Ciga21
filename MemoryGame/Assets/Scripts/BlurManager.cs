@@ -1,10 +1,9 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BlurManager : MonoBehaviour
 {
-    public blurEffectAnim backBlur, centerBlur, frontBlur; 
+    public blurEffectAnim backBlur, centerBlur, frontBlur;
     public imgSwitcher table;
     public Animator mainCam, darkCover, her, myHand;
     public interactable leaf;
@@ -12,17 +11,17 @@ public class BlurManager : MonoBehaviour
     public Animator scene3bg;
     public enabler enablr;
 
-    #if UNITY_STANDALONE
+#if UNITY_STANDALONE
     public SteamAchievements steamAchievements;
-    #endif
+#endif
 
     void Start()
     {
         if (enablr == null) enablr = GetComponent<enabler>();
 
-        #if UNITY_STANDALONE
+#if UNITY_STANDALONE
         if (steamAchievements == null) steamAchievements = GetComponent<SteamAchievements>();
-        #endif
+#endif
 
     }
 
@@ -30,7 +29,6 @@ public class BlurManager : MonoBehaviour
     {
 
     }
-
 
     //when pasta first appears
     public void scene1Clear1()
@@ -106,7 +104,7 @@ public class BlurManager : MonoBehaviour
                 Resources.UnloadUnusedAssets(); //unload
                 break;
             case 6: //pup
-                
+
                 enablr.audio.fadeVolumeSFX(6, 0, 2, 0);
 
                 yield return StartCoroutine(generalLevelPassEffect());
@@ -119,7 +117,7 @@ public class BlurManager : MonoBehaviour
                 yield return StartCoroutine(generalLevelPassEffect());
                 enablr.globalState.revealAndHideStuff(7, false, true); //also needs to hide subscene
                 enablr.audio.fadeVolumeSFX(7, 15, 2, 0);
-                enablr.audio.fadeVolumeSFX(7, 13, 1f, 0f); 
+                enablr.audio.fadeVolumeSFX(7, 13, 1f, 0f);
                 enablr.setUpLevel(8);
 
                 Destroy(enablr.globalState.gardenScene);
@@ -169,14 +167,14 @@ public class BlurManager : MonoBehaviour
 
             default: //if not specified, use general level pass effect
                 yield return StartCoroutine(generalLevelPassEffect());
-                enablr.setUpLevel(level+1);
+                enablr.setUpLevel(level + 1);
                 break;
         }
 
-        #if UNITY_STANDALONE
+#if UNITY_STANDALONE
         if(level != 11) //if 11, wait until very end to update
         steamAchievements.updateAch2Progress(level);
-        #endif
+#endif
     }
 
     IEnumerator generalLevelPassEffect()
@@ -247,7 +245,6 @@ public class BlurManager : MonoBehaviour
 
         yield return StartCoroutine(generalLevelPassEffect());
 
-
         Destroy(GameObject.Find("radio(Clone)"));
         Destroy(GameObject.Find("telephone(Clone)"));
         frontBlur.gameObject.SetActive(false);
@@ -268,7 +265,7 @@ public class BlurManager : MonoBehaviour
 
         GetComponent<AudioManager>().playSFX(9, 2);
 
-        her.SetTrigger("clothMask" );
+        her.SetTrigger("clothMask");
         yield return new WaitForSeconds(3.2f);
         //her.SetTrigger("eyeMask");
         yield return new WaitForSeconds(2);
@@ -317,8 +314,7 @@ public class BlurManager : MonoBehaviour
 
         darkCover.SetTrigger("fadeIn");
         GetComponent<AudioManager>().playSFX(9, 3);
-        
-    }
 
+    }
 
 }

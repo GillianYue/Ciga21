@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class textAutoLanguage : MonoBehaviour
@@ -18,7 +16,6 @@ public class textAutoLanguage : MonoBehaviour
         if (enable == null) enable = FindObjectOfType<enabler>();
         if (myText == null) myText = GetComponent<Text>();
 
-        
     }
 
     void Start()
@@ -29,7 +26,7 @@ public class textAutoLanguage : MonoBehaviour
 
     void Update()
     {
-        
+
     }
 
     public void switchTextDisplayToCurrentLanguage()

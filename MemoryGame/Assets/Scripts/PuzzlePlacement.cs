@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PuzzlePlacement : MonoBehaviour
 {
@@ -35,11 +33,9 @@ public class PuzzlePlacement : MonoBehaviour
                 puzzlePieces[p].gameObject.SetActive(false);
             }
 
-            
-
-
             if (brokenVase == null) brokenVase = globalState.vaseScene.transform.Find("broken_vase").gameObject;
-        }else if(puzzleType == 1)
+        }
+        else if (puzzleType == 1)
         {
             puzzleFit = new bool[puzzleFitLocalPositions.Length];
             puzzleCheckNum = puzzleFitLocalPositions.Length;
@@ -48,13 +44,12 @@ public class PuzzlePlacement : MonoBehaviour
 
     void Start()
     {
-        
-    }
 
+    }
 
     void Update()
     {
-        
+
     }
 
     public bool checkForPlacement(int puzzleID, PuzzlePiece puzzlePiece)
@@ -63,7 +58,7 @@ public class PuzzlePlacement : MonoBehaviour
 
         if (puzzleID > puzzleFitLocalPositions.Length) Debug.LogError("invalid puzzle id");
 
-        if(Vector2.Distance(puzzlePiece.transform.localPosition, puzzleFitLocalPositions[puzzleID - 1]) <= errorAllowed)
+        if (Vector2.Distance(puzzlePiece.transform.localPosition, puzzleFitLocalPositions[puzzleID - 1]) <= errorAllowed)
         {
             puzzlePiece.transform.localPosition = puzzleFitLocalPositions[puzzleID - 1]; //fitting
 
@@ -86,35 +81,37 @@ public class PuzzlePlacement : MonoBehaviour
         if (puzzleType == 0)
         {
 
-                    if (puzzleCheckNum == 4) //puzzle pieces fitted
+            if (puzzleCheckNum == 4) //puzzle pieces fitted
+            {
+                puzzleCheckNum = 7; //check for flowers next
+                                    //show flowers
+                for (int p = 4; p < 7; p++)
                 {
-                    puzzleCheckNum = 7; //check for flowers next
-                                        //show flowers
-                    for (int p = 4; p < 7; p++)
+                    puzzlePieces[p].gameObject.SetActive(true);
+                    puzzlePieces[p].GetComponent<Animator>().SetTrigger("fadeIn");
+                }
+
+            }
+            else if (puzzleCheckNum == 7) //flowers also fitted
+            {
+                GetComponent<Animator>().SetTrigger("fadeOut"); //puzzle override fadeOut
+                transform.Find("f1").GetComponent<Animator>().SetTrigger("fadeOut");
+                transform.Find("f2").GetComponent<Animator>().SetTrigger("fadeOut");
+                transform.Find("f3").GetComponent<Animator>().SetTrigger("fadeOut");
+
+                globalState.vaseScene.transform.Find("soccer").GetComponent<Collider2D>().enabled = true;
+
+                StartCoroutine(Global.Chain(this, Global.WaitForSeconds(2),
+                    Global.Do(() =>
                     {
-                        puzzlePieces[p].gameObject.SetActive(true);
-                        puzzlePieces[p].GetComponent<Animator>().SetTrigger("fadeIn");
-                    }
-
-                }else if(puzzleCheckNum == 7) //flowers also fitted
-                {
-                    GetComponent<Animator>().SetTrigger("fadeOut"); //puzzle override fadeOut
-                    transform.Find("f1").GetComponent<Animator>().SetTrigger("fadeOut");
-                    transform.Find("f2").GetComponent<Animator>().SetTrigger("fadeOut");
-                    transform.Find("f3").GetComponent<Animator>().SetTrigger("fadeOut");
-
-                    globalState.vaseScene.transform.Find("soccer").GetComponent<Collider2D>().enabled = true;
-
-                    StartCoroutine(Global.Chain(this, Global.WaitForSeconds(2), 
-                        Global.Do(() => {
-                            brokenVase.GetComponent<imgSwitcher>().switchToNextImgState();
-                            brokenVase.GetComponent<Animator>().SetTrigger("fadeIn");
-                        } )));
-                }
-                else
-                {
-                    Debug.LogError("something wrong");
-                }
+                        brokenVase.GetComponent<imgSwitcher>().switchToNextImgState();
+                        brokenVase.GetComponent<Animator>().SetTrigger("fadeIn");
+                    })));
+            }
+            else
+            {
+                Debug.LogError("something wrong");
+            }
 
         }
         else if (puzzleType == 1)
@@ -124,9 +121,7 @@ public class PuzzlePlacement : MonoBehaviour
             flat.gameObject.SetActive(true);
             flat.flat();
 
-
         }
-
 
     }
 }

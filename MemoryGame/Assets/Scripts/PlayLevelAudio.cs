@@ -1,11 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayLevelAudio : MonoBehaviour
 {
     GameObject gameControl;
-
 
     void Awake()
     {
@@ -52,12 +49,10 @@ public class PlayLevelAudio : MonoBehaviour
         gameControl.GetComponent<AudioManager>().playSFX(8, index);
     }
 
-
     public void playParkSceneSFX(int index)
     {
         gameControl.GetComponent<AudioManager>().playSFX(9, index);
     }
-
 
     public void playGraveyardSceneSFX(int index)
     {
@@ -68,8 +63,5 @@ public class PlayLevelAudio : MonoBehaviour
     {
         gameControl.GetComponent<AudioManager>().playSFX(11, index);
     }
-
-
-
 
 }

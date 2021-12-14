@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,25 +18,28 @@ public class animEventLink : MonoBehaviour
 
     private void Start()
     {
-        if(name[0] == 'l' && transform.parent.name.Equals("up_front"))
+        if (name[0] == 'l' && transform.parent.name.Equals("up_front"))
         {
 
             GetComponent<Animator>().SetTrigger("action" + name[1]);
-         //   GetComponent<Animator>().SetTrigger("fadeIn"); //fades in lavendar color
+            //   GetComponent<Animator>().SetTrigger("fadeIn"); //fades in lavendar color
 
-
-        }else if (transform.childCount > 0 && transform.GetChild(0).name.Equals("bush"))
+        }
+        else if (transform.childCount > 0 && transform.GetChild(0).name.Equals("bush"))
         {
             StartCoroutine(Global.Chain(this,
                     Global.WaitForSeconds(Random.Range(0f, 2f)),
-                    Global.Do(() => {
+                    Global.Do(() =>
+                    {
                         GetComponent<Animator>().Play("bush" + (Random.Range(1, 3)));
                     })));
 
-        }else if(name[0] == 'f' && transform.parent.name.Equals("foxtail"))
+        }
+        else if (name[0] == 'f' && transform.parent.name.Equals("foxtail"))
         {
             GetComponent<Animator>().SetTrigger("action" + Random.Range(1, 5));
-        }else if (name.Equals("bushesCloseup"))
+        }
+        else if (name.Equals("bushesCloseup"))
         {
             GetComponent<Animator>().SetTrigger("action1"); //default action
         }
@@ -100,7 +102,7 @@ public class animEventLink : MonoBehaviour
             bl.var1 = 0;
 
         }
-        else if(itemIndex == 1) //stick
+        else if (itemIndex == 1) //stick
         {
             Transform stick = globalState.pupScene.transform.Find("stick").GetChild(0);
             stick.gameObject.SetActive(true);
@@ -110,7 +112,8 @@ public class animEventLink : MonoBehaviour
 
             interactable stk = stick.GetComponent<interactable>();
             stk.var1 = 0;
-        }else if(itemIndex == 2) //still ball, but signals ending anim for scene
+        }
+        else if (itemIndex == 2) //still ball, but signals ending anim for scene
         {
             Transform ball = globalState.pupScene.transform.Find("ball").GetChild(0);
             ball.transform.localPosition = new Vector2(0, 0);
@@ -137,7 +140,8 @@ public class animEventLink : MonoBehaviour
             Global.Do(() =>
                     {
                         camMovement.vfx.Play("focusOnHer");
-                    }), Global.WaitForSeconds(4.5f), Global.Do(()=> {         
+                    }), Global.WaitForSeconds(4.5f), Global.Do(() =>
+                    {
                         //end of scene
                         enable.GetComponent<BlurManager>().levelPassEffect(6);
                     })));
@@ -165,13 +169,13 @@ public class animEventLink : MonoBehaviour
         StartCoroutine(Global.Chain(this, Global.WaitForSeconds(4),
                         Global.Do(() =>
                         {
-                           //sfx laughter
-                        }), Global.WaitForSeconds(1), Global.Do(() => {
-                       //end of scene
-                       enable.GetComponent<BlurManager>().levelPassEffect(8);
-    })));
+                            //sfx laughter
+                        }), Global.WaitForSeconds(1), Global.Do(() =>
+                        {
+                            //end of scene
+                            enable.GetComponent<BlurManager>().levelPassEffect(8);
+                        })));
     }
-
 
     public void deactivateGO() { gameObject.SetActive(false); }
 
@@ -212,7 +216,7 @@ public class animEventLink : MonoBehaviour
         globalState.audio.playSFX(5, 0);
 
         yield return new WaitForSeconds(3);
-        f2.GetComponent<imgSwitcher>().switchToImgState(1); 
+        f2.GetComponent<imgSwitcher>().switchToImgState(1);
         f2.Find("light").gameObject.SetActive(false);
         f2.Find("lightAway").gameObject.SetActive(true);
 
@@ -225,7 +229,7 @@ public class animEventLink : MonoBehaviour
         stand.GetComponent<Animator>().SetTrigger("fadeOut");
         f2.GetComponent<imgSwitcher>().switchToImgState(2); //take beer
         yield return new WaitForSeconds(1.5f);
-        
+
         f1.GetComponent<imgSwitcher>().switchToImgState(3); //take beer
         Transform friendBeer = f1.Find("beer");
         friendBeer.gameObject.SetActive(true);
@@ -251,12 +255,11 @@ public class animEventLink : MonoBehaviour
         f1.Find("lightAway").gameObject.SetActive(false);
 
         yield return new WaitForSeconds(1.5f);
-        f3.GetComponent<imgSwitcher>().switchToImgState(1); 
+        f3.GetComponent<imgSwitcher>().switchToImgState(1);
 
         yield return new WaitForSeconds(2);
         handAnim.SetTrigger("action3");
         yield return new WaitForSeconds(1);
-
 
         camMovement.camHolder.Play("camShiftLeftBack");
         yield return new WaitForSeconds(4);
@@ -278,7 +281,6 @@ public class animEventLink : MonoBehaviour
         //TODO sfx to the right
         camMovement.camHolder.Play("camShiftRight"); //turn right
 
-
         yield return new WaitForSeconds(1);
         friendBeer.GetComponent<Animator>().SetTrigger("action1"); //raise
 
@@ -291,10 +293,10 @@ public class animEventLink : MonoBehaviour
         MouseBasedCamShift camShift = handAnim.GetComponent<MouseBasedCamShift>();
         camShift.setActive(true); //enable mouse based movement
 
-
-
-        yield return new WaitUntil(() => {
-            return (Vector2.Distance(handAnim.transform.position, friendBeer.position) < 410); }); //wait til close enough
+        yield return new WaitUntil(() =>
+        {
+            return (Vector2.Distance(handAnim.transform.position, friendBeer.position) < 410);
+        }); //wait til close enough
 
         handAnim.GetComponent<MouseBasedCamShift>().setActive(false);
         handAnim.enabled = true;
@@ -323,7 +325,6 @@ public class animEventLink : MonoBehaviour
             myself = globalState.seaScene.transform.Find("myself");
         myself.Find("myself_light").gameObject.SetActive(false); //disable reflection
 
-       
         globalState.audio.fadeVolumeSFX(5, 8, 1, 0);
         globalState.audio.fadeVolumeSFX(5, 6, 3, 0.15f);
 
@@ -436,7 +437,6 @@ public class animEventLink : MonoBehaviour
 
         yield return new WaitForSeconds(2);
 
-
         h.Play("girlAwayQuickPeek");
 
         yield return new WaitForSeconds(1.5f);
@@ -508,7 +508,6 @@ public class animEventLink : MonoBehaviour
 
     public void setGlobalClickableFalse() { globalState.globalClickable = false; }
 
-
     public void glitchEffectEnd() { StartCoroutine(glitchEffectEndCoroutine()); }
 
     public IEnumerator glitchEffectEndCoroutine()
@@ -529,8 +528,6 @@ public class animEventLink : MonoBehaviour
         yield return new WaitForSeconds(1);
         Time.timeScale = 1.2f;
 
-        
-
         globalState.blurManager.centerBlur.setNewScale(3, 0.1f);
         yield return new WaitForSeconds(1);
         Time.timeScale = 1;
@@ -544,7 +541,6 @@ public class animEventLink : MonoBehaviour
         camMovement.enable.darkCover.SetTrigger("fadeIn");
         //wait then sfx tunnel footsteps
 
-
         yield return new WaitForSeconds(2);
         globalState.audio.fadeVolumeSFX(9, 1, 2, 0);
         globalState.audio.fadeVolumeSFX(9, 10, 2, 0);
@@ -555,18 +551,15 @@ public class animEventLink : MonoBehaviour
 
         yield return new WaitForSeconds(3);
 
-
         her.gameObject.SetActive(false);
         Transform kmt = globalState.parkScene.transform.Find("klimt");
         kmt.gameObject.SetActive(true);
         kmt.GetComponent<animEventLink>().klimt();
 
-        
         sr.gameObject.SetActive(false);
         hand3.gameObject.SetActive(false);
         glitch.gameObject.SetActive(false);
     }
-
 
     public void klimt() { StartCoroutine(klimtCoroutine()); }
 
@@ -580,7 +573,6 @@ public class animEventLink : MonoBehaviour
             cloth = transform.Find("her/clothMask").GetComponent<Animator>();
 
         fl.Play("onOffGlitch");
-
 
         Transform objs = transform.Find("objects");
         globalState.globalClickable = true;
@@ -597,8 +589,6 @@ public class animEventLink : MonoBehaviour
 
         yield return new WaitForSeconds(2);
 
-
-
     }
 
     public void collage()
@@ -613,12 +603,10 @@ public class animEventLink : MonoBehaviour
 
         transform.Find("clothMask").GetComponent<Animator>().Play("clothGlitch2");
 
-
         globalState.parkScene.transform.Find("klimt").gameObject.SetActive(false);
 
         enable.darkCover.SetTrigger("fadeOutWhite");
         yield return new WaitForSeconds(2);
-
 
     }
 
@@ -636,15 +624,12 @@ public class animEventLink : MonoBehaviour
         globalState.audio.playSFX(9, 30); //deep thud
         globalState.audio.fadeVolumeSFX(9, 20, 5, 0); //fade out scary violins
 
-
         globalState.enable.darkCover.SetTrigger("fadeInWhite");
         yield return new WaitForSeconds(2);
         globalState.parkScene.transform.Find("collage").gameObject.SetActive(false);
 
         globalState.enable.darkCover.SetTrigger("fadeOutWhite");
         yield return new WaitForSeconds(2);
-
-
 
     }
 
@@ -655,7 +640,7 @@ public class animEventLink : MonoBehaviour
 
     IEnumerator rosesCoroutine()
     {
-        
+
         globalState.globalClickable = false;
         camMovement.vfx.Play("noises");
         globalState.parkScene.transform.Find("flat").gameObject.SetActive(false);
@@ -682,13 +667,14 @@ public class animEventLink : MonoBehaviour
         herHosp.Find("face").gameObject.SetActive(false);
 
         int count = 0;
-        foreach(Transform r in roses)
+        foreach (Transform r in roses)
         {
             count += 1;
 
             StartCoroutine(Global.Chain(this,
                 Global.WaitForSeconds(count * 0.6f),
-                Global.Do(() => {
+                Global.Do(() =>
+                {
                     r.GetComponent<Animator>().Play("roseRotateDisappear");
                 })));
         }
@@ -721,16 +707,13 @@ public class animEventLink : MonoBehaviour
         Transform fc = herHosp.Find("face");
         fc.gameObject.SetActive(false);
 
-
         camMovement.vfx.Play("noisesFadeOut");
-
 
         hosp.GetComponent<Animator>().Play("hspFadeAction1");
 
         yield return new WaitForSeconds(3);
 
         yield return new WaitForSeconds(2);
-
 
         Animator hh = herHosp.GetComponent<Animator>();
         hh.SetTrigger("fadeIn"); //universe 
@@ -813,17 +796,17 @@ public class animEventLink : MonoBehaviour
         Transform bk = globalState.homeScene.transform.Find("book");
         bk.Find("texts").gameObject.SetActive(false);
         bk.Find("textsBtfl").gameObject.SetActive(true);
-        
+
         globalState.homeScene.transform.Find("btfl").gameObject.SetActive(true);
         globalState.homeScene.transform.Find("dog_away").gameObject.SetActive(false);
     }
 
     //also called from phone anim
-    public void btflFlyAction() { 
-        
+    public void btflFlyAction()
+    {
+
         globalState.homeScene.transform.Find("btfl").GetComponent<Animator>().SetTrigger("action1");
         StartCoroutine(flyActionSequence());
-
 
     }
 
@@ -861,20 +844,21 @@ public class animEventLink : MonoBehaviour
         hd.gameObject.SetActive(true);
         hd.GetComponent<Animator>().SetTrigger("action1"); //reach out
 
-        StartCoroutine(Global.Chain(this, Global.WaitForSeconds(2), Global.Do(() => {
+        StartCoroutine(Global.Chain(this, Global.WaitForSeconds(2), Global.Do(() =>
+        {
             //scene ending 
 
             //sfx hurried footsteps out
             //rushed exit
             camMovement.enable.darkCover.SetTrigger("fadeIn");
 
-        }), Global.WaitForSeconds(5), Global.Do(()=> {
+        }), Global.WaitForSeconds(5), Global.Do(() =>
+        {
             globalState.revealAndHideStuff(11, false); //hide curr scene GOs
 
             enable.setUpLevel(11, true); //subscene logic
         })));
-        }
-
+    }
 
     public void b1FadeIn()
     {
@@ -891,18 +875,17 @@ public class animEventLink : MonoBehaviour
         Transform b8 = transform.Find("b8");
         b8.gameObject.SetActive(true);
         Animator a = b8.GetComponent<Animator>();
-        
+
         a.SetTrigger("fadeIn");
         a.SetTrigger("action1");
 
     }
 
     public void pollockDone() { globalState.mirrorScene.transform.Find("girl").gameObject.SetActive(false); }
-    
+
     public void triggerStreetDialogue()
     {
         globalState.audio.fadeVolumeSFX(11, 8, 2, 0.4f); //ambience sound lower volume
-
 
         GetComponent<Animator>().enabled = false;
         //dialogue

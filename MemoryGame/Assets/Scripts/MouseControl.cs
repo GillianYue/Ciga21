@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class MouseControl : MonoBehaviour
 {
@@ -38,12 +37,12 @@ public class MouseControl : MonoBehaviour
                 {
 
                     //hovering on a clickable obj
-                   // print("hovering on " + itr.name);
+                    // print("hovering on " + itr.name);
                     if (mouseMode == MouseMode.cursor) toHand();
 
                     if (Input.GetMouseButtonDown(0))
                     {
-                        
+
                         itr.onClick();
                         print("clicked on " + itr.name);
                     }
@@ -54,27 +53,25 @@ public class MouseControl : MonoBehaviour
 
                     return;
 
-                }else //not hovering on clickable obj
+                }
+                else //not hovering on clickable obj
                 {
                     //print("not hovering");
                     if (mouseMode == MouseMode.hand) toCursor();
                 }
 
-
             }
             else //not hovering on clickable obj
             {
-                  //print("not hovering");
+                //print("not hovering");
                 if (mouseMode == MouseMode.hand) toCursor();
             }
-
 
         }
         else
         {
             if (mouseMode == MouseMode.hand) toCursor();
         }
-
 
     }
 

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class blurEffectAnim : MonoBehaviour
@@ -24,7 +22,7 @@ public class blurEffectAnim : MonoBehaviour
 
     void Start()
     {
-       
+
         maxScale = Mathf.Clamp(midPoint + intensity, 0, 12);
         minScale = Mathf.Clamp(midPoint - intensity, 0, 12);
 
@@ -44,7 +42,7 @@ public class blurEffectAnim : MonoBehaviour
             {
                 lerping = false;
                 timer = 0.5f; // to start at midpoint
-             //   print("lerp done" + myShader.GetFloat("_Size") + " " + midPoint);
+                              //   print("lerp done" + myShader.GetFloat("_Size") + " " + midPoint);
             }
         }
         else
@@ -54,7 +52,6 @@ public class blurEffectAnim : MonoBehaviour
         }
     }
 
-
     float oscillate(float time)
     {
         return Mathf.Lerp(minScale, maxScale, Mathf.Cos(time * fluctuateSpeed / Mathf.PI) / 2 + 0.5f);
@@ -62,7 +59,7 @@ public class blurEffectAnim : MonoBehaviour
 
     public void setNewScale(float newScale, float fluctuation)
     {
-        if(myShader == null) myShader = GetComponent<Image>().material;
+        if (myShader == null) myShader = GetComponent<Image>().material;
 
         lerping = true;
 

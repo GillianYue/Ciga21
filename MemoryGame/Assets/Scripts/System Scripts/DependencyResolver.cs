@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using UnityEngine;
 
 /// <summary>
@@ -235,7 +234,7 @@ public class DependencyResolver
             get
             {
                 return propertyInfo.PropertyType;
-            }            
+            }
         }
 
         /// <summary>
@@ -354,7 +353,7 @@ public class DependencyResolver
             return false;
         }
     }
-    
+
     /// <summary>
     /// Attempt to resolve a member dependency from anywhere in the scene.
     /// Returns false is no such dependency was found.
@@ -420,7 +419,7 @@ public class DependencyResolver
         {
             try
             {
-//                Debug.Log("Injecting object " + toInject.GetType().Name + " (GameObject: '" + toInject.gameObject.name + "') into " + injectable.GetType().Name + " at " + injectableMember.Category + " " + injectableMember.Name + " on GameObject '" + injectable.name + "'.", injectable);
+                //                Debug.Log("Injecting object " + toInject.GetType().Name + " (GameObject: '" + toInject.gameObject.name + "') into " + injectable.GetType().Name + " at " + injectableMember.Category + " " + injectableMember.Name + " on GameObject '" + injectable.name + "'.", injectable);
 
                 injectableMember.SetValue(injectable, toInject);
             }
@@ -446,22 +445,22 @@ public class DependencyResolver
         {
             if (!ResolveMemberDependencyFromHierarchy(injectable, injectableMember))
             {
-/*                Debug.LogError(
-                    "Failed to resolve dependency for " + injectableMember.Category + ". Member: " + injectableMember.Name + ", MonoBehaviour: " + injectable.GetType().Name + ", GameObject: " + injectable.gameObject.name + "\r\n" +
-                    "Failed to find a dependency that matches " + injectableMember.MemberType.Name + ".",
-                    injectable
-                );*/
+                /*                Debug.LogError(
+                                    "Failed to resolve dependency for " + injectableMember.Category + ". Member: " + injectableMember.Name + ", MonoBehaviour: " + injectable.GetType().Name + ", GameObject: " + injectable.gameObject.name + "\r\n" +
+                                    "Failed to find a dependency that matches " + injectableMember.MemberType.Name + ".",
+                                    injectable
+                                );*/
             }
         }
         else if (injectableMember.InjectFrom == InjectFrom.Anywhere)
         {
             if (!ResolveMemberDependencyFromAnywhere(injectable, injectableMember))
             {
-/*                Debug.LogError(
-                    "Failed to resolve dependency for " + injectableMember.Category + ". Member: " + injectableMember.Name + ", MonoBehaviour: " + injectable.GetType().Name + ", GameObject: " + injectable.gameObject.name + "\r\n" +
-                    "Failed to find a dependency that matches " + injectableMember.MemberType.Name + ".",
-                    injectable
-                );*/
+                /*                Debug.LogError(
+                                    "Failed to resolve dependency for " + injectableMember.Category + ". Member: " + injectableMember.Name + ", MonoBehaviour: " + injectable.GetType().Name + ", GameObject: " + injectable.gameObject.name + "\r\n" +
+                                    "Failed to find a dependency that matches " + injectableMember.MemberType.Name + ".",
+                                    injectable
+                                );*/
             }
         }
         else
@@ -510,7 +509,7 @@ public class DependencyResolver
 
         foreach (var injectable in injectables)
         {
-           //Debug.Log("processing " + injectable.ToString());
+            //Debug.Log("processing " + injectable.ToString());
             ResolveDependencies(injectable);
         }
     }

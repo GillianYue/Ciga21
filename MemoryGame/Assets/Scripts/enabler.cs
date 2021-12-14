@@ -1,8 +1,7 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 //general game level logic 
 public class enabler : MonoBehaviour
@@ -29,13 +28,13 @@ public class enabler : MonoBehaviour
 
     public Animator headphoneScreen;
 
-    #if UNITY_STANDALONE
+#if UNITY_STANDALONE
     public SteamAchievements steamAchievements;
-    #endif
+#endif
 
     public GameObject memorabiliaUI, quitUIWindow, UICanvas, menuUIWindow;
 
-    public bool mobile, gameOnPause;
+    public bool gameOnPause;
 
     public Animator[] capsuleHintTexts;
 
@@ -51,7 +50,7 @@ public class enabler : MonoBehaviour
         Application.targetFrameRate = 30;
 
         if (cam == null) cam = FindObjectOfType<CamMovement>();
-        if(globalState == null) globalState = GetComponent<globalStateStore>();
+        if (globalState == null) globalState = GetComponent<globalStateStore>();
         if (blurManager == null) blurManager = GetComponent<BlurManager>();
         if (audio == null) audio = GetComponent<AudioManager>();
         if (test == null) test = GetComponent<Tester>();
@@ -94,6 +93,7 @@ public class enabler : MonoBehaviour
 
     public IEnumerator startSetupCoroutine()
     {
+
         globalState.globalClickable = false;
 
         globalState.audio.playSFX(0, 17, 0.1f); //ambience quiet
@@ -129,49 +129,50 @@ public class enabler : MonoBehaviour
 
     public IEnumerator checkLoadLevel()
     {
-/*        if (!test.test)
-        {*/
-            int loadLv = PlayerPrefs.GetInt("level", 0);
 
-            if (loadLv > 0)
-            {
+        /*        if (!test.test)
+                {*/
+        int loadLv = PlayerPrefs.GetInt("level", 0);
 
-                darkCover.gameObject.SetActive(true);
-                darkCover.SetTrigger("opaque");
-
-                yield return new WaitForSeconds(2);
-
-                UICanvas.gameObject.SetActive(true);
-
-                globalState.audio.fadeVolumeSFX(0, 17, 2, 0);
-                startCanvas.SetActive(false);
-                setUpLevel(loadLv);
-            }
-            else
-            { // start from beginning
-
-                //if equal to 0, keep ambience
-                PlayerPrefs.SetInt("level", 0);
-
-                startDialogue.gameObject.SetActive(true);
-                startDialogue.enableStartDialogue();
-
-                foreach (Animator a in startMenuFocusObjects)
-                {
-                    a.GetComponent<Collider2D>().enabled = false;
-                }
-            }
-/*        }
-        else
+        if (loadLv > 0)
         {
-            startCanvas.transform.Find("photo/lines").gameObject.SetActive(true);
-            startCanvas.transform.Find("photo/whiteout").gameObject.SetActive(false);
-            startCanvas.transform.Find("photo/photo_content").gameObject.SetActive(false);
-            globalState.audio.fadeVolumeSFX(0, 17, 2, 0);
 
-            yield return new WaitForSeconds(3);
-            globalState.globalClickable = true;
-        }*/
+            darkCover.gameObject.SetActive(true);
+            darkCover.SetTrigger("opaque");
+
+            yield return new WaitForSeconds(2);
+
+            UICanvas.gameObject.SetActive(true);
+
+            globalState.audio.fadeVolumeSFX(0, 17, 2, 0);
+            startCanvas.SetActive(false);
+            setUpLevel(loadLv);
+        }
+        else
+        { // start from beginning
+
+            //if equal to 0, keep ambience
+            PlayerPrefs.SetInt("level", 0);
+
+            startDialogue.gameObject.SetActive(true);
+            startDialogue.enableStartDialogue();
+
+            foreach (Animator a in startMenuFocusObjects)
+            {
+                a.GetComponent<Collider2D>().enabled = false;
+            }
+        }
+        /*        }
+                else
+                {
+                    startCanvas.transform.Find("photo/lines").gameObject.SetActive(true);
+                    startCanvas.transform.Find("photo/whiteout").gameObject.SetActive(false);
+                    startCanvas.transform.Find("photo/photo_content").gameObject.SetActive(false);
+                    globalState.audio.fadeVolumeSFX(0, 17, 2, 0);
+
+                    yield return new WaitForSeconds(3);
+                    globalState.globalClickable = true;
+                }*/
     }
 
     public void quitGame()
@@ -181,6 +182,7 @@ public class enabler : MonoBehaviour
 
     public void startButtonPressed()
     {
+
         if (gameOnPause)
         {//resume previously paused content
 
@@ -188,7 +190,6 @@ public class enabler : MonoBehaviour
 
             //globalState.revealAndHideStuff(loadLv, true);
 
-            
             UICanvas.gameObject.SetActive(true);
 
             globalState.audio.fadeVolumeSFX(0, 17, 2, 0);
@@ -202,7 +203,7 @@ public class enabler : MonoBehaviour
         {
             StartCoroutine(checkLoadLevel());
         }
-       
+
     }
 
     IEnumerator resumeGameCoroutine()
@@ -213,8 +214,6 @@ public class enabler : MonoBehaviour
 
         Time.timeScale = 1;
     }
-
-
 
     //officially starts the game and goes to l1
     public void startGame()
@@ -231,10 +230,10 @@ public class enabler : MonoBehaviour
         mainCam.Play("startCamZoom");
         yield return new WaitForSeconds(3);
 
-        #if UNITY_STANDALONE
+#if UNITY_STANDALONE
         //give steam achievement
         steamAchievements.ach1();
-        #endif
+#endif
 
         yield return new WaitForSeconds(2);
 
@@ -252,7 +251,7 @@ public class enabler : MonoBehaviour
 
         darkCover.SetTrigger("fadeOut"); //enters scene
         yield return new WaitForSeconds(2);
-        
+
     }
 
     public void setUpLevel(int l) { setUpLevel(l, false); }
@@ -352,7 +351,7 @@ public class enabler : MonoBehaviour
 
                 audio.playSFX(5, 4); //sunset
                 audio.playSFX(5, 6); //waves
-                
+
                 yield return new WaitForSeconds(3);
 
                 darkCover.SetTrigger("transparent");
@@ -421,7 +420,6 @@ public class enabler : MonoBehaviour
                     //enable flyer pan
                     Transform flyer = globalState.gardenScene.transform.Find("center").Find("flyer");
                     flyer.GetComponent<MouseBasedCamShift>().setActive(true);
-                    
 
                     yield return new WaitForSeconds(4);
 
@@ -458,7 +456,7 @@ public class enabler : MonoBehaviour
                     globalState.audio.playSFX(7, 9, 0.1f);
                     globalState.audio.playSFX(7, 10, 0);
                     globalState.audio.playSFX(7, 13, 0.2f); //heartbeat
-                    globalState.audio.fadeVolumeSFX(7, 13, 5, 0.3f); 
+                    globalState.audio.fadeVolumeSFX(7, 13, 5, 0.3f);
                     globalState.audio.fadeVolumeSFX(7, 9, 8, 0.7f); //fade out bgm
                 }
                 break;
@@ -491,7 +489,7 @@ public class enabler : MonoBehaviour
                 //setup
                 Transform h = globalState.parkScene.transform.Find("hosp/Her");
                 h.gameObject.SetActive(false);
-                h.parent.gameObject.SetActive(false); 
+                h.parent.gameObject.SetActive(false);
 
                 GetComponent<AudioManager>().playSFX(9, 1);
 
@@ -553,7 +551,7 @@ public class enabler : MonoBehaviour
 
                     cam.cam.Play("idle");
                     yield return new WaitForSeconds(2);
-                       //reset cam position
+                    //reset cam position
                     darkCover.SetTrigger("fadeOut");
                     yield return new WaitForSeconds(2.5f);
 
@@ -565,19 +563,13 @@ public class enabler : MonoBehaviour
                     yield return new WaitForSeconds(2);
                     a.Play("streetIn");
 
-
                     //anim
                     //...
                 }
                 break;
         }
 
-
-        
-
     }
-
-
 
     public void gamePass()
     {
@@ -594,7 +586,6 @@ public class enabler : MonoBehaviour
         startCanvas.transform.Find("Language").gameObject.SetActive(false);
         startCanvas.transform.Find("Credits").gameObject.SetActive(false);
         startCanvas.transform.Find("Quit").gameObject.SetActive(false);
-
 
         darkCover.SetTrigger("fadeOut");
 
@@ -623,8 +614,6 @@ public class enabler : MonoBehaviour
         startCanvas.transform.Find("photo/lines").gameObject.SetActive(false);
         startCanvas.transform.Find("photo/whiteout").gameObject.SetActive(true);
 
-        
-
         //show photo content
         startCanvas.transform.Find("photo/photo_content").gameObject.SetActive(true);
 
@@ -649,17 +638,17 @@ public class enabler : MonoBehaviour
 
         yield return new WaitForSeconds(2);
 
-        #if UNITY_STANDALONE
+#if UNITY_STANDALONE
         steamAchievements.updateAch2Progress(11); //unlock achievement 2
-        #endif
+#endif
 
         cam.vfx.transform.Find("sakura").gameObject.SetActive(true);
         globalState.audio.playSFX(0, 13); //memories
 
         yield return new WaitForSeconds(2);
-        Transform endTitle = startCanvas.transform.Find("EndingTitle"), endCredits = startCanvas.transform.Find("EndingCredits"), 
+        Transform endTitle = startCanvas.transform.Find("EndingTitle"), endCredits = startCanvas.transform.Find("EndingCredits"),
             thankYouNote = startCanvas.transform.Find("ThankYouNote");
-        endTitle.gameObject.SetActive(true); 
+        endTitle.gameObject.SetActive(true);
 
         endTitle.GetComponent<Animator>().SetTrigger("fadeInText");
 
@@ -691,17 +680,17 @@ public class enabler : MonoBehaviour
 
         OnChangeLanguage(); //will trigger lang switch in all textAutoLanguage
 
-/*        textAutoLanguage[] activeTexts = FindObjectsOfType<textAutoLanguage>();
+        /*        textAutoLanguage[] activeTexts = FindObjectsOfType<textAutoLanguage>();
 
-        foreach(textAutoLanguage t in activeTexts)
-        {
-            t.switchTextDisplayToCurrentLanguage(); //manual switch when button been clicked
-        }*/
+                foreach(textAutoLanguage t in activeTexts)
+                {
+                    t.switchTextDisplayToCurrentLanguage(); //manual switch when button been clicked
+                }*/
     }
 
     public void resetAllProgressAndQuit()
     {
-        #if UNITY_STANDALONE
+#if UNITY_STANDALONE
         steamAchievements.resetAchievements();
 #endif
 
@@ -713,17 +702,16 @@ public class enabler : MonoBehaviour
 
     public void reloadCurrentLevel()
     {
-        Scene curr = SceneManager.GetActiveScene(); 
+        Scene curr = SceneManager.GetActiveScene();
         SceneManager.LoadScene(curr.name);
     }
-
 
     public void openMemorabiliaUI()
     {
         globalState.globalUIClickOnly = true;
 
         Time.timeScale = 0;
-        
+
         memorabiliaUI.gameObject.SetActive(true);
         memorabiliaUI.GetComponent<Animator>().SetTrigger("fadeIn");
 
@@ -745,7 +733,6 @@ public class enabler : MonoBehaviour
         yield return new WaitForSecondsRealtime(waitTime);
         memorabiliaUI.gameObject.SetActive(active);
     }
-
 
     public void openQuitUIWindow()
     {
@@ -780,7 +767,6 @@ public class enabler : MonoBehaviour
         menuUIWindow.gameObject.SetActive(false);
         Time.timeScale = 1;
     }
-
 
     public void capsuleUIOnClick(int capsuleIndex)
     {
@@ -861,7 +847,6 @@ public class enabler : MonoBehaviour
         capsuleHintController.updateCapsuleHint(capsuleHintTexts, language == 1, 0);
     }
 
-
     public void buttonHover()
     {
         globalState.audio.playSFX(0, 12);
@@ -871,6 +856,5 @@ public class enabler : MonoBehaviour
     {
         globalState.audio.playSFX(0, 11);
     }
-
 
 }

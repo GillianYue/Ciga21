@@ -16,7 +16,6 @@ If you're upgrading your project from a version of DOTween older than 1.2.000 (o
 - In your code, add "using DG.Tweening" to each class where you want to use DOTween.
 - You're ready to tween. Check out the links below for full documentation and license info.
 
-
 // LINKS ///////////////////////////////////////////////////////
 
 DOTween website (documentation, examples, etc): http://dotween.demigiant.com

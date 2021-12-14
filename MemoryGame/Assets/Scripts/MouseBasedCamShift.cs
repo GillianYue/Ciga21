@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MouseBasedCamShift : MonoBehaviour
@@ -18,18 +16,22 @@ public class MouseBasedCamShift : MonoBehaviour
 
     private void Awake()
     {
-        if(!enable) enable = FindObjectOfType<enabler>();
+        if (!enable) enable = FindObjectOfType<enabler>();
+
+        if (SystemInfo.deviceType == DeviceType.Handheld)
+        {
+            //mobile
+            useAccl = true;
+        }
     }
 
     void Start()
     {
         //startCamShift();
         scaleValuesBasedOnScreen();
-        useAccl = enable.mobile;
 
         if (useAccl) Calibrate();
     }
-
 
     //if in mobile, calibrate baseMatrix for accl; TODO remember to call calibrate each time a new instance is activated
     public void Calibrate()
@@ -64,14 +66,13 @@ public class MouseBasedCamShift : MonoBehaviour
                 mousePos = new Vector2(Mathf.Clamp(mousePos.x, -screenDimension.x / 2, screenDimension.x / 2),
                     Mathf.Clamp(mousePos.y, -screenDimension.y / 2, screenDimension.y / 2));
 
-
                 offset = new Vector2(moveCapacity.x * (mousePos.x / (screenDimension.x / 2)), moveCapacity.y * (mousePos.y / (screenDimension.y / 2)));
             }
             else
             {
                 Vector3 accl = AdjustedAccelerometer;
 
-                print(Input.acceleration + " adjusted: "+ accl);
+                //print(Input.acceleration + " adjusted: "+ accl);
 
                 offset = new Vector2(moveCapacity.x * accl.x, moveCapacity.y * accl.y);
             }
@@ -82,15 +83,14 @@ public class MouseBasedCamShift : MonoBehaviour
 
     public void scaleValuesBasedOnScreen()
     {
-     //   Vector2 origScreenDimension = screenDimension,
-     //      origRatio = new Vector2(moveCapacity.x / origScreenDimension.x, moveCapacity.y / origScreenDimension.y);
+        //   Vector2 origScreenDimension = screenDimension,
+        //      origRatio = new Vector2(moveCapacity.x / origScreenDimension.x, moveCapacity.y / origScreenDimension.y);
 
         screenDimension = new Vector2(Screen.width, Screen.height);
         //moveCapacity = new Vector2(screenDimension.x * origRatio.x, screenDimension.y * origRatio.y);
 
         //keep original moveCapacity since it stays the same regardless of screen dimension
     }
-
 
     public void startCamShift()
     {
@@ -109,7 +109,8 @@ public class MouseBasedCamShift : MonoBehaviour
 
     public bool getActive() { return active; }
 
-    public void setActive(bool a) {
+    public void setActive(bool a)
+    {
         if (a) startCamShift();
         else endCamShift();
     }

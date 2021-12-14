@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class setDateTimeTexts : MonoBehaviour
@@ -17,7 +15,6 @@ public class setDateTimeTexts : MonoBehaviour
     {
     }
 
-
     public void setDateTimeText()
     {
         string tme = System.DateTime.UtcNow.ToLocalTime().ToString("HH:mm"),
@@ -28,16 +25,14 @@ public class setDateTimeTexts : MonoBehaviour
 
         if (hr.Equals("00")) hr = "12";
 
-
         timeHour.text = hr;
         timeMinute.text = mnt;
-
 
         if (enable.language == 1) //need to convert to chn
         {
             string[] md = System.DateTime.UtcNow.ToLocalTime().ToString("d").Split('/');
 
-            string wkday_chn = "星期一", dte_chn = md[0] +"月" + md[1]+"日";
+            string wkday_chn = "星期一", dte_chn = md[0] + "月" + md[1] + "日";
 
             switch (wkday)
             {

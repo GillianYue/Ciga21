@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -31,17 +30,15 @@ public class NotesRecord : MonoBehaviour
 
         transform.Find("notes").gameObject.SetActive(false);
 
-        
     }
     void Start()
     {
-        
-    }
 
+    }
 
     void Update()
     {
-        
+
     }
 
     public void giveHint()
@@ -82,9 +79,9 @@ public class NotesRecord : MonoBehaviour
             int n = int.Parse(c.ToString());
             n -= 1;
 
-            for(int nt=0; nt<notes.Length; nt++)
+            for (int nt = 0; nt < notes.Length; nt++)
             {
-                if(nt == n)
+                if (nt == n)
                 {
                     notes[nt].Play("noteOpaque");
                 }
@@ -95,7 +92,6 @@ public class NotesRecord : MonoBehaviour
             }
             yield return new WaitForSeconds(0.5f);
         }
-
 
         foreach (Animator n in notes)
         {
@@ -151,7 +147,6 @@ public class NotesRecord : MonoBehaviour
             case 2: accordionNotes[noteIndex - 1].Play(); break;
         }
 
-
         currSequence += noteIndex.ToString();
 
         int compare = compareSolutions();
@@ -161,7 +156,8 @@ public class NotesRecord : MonoBehaviour
             //pass
             StartCoroutine(notesPassEffectCoroutine());
 
-        }else if(compare == -1) //reaches maximum length
+        }
+        else if (compare == -1) //reaches maximum length
         {
             //reset
             //false sfx
@@ -173,7 +169,6 @@ public class NotesRecord : MonoBehaviour
             //regular non-match
 
         }
-
 
     }
 
@@ -188,7 +183,7 @@ public class NotesRecord : MonoBehaviour
             case 0: //guitar
                 switch (sequenceIndex)
                 {
-                    case 0: 
+                    case 0:
                         playIndex = 7;
                         break;
                     case 1:
@@ -242,7 +237,7 @@ public class NotesRecord : MonoBehaviour
         //TODO correct/bingo sfx
         print("match");
 
-        for(int i=0; i<notes.Length; i++)
+        for (int i = 0; i < notes.Length; i++)
         {
             notes[i].Play("notePass");
             yield return new WaitForSeconds(i * 0.1f);
@@ -265,7 +260,6 @@ public class NotesRecord : MonoBehaviour
             yield return new WaitForSeconds(2);
             globalState.globalClickable = true;
 
-            
         }
         else
         {
@@ -275,7 +269,6 @@ public class NotesRecord : MonoBehaviour
             playSolution();
         }
 
-        
     }
 
     //resets notes in all instruments
@@ -306,7 +299,6 @@ public class NotesRecord : MonoBehaviour
 
     }
 
-
     /// <summary>
     /// compares curr sequence to solution.
     ///
@@ -332,7 +324,7 @@ public class NotesRecord : MonoBehaviour
         if (solution.Equals("")) Debug.LogError("invalid solution");
 
         if (currSequence.Equals(solution)) return 1;
-        if(currSequence.Length >= solution.Length)
+        if (currSequence.Length >= solution.Length)
         {
             return -1;
         }
@@ -342,7 +334,7 @@ public class NotesRecord : MonoBehaviour
     public void resetSequence()
     {
         //reset selected notes to blank state
-        foreach(char c in currSequence)
+        foreach (char c in currSequence)
         {
             notes[int.Parse(c.ToString())].Play("noteIdle");
         }

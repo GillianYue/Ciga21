@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,24 +24,24 @@ public class imgSwitcher : MonoBehaviour
     {
         Transform i1 = transform.Find("Image"), i2 = transform.Find("Image (1)");
 
-        if(i1!=null) img1 = i1.GetComponent<Image>();
-        if(i2!=null) img2 = i2.GetComponent<Image>();
+        if (i1 != null) img1 = i1.GetComponent<Image>();
+        if (i2 != null) img2 = i2.GetComponent<Image>();
 
         gameControl = GameObject.FindGameObjectWithTag("GameController");
         globalState = gameControl.GetComponent<globalStateStore>();
 
-        if(name.Equals("dad")) { GetComponent<Animator>().SetTrigger("action1"); //default state
+        if (name.Equals("dad"))
+        {
+            GetComponent<Animator>().SetTrigger("action1"); //default state
         }
 
-        if(img1 != null && img2 != null && stateImgs.Length >= 2) switchToImgState(0);
+        if (img1 != null && img2 != null && stateImgs.Length >= 2) switchToImgState(0);
     }
-
 
     void Update()
     {
-        
-    }
 
+    }
 
     /// <param name="s"> which "pair" of images to use for this state s </param>
     public void switchToImgState(int s)
@@ -51,12 +50,12 @@ public class imgSwitcher : MonoBehaviour
         int idx1 = 2 * s, idx2 = 2 * s + 1;
 
         //in case img1 and 2 are not assigned on start
-        if(img1 == null && transform.childCount > 0)
+        if (img1 == null && transform.childCount > 0)
         {
             img1 = transform.GetChild(0).GetComponent<Image>();
         }
 
-        if(img2 == null && transform.childCount > 1)
+        if (img2 == null && transform.childCount > 1)
         {
             img2 = transform.GetChild(1).GetComponent<Image>();
         }
@@ -72,9 +71,9 @@ public class imgSwitcher : MonoBehaviour
         if (img2 != null) syncImagePivotWithSprite(img2);
 
         //switching colliders if has different ones (if not, will keep prev collider)
-        if(stateColliders.Length > s && stateColliders[s] != null)
+        if (stateColliders.Length > s && stateColliders[s] != null)
         {
-            for(int sc = 0; sc < stateColliders.Length; sc++)
+            for (int sc = 0; sc < stateColliders.Length; sc++)
             {
                 if (stateColliders[sc] == null) continue;
 
@@ -83,25 +82,23 @@ public class imgSwitcher : MonoBehaviour
             }
         }
 
-        if(stateOffsets.Length > s)
+        if (stateOffsets.Length > s)
         {
             if (img1 != null) img1.transform.localPosition = (Vector3)stateOffsets[s];
             if (img2 != null) img2.transform.localPosition = (Vector3)stateOffsets[s];
         }
 
-
     }
 
     public void switchToNextImgState()
     {
-        
-        if(stateImgs.Length >= (currIndex + 1) * 2 + 1)
+
+        if (stateImgs.Length >= (currIndex + 1) * 2 + 1)
         {
             currIndex += 1;
             switchToImgState(currIndex);
         }
     }
-
 
     public void myTriggerAction()
     {
@@ -115,7 +112,7 @@ public class imgSwitcher : MonoBehaviour
                     StartCoroutine(pointAtPasta());
                     currIndex = 2;
                 }
-                else if(currIndex == 0)
+                else if (currIndex == 0)
                 {
                     GetComponent<Animator>().SetTrigger("action2"); //normal state
                     currIndex = 1;
@@ -144,7 +141,6 @@ public class imgSwitcher : MonoBehaviour
         yield return new WaitForSeconds(1);
         GetComponent<Animator>().SetTrigger("action3"); //point action
     }
-
 
     IEnumerator pastaFinish()
     {
@@ -175,26 +171,17 @@ public class imgSwitcher : MonoBehaviour
 
     }
 
-
     //to keep different sprites of the same object appear at the same locations
     public static void syncImagePivotWithSprite(Image img)
     {
         img.SetNativeSize();
-
 
         Vector2 size = img.GetComponent<RectTransform>().sizeDelta;
         Vector2 pixelPivot = img.sprite.pivot;
         Vector2 percentPivot = new Vector2(pixelPivot.x / size.x, pixelPivot.y / size.y);
         img.GetComponent<RectTransform>().pivot = percentPivot;
 
-
     }
-
-
-
-
-
-
 
     public void setGlobalClickableTrue() { globalState.globalClickable = true; }
 

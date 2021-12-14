@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PuzzlePiece : interactable
 {
@@ -26,7 +24,6 @@ public class PuzzlePiece : interactable
     {
         originalPosition = transform.localPosition;
     }
-
 
     void Update()
     {
@@ -72,13 +69,14 @@ public class PuzzlePiece : interactable
 
             }
 
-        }else if(clickable && selected) //waiting to be placed
+        }
+        else if (clickable && selected) //waiting to be placed
         {
             bool success = puzzlePlacement.checkForPlacement(puzzleID, this);
             if (success)
             {
                 //sfx
-                if(name[0] == 'f') globalState.audio.playSFX(2, 6);
+                if (name[0] == 'f') globalState.audio.playSFX(2, 6);
                 else globalState.audio.playSFX(0, 3);
 
                 clickable = false; //disable clicking
@@ -97,7 +95,6 @@ public class PuzzlePiece : interactable
             }
         }
     }
-
 
     public override void onEnter()
     {

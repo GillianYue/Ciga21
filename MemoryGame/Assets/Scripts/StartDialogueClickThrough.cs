@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,44 +29,41 @@ public class StartDialogueClickThrough : MonoBehaviour
         }
 
         backPanel.gameObject.GetComponent<Image>().color = new Color(1, 1, 1, 0);
-        if(dialogueType == 0) backPanel.gameObject.SetActive(false);
+        if (dialogueType == 0) backPanel.gameObject.SetActive(false);
 
         counter = 0;
 
-
     }
-
 
     void FixedUpdate()
     {
 
-            if (!animating && counter > 0 && Input.GetMouseButtonDown(0)) //show next line of text
+        if (!animating && counter > 0 && Input.GetMouseButtonDown(0)) //show next line of text
+        {
+            if (dialogueType == 1)
             {
-                if (dialogueType == 1)
+                if (counter == 6 || counter == 9)
                 {
-                        if (counter == 6 || counter == 9)
-                        {
-                            StartCoroutine(waitAndHideTexts(counter)); //hide prev page of texts
-                        }
-                        else
-                        {
-                            StartCoroutine(fadeInText(counter));
-                        }
+                    StartCoroutine(waitAndHideTexts(counter)); //hide prev page of texts
                 }
                 else
                 {
-                        if (counter == 4 || counter == 7 || counter == 9)
-                        {
-                            StartCoroutine(waitAndHideTexts(counter)); //hide prev page of texts
-                        }
-                        else
-                        {
-                            StartCoroutine(fadeInText(counter));
-                        }
+                    StartCoroutine(fadeInText(counter));
+                }
+            }
+            else
+            {
+                if (counter == 4 || counter == 7 || counter == 9)
+                {
+                    StartCoroutine(waitAndHideTexts(counter)); //hide prev page of texts
+                }
+                else
+                {
+                    StartCoroutine(fadeInText(counter));
+                }
             }
 
-
-            }
+        }
     }
 
     IEnumerator waitAndHideTexts(int c)
@@ -201,7 +197,6 @@ public class StartDialogueClickThrough : MonoBehaviour
                 }
             }
 
-
             counter++;
 
         }//text lock 
@@ -267,14 +262,12 @@ public class StartDialogueClickThrough : MonoBehaviour
         backPanel.SetTrigger("fadeIn"); //pure colored background
         yield return new WaitForSeconds(1.5f);
         counter = 1;
-        
 
         yield return new WaitForSeconds(1.5f);
 
         StartCoroutine(fadeInText(counter)); //text first line auto entry
 
         yield return new WaitForSeconds(1.5f);
-
 
         myEnabler.globalState.globalClickable = true;
         animating = false;
