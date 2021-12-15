@@ -19,10 +19,11 @@ public class MemorabiliaItem : MonoBehaviour
     public interactable myItrRef;
     public int itemIndex;
 
+    public GameObject lines, item;
+
     private void Awake()
     {
         c = GetComponent<Canvas>();
-        myItrRef = transform.Find("itemImg").GetComponent<interactable>();
     }
 
     void Start()
@@ -32,10 +33,21 @@ public class MemorabiliaItem : MonoBehaviour
         DOTween.Init();
         DOTween.defaultAutoKill = false;
         startPosLocal = transform.localPosition;
+
+        lines.SetActive(!unlocked);
+        item.SetActive(unlocked);
+
     }
 
     void Update()
     {
+    }
+
+    public void unlockItemVisuals()
+    {
+        unlocked = true;
+        lines.SetActive(false);
+        item.SetActive(true);
     }
 
     public void itemOnClick()
@@ -46,8 +58,9 @@ public class MemorabiliaItem : MonoBehaviour
 
             if (!mm.showingDetail) //to show detail page
             {
+                StartCoroutine(itemDetailTransition(true));
+
                 mm.setAllItemClickable(false);
-                myItrRef.clickable = true; //all other items except this one not clickable
                 mm.itemOnDisplay = this;
 
                 //will bring item to top of itemDetail panel (else is underneath)
@@ -59,25 +72,60 @@ public class MemorabiliaItem : MonoBehaviour
 
                 itemMoveTween = tweener;
 
+                //TODO set itemDetail info here
+
                 //show item detail
                 mm.showingDetail = true;
                 mm.itemDetail.Play("showItemDetails");
+                
 
                 mm.itemDetail.GetComponent<Image>().raycastTarget = true;
             }
             else
             { //go back to item list page
+                StartCoroutine(itemDetailTransition(false));
+
                 mm.setAllItemClickable(true);
+                myItrRef.clickable = false;
                 mm.itemOnDisplay = null;
 
                 mm.showingDetail = false;
                 StartCoroutine(itemReturnToStartPos());
+                mm.itemDetail.GetComponent<Button>().enabled = false;
                 mm.itemDetail.Play("hideItemDetails");
                 mm.itemDetail.GetComponent<Image>().raycastTarget = false;
+
             }
 
         }
 
+    }
+    
+    private IEnumerator itemDetailTransition(bool showing) 
+    {
+        myItrRef.clickable = false;
+
+        if (showing)
+        {
+            mm.scrollRect.enabled = false;
+        }
+        else
+        {
+            mm.itemDetail.GetComponent<Button>().enabled = false;
+        }
+
+        yield return new WaitForSecondsRealtime(moveSeconds + 0.5f);
+
+        if (showing)
+        {
+            mm.itemDetail.GetComponent<Button>().enabled = true;
+        }
+        else
+        {
+            mm.scrollRect.enabled = true;
+        }
+
+        myItrRef.clickable = true;
     }
 
     //animates item to start pos
@@ -86,6 +134,7 @@ public class MemorabiliaItem : MonoBehaviour
         if (itemMoveTween != null)
         {
             itemMoveTween.PlayBackwards(); //reverse/put back item
+            itemMoveTween = null;
         }
 
         yield return new WaitForSecondsRealtime(moveSeconds);

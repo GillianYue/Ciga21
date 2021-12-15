@@ -1605,7 +1605,7 @@ public class interactable : MonoBehaviour
                 if (globalState.enable.mm.showingDetail)
                 {
                     //return to full item list if showing item detail
-                    globalState.enable.mm.itemOnDisplay.itemOnClick();
+                   // globalState.enable.mm.itemOnDisplay.itemOnClick();
 
                 }
                 else

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Memorabilia : MonoBehaviour
 {
@@ -10,6 +11,9 @@ public class Memorabilia : MonoBehaviour
     private List<MemorabiliaItem> itemList;
 
     public MemorabiliaItem itemOnDisplay;
+    public ScrollRect scrollRect;
+
+    public float itemMoveSeconds;
 
     private void Awake()
     {
@@ -19,23 +23,38 @@ public class Memorabilia : MonoBehaviour
         int idx = 0;
         foreach (Transform i in ContentGO.transform)
         {
-            MemorabiliaItem itm = i.GetComponent<MemorabiliaItem>();
+            MemorabiliaItem itm = i.GetComponentInChildren<MemorabiliaItem>();
             itm.itemIndex = idx;
-            idx++;
             itm.mm = this;
+            itm.item = i.transform.Find("itemImg").gameObject;
+            itm.lines = i.transform.Find("lines").gameObject;
+            itm.moveSeconds = itemMoveSeconds;
+
+            itm.unlocked = PlayerPrefs.GetInt("item" + idx, 0) == 1;
+            itm.myItrRef = i.transform.GetComponentInChildren<interactable>();
             itemList.Add(itm);
 
+            idx++;
         }
+
+        scrollRect = GetComponentInChildren<ScrollRect>();
     }
 
     void Start()
     {
 
+        this.gameObject.SetActive(false); //hide UI on start
     }
 
     void Update()
     {
 
+    }
+
+    public void unlockItem(int itemIndex)
+    {
+        PlayerPrefs.SetInt("item" + itemIndex, 1);
+        itemList[itemIndex].unlockItemVisuals();
     }
 
     public void setAllItemClickable(bool to)
@@ -44,5 +63,11 @@ public class Memorabilia : MonoBehaviour
         {
             itm.myItrRef.clickable = to;
         }
+    }
+
+    public void onDisplayItemOnClick()
+    {
+        if(itemOnDisplay != null)
+        itemOnDisplay.itemOnClick();
     }
 }

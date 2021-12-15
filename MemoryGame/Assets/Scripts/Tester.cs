@@ -19,6 +19,11 @@ public class Tester : MonoBehaviour
         if (test)
         {
             PlayerPrefs.SetInt("level", startLevel);
+
+            for(int i=0; i<13; i++)
+            {
+                PlayerPrefs.SetInt("item" + i, 0);
+            }
         }
 
         /*        if (test && startLevel > 0)

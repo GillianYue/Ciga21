@@ -15,6 +15,9 @@ public class BlurManager : MonoBehaviour
     public SteamAchievements steamAchievements;
 #endif
 
+    [Inject(InjectFrom.Anywhere)]
+    public Memorabilia mm;
+
     void Start()
     {
         if (enablr == null) enablr = GetComponent<enabler>();
@@ -51,6 +54,8 @@ public class BlurManager : MonoBehaviour
 
     IEnumerator levelPassEffectCoroutine(int level)
     {
+        mm.unlockItem(level);
+
         switch (level)
         {
             case 1:
