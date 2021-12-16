@@ -39,6 +39,7 @@ public class enabler : MonoBehaviour
     public Animator[] capsuleHintTexts;
 
     public CapsuleHintTexts capsuleHintController;
+
     [Inject(InjectFrom.Anywhere)]
     public Memorabilia mm;
 
@@ -161,6 +162,8 @@ public class enabler : MonoBehaviour
             {
                 a.GetComponent<Collider2D>().enabled = false;
             }
+
+            mm.unlockItem(0);
         }
         /*        }
                 else
@@ -641,6 +644,7 @@ public class enabler : MonoBehaviour
 #if UNITY_STANDALONE
         steamAchievements.updateAch2Progress(11); //unlock achievement 2
 #endif
+        mm.unlockItem(12);
 
         cam.vfx.transform.Find("sakura").gameObject.SetActive(true);
         globalState.audio.playSFX(0, 13); //memories
@@ -709,10 +713,14 @@ public class enabler : MonoBehaviour
     public void openMemorabiliaUI()
     {
         globalState.globalUIClickOnly = true;
+        Vector3 pos = mm.ContentGO.GetComponent<RectTransform>().anchoredPosition;
+        pos.y = 0;
+        mm.ContentGO.GetComponent<RectTransform>().anchoredPosition = pos;
 
         Time.timeScale = 0;
 
         memorabiliaUI.gameObject.SetActive(true);
+        mm.randomizeItem1();
         memorabiliaUI.GetComponent<Animator>().SetTrigger("fadeIn");
 
         menuUIWindow.gameObject.SetActive(false);
