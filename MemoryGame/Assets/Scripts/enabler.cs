@@ -720,6 +720,7 @@ public class enabler : MonoBehaviour
         Time.timeScale = 0;
 
         memorabiliaUI.gameObject.SetActive(true);
+        mm.randomizeItem1();
         memorabiliaUI.GetComponent<Animator>().SetTrigger("fadeIn");
 
         menuUIWindow.gameObject.SetActive(false);

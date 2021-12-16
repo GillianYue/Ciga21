@@ -63,23 +63,10 @@ public class MemorabiliaItem : MonoBehaviour
                 mm.setAllItemClickable(false);
                 mm.itemOnDisplay = this;
 
-                //will bring item to top of itemDetail panel (else is underneath)
-                c.overrideSorting = true;
-                c.sortingOrder = 10;
-
-                Tweener tweener = transform.DOMove(moveToPosGlobal, moveSeconds);
-                tweener.SetUpdate(true);
-
-                itemMoveTween = tweener;
-
-                //TODO set itemDetail info here
-
-                //show item detail
-                mm.showingDetail = true;
-                mm.itemDetail.Play("showItemDetails");
+                //set itemDetail info here
+                mm.updateItemDetailTexts(itemIndex);
                 
-
-                mm.itemDetail.GetComponent<Image>().raycastTarget = true;
+                mm.itemDetailBg1.raycastTarget = true;
             }
             else
             { //go back to item list page
@@ -87,13 +74,10 @@ public class MemorabiliaItem : MonoBehaviour
 
                 mm.setAllItemClickable(true);
                 myItrRef.clickable = false;
+
                 mm.itemOnDisplay = null;
 
-                mm.showingDetail = false;
-                StartCoroutine(itemReturnToStartPos());
-                mm.itemDetail.GetComponent<Button>().enabled = false;
-                mm.itemDetail.Play("hideItemDetails");
-                mm.itemDetail.GetComponent<Image>().raycastTarget = false;
+                mm.itemDetailBg1.raycastTarget = false;
 
             }
 
@@ -103,29 +87,54 @@ public class MemorabiliaItem : MonoBehaviour
     
     private IEnumerator itemDetailTransition(bool showing) 
     {
+        mm.enable.globalState.globalClickable = false;
+
         myItrRef.clickable = false;
 
         if (showing)
         {
             mm.scrollRect.enabled = false;
-        }
-        else
-        {
-            mm.itemDetail.GetComponent<Button>().enabled = false;
-        }
 
-        yield return new WaitForSecondsRealtime(moveSeconds + 0.5f);
+            //the move
+            Tweener tweener = transform.DOMove(moveToPosGlobal, moveSeconds);
+            tweener.SetUpdate(true);
 
-        if (showing)
-        {
+            itemMoveTween = tweener;
+
+            yield return new WaitForSecondsRealtime(moveSeconds-0.1f);
+
+            //will bring item to top of itemDetail panel (else is underneath)
+            c.overrideSorting = true;
+            c.sortingOrder = 10;
+
+            //show item detail
+            mm.showingDetail = true;
+            mm.itemDetail.Play("showItemDetails");
+
+            yield return new WaitForSecondsRealtime(0.4f);
+
             mm.itemDetail.GetComponent<Button>().enabled = true;
         }
         else
         {
+            mm.itemDetail.GetComponent<Button>().enabled = false;
+            mm.itemDetail.Play("hideItemDetails");
+
+            yield return new WaitForSecondsRealtime(0.3f);
+
+            c.overrideSorting = false;
+
+            mm.showingDetail = false;
+            StartCoroutine(itemReturnToStartPos());
+
+            yield return new WaitForSecondsRealtime(moveSeconds + 0.1f);
+
             mm.scrollRect.enabled = true;
         }
 
         myItrRef.clickable = true;
+
+        mm.enable.globalState.globalClickable = true;
     }
 
     //animates item to start pos
@@ -134,11 +143,14 @@ public class MemorabiliaItem : MonoBehaviour
         if (itemMoveTween != null)
         {
             itemMoveTween.PlayBackwards(); //reverse/put back item
-            itemMoveTween = null;
+            
         }
 
+        yield return new WaitForSecondsRealtime(0.5f);
+
+        itemMoveTween = null;
+        
         yield return new WaitForSecondsRealtime(moveSeconds);
 
-        c.overrideSorting = false;
     }
 }
