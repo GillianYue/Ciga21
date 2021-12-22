@@ -4352,6 +4352,9 @@ MonoBehaviour:
   languageFonts:
   - {fileID: 12800000, guid: e2012e1ff802c4e4891a8fec95de60a8, type: 3}
   - {fileID: 12800000, guid: 1d58efcdd20dc2346a73bcd21728ad83, type: 3}
+  mobileTexts:
+  - Double click to release
+  - "\u53CC\u51FB\u4EE5\u653E\u5F00"
   myText: {fileID: 0}
 --- !u!95 &7178213358683478983
 Animator:

@@ -354,6 +354,8 @@ public class enabler : MonoBehaviour
             case 4: //band
 
                 NotesRecord.currActiveInstrument = -1;
+                globalState.bandScene.transform.Find("SmartPhone").GetComponent<interactable>().affectsGO = this.gameObject;
+                globalState.bandScene.transform.Find("speaker").GetComponent<interactable>().affectsGO = this.gameObject;
                 globalState.bandScene.transform.Find("HintButton").GetComponent<Button>().interactable = false;
 
                 yield return new WaitForSeconds(2);
@@ -521,7 +523,7 @@ public class enabler : MonoBehaviour
                 GetComponent<AudioManager>().playSFX(9, 1);
 
                 yield return new WaitForSeconds(7);
-                GetComponent<BlurManager>().leaf.onClick(); //will trigger leaf fall
+                globalState.parkScene.transform.Find("Leaf").GetComponent<interactable>().onClick(); //will trigger leaf fall
 
                 darkCover.SetTrigger("fadeOut");
 
@@ -887,6 +889,11 @@ public class enabler : MonoBehaviour
     public void buttonSelect()
     {
         globalState.audio.playSFX(0, 11);
+    }
+
+    public static bool isMobile()
+    {
+        return SystemInfo.deviceType == DeviceType.Handheld;
     }
 
 }

@@ -2532,6 +2532,7 @@ MonoBehaviour:
   languageFonts:
   - {fileID: 12800000, guid: e68cff1a45ce5fe4eb124df5c3db6e18, type: 3}
   - {fileID: 12800000, guid: 5dc2c62b4e8583349a1f5609158e32ab, type: 3}
+  mobileTexts: []
   myText: {fileID: 0}
 --- !u!114 &102530834
 MonoBehaviour:
@@ -3042,6 +3043,7 @@ MonoBehaviour:
   languageTexts: []
   languageTextSizes: 
   languageFonts: []
+  mobileTexts: []
   myText: {fileID: 0}
 --- !u!114 &138126224
 MonoBehaviour:
@@ -3063,6 +3065,7 @@ MonoBehaviour:
   languageFonts:
   - {fileID: 12800000, guid: e68cff1a45ce5fe4eb124df5c3db6e18, type: 3}
   - {fileID: 12800000, guid: 64e859999b01ed14cbce70d4ce6496c3, type: 3}
+  mobileTexts: []
   myText: {fileID: 0}
 --- !u!1 &138982717
 GameObject:
@@ -10245,6 +10248,7 @@ MonoBehaviour:
   languageFonts:
   - {fileID: 12800000, guid: a00657d55cf60f3468269f22c2a41600, type: 3}
   - {fileID: 12800000, guid: a00657d55cf60f3468269f22c2a41600, type: 3}
+  mobileTexts: []
   myText: {fileID: 0}
 --- !u!114 &202585688
 MonoBehaviour:
@@ -15766,6 +15770,7 @@ MonoBehaviour:
   languageFonts:
   - {fileID: 12800000, guid: a00657d55cf60f3468269f22c2a41600, type: 3}
   - {fileID: 12800000, guid: a00657d55cf60f3468269f22c2a41600, type: 3}
+  mobileTexts: []
   myText: {fileID: 0}
 --- !u!114 &279872932
 MonoBehaviour:
@@ -21233,6 +21238,7 @@ MonoBehaviour:
   languageFonts:
   - {fileID: 12800000, guid: e68cff1a45ce5fe4eb124df5c3db6e18, type: 3}
   - {fileID: 12800000, guid: 64e859999b01ed14cbce70d4ce6496c3, type: 3}
+  mobileTexts: []
   myText: {fileID: 0}
 --- !u!1 &340250109
 GameObject:
@@ -22171,6 +22177,7 @@ MonoBehaviour:
   languageFonts:
   - {fileID: 12800000, guid: 76a0a844ac5268142b8c73f64e22e377, type: 3}
   - {fileID: 12800000, guid: 1d58efcdd20dc2346a73bcd21728ad83, type: 3}
+  mobileTexts: []
   myText: {fileID: 0}
 --- !u!1 &429766289
 GameObject:
@@ -27504,6 +27511,7 @@ MonoBehaviour:
   languageFonts:
   - {fileID: 12800000, guid: a00657d55cf60f3468269f22c2a41600, type: 3}
   - {fileID: 12800000, guid: a00657d55cf60f3468269f22c2a41600, type: 3}
+  mobileTexts: []
   myText: {fileID: 0}
 --- !u!114 &469513067
 MonoBehaviour:
@@ -27605,6 +27613,7 @@ MonoBehaviour:
   languageFonts:
   - {fileID: 12800000, guid: b8b4e4abe3d65d448a93af58c1a08ce6, type: 3}
   - {fileID: 12800000, guid: 5dc2c62b4e8583349a1f5609158e32ab, type: 3}
+  mobileTexts: []
   myText: {fileID: 0}
 --- !u!114 &474086179
 MonoBehaviour:
@@ -27706,6 +27715,7 @@ MonoBehaviour:
   languageFonts:
   - {fileID: 12800000, guid: b8b4e4abe3d65d448a93af58c1a08ce6, type: 3}
   - {fileID: 12800000, guid: 5dc2c62b4e8583349a1f5609158e32ab, type: 3}
+  mobileTexts: []
   myText: {fileID: 0}
 --- !u!114 &477716463
 MonoBehaviour:
@@ -27849,6 +27859,7 @@ MonoBehaviour:
   languageFonts:
   - {fileID: 12800000, guid: e68cff1a45ce5fe4eb124df5c3db6e18, type: 3}
   - {fileID: 12800000, guid: 64e859999b01ed14cbce70d4ce6496c3, type: 3}
+  mobileTexts: []
   myText: {fileID: 0}
 --- !u!1 &492814604
 GameObject:
@@ -28525,6 +28536,7 @@ MonoBehaviour:
   languageFonts:
   - {fileID: 12800000, guid: 1e900c4094e2b714281c3c4a0f232955, type: 3}
   - {fileID: 12800000, guid: 1e900c4094e2b714281c3c4a0f232955, type: 3}
+  mobileTexts: []
   myText: {fileID: 0}
 --- !u!114 &521449986
 MonoBehaviour:
@@ -29015,6 +29027,7 @@ MonoBehaviour:
   languageFonts:
   - {fileID: 12800000, guid: 76a0a844ac5268142b8c73f64e22e377, type: 3}
   - {fileID: 12800000, guid: 1d58efcdd20dc2346a73bcd21728ad83, type: 3}
+  mobileTexts: []
   myText: {fileID: 0}
 --- !u!1 &548936597
 GameObject:
@@ -29977,6 +29990,7 @@ MonoBehaviour:
   languageFonts:
   - {fileID: 12800000, guid: 76a0a844ac5268142b8c73f64e22e377, type: 3}
   - {fileID: 12800000, guid: 1d58efcdd20dc2346a73bcd21728ad83, type: 3}
+  mobileTexts: []
   myText: {fileID: 0}
 --- !u!1 &621100807
 GameObject:
@@ -32405,6 +32419,7 @@ MonoBehaviour:
   languageFonts:
   - {fileID: 12800000, guid: a00657d55cf60f3468269f22c2a41600, type: 3}
   - {fileID: 12800000, guid: a00657d55cf60f3468269f22c2a41600, type: 3}
+  mobileTexts: []
   myText: {fileID: 0}
 --- !u!114 &812529875
 MonoBehaviour:
@@ -32506,6 +32521,7 @@ MonoBehaviour:
   languageFonts:
   - {fileID: 12800000, guid: a00657d55cf60f3468269f22c2a41600, type: 3}
   - {fileID: 12800000, guid: a00657d55cf60f3468269f22c2a41600, type: 3}
+  mobileTexts: []
   myText: {fileID: 0}
 --- !u!114 &813119190
 MonoBehaviour:
@@ -32793,6 +32809,7 @@ MonoBehaviour:
   languageFonts:
   - {fileID: 12800000, guid: a00657d55cf60f3468269f22c2a41600, type: 3}
   - {fileID: 12800000, guid: a00657d55cf60f3468269f22c2a41600, type: 3}
+  mobileTexts: []
   myText: {fileID: 0}
 --- !u!114 &850458999
 MonoBehaviour:
@@ -33078,6 +33095,7 @@ MonoBehaviour:
   languageFonts:
   - {fileID: 12800000, guid: e68cff1a45ce5fe4eb124df5c3db6e18, type: 3}
   - {fileID: 12800000, guid: db363b8bd8e1b8547a3a6be129de956b, type: 3}
+  mobileTexts: []
   myText: {fileID: 0}
 --- !u!1 &882464090
 GameObject:
@@ -33920,6 +33938,7 @@ MonoBehaviour:
   languageFonts:
   - {fileID: 12800000, guid: b8b4e4abe3d65d448a93af58c1a08ce6, type: 3}
   - {fileID: 12800000, guid: 5dc2c62b4e8583349a1f5609158e32ab, type: 3}
+  mobileTexts: []
   myText: {fileID: 0}
 --- !u!114 &936569738
 MonoBehaviour:
@@ -35492,6 +35511,7 @@ MonoBehaviour:
   languageFonts:
   - {fileID: 12800000, guid: 76a0a844ac5268142b8c73f64e22e377, type: 3}
   - {fileID: 12800000, guid: 1d58efcdd20dc2346a73bcd21728ad83, type: 3}
+  mobileTexts: []
   myText: {fileID: 0}
 --- !u!1 &1006363249
 GameObject:
@@ -38679,6 +38699,7 @@ MonoBehaviour:
   languageFonts:
   - {fileID: 12800000, guid: b8b4e4abe3d65d448a93af58c1a08ce6, type: 3}
   - {fileID: 12800000, guid: 5dc2c62b4e8583349a1f5609158e32ab, type: 3}
+  mobileTexts: []
   myText: {fileID: 0}
 --- !u!114 &1069143907
 MonoBehaviour:
@@ -38917,6 +38938,7 @@ MonoBehaviour:
   languageFonts:
   - {fileID: 12800000, guid: 76a0a844ac5268142b8c73f64e22e377, type: 3}
   - {fileID: 12800000, guid: 1d58efcdd20dc2346a73bcd21728ad83, type: 3}
+  mobileTexts: []
   myText: {fileID: 0}
 --- !u!1 &1119145309
 GameObject:
@@ -39115,6 +39137,7 @@ MonoBehaviour:
   languageFonts:
   - {fileID: 12800000, guid: 76a0a844ac5268142b8c73f64e22e377, type: 3}
   - {fileID: 12800000, guid: 1d58efcdd20dc2346a73bcd21728ad83, type: 3}
+  mobileTexts: []
   myText: {fileID: 0}
 --- !u!1 &1128642782
 GameObject:
@@ -39985,6 +40008,7 @@ MonoBehaviour:
   languageFonts:
   - {fileID: 12800000, guid: a00657d55cf60f3468269f22c2a41600, type: 3}
   - {fileID: 12800000, guid: a00657d55cf60f3468269f22c2a41600, type: 3}
+  mobileTexts: []
   myText: {fileID: 0}
 --- !u!114 &1187175851
 MonoBehaviour:
@@ -40256,6 +40280,7 @@ MonoBehaviour:
   languageFonts:
   - {fileID: 12800000, guid: a00657d55cf60f3468269f22c2a41600, type: 3}
   - {fileID: 12800000, guid: a00657d55cf60f3468269f22c2a41600, type: 3}
+  mobileTexts: []
   myText: {fileID: 0}
 --- !u!114 &1204731816
 MonoBehaviour:
@@ -43507,6 +43532,7 @@ MonoBehaviour:
   languageFonts:
   - {fileID: 12800000, guid: b8b4e4abe3d65d448a93af58c1a08ce6, type: 3}
   - {fileID: 12800000, guid: 5dc2c62b4e8583349a1f5609158e32ab, type: 3}
+  mobileTexts: []
   myText: {fileID: 0}
 --- !u!1 &1245115234
 GameObject:
@@ -51647,6 +51673,7 @@ MonoBehaviour:
   - "\u4E00\u4E9B\u7B80\u5355\u7684\u7269\u54C1\u4ECB\u7ECD"
   languageTextSizes: 
   languageFonts: []
+  mobileTexts: []
   myText: {fileID: 0}
 --- !u!1 &1387114478
 GameObject:
@@ -51770,6 +51797,7 @@ MonoBehaviour:
   languageFonts:
   - {fileID: 12800000, guid: 76a0a844ac5268142b8c73f64e22e377, type: 3}
   - {fileID: 12800000, guid: 1d58efcdd20dc2346a73bcd21728ad83, type: 3}
+  mobileTexts: []
   myText: {fileID: 0}
 --- !u!1 &1389577876
 GameObject:
@@ -51953,6 +51981,7 @@ MonoBehaviour:
   languageFonts:
   - {fileID: 12800000, guid: a00657d55cf60f3468269f22c2a41600, type: 3}
   - {fileID: 12800000, guid: a00657d55cf60f3468269f22c2a41600, type: 3}
+  mobileTexts: []
   myText: {fileID: 0}
 --- !u!114 &1416427270
 MonoBehaviour:
@@ -52404,6 +52433,7 @@ MonoBehaviour:
   languageFonts:
   - {fileID: 12800000, guid: b8b4e4abe3d65d448a93af58c1a08ce6, type: 3}
   - {fileID: 12800000, guid: 5dc2c62b4e8583349a1f5609158e32ab, type: 3}
+  mobileTexts: []
   myText: {fileID: 0}
 --- !u!114 &1426933064
 MonoBehaviour:
@@ -52545,6 +52575,7 @@ MonoBehaviour:
   - "\u80E1\u6912\u7C89"
   languageTextSizes: 
   languageFonts: []
+  mobileTexts: []
   myText: {fileID: 0}
 --- !u!1 &1444401778
 GameObject:
@@ -53926,6 +53957,7 @@ MonoBehaviour:
   languageFonts:
   - {fileID: 12800000, guid: a00657d55cf60f3468269f22c2a41600, type: 3}
   - {fileID: 12800000, guid: a00657d55cf60f3468269f22c2a41600, type: 3}
+  mobileTexts: []
   myText: {fileID: 0}
 --- !u!114 &1484656260
 MonoBehaviour:
@@ -54028,6 +54060,7 @@ MonoBehaviour:
   languageFonts:
   - {fileID: 12800000, guid: 1e900c4094e2b714281c3c4a0f232955, type: 3}
   - {fileID: 12800000, guid: 1e900c4094e2b714281c3c4a0f232955, type: 3}
+  mobileTexts: []
   myText: {fileID: 0}
 --- !u!114 &1492698697
 MonoBehaviour:
@@ -55777,6 +55810,7 @@ MonoBehaviour:
   languageFonts:
   - {fileID: 12800000, guid: b8b4e4abe3d65d448a93af58c1a08ce6, type: 3}
   - {fileID: 12800000, guid: 5dc2c62b4e8583349a1f5609158e32ab, type: 3}
+  mobileTexts: []
   myText: {fileID: 0}
 --- !u!114 &1640873461
 MonoBehaviour:
@@ -55879,6 +55913,7 @@ MonoBehaviour:
   languageFonts:
   - {fileID: 12800000, guid: b8b4e4abe3d65d448a93af58c1a08ce6, type: 3}
   - {fileID: 12800000, guid: 5dc2c62b4e8583349a1f5609158e32ab, type: 3}
+  mobileTexts: []
   myText: {fileID: 0}
 --- !u!114 &1647311125
 MonoBehaviour:
@@ -57575,6 +57610,7 @@ MonoBehaviour:
   languageFonts:
   - {fileID: 12800000, guid: b8b4e4abe3d65d448a93af58c1a08ce6, type: 3}
   - {fileID: 12800000, guid: 5dc2c62b4e8583349a1f5609158e32ab, type: 3}
+  mobileTexts: []
   myText: {fileID: 0}
 --- !u!114 &1783865804
 MonoBehaviour:
@@ -58286,7 +58322,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enable: {fileID: 1830021999}
   test: 1
-  startLevel: 3
+  startLevel: 11
   speedUpRate: 10
   swc: {fileID: 0}
 --- !u!114 &1830022002
@@ -58412,6 +58448,7 @@ MonoBehaviour:
   languageFonts:
   - {fileID: 12800000, guid: a00657d55cf60f3468269f22c2a41600, type: 3}
   - {fileID: 12800000, guid: a00657d55cf60f3468269f22c2a41600, type: 3}
+  mobileTexts: []
   myText: {fileID: 0}
 --- !u!114 &1852790358
 MonoBehaviour:
@@ -59287,6 +59324,7 @@ MonoBehaviour:
   languageFonts:
   - {fileID: 12800000, guid: 76a0a844ac5268142b8c73f64e22e377, type: 3}
   - {fileID: 12800000, guid: 1d58efcdd20dc2346a73bcd21728ad83, type: 3}
+  mobileTexts: []
   myText: {fileID: 0}
 --- !u!1 &1929076270
 GameObject:
@@ -62059,6 +62097,7 @@ MonoBehaviour:
   languageFonts:
   - {fileID: 12800000, guid: b8b4e4abe3d65d448a93af58c1a08ce6, type: 3}
   - {fileID: 12800000, guid: 5dc2c62b4e8583349a1f5609158e32ab, type: 3}
+  mobileTexts: []
   myText: {fileID: 0}
 --- !u!114 &1998731691
 MonoBehaviour:

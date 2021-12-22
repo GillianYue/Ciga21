@@ -200,6 +200,7 @@ public class globalStateStore : MonoBehaviour
                     {
                         streetScene = Instantiate(streetScene_pfb, levelParent.transform);
                         streetScene.transform.SetAsFirstSibling();
+
                     }
                 break;
                 }
@@ -211,6 +212,7 @@ public class globalStateStore : MonoBehaviour
                     {
                         homeScene = Instantiate(homeScene_pfb, levelParent.transform);
                         homeScene.transform.SetAsFirstSibling();
+
                     }
                 break;
                 }
