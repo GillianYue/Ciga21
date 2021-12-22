@@ -74,18 +74,20 @@ public class globalStateStore : MonoBehaviour
                 {
                     l1Scene.SetActive(to);
                 }
-                else
+                else if(to) //if null and want to set to active (instantiate)
                 {
-                    l1Scene = Instantiate(l1Scene_pfb, levelParent.transform); 
+                    l1Scene = Instantiate(l1Scene_pfb, levelParent.transform);
+                    l1Scene.transform.SetAsFirstSibling();
                 }
 
                 break;
             case 2:
                 if (vaseScene != null){ vaseScene.SetActive(to);
                 }
-                else
+                else if (to)
                 {
                     vaseScene = Instantiate(vaseScene_pfb, levelParent.transform);
+                    vaseScene.transform.SetAsFirstSibling();
                 }
                 break;
             case 3:
@@ -93,43 +95,48 @@ public class globalStateStore : MonoBehaviour
                 {
                     if (treeBottomScene != null){ treeBottomScene.SetActive(to);
                     }
-                    else
+                    else if (to)
                     {
                         treeBottomScene = Instantiate(treeBottomScene_pfb, levelParent.transform);
+                        treeBottomScene.transform.SetAsFirstSibling();
                     }
                 }
                 else
                     if (treeScene != null){ treeScene.SetActive(to);
                     }
-                    else
-                    {
+                else if (to)
+                {
                         treeScene = Instantiate(treeScene_pfb, levelParent.transform);
-                    }
+                        treeScene.transform.SetAsFirstSibling();
+                }
                 break;
 
             case 4:
                     if (bandScene != null){ bandScene.SetActive(to);
                     }
-                    else
-                    {
+                else if (to)
+                {
                         bandScene = Instantiate(bandScene_pfb, levelParent.transform);
-                    }
+                        bandScene.transform.SetAsFirstSibling();
+                }
                 break;
             case 5:
                 if (seaScene != null){ seaScene.SetActive(to);
                     }
-                    else
-                    {
+                else if (to)
+                {
                         seaScene = Instantiate(seaScene_pfb, levelParent.transform);
-                    }
+                        seaScene.transform.SetAsFirstSibling();
+                }
                 break;
             case 6:
                 if (pupScene != null){ pupScene.SetActive(to);
                     }
-                    else
-                    {
+                else if (to)
+                {
                         pupScene = Instantiate(pupScene_pfb, levelParent.transform);
-                    }
+                        pupScene.transform.SetAsFirstSibling();
+                }
                 break;
 
             case 7:
@@ -137,9 +144,10 @@ public class globalStateStore : MonoBehaviour
                 {
                     if (gardenCloseupScene != null){ gardenCloseupScene.SetActive(to);
                     }
-                    else
+                    else if (to)
                     {
                         gardenCloseupScene = Instantiate(gardenCloseupScene_pfb, levelParent.transform);
+                        gardenCloseupScene.transform.SetAsFirstSibling();
                     }
                 break;
                 }
@@ -147,36 +155,40 @@ public class globalStateStore : MonoBehaviour
                 {
                     if (gardenScene != null){ gardenScene.SetActive(to);
                         }
-                        else
-                        {
-                            l1Scene = Instantiate(l1Scene_pfb, levelParent.transform);
-                        }
+                    else if (to)
+                    {
+                            gardenScene = Instantiate(gardenScene_pfb, levelParent.transform);
+                            gardenScene.transform.SetAsFirstSibling();
+                    }
                     break;
                 }
 
             case 8:
                 if (bickerScene != null){ bickerScene.SetActive(to);
                     }
-                    else
-                    {
+                else if (to)
+                {
                         bickerScene = Instantiate(bickerScene_pfb, levelParent.transform);
-                    }
+                        bickerScene.transform.SetAsFirstSibling();
+                }
                 break;
             case 9:
                 if (parkScene != null){ parkScene.SetActive(to);
                 }
-                        else
+                else if (to)
                 {
                     parkScene = Instantiate(parkScene_pfb, levelParent.transform);
+                    parkScene.transform.SetAsFirstSibling();
                 }
         break;
 
             case 10:
                 if (graveyardScene != null){ graveyardScene.SetActive(to);
                 }
-                        else
+                else if (to)
                 {
                     graveyardScene = Instantiate(graveyardScene_pfb, levelParent.transform);
+                    graveyardScene.transform.SetAsFirstSibling();
                 }
         break;
             case 11:
@@ -184,9 +196,10 @@ public class globalStateStore : MonoBehaviour
                 {
                     if (streetScene != null){ streetScene.SetActive(to);
                     }
-                    else
+                    else if (to)
                     {
                         streetScene = Instantiate(streetScene_pfb, levelParent.transform);
+                        streetScene.transform.SetAsFirstSibling();
                     }
                 break;
                 }
@@ -194,9 +207,10 @@ public class globalStateStore : MonoBehaviour
                 {
                     if (homeScene != null){ homeScene.SetActive(to);
                     }
-                    else
+                    else if (to)
                     {
                         homeScene = Instantiate(homeScene_pfb, levelParent.transform);
+                        homeScene.transform.SetAsFirstSibling();
                     }
                 break;
                 }

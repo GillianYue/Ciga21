@@ -54,7 +54,7 @@ public class PuzzlePiece : interactable
             selected = true;
             globalState.holdingPuzzlePiece = true;
 
-            if (!globalState.puzzleRightClickHintShown)
+            if (!globalState.puzzleRightClickHintShown && globalState.parkScene != null)
             {
                 globalState.puzzleRightClickHintShown = true;
                 Transform hint = globalState.parkScene.transform.Find("collage/rightClickHint");

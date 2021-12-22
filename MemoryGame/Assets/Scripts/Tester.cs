@@ -10,7 +10,7 @@ public class Tester : MonoBehaviour
 
     public imgSwitcher swc;
 
-    void Start()
+    void Awake()
     {
         if (speedUpRate == 0) speedUpRate = 5;
 
@@ -64,12 +64,13 @@ public class Tester : MonoBehaviour
                 Time.timeScale = 1.0f;
             }
 
+            if (Input.GetKeyDown("t"))
+            {
+                swc.switchToNextImgState();
+            }
         }
 
-        if (Input.GetKeyDown("t"))
-        {
-            swc.switchToNextImgState();
-        }
+
 
     }
 
