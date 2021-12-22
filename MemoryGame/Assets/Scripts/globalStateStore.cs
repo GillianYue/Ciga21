@@ -12,6 +12,9 @@ public class globalStateStore : MonoBehaviour
 
     public GameObject l1Scene, vaseScene, treeScene, treeBottomScene, bandScene, seaScene, pupScene, gardenScene, gardenCloseupScene,
         bickerScene, parkScene, graveyardScene, homeScene, mirrorScene, streetScene;
+    public GameObject l1Scene_pfb, vaseScene_pfb, treeScene_pfb, treeBottomScene_pfb, bandScene_pfb, seaScene_pfb, pupScene_pfb, gardenScene_pfb, gardenCloseupScene_pfb,
+    bickerScene_pfb, parkScene_pfb, graveyardScene_pfb, homeScene_pfb, mirrorScene_pfb, streetScene_pfb;
+    public GameObject levelParent; //canvas
 
     public bool globalClickable, globalUIClickOnly;
 
@@ -67,114 +70,135 @@ public class globalStateStore : MonoBehaviour
         switch (l)
         {
             case 1:
-                if (l1Scene != null) l1Scene.SetActive(to);
-                /*                foreach (Transform go in l1Scene.transform)
-                                {
-                                    go.gameObject.SetActive(to);
-                                }*/
+                if (l1Scene != null)
+                {
+                    l1Scene.SetActive(to);
+                }
+                else
+                {
+                    l1Scene = Instantiate(l1Scene_pfb, levelParent.transform); 
+                }
+
                 break;
             case 2:
-                if (vaseScene != null) vaseScene.SetActive(to);
-                /*                foreach (Transform go in vaseScene.transform)
-                                {
-                                    go.gameObject.SetActive(to);
-                                }*/
+                if (vaseScene != null){ vaseScene.SetActive(to);
+                }
+                else
+                {
+                    vaseScene = Instantiate(vaseScene_pfb, levelParent.transform);
+                }
                 break;
             case 3:
                 if (subScene)
                 {
-                    if (treeBottomScene != null) treeBottomScene.SetActive(to);
+                    if (treeBottomScene != null){ treeBottomScene.SetActive(to);
+                    }
+                    else
+                    {
+                        treeBottomScene = Instantiate(treeBottomScene_pfb, levelParent.transform);
+                    }
                 }
                 else
-                    if (treeScene != null) treeScene.SetActive(to);
-                /*                foreach (Transform go in treeScene.transform)
-                                {
-                                    go.gameObject.SetActive(to);
-                                }*/
+                    if (treeScene != null){ treeScene.SetActive(to);
+                    }
+                    else
+                    {
+                        treeScene = Instantiate(treeScene_pfb, levelParent.transform);
+                    }
                 break;
 
             case 4:
-                if (bandScene != null) bandScene.SetActive(to);
-                /*                foreach (Transform go in bandScene.transform)
-                                {
-                                    go.gameObject.SetActive(to);
-                                }*/
+                    if (bandScene != null){ bandScene.SetActive(to);
+                    }
+                    else
+                    {
+                        bandScene = Instantiate(bandScene_pfb, levelParent.transform);
+                    }
                 break;
             case 5:
-                if (seaScene != null) seaScene.SetActive(to);
-                /*                foreach (Transform go in seaScene.transform)
-                                {
-                                    go.gameObject.SetActive(to);
-                                }*/
+                if (seaScene != null){ seaScene.SetActive(to);
+                    }
+                    else
+                    {
+                        seaScene = Instantiate(seaScene_pfb, levelParent.transform);
+                    }
                 break;
             case 6:
-                if (pupScene != null) pupScene.SetActive(to);
-                /*                foreach (Transform go in pupScene.transform)
-                                {
-                                    go.gameObject.SetActive(to);
-                                }*/
+                if (pupScene != null){ pupScene.SetActive(to);
+                    }
+                    else
+                    {
+                        pupScene = Instantiate(pupScene_pfb, levelParent.transform);
+                    }
                 break;
 
             case 7:
                 if (subScene)
                 {
-                    if (gardenCloseupScene != null) gardenCloseupScene.SetActive(to);
-                    /*                    foreach (Transform go in gardenCloseupScene.transform)
-                                        {
-                                            go.gameObject.SetActive(to);
-                                        }*/
-                    break;
+                    if (gardenCloseupScene != null){ gardenCloseupScene.SetActive(to);
+                    }
+                    else
+                    {
+                        gardenCloseupScene = Instantiate(gardenCloseupScene_pfb, levelParent.transform);
+                    }
+                break;
                 }
                 else
                 {
-                    if (gardenScene != null) gardenScene.SetActive(to);
-                    /*                    foreach (Transform go in gardenScene.transform)
-                                        {
-                                            go.gameObject.SetActive(to);
-                                        }*/
+                    if (gardenScene != null){ gardenScene.SetActive(to);
+                        }
+                        else
+                        {
+                            l1Scene = Instantiate(l1Scene_pfb, levelParent.transform);
+                        }
                     break;
                 }
 
             case 8:
-                if (bickerScene != null) bickerScene.SetActive(to);
-                /*                foreach (Transform go in bickerScene.transform)
-                                {
-                                    go.gameObject.SetActive(to);
-                                }*/
+                if (bickerScene != null){ bickerScene.SetActive(to);
+                    }
+                    else
+                    {
+                        bickerScene = Instantiate(bickerScene_pfb, levelParent.transform);
+                    }
                 break;
             case 9:
-                if (parkScene != null) parkScene.SetActive(to);
-                /*                foreach (Transform go in parkScene.transform)
-                                {
-                                    go.gameObject.SetActive(to);
-                                }*/
-                break;
+                if (parkScene != null){ parkScene.SetActive(to);
+                }
+                        else
+                {
+                    parkScene = Instantiate(parkScene_pfb, levelParent.transform);
+                }
+        break;
 
             case 10:
-                if (graveyardScene != null) graveyardScene.SetActive(to);
-                /*                foreach (Transform go in graveyardScene.transform)
-                                {
-                                    go.gameObject.SetActive(to);
-                                }*/
-                break;
+                if (graveyardScene != null){ graveyardScene.SetActive(to);
+                }
+                        else
+                {
+                    graveyardScene = Instantiate(graveyardScene_pfb, levelParent.transform);
+                }
+        break;
             case 11:
                 if (subScene)
                 {
-                    if (streetScene != null) streetScene.SetActive(to);
-                    /*                    foreach (Transform go in homeScene.transform)
-                                        {
-                                            go.gameObject.SetActive(to);
-                                        }*/
-                    break;
+                    if (streetScene != null){ streetScene.SetActive(to);
+                    }
+                    else
+                    {
+                        streetScene = Instantiate(streetScene_pfb, levelParent.transform);
+                    }
+                break;
                 }
                 else
                 {
-                    if (homeScene != null) homeScene.SetActive(to);
-                    /*                    foreach (Transform go in mirrorScene.transform)
-                                        {
-                                            go.gameObject.SetActive(to);
-                                        }*/
-                    break;
+                    if (homeScene != null){ homeScene.SetActive(to);
+                    }
+                    else
+                    {
+                        homeScene = Instantiate(homeScene_pfb, levelParent.transform);
+                    }
+                break;
                 }
         }
     }
