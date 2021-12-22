@@ -5,6 +5,7 @@ apply plugin: 'com.android.library'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.config.Gillian_Alzheimer:com_alzheimer_memories_gn:20211215_1419'
 **DEPS**}
 
 android {
@@ -32,7 +33,10 @@ android {
     }
 
     aaptOptions {
+        noCompress = ['.ress', '.resource', '.obb'] + unityStreamingAssets.tokenize(', ')
         ignoreAssetsPattern = "!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~"
     }**PACKAGING_OPTIONS**
-}**REPOSITORIES****SOURCE_BUILD_SETUP**
+}**REPOSITORIES**
+**IL_CPP_BUILD_SETUP**
+**SOURCE_BUILD_SETUP**
 **EXTERNAL_SOURCES**
