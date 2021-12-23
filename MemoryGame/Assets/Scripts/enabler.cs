@@ -76,7 +76,7 @@ public class enabler : MonoBehaviour
 
         gameOnPause = false;
 
-        if (!test.test)
+        if (!test.test && false)
         {
 
             headphoneScreen.gameObject.SetActive(true);
@@ -109,7 +109,7 @@ public class enabler : MonoBehaviour
         globalState.audio.playSFX(0, 17, 0.1f); //ambience quiet
         globalState.audio.fadeVolumeSFX(0, 17, 5, 1);
 
-        if (!test.test)
+        if (!test.test && false)
         {
 
             yield return new WaitForSeconds(2);
