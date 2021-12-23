@@ -11,6 +11,7 @@ public class PuzzlePiece : interactable
     public Vector2 placementOffset; //if changeSpriteAfterPlacement, might need to be offset from placement position 
 
     private Vector2 originalPosition; //local pos
+    private bool isMobile;
 
     protected override void Awake()
     {
@@ -18,6 +19,8 @@ public class PuzzlePiece : interactable
 
         if (puzzlePlacement == null) puzzlePlacement = FindObjectOfType<PuzzlePlacement>();
         if (changeSpriteAfterPlacement) imgSwitch = GetComponent<imgSwitcher>();
+
+        isMobile = enabler.isMobile();
     }
 
     void Start()
@@ -33,7 +36,7 @@ public class PuzzlePiece : interactable
             newPos.z = 0;
             transform.position = newPos;
 
-            if (Input.GetMouseButtonDown(1))
+            if ((!isMobile && Input.GetMouseButtonDown(1)) ||  (isMobile && Input.GetTouch(0).tapCount == 2)  )
             {
                 //if right click, release
                 selected = false;
@@ -42,6 +45,7 @@ public class PuzzlePiece : interactable
                 globalState.holdingPuzzlePiece = false;
 
             }
+
         }
     }
 
@@ -54,10 +58,12 @@ public class PuzzlePiece : interactable
             selected = true;
             globalState.holdingPuzzlePiece = true;
 
-            if (!globalState.puzzleRightClickHintShown)
+            if (!globalState.puzzleRightClickHintShown && globalState.parkScene != null)
             {
                 globalState.puzzleRightClickHintShown = true;
                 Transform hint = globalState.parkScene.transform.Find("collage/rightClickHint");
+
+
                 hint.gameObject.SetActive(true);
                 hint.GetComponent<Animator>().SetTrigger("fadeInText");
 

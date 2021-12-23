@@ -28,9 +28,9 @@ public class enabler : MonoBehaviour
 
     public Animator headphoneScreen;
 
-#if UNITY_STANDALONE
-    public SteamAchievements steamAchievements;
-#endif
+    #if UNITY_STANDALONE
+        public SteamAchievements steamAchievements;
+    #endif
 
     public GameObject memorabiliaUI, quitUIWindow, UICanvas, menuUIWindow;
 
@@ -43,12 +43,19 @@ public class enabler : MonoBehaviour
     [Inject(InjectFrom.Anywhere)]
     public Memorabilia mm;
 
+    [Inject(InjectFrom.Anywhere)]
+    public MopubManager mopubManager;
+
+    public Button startButton;
+
     private void Awake()
     {
 
+        startButton.interactable = false;
+
         print("platform: " + Application.platform);
 
-        Application.targetFrameRate = 30;
+        Application.targetFrameRate = (SystemInfo.deviceType == DeviceType.Handheld)? 60:30;
 
         if (cam == null) cam = FindObjectOfType<CamMovement>();
         if (globalState == null) globalState = GetComponent<globalStateStore>();
@@ -69,7 +76,7 @@ public class enabler : MonoBehaviour
 
         gameOnPause = false;
 
-        if (!test.test)
+        if (!test.test && false)
         {
 
             headphoneScreen.gameObject.SetActive(true);
@@ -77,6 +84,8 @@ public class enabler : MonoBehaviour
             headphoneScreen.transform.GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 0);
             headphoneScreen.transform.GetChild(1).GetComponent<Image>().color = new Color(1, 1, 1, 0);
         }
+
+        
     }
 
     void Start()
@@ -100,7 +109,7 @@ public class enabler : MonoBehaviour
         globalState.audio.playSFX(0, 17, 0.1f); //ambience quiet
         globalState.audio.fadeVolumeSFX(0, 17, 5, 1);
 
-        if (!test.test)
+        if (!test.test && false)
         {
 
             yield return new WaitForSeconds(2);
@@ -117,15 +126,30 @@ public class enabler : MonoBehaviour
         startCanvas.transform.Find("photo/lines").gameObject.SetActive(true);
         startCanvas.transform.Find("photo/whiteout").gameObject.SetActive(false);
         startCanvas.transform.Find("photo/photo_content").gameObject.SetActive(false);
-        yield return new WaitForSeconds(2);
-        startCanvas.SetActive(true);
-        globalState.globalClickable = true;
 
-        yield return new WaitForSeconds(1);
-        titleScreenBtfl.Play("btflDropShadow"); //entry
+        yield return new WaitForSeconds(2);
+
+        startCanvas.SetActive(true);
+
+        if (SystemInfo.deviceType != DeviceType.Handheld) //pc
+        {
+            enableStartCanvasInteraction(); 
+        }
+        else
+        {
+            if(mopubManager) mopubManager.initMopub();
+        }
 
         yield return new WaitForSeconds(3);
         headphoneScreen.gameObject.SetActive(false);
+    }
+
+    public void enableStartCanvasInteraction()
+    {
+        startButton.interactable = true;
+        globalState.globalClickable = true;
+
+        titleScreenBtfl.Play("btflDropShadow"); //entry
     }
 
     public IEnumerator checkLoadLevel()
@@ -330,6 +354,8 @@ public class enabler : MonoBehaviour
             case 4: //band
 
                 NotesRecord.currActiveInstrument = -1;
+                globalState.bandScene.transform.Find("SmartPhone").GetComponent<interactable>().affectsGO = this.gameObject;
+                globalState.bandScene.transform.Find("speaker").GetComponent<interactable>().affectsGO = this.gameObject;
                 globalState.bandScene.transform.Find("HintButton").GetComponent<Button>().interactable = false;
 
                 yield return new WaitForSeconds(2);
@@ -497,7 +523,7 @@ public class enabler : MonoBehaviour
                 GetComponent<AudioManager>().playSFX(9, 1);
 
                 yield return new WaitForSeconds(7);
-                GetComponent<BlurManager>().leaf.onClick(); //will trigger leaf fall
+                globalState.parkScene.transform.Find("Leaf").GetComponent<interactable>().onClick(); //will trigger leaf fall
 
                 darkCover.SetTrigger("fadeOut");
 
@@ -863,6 +889,11 @@ public class enabler : MonoBehaviour
     public void buttonSelect()
     {
         globalState.audio.playSFX(0, 11);
+    }
+
+    public static bool isMobile()
+    {
+        return SystemInfo.deviceType == DeviceType.Handheld;
     }
 
 }

@@ -8,6 +8,7 @@ public class textAutoLanguage : MonoBehaviour
     public string[] languageTexts; //will be used to change content of UI.Text, matches languageId in enabler
     public int[] languageTextSizes; //if -1 use default text size
     public Font[] languageFonts; //if null use default font
+    public string[] mobileTexts;
 
     public Text myText;
 
@@ -15,6 +16,7 @@ public class textAutoLanguage : MonoBehaviour
     {
         if (enable == null) enable = FindObjectOfType<enabler>();
         if (myText == null) myText = GetComponent<Text>();
+        if (mobileTexts.Length > 0 && enabler.isMobile()) languageTexts = mobileTexts;
 
     }
 

@@ -18,6 +18,7 @@ public class StartDialogueClickThrough : MonoBehaviour
 
     private void Awake()
     {
+        if (myEnabler == null) myEnabler = FindObjectOfType<enabler>();
     }
 
     void Start()
@@ -98,6 +99,14 @@ public class StartDialogueClickThrough : MonoBehaviour
                             textAnimators[i].SetTrigger("fadeOutText");
                         }
 
+                        if (!myEnabler.globalState.mirrorScene)
+                        {
+                            myEnabler.globalState.mirrorScene = Instantiate(myEnabler.globalState.mirrorScene_pfb,
+                               myEnabler.globalState.levelParent.transform);
+                            myEnabler.globalState.mirrorScene.transform.SetAsFirstSibling();
+                            myEnabler.globalState.mirrorScene.SetActive(false);
+                            myEnabler.globalState.streetScene.transform.SetAsFirstSibling();
+                        }
                         Transform mirrorScene = myEnabler.globalState.mirrorScene.transform;
 
                         yield return new WaitForSeconds(3f);
@@ -105,7 +114,7 @@ public class StartDialogueClickThrough : MonoBehaviour
                         myEnabler.audio.playSFX(0, 17, 0.2f); //ambience white noise
                         myEnabler.audio.fadeVolumeSFX(0, 17, 2, 1);
 
-                        mirrorScene.gameObject.SetActive(true);
+                        myEnabler.globalState.mirrorScene.SetActive(true);
                         Transform mirror = mirrorScene.Find("mirror"), things = mirrorScene.Find("things");
                         mirror.gameObject.SetActive(false); things.gameObject.SetActive(false);
                         backPanel.SetTrigger("fadeOutSlow"); //text panel fade 

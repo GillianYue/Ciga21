@@ -80,7 +80,7 @@ public class interactable : MonoBehaviour
                 })));
 
         }
-        else if (name.Length > 4 && name.Substring(0, 4).Equals("leaf") && name[4] != '3')
+        else if (name.Length > 4 && name.Substring(0, 4).Equals("leaf") && name[4] != '3' && !name.Equals("leafLine"))
         {
             StartCoroutine(Global.Chain(this,
                 Global.WaitForSeconds(Random.Range(0f, 2f)),
@@ -1293,10 +1293,12 @@ public class interactable : MonoBehaviour
 
                 foreach (Transform leaf in leafBatch)
                 {
+                    
                     StartCoroutine(Global.Chain(this,
                     Global.WaitForSeconds(Random.Range(0f, 0.7f)),
                     Global.Do(() =>
                     {
+                        //print( leaf.name);
                         leaf.GetComponent<Animator>().Play("leafFall" + Random.Range(1, 5));
                     })));
 
@@ -2015,6 +2017,7 @@ public class interactable : MonoBehaviour
                     yield return new WaitForSeconds(3);
 
                     lz.GetComponent<Animator>().SetTrigger("fadeOut");
+                    lighterGray.GetComponent<Animator>().SetTrigger("fadeOut");
 
                     yield return new WaitForSeconds(3);
 
