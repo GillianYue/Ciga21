@@ -493,7 +493,7 @@ public class animEventLink : MonoBehaviour
     public bool mouseAtCornerBottomLeft()
     {
         float dist = Vector2.Distance(Input.mousePosition, new Vector2(0, 0));
-        return (dist < 80);
+        return (dist < (enabler.isMobile()? 160 : 80));
     }
 
     public void blink() { camMovement.vfx.Play("blink"); }

@@ -4678,6 +4678,7 @@ GameObject:
   - component: {fileID: 1177295507123209304}
   - component: {fileID: 1177295507123209310}
   - component: {fileID: 1177295507123209309}
+  - component: {fileID: 4006466032816611378}
   m_Layer: 0
   m_Name: fish1
   m_TagString: Untagged
@@ -4782,6 +4783,23 @@ MonoBehaviour:
   var1: 0
   var2: 0
   var3: 0
+--- !u!114 &4006466032816611378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1177295507123209306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cddd8010763fbf469e78d6086d4d0a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myAdjustmentType: 0
+  param1: 33.5
+  param2: 13.8
+  param3: 60
+  param4: 27
 --- !u!1 &1177295507125789045
 GameObject:
   m_ObjectHideFlags: 0
@@ -8574,6 +8592,7 @@ GameObject:
   - component: {fileID: 1177295508169105520}
   - component: {fileID: 1177295508169105525}
   - component: {fileID: 1177295508169105526}
+  - component: {fileID: 7968590914455786406}
   m_Layer: 0
   m_Name: fish2
   m_TagString: Untagged
@@ -8678,6 +8697,23 @@ MonoBehaviour:
   var1: 0
   var2: 0
   var3: 0
+--- !u!114 &7968590914455786406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1177295508169105522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cddd8010763fbf469e78d6086d4d0a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myAdjustmentType: 0
+  param1: 33.5
+  param2: 13.8
+  param3: 60
+  param4: 27
 --- !u!1 &1177295508186517072
 GameObject:
   m_ObjectHideFlags: 0

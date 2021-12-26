@@ -50,24 +50,25 @@ public class Memorabilia : MonoBehaviour
 
         //
 
-        itemTitle_eng.Add("奇怪的药罐"); itemTitle_eng.Add("小蝴蝶/胡椒粉"); itemTitle_eng.Add("拼接好的碎花瓶");
-        itemTitle_eng.Add("松鼠"); itemTitle_eng.Add("收音机"); itemTitle_eng.Add("啤酒");
-        itemTitle_eng.Add("命运之球"); itemTitle_eng.Add("活动宣传单"); itemTitle_eng.Add("一瓣橘子");
-        itemTitle_eng.Add("宇宙"); itemTitle_eng.Add("花束"); itemTitle_eng.Add("眼镜");
-        itemTitle_eng.Add("我们的照片");
+        itemTitle_eng.Add("Strange Pill Bottle"); itemTitle_eng.Add("Little Butterfly/Pepper"); 
+        itemTitle_eng.Add("Glued Broken Vase");
+        itemTitle_eng.Add("Squirrel"); itemTitle_eng.Add("Radio"); itemTitle_eng.Add("Beer");
+        itemTitle_eng.Add("Ball of Fate"); itemTitle_eng.Add("Pamphlet"); itemTitle_eng.Add("A Slice of Mandarin");
+        itemTitle_eng.Add("The Universe"); itemTitle_eng.Add("Bouquet"); itemTitle_eng.Add("Glasses");
+        itemTitle_eng.Add("Our Photo");
 
-        itemDescrip_eng.Add("医生的嘱咐是每天睡前两粒，喝温水吞服。今天...今天我吃了药了吧？");
-        itemDescrip_eng.Add("餐厅里怎么会出现蝴蝶呢？/胡椒粉洒出来，就像小蝴蝶抖了抖翅膀上的麟粉。");
-        itemDescrip_eng.Add("明明都放在一起了，还是会看出有缝隙。哎呀！");
-        itemDescrip_eng.Add("树上的好朋友。"); itemDescrip_eng.Add("咔呲咔呲，旋钮每转一下就会出现一个新的世界。");
-        itemDescrip_eng.Add("夕阳的余晖照在瓶子上，映出橙红色的反光。那天的啤酒真的格外好喝。");
-        itemDescrip_eng.Add("后来我就时常想，那天怎么就会我在那里，它在那里，球就滚啊滚啊，滚到了她那里？");
-        itemDescrip_eng.Add("很多花。");
-        itemDescrip_eng.Add("其实都不是很好吃，甚至格外地酸；但还是一瓣一瓣全部吃掉了。");
-        itemDescrip_eng.Add("在这里，时间不复存在，我们也都停止了呼吸。");
-        itemDescrip_eng.Add("一些花。");
-        itemDescrip_eng.Add("世界朦朦胧胧的，什么都看不清了。戴上了眼镜，还是模模糊糊。");
-        itemDescrip_eng.Add("我和她和它的，金色的岁月。");
+        itemDescrip_eng.Add("Doctor said to take two pills daily before sleep, with warm water. I…I did take them today, I think.");
+        itemDescrip_eng.Add("Where could it have come from? / Shake it, and pixie dust comes out.");
+        itemDescrip_eng.Add("Even with the pieces put back together, cracks can still be seen. Sigh!");
+        itemDescrip_eng.Add("A good friend on the tree."); itemDescrip_eng.Add("Every turn on the knob brings out a new world.");
+        itemDescrip_eng.Add("Sunset lingers on the bottle and creates an orangey glow. The beer that day was unforgettably good.");
+        itemDescrip_eng.Add("I would often look back and think, how is it that I was there that day, and the ball rolled over to her?");
+        itemDescrip_eng.Add("A lot of flowers.");
+        itemDescrip_eng.Add("It was rather sour, actually; still, I finished it all.");
+        itemDescrip_eng.Add("Time no longer exists here, as we stopped breathing.");
+        itemDescrip_eng.Add("Some flowers.");
+        itemDescrip_eng.Add("Even with glasses on, the world looks blurry and unclear.");
+        itemDescrip_eng.Add("This is our golden ages together.");
 
         //
 
