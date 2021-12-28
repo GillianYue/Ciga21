@@ -32,7 +32,7 @@ public class enabler : MonoBehaviour
         public SteamAchievements steamAchievements;
     #endif
 
-    public GameObject memorabiliaUI, quitUIWindow, UICanvas, menuUIWindow;
+    public GameObject memorabiliaUI, quitUIWindow, UICanvas, menuUIWindow, vfxCanvas;
 
     public bool gameOnPause;
 
@@ -67,6 +67,7 @@ public class enabler : MonoBehaviour
 #endif
 
         if (mm == null) mm = FindObjectOfType<Memorabilia>();
+        vfxCanvas = UICanvas.transform.parent.Find("vfx").gameObject;
 
         language = PlayerPrefs.GetInt("language", 0);
 
@@ -108,7 +109,7 @@ public class enabler : MonoBehaviour
         globalState.audio.playSFX(0, 17, 0.1f); //ambience quiet
         globalState.audio.fadeVolumeSFX(0, 17, 5, 1);
 
-        if (!test.test && false)
+/*        if (!test.test && false)
         {
 
             yield return new WaitForSeconds(2);
@@ -119,7 +120,7 @@ public class enabler : MonoBehaviour
 
             headphoneScreen.SetTrigger("fadeOut");
 
-        }
+        }*/
 
         //show title screen
         startCanvas.transform.Find("photo/lines").gameObject.SetActive(true);
@@ -130,7 +131,7 @@ public class enabler : MonoBehaviour
 
         startCanvas.SetActive(true);
 
-            enableStartCanvasInteraction(); 
+        enableStartCanvasInteraction(); 
 
         yield return new WaitForSeconds(3);
         headphoneScreen.gameObject.SetActive(false);
@@ -138,7 +139,7 @@ public class enabler : MonoBehaviour
 
     public void enableStartCanvasInteraction()
     {
-        //startButton.interactable = true;
+        startButton.interactable = true;
         globalState.globalClickable = true;
 
         titleScreenBtfl.Play("btflDropShadow"); //entry
@@ -210,6 +211,7 @@ public class enabler : MonoBehaviour
             //globalState.revealAndHideStuff(loadLv, true);
 
             UICanvas.gameObject.SetActive(true);
+            vfxCanvas.gameObject.SetActive(true);
 
             globalState.audio.fadeVolumeSFX(0, 17, 2, 0);
             startCanvas.SetActive(false);

@@ -10,6 +10,8 @@ public class EntryManager : MonoBehaviour
 
     private AsyncOperation asyncLoad;
 
+    public MonoBehaviour[] activateUponSceneLoad;
+
     private void Awake()
     {
 
@@ -40,10 +42,14 @@ public class EntryManager : MonoBehaviour
 
         yield return new WaitUntil(()=> asyncLoad.isDone );
 
+        foreach(MonoBehaviour s in activateUponSceneLoad)
+        {
+            s.enabled = true;
+        }
+
         headphoneScreen.SetTrigger("fadeOut");
 
-        yield return new WaitForSeconds(3);
-        this.gameObject.SetActive(false);
+        yield return new WaitForSeconds(3f);
     }
 
     void Update()
