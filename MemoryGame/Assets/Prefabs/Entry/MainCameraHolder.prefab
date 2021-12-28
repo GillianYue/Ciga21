@@ -23174,7 +23174,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4345694326286834484}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cd3557bba4a4b3f49b058ca9e2b938a8, type: 3}
   m_Name: 
@@ -34883,10 +34883,9 @@ GameObject:
   - component: {fileID: 4345694327595428711}
   - component: {fileID: 4345694327595428728}
   - component: {fileID: 4345694327595428729}
-  - component: {fileID: 586457321}
   m_Layer: 0
   m_Name: MainCameraHolder
-  m_TagString: Untagged
+  m_TagString: MainCameraHolder
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -34913,7 +34912,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4345694327595428706}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0442e0e0c57c83b42999f37916ff8f0c, type: 3}
   m_Name: 
@@ -34959,7 +34958,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4345694327595428706}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6b4f61c40d3a87f4f80dba35e3b34fff, type: 3}
   m_Name: 
@@ -34978,7 +34977,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4345694327595428706}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 613325f2883764584856dc3809d8ec5e, type: 3}
   m_Name: 
@@ -35014,7 +35013,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4345694327595428706}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cd3557bba4a4b3f49b058ca9e2b938a8, type: 3}
   m_Name: 
@@ -35022,25 +35021,6 @@ MonoBehaviour:
   globalState: {fileID: 0}
   enable: {fileID: 0}
   camMovement: {fileID: 0}
---- !u!114 &586457321
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4345694327595428706}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca6195c123928a84994b8de6f127bc4f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  headphoneScreen: {fileID: 0}
-  activateUponSceneLoad:
-  - {fileID: 4345694327595428707}
-  - {fileID: 4345694327595428710}
-  - {fileID: 4345694327595428711}
-  - {fileID: 4345694327595428729}
-  - {fileID: 4345694326286834634}
 --- !u!1 &4345694327610856184
 GameObject:
   m_ObjectHideFlags: 0

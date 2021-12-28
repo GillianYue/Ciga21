@@ -46,6 +46,9 @@ public class enabler : MonoBehaviour
     [Inject(InjectFrom.Anywhere)]
     public MopubManager mopubManager;
 
+    [Inject(InjectFrom.Anywhere)]
+    public EntryManager entryManager;
+
     public Button startButton;
 
     private void Awake()
@@ -67,7 +70,6 @@ public class enabler : MonoBehaviour
 #endif
 
         if (mm == null) mm = FindObjectOfType<Memorabilia>();
-        vfxCanvas = UICanvas.transform.parent.Find("vfx").gameObject;
 
         language = PlayerPrefs.GetInt("language", 0);
 
@@ -127,7 +129,7 @@ public class enabler : MonoBehaviour
         startCanvas.transform.Find("photo/whiteout").gameObject.SetActive(false);
         startCanvas.transform.Find("photo/photo_content").gameObject.SetActive(false);
 
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(4.5f);
 
         startCanvas.SetActive(true);
 

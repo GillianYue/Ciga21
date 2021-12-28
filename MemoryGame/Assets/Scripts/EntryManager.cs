@@ -10,7 +10,8 @@ public class EntryManager : MonoBehaviour
 
     private AsyncOperation asyncLoad;
 
-    public MonoBehaviour[] activateUponSceneLoad;
+    public GameObject[] activateUponSceneLoad;
+    public GameObject prevEventSystem;
 
     private void Awake()
     {
@@ -32,6 +33,8 @@ public class EntryManager : MonoBehaviour
         headphoneScreen.transform.GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 0);
         headphoneScreen.transform.GetChild(1).GetComponent<Image>().color = new Color(1, 1, 1, 0);
 
+        prevEventSystem.SetActive(false);
+
         asyncLoad = SceneManager.LoadSceneAsync("main", LoadSceneMode.Additive);
 
         yield return new WaitForSeconds(2);
@@ -42,12 +45,26 @@ public class EntryManager : MonoBehaviour
 
         yield return new WaitUntil(()=> asyncLoad.isDone );
 
-        foreach(MonoBehaviour s in activateUponSceneLoad)
+        if(activateUponSceneLoad.Length > 0)
+        foreach (GameObject g in activateUponSceneLoad)
         {
-            s.enabled = true;
+            g.SetActive(true);
         }
 
         headphoneScreen.SetTrigger("fadeOut");
+
+        GameObject mainCamHolder = GameObject.FindGameObjectWithTag("MainCameraHolder");
+
+        mainCamHolder.SetActive(true);
+        gameObject.tag = "Untagged";
+
+        Camera mainCam = mainCamHolder.transform.GetChild(0).GetComponent<Camera>();
+        mainCam.enabled = true;
+
+        GetComponent<Camera>().enabled = false;
+        this.gameObject.SetActive(false);
+
+        //Time.timeScale = 1;
 
         yield return new WaitForSeconds(3f);
     }
