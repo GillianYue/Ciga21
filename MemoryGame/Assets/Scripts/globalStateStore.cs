@@ -179,6 +179,11 @@ public class globalStateStore : MonoBehaviour
                 {
                     parkScene = Instantiate(parkScene_pfb, levelParent.transform);
                     parkScene.transform.SetAsFirstSibling();
+
+                    blurManager.her = parkScene.transform.Find("Her").GetComponent<Animator>();
+                    blurManager.myHand = parkScene.transform.Find("MyHand").GetComponent<Animator>();
+                    blurManager.leaf = parkScene.transform.Find("Leaf").GetComponent<interactable>();
+                    blurManager.scene3bg = parkScene.transform.Find("Scene3Base").GetComponent<Animator>();
                 }
         break;
 

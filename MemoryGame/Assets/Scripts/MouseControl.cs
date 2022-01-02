@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using System.Collections.Generic;
 
 public class MouseControl : MonoBehaviour
 {
@@ -13,6 +17,16 @@ public class MouseControl : MonoBehaviour
     public enum MouseMode { hand, cursor }
     public MouseMode mouseMode;
 
+
+
+
+    [SerializeField] GraphicRaycaster m_Raycaster;
+    PointerEventData m_PointerEventData;
+    [SerializeField] EventSystem m_EventSystem;
+    [SerializeField] RectTransform canvasRect;
+
+
+
     private void Awake()
     {
         if (globalState == null) globalState = FindObjectOfType<globalStateStore>();
@@ -26,8 +40,30 @@ public class MouseControl : MonoBehaviour
         {
 
             Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Collider2D hit = globalState.globalUIClickOnly ? Physics2D.OverlapPoint(mouseWorldPos, LayerMask.GetMask("UI")) : Physics2D.OverlapPoint(mouseWorldPos);
+            Collider2D hit = globalState.globalUIClickOnly ? Physics2D.OverlapPoint(mouseWorldPos, LayerMask.GetMask("UI")) : 
+                Physics2D.OverlapPoint(mouseWorldPos);
 
+/*            if (globalState.globalUIClickOnly)
+            {
+                //Set up the new Pointer Event
+                m_PointerEventData = new PointerEventData(m_EventSystem);
+                //Set the Pointer Event Position to that of the game object
+                m_PointerEventData.position = Input.mousePosition;
+
+                //Create a list of Raycast Results
+                List<RaycastResult> results = new List<RaycastResult>();
+
+                //Raycast using the Graphics Raycaster and mouse click position
+                m_Raycaster.Raycast(m_PointerEventData, results);
+
+                if (results.Count != 0)
+                {
+                    print("hit is not null!!!!!");
+                    hit = results[0].
+                }
+            }*/
+
+            
             if (hit != null)
             {
 
