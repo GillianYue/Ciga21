@@ -26,7 +26,7 @@ public class Screenshake : MonoBehaviour
     public bool infiniteShake = false;
     public bool active = false;
 
-    void Awake()
+    private void Awake()
     {
         if (shakeTransform == null) shakeTransform = transform.GetChild(0); //cam
         initialPosition = shakeTransform.localPosition;

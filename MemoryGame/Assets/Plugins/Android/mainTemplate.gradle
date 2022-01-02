@@ -5,7 +5,7 @@ apply plugin: 'com.android.library'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.config.Gillian_Alzheimer:com_alzheimer_memories_gn:20211215_1419'
+    implementation 'com.config.Gillian_Alzheimer:com_alzheimer_memories_gn:20211224_1532'
 **DEPS**}
 
 android {

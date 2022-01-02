@@ -12,6 +12,9 @@ public class textAutoLanguage : MonoBehaviour
 
     public Text myText;
 
+    public bool changePosition;
+    public Vector2 position_chn, position_eng;
+
     private void Awake()
     {
         if (enable == null) enable = FindObjectOfType<enabler>();
@@ -38,6 +41,8 @@ public class textAutoLanguage : MonoBehaviour
         if (languageTexts.Length - 1 < lang_id || myText == null) return;
 
         myText.text = languageTexts[lang_id];
+
+        if (changePosition) transform.localPosition = (lang_id == 0) ? position_eng : position_chn;
 
         if (languageTextSizes.Length - 1 >= lang_id && languageTextSizes[lang_id] != -1) myText.fontSize = languageTextSizes[lang_id];
 

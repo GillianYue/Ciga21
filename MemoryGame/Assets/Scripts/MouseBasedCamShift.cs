@@ -18,7 +18,7 @@ public class MouseBasedCamShift : MonoBehaviour
     {
         if (!enable) enable = FindObjectOfType<enabler>();
 
-        if (SystemInfo.deviceType == DeviceType.Handheld)
+        if (enabler.isMobile())
         {
             //mobile
             useAccl = true;
@@ -59,7 +59,7 @@ public class MouseBasedCamShift : MonoBehaviour
             //if (name.Equals("dark_cover")) { print(Input.mousePosition); }
             Vector2 offset = new Vector2();
 
-            if (!useAccl)
+            if (!useAccl || Input.touchCount > 0) //mobile if touch will override accl
             {
                 Vector2 mousePos = (Vector2)Input.mousePosition - screenDimension / 2; //center point will be (0,0)
 
@@ -68,8 +68,8 @@ public class MouseBasedCamShift : MonoBehaviour
 
                 offset = new Vector2(moveCapacity.x * (mousePos.x / (screenDimension.x / 2)), moveCapacity.y * (mousePos.y / (screenDimension.y / 2)));
             }
-            else
-            {
+            
+            else if(useAccl){
                 Vector3 accl = AdjustedAccelerometer;
 
                 //print(Input.acceleration + " adjusted: "+ accl);

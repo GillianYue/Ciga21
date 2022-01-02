@@ -35,7 +35,7 @@ public class edgeScroller : MonoBehaviour
     {
         camMovement.camHolder.GetComponent<Animator>().enabled = true;
         active = true;
-        if (SystemInfo.deviceType == DeviceType.Handheld)
+        if (enabler.isMobile())
         {
             //mobile
             swipeManager.active = true;

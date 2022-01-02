@@ -32,7 +32,7 @@ public class enabler : MonoBehaviour
         public SteamAchievements steamAchievements;
     #endif
 
-    public GameObject memorabiliaUI, quitUIWindow, UICanvas, menuUIWindow;
+    public GameObject memorabiliaUI, quitUIWindow, UICanvas, menuUIWindow, vfxCanvas;
 
     public bool gameOnPause;
 
@@ -46,22 +46,24 @@ public class enabler : MonoBehaviour
     [Inject(InjectFrom.Anywhere)]
     public MopubManager mopubManager;
 
+    [Inject(InjectFrom.Anywhere)]
+    public EntryManager entryManager;
+
     public Button startButton;
 
     private void Awake()
     {
 
-        startButton.interactable = false;
-
         print("platform: " + Application.platform);
 
-        Application.targetFrameRate = (SystemInfo.deviceType == DeviceType.Handheld)? 60:30;
+        Application.targetFrameRate = (isMobile())? 60:30;
 
         if (cam == null) cam = FindObjectOfType<CamMovement>();
         if (globalState == null) globalState = GetComponent<globalStateStore>();
         if (blurManager == null) blurManager = GetComponent<BlurManager>();
         if (audio == null) audio = GetComponent<AudioManager>();
         if (test == null) test = GetComponent<Tester>();
+        if (mopubManager == null) mopubManager = GetComponent<MopubManager>();
 
 #if UNITY_STANDALONE
         if (steamAchievements == null) steamAchievements = GetComponent<SteamAchievements>();
@@ -76,7 +78,7 @@ public class enabler : MonoBehaviour
 
         gameOnPause = false;
 
-        if (!test.test && false)
+        if (!test.test)
         {
 
             headphoneScreen.gameObject.SetActive(true);
@@ -109,7 +111,7 @@ public class enabler : MonoBehaviour
         globalState.audio.playSFX(0, 17, 0.1f); //ambience quiet
         globalState.audio.fadeVolumeSFX(0, 17, 5, 1);
 
-        if (!test.test && false)
+        if (!test.test)
         {
 
             yield return new WaitForSeconds(2);
@@ -127,18 +129,11 @@ public class enabler : MonoBehaviour
         startCanvas.transform.Find("photo/whiteout").gameObject.SetActive(false);
         startCanvas.transform.Find("photo/photo_content").gameObject.SetActive(false);
 
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(4.5f);
 
         startCanvas.SetActive(true);
 
-        if (SystemInfo.deviceType != DeviceType.Handheld) //pc
-        {
-            enableStartCanvasInteraction(); 
-        }
-        else
-        {
-            if(mopubManager) mopubManager.initMopub();
-        }
+        enableStartCanvasInteraction(); 
 
         yield return new WaitForSeconds(3);
         headphoneScreen.gameObject.SetActive(false);
@@ -218,6 +213,7 @@ public class enabler : MonoBehaviour
             //globalState.revealAndHideStuff(loadLv, true);
 
             UICanvas.gameObject.SetActive(true);
+            vfxCanvas.gameObject.SetActive(true);
 
             globalState.audio.fadeVolumeSFX(0, 17, 2, 0);
             startCanvas.SetActive(false);
@@ -228,7 +224,7 @@ public class enabler : MonoBehaviour
         }
         else
         {
-            StartCoroutine(checkLoadLevel());
+            mopubManager.realnameAuth(); //will call loadLevel if success
         }
 
     }
@@ -894,6 +890,11 @@ public class enabler : MonoBehaviour
     public static bool isMobile()
     {
         return SystemInfo.deviceType == DeviceType.Handheld;
+    }
+
+    public void openUrl(string url)
+    {
+        Application.OpenURL(url);
     }
 
 }
