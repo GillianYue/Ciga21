@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
+#if !UNITY_STANDALONE
 using MopubNS;
+#endif
 
 public class MopubManager : MonoBehaviour
 {
+#if !UNITY_STANDALONE
     [Inject(InjectFrom.Anywhere)]
     public enabler enable;
 
@@ -77,5 +81,5 @@ public class MopubManager : MonoBehaviour
     }
 
 
-
+#endif
 }
