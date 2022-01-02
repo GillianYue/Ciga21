@@ -20339,6 +20339,52 @@ PrefabInstance:
       objectReference: {fileID: 1830021999}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1db4f88c6243a10469a7f1dccdd85ca4, type: 3}
+--- !u!1 &2033007278864648273 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2033007278459939888, guid: 1db4f88c6243a10469a7f1dccdd85ca4,
+    type: 3}
+  m_PrefabInstance: {fileID: 2033007278864648272}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2033007278864648274 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2033007278787467011, guid: 1db4f88c6243a10469a7f1dccdd85ca4,
+    type: 3}
+  m_PrefabInstance: {fileID: 2033007278864648272}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2033007278864648275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2033007278864648273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cddd8010763fbf469e78d6086d4d0a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myAdjustmentType: 1
+  param1: 0
+  param2: 1
+  param3: 0
+  param4: 0
+--- !u!114 &2033007278864648276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2033007278864648274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cddd8010763fbf469e78d6086d4d0a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myAdjustmentType: 1
+  param1: 0
+  param2: 1
+  param3: 0
+  param4: 0
 --- !u!1001 &4675211141462412132
 PrefabInstance:
   m_ObjectHideFlags: 0
