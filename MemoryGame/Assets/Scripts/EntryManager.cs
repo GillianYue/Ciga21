@@ -28,32 +28,32 @@ public class EntryManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0);
 
-        headphoneScreen.gameObject.SetActive(true);
+/*        headphoneScreen.gameObject.SetActive(true);
         headphoneScreen.GetComponent<Image>().color = new Color(1, 1, 1, 1);
         headphoneScreen.transform.GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 0);
-        headphoneScreen.transform.GetChild(1).GetComponent<Image>().color = new Color(1, 1, 1, 0);
+        headphoneScreen.transform.GetChild(1).GetComponent<Image>().color = new Color(1, 1, 1, 0);*/
 
-        prevEventSystem.SetActive(false);
+        //prevEventSystem.SetActive(false);
 
-        asyncLoad = SceneManager.LoadSceneAsync("main", LoadSceneMode.Additive);
+        asyncLoad = SceneManager.LoadSceneAsync("main", LoadSceneMode.Single);
 
-        yield return new WaitForSeconds(2);
+        //yield return new WaitForSeconds(2);
 
-        headphoneScreen.SetTrigger("fadeIn");
+        //headphoneScreen.SetTrigger("fadeIn");
 
-        yield return new WaitForSeconds(1);
+        //yield return new WaitForSeconds(1);
 
         yield return new WaitUntil(()=> asyncLoad.isDone );
 
-        if(activateUponSceneLoad.Length > 0)
+/*        if(activateUponSceneLoad.Length > 0)
         foreach (GameObject g in activateUponSceneLoad)
         {
             g.SetActive(true);
-        }
+        }*/
 
-        headphoneScreen.SetTrigger("fadeOut");
+        //headphoneScreen.SetTrigger("fadeOut");
 
-        GameObject mainCamHolder = GameObject.FindGameObjectWithTag("MainCameraHolder");
+/*        GameObject mainCamHolder = GameObject.FindGameObjectWithTag("MainCameraHolder");
 
         mainCamHolder.SetActive(true);
         gameObject.tag = "Untagged";
@@ -62,7 +62,7 @@ public class EntryManager : MonoBehaviour
         mainCam.enabled = true;
 
         GetComponent<Camera>().enabled = false;
-        this.gameObject.SetActive(false);
+        this.gameObject.SetActive(false);*/
 
         //Time.timeScale = 1;
 

@@ -1,14 +1,14 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.UI;
  
 public class EventSystemAsyncLoad : MonoBehaviour
 {
-    private StandaloneInputModule _inputSystemUIInputModule;
+    private InputSystemUIInputModule _inputSystemUIInputModule;
 
     void Start()
     {
-        _inputSystemUIInputModule = GetComponentInParent<StandaloneInputModule>();
+        _inputSystemUIInputModule = GetComponentInParent<InputSystemUIInputModule>();
     }
 
     private void OnEnable()

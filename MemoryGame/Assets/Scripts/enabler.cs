@@ -78,7 +78,7 @@ public class enabler : MonoBehaviour
 
         gameOnPause = false;
 
-        if (!test.test && false)
+        if (!test.test)
         {
 
             headphoneScreen.gameObject.SetActive(true);
@@ -111,7 +111,7 @@ public class enabler : MonoBehaviour
         globalState.audio.playSFX(0, 17, 0.1f); //ambience quiet
         globalState.audio.fadeVolumeSFX(0, 17, 5, 1);
 
-/*        if (!test.test && false)
+        if (!test.test)
         {
 
             yield return new WaitForSeconds(2);
@@ -122,7 +122,7 @@ public class enabler : MonoBehaviour
 
             headphoneScreen.SetTrigger("fadeOut");
 
-        }*/
+        }
 
         //show title screen
         startCanvas.transform.Find("photo/lines").gameObject.SetActive(true);
