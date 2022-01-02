@@ -43,10 +43,8 @@ public class enabler : MonoBehaviour
     [Inject(InjectFrom.Anywhere)]
     public Memorabilia mm;
 
-#if !UNITY_STANDALONE
     [Inject(InjectFrom.Anywhere)]
     public MopubManager mopubManager;
-#endif
 
     [Inject(InjectFrom.Anywhere)]
     public EntryManager entryManager;
@@ -65,10 +63,7 @@ public class enabler : MonoBehaviour
         if (blurManager == null) blurManager = GetComponent<BlurManager>();
         if (audio == null) audio = GetComponent<AudioManager>();
         if (test == null) test = GetComponent<Tester>();
-
-#if !UNITY_STANDALONE
         if (mopubManager == null) mopubManager = GetComponent<MopubManager>();
-#endif
 
 #if UNITY_STANDALONE
         if (steamAchievements == null) steamAchievements = GetComponent<SteamAchievements>();
@@ -229,9 +224,7 @@ public class enabler : MonoBehaviour
         }
         else
         {
-            #if !UNITY_STANDALONE
-                mopubManager.realnameAuth(); //will call loadLevel if success
-            #endif
+            mopubManager.realnameAuth(); //will call loadLevel if success
         }
 
     }
