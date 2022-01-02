@@ -1,10 +1,10 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.InputSystem.UI;
+//using UnityEngine.InputSystem.UI;
  
 public class EventSystemAsyncLoad : MonoBehaviour
 {
-    private InputSystemUIInputModule _inputSystemUIInputModule;
+/*    private InputSystemUIInputModule _inputSystemUIInputModule;
 
     void Start()
     {
@@ -22,5 +22,5 @@ public class EventSystemAsyncLoad : MonoBehaviour
         _inputSystemUIInputModule.enabled = false;
         yield return new WaitForSeconds(0.2f);
         _inputSystemUIInputModule.enabled = true;
-    }
+    }*/
 }

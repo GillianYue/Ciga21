@@ -73,19 +73,16 @@ public class enabler : MonoBehaviour
 
         language = PlayerPrefs.GetInt("language", 0);
 
-        UICanvas.gameObject.SetActive(false); //hide UICanvas on start
-        menuUIWindow.gameObject.SetActive(false);
-
         gameOnPause = false;
 
-        if (!test.test)
-        {
+       // if (!test.test)
+       // {
 
             headphoneScreen.gameObject.SetActive(true);
             headphoneScreen.GetComponent<Image>().color = new Color(1, 1, 1, 1);
             headphoneScreen.transform.GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 0);
             headphoneScreen.transform.GetChild(1).GetComponent<Image>().color = new Color(1, 1, 1, 0);
-        }
+       // }
 
         
     }
@@ -108,13 +105,18 @@ public class enabler : MonoBehaviour
 
         globalState.globalClickable = false;
 
+
+
         globalState.audio.playSFX(0, 17, 0.1f); //ambience quiet
         globalState.audio.fadeVolumeSFX(0, 17, 5, 1);
 
-        if (!test.test)
-        {
+       // if (!test.test)
+       // {
 
             yield return new WaitForSeconds(2);
+
+            UICanvas.gameObject.SetActive(false); //hide UICanvas on start
+            menuUIWindow.gameObject.SetActive(false);
 
             headphoneScreen.SetTrigger("fadeIn");
 
@@ -122,7 +124,7 @@ public class enabler : MonoBehaviour
 
             headphoneScreen.SetTrigger("fadeOut");
 
-        }
+      //  }
 
         //show title screen
         startCanvas.transform.Find("photo/lines").gameObject.SetActive(true);
@@ -225,6 +227,7 @@ public class enabler : MonoBehaviour
         else
         {
             mopubManager.realnameAuth(); //will call loadLevel if success
+            //StartCoroutine(checkLoadLevel()); //TODO disable
         }
 
     }
@@ -338,11 +341,15 @@ public class enabler : MonoBehaviour
                     audio.fadeVolumeSFX(3, 11, 2, 0);
                 }
 
-                if (!subScene) { cam.cam.Play("idle"); cam.cam.SetTrigger("stopBreathe"); }//reset cam pos (only when transitioning from scene 2)
-                if (subScene) gs.revealAndHideStuff(3, false, false); //hide main lv stuff
+                if (!subScene) { cam.cam.Play("idle"); cam.cam.SetTrigger("stopBreathe");
+                    darkCover.SetTrigger("fadeOut");
+                }//reset cam pos (only when transitioning from scene 2)
+                if (subScene)
+                {
+                    gs.revealAndHideStuff(3, false, false); //hide main lv stuff
 
-                darkCover.SetTrigger("fadeOut");
-
+                    
+                }
                 yield return new WaitForSeconds(2);
 
                 globalState.globalClickable = true;
@@ -783,6 +790,7 @@ public class enabler : MonoBehaviour
     public void openMenuUIWindow()
     {
         globalState.globalUIClickOnly = true;
+
 
         menuUIWindow.gameObject.SetActive(true);
         Time.timeScale = 0;
