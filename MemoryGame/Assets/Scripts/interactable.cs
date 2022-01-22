@@ -1600,6 +1600,12 @@ public class interactable : MonoBehaviour
 
                 break;
             /////////////////////
+            case "mmBox":
+                globalState.enable.UICanvas.SetActive(true);
+                globalState.enable.menuUIButton.SetActive(false);
+
+                globalState.enable.openMemorabiliaUI();
+                break;
             case "MenuUI":
                 globalState.enable.closeMenuUIWindow();
                 break;

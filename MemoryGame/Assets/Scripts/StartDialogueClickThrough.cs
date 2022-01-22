@@ -102,7 +102,7 @@ public class StartDialogueClickThrough : MonoBehaviour
                         if (!myEnabler.globalState.mirrorScene)
                         {
                             myEnabler.globalState.mirrorScene = Instantiate(myEnabler.globalState.mirrorScene_pfb,
-                               myEnabler.globalState.levelParent.transform);
+                            myEnabler.globalState.levelParent.transform);
                             myEnabler.globalState.mirrorScene.transform.SetAsFirstSibling();
                             myEnabler.globalState.mirrorScene.SetActive(false);
                             myEnabler.globalState.streetScene.transform.SetAsFirstSibling();

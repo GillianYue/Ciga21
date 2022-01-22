@@ -32,7 +32,7 @@ public class enabler : MonoBehaviour
         public SteamAchievements steamAchievements;
     #endif
 
-    public GameObject memorabiliaUI, quitUIWindow, UICanvas, menuUIWindow, vfxCanvas;
+    public GameObject memorabiliaUI, quitUIWindow, UICanvas, menuUIWindow, vfxCanvas, menuUIButton;
 
     public bool gameOnPause;
 
@@ -43,8 +43,10 @@ public class enabler : MonoBehaviour
     [Inject(InjectFrom.Anywhere)]
     public Memorabilia mm;
 
+#if !UNITY_STANDALONE
     [Inject(InjectFrom.Anywhere)]
     public MopubManager mopubManager;
+#endif
 
     [Inject(InjectFrom.Anywhere)]
     public EntryManager entryManager;
@@ -63,10 +65,12 @@ public class enabler : MonoBehaviour
         if (blurManager == null) blurManager = GetComponent<BlurManager>();
         if (audio == null) audio = GetComponent<AudioManager>();
         if (test == null) test = GetComponent<Tester>();
+        #if !UNITY_STANDALONE
         if (mopubManager == null) mopubManager = GetComponent<MopubManager>();
+#endif
 
 #if UNITY_STANDALONE
-        if (steamAchievements == null) steamAchievements = GetComponent<SteamAchievements>();
+        if (steamAchievements == null) steamAchievements = FindObjectOfType<SteamAchievements>();
 #endif
 
         if (mm == null) mm = FindObjectOfType<Memorabilia>();
@@ -165,6 +169,7 @@ public class enabler : MonoBehaviour
             yield return new WaitForSeconds(2);
 
             UICanvas.gameObject.SetActive(true);
+            menuUIButton.gameObject.SetActive(true);
 
             globalState.audio.fadeVolumeSFX(0, 17, 2, 0);
             startCanvas.SetActive(false);
@@ -215,6 +220,7 @@ public class enabler : MonoBehaviour
             //globalState.revealAndHideStuff(loadLv, true);
 
             UICanvas.gameObject.SetActive(true);
+            menuUIButton.gameObject.SetActive(true);
             vfxCanvas.gameObject.SetActive(true);
 
             globalState.audio.fadeVolumeSFX(0, 17, 2, 0);
@@ -226,7 +232,10 @@ public class enabler : MonoBehaviour
         }
         else
         {
+            startButton.enabled = false;
+            #if !UNITY_STANDALONE
             mopubManager.realnameAuth(); //will call loadLevel if success
+            #endif
             //StartCoroutine(checkLoadLevel()); //TODO disable
         }
 
@@ -258,7 +267,7 @@ public class enabler : MonoBehaviour
 
 #if UNITY_STANDALONE
         //give steam achievement
-        steamAchievements.ach1();
+        if (steamAchievements != null) steamAchievements.ach1();
 #endif
 
         yield return new WaitForSeconds(2);
@@ -268,6 +277,8 @@ public class enabler : MonoBehaviour
 
         mainCam.SetTrigger("idle"); //will reset cam's orthographic size and positions to (0,0) forcefully
         startCanvas.SetActive(false);
+        UICanvas.gameObject.SetActive(true);
+        menuUIButton.gameObject.SetActive(true);
 
         yield return new WaitForSeconds(1);
 
@@ -758,6 +769,7 @@ public class enabler : MonoBehaviour
     public void closeMemorabiliaUI()
     {
         globalState.globalUIClickOnly = false;
+        globalState.globalClickable = false;
 
         memorabiliaUI.GetComponent<Animator>().SetTrigger("fadeOut");
         Time.timeScale = 1;
@@ -768,7 +780,11 @@ public class enabler : MonoBehaviour
     IEnumerator setMemorabiliaWindowActive(float waitTime, bool active)
     {
         yield return new WaitForSecondsRealtime(waitTime);
+
+        if (mm && mm.enabled) mm.onDisplayItemOnClick();
         memorabiliaUI.gameObject.SetActive(active);
+
+        globalState.globalClickable = true; //end animation enable global clickable
     }
 
     public void openQuitUIWindow()
@@ -790,7 +806,6 @@ public class enabler : MonoBehaviour
     public void openMenuUIWindow()
     {
         globalState.globalUIClickOnly = true;
-
 
         menuUIWindow.gameObject.SetActive(true);
         Time.timeScale = 0;

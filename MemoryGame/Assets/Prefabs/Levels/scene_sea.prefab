@@ -355,7 +355,7 @@ MonoBehaviour:
   screenDimension: {x: 1600, y: 900}
   startLocalPos: {x: 442, y: -336}
   enable: {fileID: 0}
-  disableMouse: 1
+  disableMouse: 0
 --- !u!95 &1539415028823864588
 Animator:
   serializedVersion: 4

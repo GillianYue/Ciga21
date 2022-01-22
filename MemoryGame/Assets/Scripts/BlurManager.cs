@@ -23,7 +23,7 @@ public class BlurManager : MonoBehaviour
         if (enablr == null) enablr = GetComponent<enabler>();
 
 #if UNITY_STANDALONE
-        if (steamAchievements == null) steamAchievements = GetComponent<SteamAchievements>();
+        if (steamAchievements == null) steamAchievements = FindObjectOfType<SteamAchievements>();
 #endif
 
     }
@@ -54,7 +54,7 @@ public class BlurManager : MonoBehaviour
 
     IEnumerator levelPassEffectCoroutine(int level)
     {
-        mm.unlockItem(level);
+        if(mm && mm.enabled) mm.unlockItem(level);
 
         switch (level)
         {
