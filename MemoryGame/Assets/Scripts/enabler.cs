@@ -43,8 +43,10 @@ public class enabler : MonoBehaviour
     [Inject(InjectFrom.Anywhere)]
     public Memorabilia mm;
 
+#if !UNITY_STANDALONE
     [Inject(InjectFrom.Anywhere)]
     public MopubManager mopubManager;
+#endif
 
     [Inject(InjectFrom.Anywhere)]
     public EntryManager entryManager;
@@ -63,7 +65,9 @@ public class enabler : MonoBehaviour
         if (blurManager == null) blurManager = GetComponent<BlurManager>();
         if (audio == null) audio = GetComponent<AudioManager>();
         if (test == null) test = GetComponent<Tester>();
+        #if !UNITY_STANDALONE
         if (mopubManager == null) mopubManager = GetComponent<MopubManager>();
+#endif
 
 #if UNITY_STANDALONE
         if (steamAchievements == null) steamAchievements = FindObjectOfType<SteamAchievements>();
@@ -229,7 +233,9 @@ public class enabler : MonoBehaviour
         else
         {
             startButton.enabled = false;
+            #if !UNITY_STANDALONE
             mopubManager.realnameAuth(); //will call loadLevel if success
+            #endif
             //StartCoroutine(checkLoadLevel()); //TODO disable
         }
 
@@ -763,6 +769,7 @@ public class enabler : MonoBehaviour
     public void closeMemorabiliaUI()
     {
         globalState.globalUIClickOnly = false;
+        globalState.globalClickable = false;
 
         memorabiliaUI.GetComponent<Animator>().SetTrigger("fadeOut");
         Time.timeScale = 1;
@@ -773,7 +780,11 @@ public class enabler : MonoBehaviour
     IEnumerator setMemorabiliaWindowActive(float waitTime, bool active)
     {
         yield return new WaitForSecondsRealtime(waitTime);
+
+        if (mm && mm.enabled) mm.onDisplayItemOnClick();
         memorabiliaUI.gameObject.SetActive(active);
+
+        globalState.globalClickable = true; //end animation enable global clickable
     }
 
     public void openQuitUIWindow()
@@ -795,7 +806,6 @@ public class enabler : MonoBehaviour
     public void openMenuUIWindow()
     {
         globalState.globalUIClickOnly = true;
-
 
         menuUIWindow.gameObject.SetActive(true);
         Time.timeScale = 0;

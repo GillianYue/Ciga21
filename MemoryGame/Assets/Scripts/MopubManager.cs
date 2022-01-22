@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿#if !UNITY_STANDALONE
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -79,3 +81,6 @@ public class MopubManager : MonoBehaviour
 
 
 }
+
+
+#endif

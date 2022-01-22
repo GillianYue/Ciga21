@@ -80,7 +80,7 @@ public class MouseControl : MonoBehaviour
                     {
 
                         itr.onClick();
-                        print("clicked on " + itr.name);
+                        //print("clicked on " + itr.name);
                     }
                     else if (Input.GetMouseButtonUp(0))
                     {

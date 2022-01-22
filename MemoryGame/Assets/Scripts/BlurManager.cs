@@ -54,7 +54,7 @@ public class BlurManager : MonoBehaviour
 
     IEnumerator levelPassEffectCoroutine(int level)
     {
-        mm.unlockItem(level);
+        if(mm && mm.enabled) mm.unlockItem(level);
 
         switch (level)
         {
