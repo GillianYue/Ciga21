@@ -233,10 +233,14 @@ public class enabler : MonoBehaviour
         else
         {
             startButton.enabled = false;
-            #if !UNITY_STANDALONE
+
+#if !UNITY_STANDALONE
             mopubManager.realnameAuth(); //will call loadLevel if success
-            #endif
-            //StartCoroutine(checkLoadLevel()); //TODO disable
+#endif
+
+#if UNITY_STANDALONE
+            StartCoroutine(checkLoadLevel());
+#endif
         }
 
     }
@@ -629,6 +633,8 @@ public class enabler : MonoBehaviour
         startCanvas.transform.Find("Language").gameObject.SetActive(false);
         startCanvas.transform.Find("Credits").gameObject.SetActive(false);
         startCanvas.transform.Find("Quit").gameObject.SetActive(false);
+        startCanvas.transform.Find("Privacy").gameObject.SetActive(false);
+        startCanvas.transform.Find("UserAgreement").gameObject.SetActive(false);
 
         darkCover.SetTrigger("fadeOut");
 
@@ -709,7 +715,11 @@ public class enabler : MonoBehaviour
         darkCover.SetTrigger("fadeInSlow");
         yield return new WaitForSeconds(8);
 
-        Application.Quit();
+        Transform gpq = startCanvas.transform.Find("GamePassQuit");
+        gpq.gameObject.SetActive(true);
+        gpq.GetChild(0).GetComponent<Animator>().SetTrigger("fadeInText");
+
+        //Application.Quit();
     }
 
     public void showCredits()

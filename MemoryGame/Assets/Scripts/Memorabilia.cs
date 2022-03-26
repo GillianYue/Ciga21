@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,6 +23,8 @@ public class Memorabilia : MonoBehaviour
 
     public float itemMoveSeconds;
     public Image itemDetailBg1;
+
+    public Animator mmNewItemPopUp;
 
     private void Awake()
     {
@@ -144,6 +147,24 @@ public class Memorabilia : MonoBehaviour
     {
         PlayerPrefs.SetInt("item" + itemIndex, 1);
         itemList[itemIndex].unlockItemVisuals();
+
+        //change pop up image to the right one
+        mmNewItemPopUp.gameObject.SetActive(true);
+        Transform img = mmNewItemPopUp.transform.Find("itemImage");
+        img.GetComponent<Image>().sprite =
+            itemList[itemIndex].item.GetComponent<Image>().sprite;
+        img.GetComponent<Image>().SetNativeSize(); //set to right size of the new sprite
+
+        //popup
+        mmNewItemPopUp.Play("newMmItemUnlock");
+        StartCoroutine(waitAndDisablePopUp());
+    }
+
+    //disable pop up when not using it
+    IEnumerator waitAndDisablePopUp()
+    {
+        yield return new WaitForSeconds(5);
+        mmNewItemPopUp.gameObject.SetActive(false);
     }
 
     public void setAllItemClickable(bool to)

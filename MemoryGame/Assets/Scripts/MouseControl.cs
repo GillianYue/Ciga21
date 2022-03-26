@@ -17,7 +17,7 @@ public class MouseControl : MonoBehaviour
     public enum MouseMode { hand, cursor }
     public MouseMode mouseMode;
 
-
+    public Animator interactHint;
 
 
     [SerializeField] GraphicRaycaster m_Raycaster;
@@ -107,6 +107,13 @@ public class MouseControl : MonoBehaviour
         else
         {
             if (mouseMode == MouseMode.hand) toCursor();
+
+            //if not clickable and still trying to click
+            if (Input.GetMouseButtonDown(0))
+            {
+                interactHint.Play("interactHintNoInteract"); 
+            }
+
         }
 
     }

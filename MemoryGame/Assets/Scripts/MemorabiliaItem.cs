@@ -19,7 +19,7 @@ public class MemorabiliaItem : MonoBehaviour
     public interactable myItrRef;
     public int itemIndex;
 
-    public GameObject lines, item;
+    public GameObject lines, item; //item is the itemImg gameobject child
 
     private void Awake()
     {
