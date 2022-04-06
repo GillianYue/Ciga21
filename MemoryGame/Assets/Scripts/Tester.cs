@@ -23,6 +23,7 @@ public class Tester : MonoBehaviour
             for(int i=0; i<13; i++)
             {
                 //PlayerPrefs.SetInt("item" + i, 1);
+                PlayerPrefs.SetInt("item" + i, 0);
             }
         }
 

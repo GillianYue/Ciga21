@@ -1,4 +1,7 @@
-﻿#if !UNITY_STANDALONE
+﻿#if FALSE //delete
+
+
+#if !UNITY_STANDALONE
 
 using System.Collections;
 using System.Collections.Generic;
@@ -81,6 +84,10 @@ public class MopubManager : MonoBehaviour
 
 
 }
+
+
+#endif
+
 
 
 #endif

@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+
 //general game level logic 
 public class enabler : MonoBehaviour
 {
@@ -43,7 +44,7 @@ public class enabler : MonoBehaviour
     [Inject(InjectFrom.Anywhere)]
     public Memorabilia mm;
 
-#if !UNITY_STANDALONE
+#if !UNITY_STANDALONE && FALSE //remember to remove
     [Inject(InjectFrom.Anywhere)]
     public MopubManager mopubManager;
 #endif
@@ -65,7 +66,10 @@ public class enabler : MonoBehaviour
         if (blurManager == null) blurManager = GetComponent<BlurManager>();
         if (audio == null) audio = GetComponent<AudioManager>();
         if (test == null) test = GetComponent<Tester>();
-        #if !UNITY_STANDALONE
+        if (!memorabiliaUI.activeSelf) memorabiliaUI.SetActive(true);
+        if (menuUIButton.activeSelf) menuUIButton.SetActive(false);
+
+#if !UNITY_STANDALONE && FALSE //remember to remove
         if (mopubManager == null) mopubManager = GetComponent<MopubManager>();
 #endif
 
@@ -234,11 +238,10 @@ public class enabler : MonoBehaviour
         {
             startButton.enabled = false;
 
-#if !UNITY_STANDALONE
+#if !UNITY_STANDALONE && FALSE //remember to remove
             mopubManager.realnameAuth(); //will call loadLevel if success
-#endif
 
-#if UNITY_STANDALONE
+#else
             StartCoroutine(checkLoadLevel());
 #endif
         }
