@@ -159,6 +159,7 @@ public class Memorabilia : MonoBehaviour
         img.GetComponent<Image>().sprite = itemList[itemIndex].item.transform.GetChild(1).GetComponent<Image>().sprite;
 
         img.GetComponent<Image>().SetNativeSize(); //set to right size of the new sprite
+        img.transform.localScale = img.transform.localScale * 0.625f;
 
         //popup
         mmNewItemPopUp.Play("newMmItemUnlock");

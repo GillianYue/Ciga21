@@ -177,11 +177,13 @@ public class BlurManager : MonoBehaviour
         }
 
 
-        if (mm && mm.enabled) mm.unlockItem(level);
+
 
 #if UNITY_STANDALONE
         if(level != 11) //if 11, wait until very end to update
         steamAchievements.updateAch2Progress(level);
+#else
+        if (mm && mm.enabled) mm.unlockItem(level);
 #endif
     }
 
