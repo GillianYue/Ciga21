@@ -183,7 +183,10 @@ public class BlurManager : MonoBehaviour
         if(level != 11) //if 11, wait until very end to update
         steamAchievements.updateAch2Progress(level);
 #else
-        if (mm && mm.enabled) mm.unlockItem(level);
+        mm.gameObject.SetActive(true);
+        mm.GetComponent<Animator>().SetTrigger("hide");
+        mm.unlockItem(level);
+        
 #endif
     }
 

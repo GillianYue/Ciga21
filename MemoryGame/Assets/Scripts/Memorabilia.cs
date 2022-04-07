@@ -153,13 +153,23 @@ public class Memorabilia : MonoBehaviour
         mmNewItemPopUp.gameObject.SetActive(true);
         Transform img = mmNewItemPopUp.transform.Find("itemImage");
 
-        if(itemIndex != 1)
-        img.GetComponent<Image>().sprite = itemList[itemIndex].item.GetComponent<Image>().sprite;
-        else
-        img.GetComponent<Image>().sprite = itemList[itemIndex].item.transform.GetChild(1).GetComponent<Image>().sprite;
+        Sprite tobe;
 
-        img.GetComponent<Image>().SetNativeSize(); //set to right size of the new sprite
-        img.transform.localScale = img.transform.localScale * 0.625f;
+        if(itemList[itemIndex].item.transform.childCount == 0)
+        tobe = itemList[itemIndex].item.GetComponent<Image>().sprite;
+        else if(itemIndex == 1)
+        tobe = itemList[itemIndex].item.transform.GetChild(1).GetComponent<Image>().sprite;
+        else
+        tobe = itemList[itemIndex].item.transform.GetChild(0).GetComponent<Image>().sprite;
+
+
+
+        //img.GetComponent<Image>().SetNativeSize(); //set to right size of the new sprite
+        //img.transform.localScale = img.transform.localScale * 0.625f;
+        img.GetComponent<RectTransform>().sizeDelta = new Vector2(tobe.rect.width * 0.625f,
+            tobe.rect.height * 0.625f);
+
+        img.GetComponent<Image>().sprite = tobe;
 
         //popup
         mmNewItemPopUp.Play("newMmItemUnlock");

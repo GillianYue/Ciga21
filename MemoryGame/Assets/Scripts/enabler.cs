@@ -701,6 +701,9 @@ public class enabler : MonoBehaviour
 #if UNITY_STANDALONE
         steamAchievements.updateAch2Progress(11); //unlock achievement 2
 #endif
+
+        mm.gameObject.SetActive(true);
+        mm.GetComponent<Animator>().SetTrigger("hide");
         mm.unlockItem(12);
 
         cam.vfx.transform.Find("sakura").gameObject.SetActive(true);
