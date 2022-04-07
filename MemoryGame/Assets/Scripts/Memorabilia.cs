@@ -105,6 +105,7 @@ public class Memorabilia : MonoBehaviour
 
     void Start()
     {
+        GetComponent<Animator>().SetTrigger("hide");
 
         this.gameObject.SetActive(false); //hide UI on start
     }
@@ -151,13 +152,19 @@ public class Memorabilia : MonoBehaviour
         //change pop up image to the right one
         mmNewItemPopUp.gameObject.SetActive(true);
         Transform img = mmNewItemPopUp.transform.Find("itemImage");
-        img.GetComponent<Image>().sprite =
-            itemList[itemIndex].item.GetComponent<Image>().sprite;
+
+        if(itemIndex != 1)
+        img.GetComponent<Image>().sprite = itemList[itemIndex].item.GetComponent<Image>().sprite;
+        else
+        img.GetComponent<Image>().sprite = itemList[itemIndex].item.transform.GetChild(1).GetComponent<Image>().sprite;
+
         img.GetComponent<Image>().SetNativeSize(); //set to right size of the new sprite
 
         //popup
         mmNewItemPopUp.Play("newMmItemUnlock");
-        StartCoroutine(waitAndDisablePopUp());
+
+        gameObject.SetActive(false);
+        //StartCoroutine(waitAndDisablePopUp());
     }
 
     //disable pop up when not using it

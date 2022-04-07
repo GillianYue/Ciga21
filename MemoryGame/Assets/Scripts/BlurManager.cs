@@ -54,7 +54,7 @@ public class BlurManager : MonoBehaviour
 
     IEnumerator levelPassEffectCoroutine(int level)
     {
-        if(mm && mm.enabled) mm.unlockItem(level);
+        
 
         switch (level)
         {
@@ -175,6 +175,9 @@ public class BlurManager : MonoBehaviour
                 enablr.setUpLevel(level + 1);
                 break;
         }
+
+
+        if (mm && mm.enabled) mm.unlockItem(level);
 
 #if UNITY_STANDALONE
         if(level != 11) //if 11, wait until very end to update

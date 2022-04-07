@@ -221,7 +221,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.4716981, g: 0.4716981, b: 0.4716981, a: 1}
+  m_Color: {r: 0.64705884, g: 0.64705884, b: 0.64705884, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -7653,7 +7653,7 @@ MonoBehaviour:
   languageTexts:
   - Start
   - "\u5F00\u59CB\u6E38\u620F"
-  languageTextSizes: 660000003c000000
+  languageTextSizes: 460000003c000000
   languageFonts:
   - {fileID: 12800000, guid: b8b4e4abe3d65d448a93af58c1a08ce6, type: 3}
   - {fileID: 12800000, guid: af7b97034a05bde4d97a23c76b3675f6, type: 3}
@@ -22655,8 +22655,8 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1760344664}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -22664,8 +22664,8 @@ RectTransform:
   - {fileID: 2091151237}
   - {fileID: 1186948272}
   - {fileID: 20813882}
-  m_Father: {fileID: 4345694327115787250}
-  m_RootOrder: 6
+  m_Father: {fileID: 4345694325833311021}
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -23168,6 +23168,7 @@ MonoBehaviour:
   - {fileID: 45814023}
   - {fileID: 293563026}
   - {fileID: 276176694}
+  - {fileID: 1959326548}
   language: 1
   audio: {fileID: 0}
   test: {fileID: 0}
@@ -28510,6 +28511,7 @@ RectTransform:
   - {fileID: 4345694327250760835}
   - {fileID: 4345694326597529057}
   - {fileID: 4345694326695240964}
+  - {fileID: 1760344665}
   m_Father: {fileID: 4345694327240674573}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -32805,7 +32807,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7053b85ac080cf542b5c0fe5d55ada47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clickable: 1
+  clickable: 0
   numInteractions: 0
   changeIntoPrefab: {fileID: 0}
   affectsGO: {fileID: 0}
@@ -32968,7 +32970,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4345694326325956085
 RectTransform:
   m_ObjectHideFlags: 0
@@ -49575,7 +49577,6 @@ RectTransform:
   - {fileID: 4345694327464279698}
   - {fileID: 4345694326304976423}
   - {fileID: 4345694326325956085}
-  - {fileID: 1760344665}
   m_Father: {fileID: 4345694327240674573}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

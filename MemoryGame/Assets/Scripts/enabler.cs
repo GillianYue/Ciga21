@@ -123,7 +123,7 @@ public class enabler : MonoBehaviour
 
             yield return new WaitForSeconds(2);
 
-            UICanvas.gameObject.SetActive(false); //hide UICanvas on start
+            //UICanvas.gameObject.SetActive(false); //hide UICanvas on start
             menuUIWindow.gameObject.SetActive(false);
 
             headphoneScreen.SetTrigger("fadeIn");
@@ -164,6 +164,11 @@ public class enabler : MonoBehaviour
                 {*/
         int loadLv = PlayerPrefs.GetInt("level", 0);
 
+        foreach (Animator a in startMenuFocusObjects)
+        {
+            a.GetComponent<interactable>().clickable = false;
+        }
+
         if (loadLv > 0)
         {
 
@@ -188,11 +193,9 @@ public class enabler : MonoBehaviour
             startDialogue.gameObject.SetActive(true);
             startDialogue.enableStartDialogue();
 
-            foreach (Animator a in startMenuFocusObjects)
-            {
-                a.GetComponent<Collider2D>().enabled = false;
-            }
-
+            yield return new WaitForSeconds(1);
+            mm.gameObject.SetActive(true);
+            mm.GetComponent<Animator>().SetTrigger("hide");
             mm.unlockItem(0);
         }
         /*        }
@@ -231,6 +234,11 @@ public class enabler : MonoBehaviour
             startCanvas.SetActive(false);
 
             StartCoroutine(resumeGameCoroutine());
+
+            foreach (Animator a in startMenuFocusObjects)
+            {
+                a.GetComponent<interactable>().clickable = false;
+            }
 
             gameOnPause = false;
         }
@@ -770,6 +778,8 @@ public class enabler : MonoBehaviour
         pos.y = 0;
         mm.ContentGO.GetComponent<RectTransform>().anchoredPosition = pos;
 
+        memorabiliaUI.GetComponent<interactable>().clickable = true;
+
         Time.timeScale = 0;
 
         memorabiliaUI.gameObject.SetActive(true);
@@ -783,6 +793,8 @@ public class enabler : MonoBehaviour
     {
         globalState.globalUIClickOnly = false;
         globalState.globalClickable = false;
+
+        memorabiliaUI.GetComponent<interactable>().clickable = false;
 
         memorabiliaUI.GetComponent<Animator>().SetTrigger("fadeOut");
         Time.timeScale = 1;
@@ -883,6 +895,11 @@ public class enabler : MonoBehaviour
 
                 //globalState.revealAndHideStuff(loadLv, false);
                 startCanvas.SetActive(true);
+                foreach (Animator a in startMenuFocusObjects)
+                {
+                    a.GetComponent<interactable>().clickable = true;
+                }
+
                 titleScreenBtfl.Play("btflDropShadowIdle");
                 UICanvas.gameObject.SetActive(false); //hide UICanvas
 
