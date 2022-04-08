@@ -44,7 +44,7 @@ public class enabler : MonoBehaviour
     [Inject(InjectFrom.Anywhere)]
     public Memorabilia mm;
 
-#if !UNITY_STANDALONE && FALSE //remember to remove
+#if !UNITY_STANDALONE 
     [Inject(InjectFrom.Anywhere)]
     public MopubManager mopubManager;
 #endif
@@ -69,7 +69,7 @@ public class enabler : MonoBehaviour
         if (!memorabiliaUI.activeSelf) memorabiliaUI.SetActive(true);
         if (menuUIButton.activeSelf) menuUIButton.SetActive(false);
 
-#if !UNITY_STANDALONE && FALSE //remember to remove
+#if !UNITY_STANDALONE
         if (mopubManager == null) mopubManager = GetComponent<MopubManager>();
 #endif
 
@@ -246,7 +246,7 @@ public class enabler : MonoBehaviour
         {
             startButton.enabled = false;
 
-#if !UNITY_STANDALONE && FALSE //remember to remove
+#if !UNITY_STANDALONE 
             mopubManager.realnameAuth(); //will call loadLevel if success
 
 #else
@@ -353,6 +353,13 @@ public class enabler : MonoBehaviour
 
                 break;
             case 3: //tree
+
+                if (!subScene)
+                {
+                    cam.cam.Play("idle");
+                    cam.cam.SetTrigger("stopBreathe");
+                }//reset cam pos (only when transitioning from scene 2)
+
                 audio.fadeVolumeSFX(2, 15, 1, 0);
                 yield return new WaitForSeconds(1);
 
@@ -367,9 +374,10 @@ public class enabler : MonoBehaviour
                     audio.fadeVolumeSFX(3, 11, 2, 0);
                 }
 
-                if (!subScene) { cam.cam.Play("idle"); cam.cam.SetTrigger("stopBreathe");
+                if (!subScene) { 
                     darkCover.SetTrigger("fadeOut");
-                }//reset cam pos (only when transitioning from scene 2)
+                }
+
                 if (subScene)
                 {
                     gs.revealAndHideStuff(3, false, false); //hide main lv stuff

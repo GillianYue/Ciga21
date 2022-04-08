@@ -5,7 +5,7 @@ apply plugin: 'com.android.library'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.config.Gillian_Alzheimer:com_alzheimer_memories_gn:20211224_1532'
+     implementation 'com.config.mopub_sdkdemo:com_mopub_gametest:20211201_1420'
 **DEPS**}
 
 android {
@@ -33,10 +33,7 @@ android {
     }
 
     aaptOptions {
-        noCompress = ['.ress', '.resource', '.obb'] + unityStreamingAssets.tokenize(', ')
         ignoreAssetsPattern = "!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~"
     }**PACKAGING_OPTIONS**
-}**REPOSITORIES**
-**IL_CPP_BUILD_SETUP**
-**SOURCE_BUILD_SETUP**
+}**REPOSITORIES****SOURCE_BUILD_SETUP**
 **EXTERNAL_SOURCES**
