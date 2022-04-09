@@ -248,6 +248,11 @@ public class enabler : MonoBehaviour
 
 #if !UNITY_STANDALONE 
             mopubManager.realnameAuth(); //will call loadLevel if success
+            
+            
+            //TODO DELETE
+        //    StartCoroutine(checkLoadLevel());
+
 
 #else
             StartCoroutine(checkLoadLevel());
@@ -654,6 +659,7 @@ public class enabler : MonoBehaviour
         startCanvas.transform.Find("Quit").gameObject.SetActive(false);
         startCanvas.transform.Find("Privacy").gameObject.SetActive(false);
         startCanvas.transform.Find("UserAgreement").gameObject.SetActive(false);
+        startCanvas.transform.Find("GamePassQuit").gameObject.SetActive(false);
 
         darkCover.SetTrigger("fadeOut");
 
@@ -734,8 +740,8 @@ public class enabler : MonoBehaviour
         PlayerPrefs.SetInt("level", 0);
 
         yield return new WaitForSeconds(25);
-        darkCover.SetTrigger("fadeInSlow");
-        yield return new WaitForSeconds(8);
+        //darkCover.SetTrigger("fadeInSlow");
+        //yield return new WaitForSeconds(8);
 
         Transform gpq = startCanvas.transform.Find("GamePassQuit");
         gpq.gameObject.SetActive(true);
@@ -841,13 +847,15 @@ public class enabler : MonoBehaviour
 
     public void openMenuUIWindow()
     {
-        globalState.globalUIClickOnly = true;
+        if (globalState.globalClickable) {
+            globalState.globalUIClickOnly = true;
 
-        menuUIWindow.gameObject.SetActive(true);
-        Time.timeScale = 0;
+            menuUIWindow.gameObject.SetActive(true);
+            Time.timeScale = 0;
 
-        capsuleHintController.updateCapsuleHint(capsuleHintTexts, language == 1, 0); //clear out hint texts
-    }
+            capsuleHintController.updateCapsuleHint(capsuleHintTexts, language == 1, 0); //clear out hint texts
+        }
+     }
 
     public void closeMenuUIWindow()
     {
@@ -961,4 +969,9 @@ public class enabler : MonoBehaviour
         Application.OpenURL(url);
     }
 
+
+
+
+
+    
 }

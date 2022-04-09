@@ -183,7 +183,7 @@ public class Memorabilia : MonoBehaviour
         
 
         //popup
-        mmNewItemPopUp.Play("newMmItemUnlock");
+        if(itemIndex != 12) mmNewItemPopUp.Play("newMmItemUnlock");
 
         gameObject.SetActive(false);
         //StartCoroutine(waitAndDisablePopUp());

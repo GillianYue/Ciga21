@@ -79,6 +79,8 @@ public class MopubManager : MonoBehaviour
                     if (t2.enabled) t2.text = "realName failed error!!" + error;
                 }
             );
+
+
     }
 
 

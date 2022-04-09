@@ -59,9 +59,12 @@ public class MouseBasedCamShift : MonoBehaviour
         {
             //if (name.Equals("dark_cover")) { print(Input.mousePosition); }
             Vector2 offset = new Vector2();
+            Touch touch = Input.GetTouch(0);
 
-            if (!disableMouse && (!useAccl || (Input.touchCount > 0 && 
-                Input.GetTouch(0).phase == TouchPhase.Moved))) //mobile if touch will override accl
+            if (!disableMouse && (!useAccl || (Input.touchCount > 0 
+                && touch.deltaTime > 0.3f //not a tap
+                //&& touch.phase == TouchPhase.Moved
+                ))) //mobile if touch will override accl
             {
 
                     Vector2 mousePos = (Vector2)Input.mousePosition - screenDimension / 2; //center point will be (0,0)

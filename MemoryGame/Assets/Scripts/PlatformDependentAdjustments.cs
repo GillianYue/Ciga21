@@ -36,7 +36,7 @@ public class PlatformDependentAdjustments : MonoBehaviour
                 break;
             case adjustmentType.enable:
                 //param 1 is pc enable, param 2 is mobile enable (0 false 1 true)
-                this.gameObject.SetActive(enabler.isMobile() ? (param2==1) : (param1==1));
+                this.gameObject.SetActive(enabler.isMobile() ? (param1==1) : (param2==1));
                 break;
         }
     }

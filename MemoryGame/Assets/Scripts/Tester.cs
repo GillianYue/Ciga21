@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class Tester : MonoBehaviour
 {
@@ -7,6 +8,8 @@ public class Tester : MonoBehaviour
     public bool test;
     public int startLevel;
     public float speedUpRate;
+
+    public InputField goToLevelTF;
 
     public imgSwitcher swc;
 
@@ -83,5 +86,15 @@ public class Tester : MonoBehaviour
     public static void resumeGame()
     {
         Time.timeScale = 1;
+    }
+
+
+    public void goToLevel()
+    {
+        int lv = int.Parse(goToLevelTF.text);
+
+        PlayerPrefs.SetInt("level", lv);
+
+        StartCoroutine(enable.checkLoadLevel());
     }
 }
