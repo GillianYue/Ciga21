@@ -36220,6 +36220,7 @@ MonoBehaviour:
   startLocalPos: {x: 0, y: 0}
   enable: {fileID: 0}
   disableMouse: 1
+  pressTime: 0
 --- !u!4 &4345694326401858978
 Transform:
   m_ObjectHideFlags: 0

@@ -15,6 +15,8 @@ public class MouseBasedCamShift : MonoBehaviour
     Matrix4x4 baseMatrix = Matrix4x4.identity;
     public bool disableMouse;
 
+    public float pressTime;
+
     private void Awake()
     {
         if (!enable) enable = FindObjectOfType<enabler>();
@@ -59,15 +61,27 @@ public class MouseBasedCamShift : MonoBehaviour
         {
             //if (name.Equals("dark_cover")) { print(Input.mousePosition); }
             Vector2 offset = new Vector2();
-            Touch touch = Input.GetTouch(0);
+
+           if(Input.touchCount > 0)
+            {
+                if(Input.GetTouch(0).phase == TouchPhase.Ended)
+                {
+                    pressTime = 0; //reset press time
+                }
+                else
+                {
+                    pressTime += Time.deltaTime;
+                }
+            }
 
             if (!disableMouse && (!useAccl || (Input.touchCount > 0 
-                && touch.deltaTime > 0.3f //not a tap
+                && pressTime > 0.3f //not a tap
                 //&& touch.phase == TouchPhase.Moved
                 ))) //mobile if touch will override accl
             {
+                print("touch time: " + pressTime);
 
-                    Vector2 mousePos = (Vector2)Input.mousePosition - screenDimension / 2; //center point will be (0,0)
+                Vector2 mousePos = (Vector2)Input.mousePosition - screenDimension / 2; //center point will be (0,0)
 
                     mousePos = new Vector2(Mathf.Clamp(mousePos.x, -screenDimension.x / 2, screenDimension.x / 2),
                         Mathf.Clamp(mousePos.y, -screenDimension.y / 2, screenDimension.y / 2));
