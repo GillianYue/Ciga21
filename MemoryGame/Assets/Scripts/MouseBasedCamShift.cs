@@ -25,6 +25,14 @@ public class MouseBasedCamShift : MonoBehaviour
         {
             //mobile
             useAccl = true;
+
+            if (name.Equals("dark_cover"))
+            {
+                moveCapacity += new Vector2(100, 300);
+            }else if (name.Equals("newspaper_closeup"))
+            {
+                moveCapacity += new Vector2(100, 70);
+            }
         }
     }
 
@@ -79,7 +87,6 @@ public class MouseBasedCamShift : MonoBehaviour
                 //&& touch.phase == TouchPhase.Moved
                 ))) //mobile if touch will override accl
             {
-                print("touch time: " + pressTime);
 
                 Vector2 mousePos = (Vector2)Input.mousePosition - screenDimension / 2; //center point will be (0,0)
 

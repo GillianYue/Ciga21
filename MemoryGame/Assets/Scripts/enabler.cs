@@ -251,7 +251,7 @@ public class enabler : MonoBehaviour
             
             
             //TODO DELETE
-        //    StartCoroutine(checkLoadLevel());
+            StartCoroutine(checkLoadLevel());
 
 
 #else
