@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+
 //general game level logic 
 public class enabler : MonoBehaviour
 {
@@ -43,7 +44,7 @@ public class enabler : MonoBehaviour
     [Inject(InjectFrom.Anywhere)]
     public Memorabilia mm;
 
-#if !UNITY_STANDALONE
+#if !UNITY_STANDALONE 
     [Inject(InjectFrom.Anywhere)]
     public MopubManager mopubManager;
 #endif
@@ -65,7 +66,10 @@ public class enabler : MonoBehaviour
         if (blurManager == null) blurManager = GetComponent<BlurManager>();
         if (audio == null) audio = GetComponent<AudioManager>();
         if (test == null) test = GetComponent<Tester>();
-        #if !UNITY_STANDALONE
+        if (!memorabiliaUI.activeSelf) memorabiliaUI.SetActive(true);
+        if (menuUIButton.activeSelf) menuUIButton.SetActive(false);
+
+#if !UNITY_STANDALONE
         if (mopubManager == null) mopubManager = GetComponent<MopubManager>();
 #endif
 
@@ -119,7 +123,7 @@ public class enabler : MonoBehaviour
 
             yield return new WaitForSeconds(2);
 
-            UICanvas.gameObject.SetActive(false); //hide UICanvas on start
+            //UICanvas.gameObject.SetActive(false); //hide UICanvas on start
             menuUIWindow.gameObject.SetActive(false);
 
             headphoneScreen.SetTrigger("fadeIn");
@@ -160,6 +164,11 @@ public class enabler : MonoBehaviour
                 {*/
         int loadLv = PlayerPrefs.GetInt("level", 0);
 
+        foreach (Animator a in startMenuFocusObjects)
+        {
+            a.GetComponent<interactable>().clickable = false;
+        }
+
         if (loadLv > 0)
         {
 
@@ -184,11 +193,9 @@ public class enabler : MonoBehaviour
             startDialogue.gameObject.SetActive(true);
             startDialogue.enableStartDialogue();
 
-            foreach (Animator a in startMenuFocusObjects)
-            {
-                a.GetComponent<Collider2D>().enabled = false;
-            }
-
+            yield return new WaitForSeconds(1);
+            mm.gameObject.SetActive(true);
+            mm.GetComponent<Animator>().SetTrigger("hide");
             mm.unlockItem(0);
         }
         /*        }
@@ -228,17 +235,26 @@ public class enabler : MonoBehaviour
 
             StartCoroutine(resumeGameCoroutine());
 
+            foreach (Animator a in startMenuFocusObjects)
+            {
+                a.GetComponent<interactable>().clickable = false;
+            }
+
             gameOnPause = false;
         }
         else
         {
             startButton.enabled = false;
 
-#if !UNITY_STANDALONE
+#if !UNITY_STANDALONE 
             mopubManager.realnameAuth(); //will call loadLevel if success
-#endif
+            
+            
+            //TODO DELETE
+            StartCoroutine(checkLoadLevel());
 
-#if UNITY_STANDALONE
+
+#else
             StartCoroutine(checkLoadLevel());
 #endif
         }
@@ -342,6 +358,13 @@ public class enabler : MonoBehaviour
 
                 break;
             case 3: //tree
+
+                if (!subScene)
+                {
+                    cam.cam.Play("idle");
+                    cam.cam.SetTrigger("stopBreathe");
+                }//reset cam pos (only when transitioning from scene 2)
+
                 audio.fadeVolumeSFX(2, 15, 1, 0);
                 yield return new WaitForSeconds(1);
 
@@ -356,9 +379,10 @@ public class enabler : MonoBehaviour
                     audio.fadeVolumeSFX(3, 11, 2, 0);
                 }
 
-                if (!subScene) { cam.cam.Play("idle"); cam.cam.SetTrigger("stopBreathe");
+                if (!subScene) { 
                     darkCover.SetTrigger("fadeOut");
-                }//reset cam pos (only when transitioning from scene 2)
+                }
+
                 if (subScene)
                 {
                     gs.revealAndHideStuff(3, false, false); //hide main lv stuff
@@ -635,6 +659,7 @@ public class enabler : MonoBehaviour
         startCanvas.transform.Find("Quit").gameObject.SetActive(false);
         startCanvas.transform.Find("Privacy").gameObject.SetActive(false);
         startCanvas.transform.Find("UserAgreement").gameObject.SetActive(false);
+        startCanvas.transform.Find("GamePassQuit").gameObject.SetActive(false);
 
         darkCover.SetTrigger("fadeOut");
 
@@ -690,6 +715,9 @@ public class enabler : MonoBehaviour
 #if UNITY_STANDALONE
         steamAchievements.updateAch2Progress(11); //unlock achievement 2
 #endif
+
+        mm.gameObject.SetActive(true);
+        mm.GetComponent<Animator>().SetTrigger("hide");
         mm.unlockItem(12);
 
         cam.vfx.transform.Find("sakura").gameObject.SetActive(true);
@@ -712,8 +740,8 @@ public class enabler : MonoBehaviour
         PlayerPrefs.SetInt("level", 0);
 
         yield return new WaitForSeconds(25);
-        darkCover.SetTrigger("fadeInSlow");
-        yield return new WaitForSeconds(8);
+        //darkCover.SetTrigger("fadeInSlow");
+        //yield return new WaitForSeconds(8);
 
         Transform gpq = startCanvas.transform.Find("GamePassQuit");
         gpq.gameObject.SetActive(true);
@@ -767,6 +795,8 @@ public class enabler : MonoBehaviour
         pos.y = 0;
         mm.ContentGO.GetComponent<RectTransform>().anchoredPosition = pos;
 
+        memorabiliaUI.GetComponent<interactable>().clickable = true;
+
         Time.timeScale = 0;
 
         memorabiliaUI.gameObject.SetActive(true);
@@ -780,6 +810,8 @@ public class enabler : MonoBehaviour
     {
         globalState.globalUIClickOnly = false;
         globalState.globalClickable = false;
+
+        memorabiliaUI.GetComponent<interactable>().clickable = false;
 
         memorabiliaUI.GetComponent<Animator>().SetTrigger("fadeOut");
         Time.timeScale = 1;
@@ -815,13 +847,15 @@ public class enabler : MonoBehaviour
 
     public void openMenuUIWindow()
     {
-        globalState.globalUIClickOnly = true;
+        if (globalState.globalClickable) {
+            globalState.globalUIClickOnly = true;
 
-        menuUIWindow.gameObject.SetActive(true);
-        Time.timeScale = 0;
+            menuUIWindow.gameObject.SetActive(true);
+            Time.timeScale = 0;
 
-        capsuleHintController.updateCapsuleHint(capsuleHintTexts, language == 1, 0); //clear out hint texts
-    }
+            capsuleHintController.updateCapsuleHint(capsuleHintTexts, language == 1, 0); //clear out hint texts
+        }
+     }
 
     public void closeMenuUIWindow()
     {
@@ -880,6 +914,11 @@ public class enabler : MonoBehaviour
 
                 //globalState.revealAndHideStuff(loadLv, false);
                 startCanvas.SetActive(true);
+                foreach (Animator a in startMenuFocusObjects)
+                {
+                    a.GetComponent<interactable>().clickable = true;
+                }
+
                 titleScreenBtfl.Play("btflDropShadowIdle");
                 UICanvas.gameObject.SetActive(false); //hide UICanvas
 
@@ -930,4 +969,9 @@ public class enabler : MonoBehaviour
         Application.OpenURL(url);
     }
 
+
+
+
+
+    
 }

@@ -1,4 +1,7 @@
-﻿#if !UNITY_STANDALONE
+﻿//#if FALSE //delete
+
+
+#if !UNITY_STANDALONE
 
 using System.Collections;
 using System.Collections.Generic;
@@ -76,6 +79,8 @@ public class MopubManager : MonoBehaviour
                     if (t2.enabled) t2.text = "realName failed error!!" + error;
                 }
             );
+
+
     }
 
 
@@ -84,3 +89,7 @@ public class MopubManager : MonoBehaviour
 
 
 #endif
+
+
+
+//#endif

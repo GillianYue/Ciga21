@@ -54,7 +54,7 @@ public class BlurManager : MonoBehaviour
 
     IEnumerator levelPassEffectCoroutine(int level)
     {
-        if(mm && mm.enabled) mm.unlockItem(level);
+        
 
         switch (level)
         {
@@ -176,9 +176,17 @@ public class BlurManager : MonoBehaviour
                 break;
         }
 
+
+
+
 #if UNITY_STANDALONE
         if(level != 11) //if 11, wait until very end to update
         steamAchievements.updateAch2Progress(level);
+#else
+        mm.gameObject.SetActive(true);
+        mm.GetComponent<Animator>().SetTrigger("hide");
+        mm.unlockItem(level);
+        
 #endif
     }
 

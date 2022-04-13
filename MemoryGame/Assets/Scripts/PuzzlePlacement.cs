@@ -56,6 +56,8 @@ public class PuzzlePlacement : MonoBehaviour
     {
         float errorAllowed = ((puzzleType == 0 && puzzleID <= 4) || puzzleType == 1) ? errorAllowedPuzzles : errorAllowedFlowers;
 
+        if (enabler.isMobile()) errorAllowed += 30;
+
         if (puzzleID > puzzleFitLocalPositions.Length) Debug.LogError("invalid puzzle id");
 
         if (Vector2.Distance(puzzlePiece.transform.localPosition, puzzleFitLocalPositions[puzzleID - 1]) <= errorAllowed)
