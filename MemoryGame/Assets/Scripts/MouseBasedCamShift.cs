@@ -31,7 +31,7 @@ public class MouseBasedCamShift : MonoBehaviour
                 moveCapacity += new Vector2(100, 300);
             }else if (name.Equals("newspaper_closeup"))
             {
-                moveCapacity += new Vector2(100, 70);
+                moveCapacity += new Vector2(200, 100);
             }
         }
     }

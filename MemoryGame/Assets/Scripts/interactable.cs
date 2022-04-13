@@ -2061,10 +2061,11 @@ public class interactable : MonoBehaviour
         }
     }
 
+    //another copy in animEventLink
     public bool mouseAtCornerBottomLeft()
     {
         float dist = Vector2.Distance(Input.mousePosition, new Vector2(0, 0));
-        float minDist = enabler.isMobile() ? 80 : 200;
+        float minDist = enabler.isMobile() ? 80 : 400;
         return (dist < minDist);
     }
 

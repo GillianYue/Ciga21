@@ -1380,6 +1380,7 @@ MonoBehaviour:
   startLocalPos: {x: -163, y: -440}
   enable: {fileID: 0}
   disableMouse: 0
+  pressTime: 0
 --- !u!114 &1177295506494846394
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3938,6 +3939,7 @@ MonoBehaviour:
   startLocalPos: {x: -158, y: -132}
   enable: {fileID: 0}
   disableMouse: 0
+  pressTime: 0
 --- !u!114 &1177295506932107822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4885,9 +4887,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myAdjustmentType: 0
-  param1: 33.5
+  param1: 39.3
   param2: 13.8
-  param3: 60
+  param3: 72
   param4: 27
 --- !u!1 &1177295507125789045
 GameObject:
@@ -8862,9 +8864,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myAdjustmentType: 0
-  param1: 33.5
+  param1: 39.3
   param2: 13.8
-  param3: 60
+  param3: 72
   param4: 27
 --- !u!1 &1177295508186517072
 GameObject:

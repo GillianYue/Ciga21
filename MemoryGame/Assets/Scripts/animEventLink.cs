@@ -490,10 +490,12 @@ public class animEventLink : MonoBehaviour
         globalState.bickerScene.transform.Find("fishtank/fish/fish/fish1").GetComponent<interactable>().var1 = 1; //toggle interact mode
     }
 
+    //another copy in interactable
     public bool mouseAtCornerBottomLeft()
     {
         float dist = Vector2.Distance(Input.mousePosition, new Vector2(0, 0));
-        return (dist < (enabler.isMobile()? 160 : 80));
+        float minDist = enabler.isMobile() ? 80 : 400;
+        return (dist < minDist);
     }
 
     public void blink() { camMovement.vfx.Play("blink"); }
