@@ -26,10 +26,7 @@ public class MouseBasedCamShift : MonoBehaviour
             //mobile
             useAccl = true;
 
-            if (name.Equals("dark_cover"))
-            {
-                moveCapacity += new Vector2(100, 300);
-            }else if (name.Equals("newspaper_closeup"))
+            if (name.Equals("newspaper_closeup"))
             {
                 moveCapacity += new Vector2(200, 100);
             }
@@ -82,11 +79,21 @@ public class MouseBasedCamShift : MonoBehaviour
                 }
             }
 
-            if (!disableMouse && (!useAccl || (Input.touchCount > 0 
-                && pressTime > 0.3f //not a tap
+
+#if UNITY_STANDALONE
+            if (!disableMouse && (!useAccl 
                 //&& touch.phase == TouchPhase.Moved
-                ))) //mobile if touch will override accl
+                )) //mobile if touch will override accl
             {
+#else
+            if (!disableMouse && (!useAccl || (Input.touchCount > 0
+     && pressTime > 0.3f //not a tap
+                         //&& touch.phase == TouchPhase.Moved
+     ) || enable.test.testMobile))  //if in editor, testing and testing mobile
+     //mobile if touch will override accl
+            {
+
+#endif
 
                 Vector2 mousePos = (Vector2)Input.mousePosition - screenDimension / 2; //center point will be (0,0)
 
