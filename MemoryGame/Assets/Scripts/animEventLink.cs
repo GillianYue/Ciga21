@@ -443,7 +443,7 @@ public class animEventLink : MonoBehaviour
 
         globalState.interactHint(false); //move hint
 
-        yield return new WaitUntil(() => mouseAtCornerBottomLeft()); //wait until mouse scrolls to position that reveals face
+        yield return new WaitUntil(() => interactable.mouseAtCornerBottomLeft(nspp_closeup.gameObject)); //wait until mouse scrolls to position that reveals face
 
         //peek at "us" when discovered
         h.Play("girlAwayPeek");
@@ -475,7 +475,7 @@ public class animEventLink : MonoBehaviour
         yield return new WaitForSeconds(4); //wait for cam and nspp anim above to end
 
         globalState.interactHint(false); //move
-        yield return new WaitUntil(() => mouseAtCornerBottomLeft());
+        yield return new WaitUntil(() => interactable.mouseAtCornerBottomLeft(nspp_closeup.gameObject));
         deactivateMouseBasedCamShift(nspp_closeup.gameObject);
 
         //yield return new WaitForSeconds(1.5f);
@@ -488,19 +488,6 @@ public class animEventLink : MonoBehaviour
         yield return new WaitForSeconds(2);
 
         globalState.bickerScene.transform.Find("fishtank/fish/fish/fish1").GetComponent<interactable>().var1 = 1; //toggle interact mode
-    }
-
-    //another copy in interactable
-    public bool mouseAtCornerBottomLeft()
-    {
-        bool mobile = enabler.isMobile();
-
-        if (mobile && Input.touchCount == 0) return false;
-
-        Vector2 point = mobile ? Input.mousePosition : Input.GetTouch(0).position;
-        float dist = Vector2.Distance(point, new Vector2(0, 0));
-        float minDist = mobile ? 80 : 400;
-        return (dist < minDist);
     }
 
     public void blink() { camMovement.vfx.Play("blink"); }
@@ -908,4 +895,14 @@ public class animEventLink : MonoBehaviour
         enable.startCanvas.transform.Find("water").GetComponent<Animator>().SetTrigger("fadeOut");
     }
 
+
+    public void fadeInStartButton()
+    {
+        enable.fadeInStartButton();
+    }
+
+    public void enableButton()
+    {
+        GetComponent<Button>().interactable = true;
+    }
 }

@@ -1,0 +1,116 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 468a46d0ae32c3544b7d98094e6448a9, type: 3}
+  m_Name: AddressableAssetSettings
+  m_EditorClassIdentifier: 
+  m_DefaultGroup: 0bead1b91a2480e4281b49993bb3706d
+  m_CachedHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_OptimizeCatalogSize: 0
+  m_BuildRemoteCatalog: 0
+  m_BundleLocalCatalog: 0
+  m_CatalogRequestsTimeout: 0
+  m_DisableCatalogUpdateOnStart: 0
+  m_IgnoreUnsupportedFilesInBuild: 0
+  m_UniqueBundleIds: 0
+  m_NonRecursiveBuilding: 1
+  m_CCDEnabled: 0
+  m_maxConcurrentWebRequests: 500
+  m_ContiguousBundles: 1
+  m_StripUnityVersionFromBundleBuild: 0
+  m_DisableVisibleSubAssetRepresentations: 0
+  m_ShaderBundleNaming: 0
+  m_ShaderBundleCustomNaming: 
+  m_MonoScriptBundleNaming: 0
+  m_MonoScriptBundleCustomNaming: 
+  m_RemoteCatalogBuildPath:
+    m_Id: 
+  m_RemoteCatalogLoadPath:
+    m_Id: 
+  m_ContentStateBuildPath: 
+  m_BuildAddressablesWithPlayerBuild: 0
+  m_overridePlayerVersion: 
+  m_GroupAssets:
+  - {fileID: 11400000, guid: 25eefa2fba13df8459229570d4c09883, type: 2}
+  - {fileID: 11400000, guid: 0961878e08b2c644b98397fda88c9fbf, type: 2}
+  - {fileID: 11400000, guid: 608fbdbc8ef970f4681e18ba9b93eedf, type: 2}
+  - {fileID: 11400000, guid: 8a1b259087157914c98bf9d7d4be0c2a, type: 2}
+  - {fileID: 11400000, guid: 1cf00853a22aa94488a1709055941ac5, type: 2}
+  - {fileID: 11400000, guid: d14e873d1a0ec5f4581fe4e712dc1a10, type: 2}
+  m_BuildSettings:
+    m_CompileScriptsInVirtualMode: 0
+    m_CleanupStreamingAssetsAfterBuilds: 1
+    m_LogResourceManagerExceptions: 1
+    m_BundleBuildPath: Temp/com.unity.addressables/AssetBundles
+  m_ProfileSettings:
+    m_Profiles:
+    - m_InheritedParent: 
+      m_Id: e2d60cb2e029ad944b47666c27554192
+      m_ProfileName: Default
+      m_Values:
+      - m_Id: 509cb7fad07ef5c418519c35bd0abf1b
+        m_Value: '[UnityEditor.EditorUserBuildSettings.activeBuildTarget]'
+      - m_Id: 8220753c198e34e489e7d2a6693571b2
+        m_Value: '[UnityEngine.AddressableAssets.Addressables.BuildPath]/[BuildTarget]'
+      - m_Id: b6402ee1f6446de46830d6416f3100f6
+        m_Value: '{UnityEngine.AddressableAssets.Addressables.RuntimePath}/[BuildTarget]'
+      - m_Id: 899596a6b75da9c439f6261367f7f7f0
+        m_Value: ServerData/[BuildTarget]
+      - m_Id: 0b56e848d65453e4c9affe899517a05e
+        m_Value: http://[PrivateIpAddress]:[HostingServicePort]
+    m_ProfileEntryNames:
+    - m_Id: 509cb7fad07ef5c418519c35bd0abf1b
+      m_Name: BuildTarget
+      m_InlineUsage: 0
+    - m_Id: 8220753c198e34e489e7d2a6693571b2
+      m_Name: Local.BuildPath
+      m_InlineUsage: 0
+    - m_Id: b6402ee1f6446de46830d6416f3100f6
+      m_Name: Local.LoadPath
+      m_InlineUsage: 0
+    - m_Id: 899596a6b75da9c439f6261367f7f7f0
+      m_Name: Remote.BuildPath
+      m_InlineUsage: 0
+    - m_Id: 0b56e848d65453e4c9affe899517a05e
+      m_Name: Remote.LoadPath
+      m_InlineUsage: 0
+    m_ProfileVersion: 1
+  m_LabelTable:
+    m_LabelNames:
+    - default
+    - Locale
+    - Locale-zh-Hans
+    - Preload
+    - Locale-en
+  m_SchemaTemplates: []
+  m_GroupTemplateObjects:
+  - {fileID: 11400000, guid: 51afcab7bea1cc949954fee090488125, type: 2}
+  m_InitializationObjects: []
+  m_CertificateHandlerType:
+    m_AssemblyName: 
+    m_ClassName: 
+  m_ActivePlayerDataBuilderIndex: 3
+  m_DataBuilders:
+  - {fileID: 11400000, guid: 422812276262e5549be9b5b73ee680d5, type: 2}
+  - {fileID: 11400000, guid: 825240b3b0475704cacbb189020f9382, type: 2}
+  - {fileID: 11400000, guid: 1d58f468d7583f04c997f74894d66731, type: 2}
+  - {fileID: 11400000, guid: 9699d061d33bb1840bcd2535b91bff5f, type: 2}
+  m_ActiveProfileId: e2d60cb2e029ad944b47666c27554192
+  m_HostingServicesManager:
+    m_HostingServiceInfos: []
+    m_Settings: {fileID: 11400000}
+    m_NextInstanceId: 0
+    m_RegisteredServiceTypeRefs: []
+    m_GlobalProfileVariablesInfos:
+    - key: PrivateIpAddress
+      value: 10.132.57.114

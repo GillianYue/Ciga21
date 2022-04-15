@@ -20,6 +20,7 @@ public class enabler : MonoBehaviour
     public Animator[] startMenuFocusObjects; //photo, mdc and report
 
     public int language; //0 eng, 1 chn
+
     public delegate void LanguageChangeHandler();
     public event LanguageChangeHandler OnChangeLanguage;
 
@@ -79,7 +80,7 @@ public class enabler : MonoBehaviour
 
         if (mm == null) mm = FindObjectOfType<Memorabilia>();
 
-        language = PlayerPrefs.GetInt("language", 0);
+        language = PlayerPrefs.GetInt("language", (Application.systemLanguage == SystemLanguage.English) ? 1 : 0);
 
         gameOnPause = false;
 
@@ -112,7 +113,7 @@ public class enabler : MonoBehaviour
     {
 
         globalState.globalClickable = false;
-
+        hideStartButton();
 
 
         globalState.audio.playSFX(0, 17, 0.1f); //ambience quiet
@@ -921,6 +922,7 @@ public class enabler : MonoBehaviour
 
                 titleScreenBtfl.Play("btflDropShadowIdle");
                 UICanvas.gameObject.SetActive(false); //hide UICanvas
+                fadeInStartButton();
 
                 gameOnPause = true;
                 Time.timeScale = 0; //still pause time bc game still running
@@ -961,7 +963,13 @@ public class enabler : MonoBehaviour
 
     public static bool isMobile()
     {
-        return SystemInfo.deviceType == DeviceType.Handheld;
+        bool m = true;
+
+        #if UNITY_STANDALONE
+                m = false;
+        #endif
+
+        return m;
     }
 
     public void openUrl(string url)
@@ -969,9 +977,18 @@ public class enabler : MonoBehaviour
         Application.OpenURL(url);
     }
 
+    public void fadeInStartButton()
+    {
+        GameObject sb = startCanvas.transform.Find("Start").gameObject;
+        sb.GetComponent<Animator>().Play("startButtonFadeIn"); //will enable button at the end of anim
+    }
 
-
-
+    public void hideStartButton()
+    {
+        GameObject sb = startCanvas.transform.Find("Start").gameObject;
+        sb.GetComponent<Button>().interactable = false;
+        sb.GetComponent<Animator>().Play("startButtonTransparency");
+    }
 
     
 }

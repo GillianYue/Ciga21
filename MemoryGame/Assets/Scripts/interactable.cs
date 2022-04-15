@@ -1203,7 +1203,7 @@ public class interactable : MonoBehaviour
                     globalState.bickerScene.transform.Find("topBook").gameObject.SetActive(false);
                     globalState.bickerScene.transform.Find("candle").transform.localPosition = new Vector2(-148, -216);
 
-                    yield return new WaitUntil(() => mouseAtCornerBottomLeft()); //wait til mouse close enough to goal (peek through nspp)
+                    yield return new WaitUntil(() => mouseAtCornerBottomLeft(nspp_closeup.gameObject)); //wait til mouse close enough to goal (peek through nspp)
 
                     deactivateMouseBasedCamShift(nspp_closeup.gameObject);
 
@@ -2062,15 +2062,18 @@ public class interactable : MonoBehaviour
     }
 
     //another copy in animEventLink
-    public bool mouseAtCornerBottomLeft()
+    public static bool mouseAtCornerBottomLeft(GameObject go)
     {
         bool mobile = enabler.isMobile();
 
-        if (mobile && Input.touchCount == 0) return false;
+        //print(Camera.main.WorldToScreenPoint(go.transform.position));
+        Vector2 point = mobile ? Camera.main.WorldToScreenPoint(go.transform.position) : Input.mousePosition;
 
-        Vector2 point = mobile ? Input.mousePosition : Input.GetTouch(0).position;
         float dist = Vector2.Distance(point, new Vector2(0, 0));
-        float minDist = mobile ? 80 : 400;
+        float minDist = (float)Screen.width / 1600 * (mobile ? 470 : 80);
+
+        print("min: " + minDist + " d: " + dist);
+        //return false;
         return (dist < minDist);
     }
 

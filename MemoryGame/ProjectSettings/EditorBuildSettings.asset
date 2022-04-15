@@ -14,4 +14,8 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Mopub/Demo/Scenes/ListDemo.unity
     guid: 37ac96be034a7ed40bb4fe16c401ceab
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: 8c86bd6b9377a6647905f6416fca30e7,
+      type: 2}
+    com.unity.localization.settings: {fileID: 11400000, guid: 68eaba9c9015b7d41adece3c44dd71f2,
+      type: 2}

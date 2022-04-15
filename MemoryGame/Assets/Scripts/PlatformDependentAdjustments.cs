@@ -7,7 +7,7 @@ public class PlatformDependentAdjustments : MonoBehaviour
     public enum adjustmentType { colliderSize, enable };
     public adjustmentType myAdjustmentType;
 
-    //param1 and param3 are mobile x and y for colliderSize, 2&4 for pc
+    //param1 and param3 are mobile x and y for colliderSize, 2&4 for pc (capsule)
     public float param1, param2, param3, param4; 
 
     void Awake()
@@ -29,7 +29,7 @@ public class PlatformDependentAdjustments : MonoBehaviour
                 CapsuleCollider2D caps = myCollide as CapsuleCollider2D;
                 if (caps != null)
                 {
-                    caps.size = enabler.isMobile() ? new Vector2(param2, param1) : new Vector2(param4, param3);
+                    caps.size = enabler.isMobile() ? new Vector2(param3, param4) : new Vector2(param1, param2);
                     break;
                 }
 
@@ -37,7 +37,8 @@ public class PlatformDependentAdjustments : MonoBehaviour
                 break;
             case adjustmentType.enable:
                 //param 1 is pc enable, param 2 is mobile enable (0 false 1 true)
-                this.gameObject.SetActive(enabler.isMobile() ? (param1==1) : (param2==1));
+                print("this is mobile: " + enabler.isMobile());
+                this.gameObject.SetActive(enabler.isMobile() ? ((int)param2==1) : ((int)param1==1));
                 break;
         }
     }

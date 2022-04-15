@@ -5,7 +5,7 @@ public class Tester : MonoBehaviour
 {
     public enabler enable;
 
-    public bool test;
+    public bool test, testMobile; //if on mobile but testing in unity editor, needs to enable testMobile
     public int startLevel;
     public float speedUpRate;
 
@@ -21,6 +21,8 @@ public class Tester : MonoBehaviour
 
         if (test)
         {
+            if (enabler.isMobile()) testMobile = true;
+
             PlayerPrefs.SetInt("level", startLevel);
 
             for(int i=0; i<13; i++)
