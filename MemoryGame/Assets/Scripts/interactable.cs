@@ -2066,10 +2066,14 @@ public class interactable : MonoBehaviour
     {
         bool mobile = enabler.isMobile();
 
-        print(Camera.main.WorldToScreenPoint(go.transform.position));
+        //print(Camera.main.WorldToScreenPoint(go.transform.position));
         Vector2 point = mobile ? Camera.main.WorldToScreenPoint(go.transform.position) : Input.mousePosition;
+
         float dist = Vector2.Distance(point, new Vector2(0, 0));
-        float minDist = mobile ? 300 : 80;
+        float minDist = (float)Screen.width / 1600 * (mobile ? 470 : 80);
+
+        print("min: " + minDist + " d: " + dist);
+        //return false;
         return (dist < minDist);
     }
 

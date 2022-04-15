@@ -898,8 +898,7 @@ public class animEventLink : MonoBehaviour
 
     public void fadeInStartButton()
     {
-        GameObject sb = enable.startCanvas.transform.Find("Start").gameObject;
-        sb.GetComponent<Animator>().Play("startButtonFadeIn");
+        enable.fadeInStartButton();
     }
 
     public void enableButton()

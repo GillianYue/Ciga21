@@ -26,11 +26,17 @@ public class MouseBasedCamShift : MonoBehaviour
             //mobile
             useAccl = true;
 
-            if (name.Equals("newspaper_closeup"))
+            if (name.Equals("dark_cover"))
+            {
+                moveCapacity += new Vector2(100, 300);
+            }
+            else if (name.Equals("newspaper_closeup"))
             {
                 moveCapacity += new Vector2(200, 100);
             }
         }
+
+        FindObjectOfType<MopubManager>().t2.text = useAccl.ToString();
     }
 
     void Start()

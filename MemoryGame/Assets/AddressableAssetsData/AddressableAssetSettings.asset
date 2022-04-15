@@ -113,6 +113,4 @@ MonoBehaviour:
     m_RegisteredServiceTypeRefs: []
     m_GlobalProfileVariablesInfos:
     - key: PrivateIpAddress
-      value: 172.20.10.5
-    - key: PrivateIpAddress_1
-      value: 172.24.54.170
+      value: 10.132.57.114

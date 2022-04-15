@@ -922,6 +922,7 @@ public class enabler : MonoBehaviour
 
                 titleScreenBtfl.Play("btflDropShadowIdle");
                 UICanvas.gameObject.SetActive(false); //hide UICanvas
+                fadeInStartButton();
 
                 gameOnPause = true;
                 Time.timeScale = 0; //still pause time bc game still running
@@ -976,7 +977,11 @@ public class enabler : MonoBehaviour
         Application.OpenURL(url);
     }
 
-
+    public void fadeInStartButton()
+    {
+        GameObject sb = startCanvas.transform.Find("Start").gameObject;
+        sb.GetComponent<Animator>().Play("startButtonFadeIn"); //will enable button at the end of anim
+    }
 
     public void hideStartButton()
     {
