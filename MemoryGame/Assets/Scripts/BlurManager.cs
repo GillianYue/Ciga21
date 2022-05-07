@@ -83,6 +83,7 @@ public class BlurManager : MonoBehaviour
                 break;
             case 4: //band
                 yield return StartCoroutine(level4Clear());
+                enablr.globalState.toggleAnimationGlobalClickable(true);
                 enablr.setUpLevel(5);
 
                 Destroy(enablr.globalState.bandScene);
@@ -96,6 +97,9 @@ public class BlurManager : MonoBehaviour
 
                 frontBlur.setNewScale(20, 0.1f);
                 darkCover.SetTrigger("fadeInSlow");
+
+                enablr.globalState.toggleAnimationGlobalClickable(true);
+
                 yield return new WaitForSeconds(2);
                 GetComponent<AudioManager>().playSFX(9, 3);
                 yield return new WaitForSeconds(3);
@@ -111,8 +115,10 @@ public class BlurManager : MonoBehaviour
             case 6: //pup
 
                 enablr.audio.fadeVolumeSFX(6, 0, 2, 0);
+                enablr.globalState.toggleAnimationGlobalClickable(true);
 
                 yield return StartCoroutine(generalLevelPassEffect());
+
                 enablr.setUpLevel(7);
 
                 Destroy(enablr.globalState.pupScene);
@@ -134,6 +140,8 @@ public class BlurManager : MonoBehaviour
                 yield return StartCoroutine(generalLevelPassEffect());
                 enablr.audio.fadeVolumeSFX(8, 14, 1f, 0f);
                 enablr.setUpLevel(9);
+
+                enablr.globalState.toggleAnimationGlobalClickable(true);
 
                 Destroy(enablr.globalState.bickerScene);
                 Resources.UnloadUnusedAssets(); //unload
@@ -163,6 +171,7 @@ public class BlurManager : MonoBehaviour
                 break;
             case 11:
                 //
+                enablr.globalState.toggleAnimationGlobalClickable(true);
                 yield return StartCoroutine(generalLevelPassEffect());
                 GetComponent<enabler>().gamePass();
 
@@ -205,6 +214,7 @@ public class BlurManager : MonoBehaviour
 
     public IEnumerator level1Clear()
     {
+        enablr.globalState.toggleAnimationGlobalClickable(false);
 
         backBlur.lerpTime = 0.5f;
 
@@ -237,6 +247,8 @@ public class BlurManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         yield return StartCoroutine(generalLevelPassEffect());
+
+        enablr.globalState.toggleAnimationGlobalClickable(true);
 
         Destroy(GameObject.Find("Pasta(Clone)"));
         Destroy(GameObject.Find("Pepper(Clone)"));

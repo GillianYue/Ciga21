@@ -126,6 +126,8 @@ public class StartDialogueClickThrough : MonoBehaviour
                         mirror.GetComponent<Animator>().SetTrigger("fadeIn");
                         things.GetComponent<Animator>().SetTrigger("fadeIn");
 
+                        myEnabler.globalState.toggleAnimationGlobalClickable(false);
+
                         yield return new WaitForSeconds(11f);
                         Transform girl = mirrorScene.Find("girl");
                         girl.gameObject.SetActive(true);

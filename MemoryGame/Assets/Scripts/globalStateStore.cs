@@ -226,4 +226,11 @@ public class globalStateStore : MonoBehaviour
 
     public bool checkHomeSceneItemCondition() { return penTriggered && mugTriggered && mobileTriggered; }
 
+    public void toggleAnimationGlobalClickable(bool to)
+    {
+        globalClickable = to;
+
+
+    }
+
 }

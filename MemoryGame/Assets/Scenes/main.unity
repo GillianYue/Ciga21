@@ -25357,9 +25357,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enable: {fileID: 1830021999}
-  test: 1
+  test: 0
   testMobile: 0
-  startLevel: 5
+  startLevel: 0
   speedUpRate: 10
   goToLevelTF: {fileID: 1639907385}
   swc: {fileID: 0}
