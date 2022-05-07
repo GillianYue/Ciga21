@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class PlatformDependentAdjustments : MonoBehaviour
 {
-    public enum adjustmentType { colliderSize, enable };
+    public enum adjustmentType { colliderSize, enable, objectScale };
     public adjustmentType myAdjustmentType;
 
-    //param1 and param3 are mobile x and y for colliderSize, 2&4 for pc (capsule)
     public float param1, param2, param3, param4; 
 
     void Awake()
@@ -37,8 +36,13 @@ public class PlatformDependentAdjustments : MonoBehaviour
                 break;
             case adjustmentType.enable:
                 //param 1 is pc enable, param 2 is mobile enable (0 false 1 true)
-                print("this is mobile: " + enabler.isMobile());
                 this.gameObject.SetActive(enabler.isMobile() ? ((int)param2==1) : ((int)param1==1));
+                break;
+
+            case adjustmentType.objectScale:
+                //param 1 is pc objectScale, 2 is mobile objectScale
+                float scale = enabler.isMobile() ? param2 : param1;
+                transform.localScale = new Vector3(scale, scale, scale);
                 break;
         }
     }

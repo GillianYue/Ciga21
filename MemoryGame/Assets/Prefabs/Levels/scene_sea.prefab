@@ -356,6 +356,7 @@ MonoBehaviour:
   startLocalPos: {x: 442, y: -336}
   enable: {fileID: 0}
   disableMouse: 0
+  pressTime: 0
 --- !u!95 &1539415028823864588
 Animator:
   serializedVersion: 4
@@ -407,6 +408,7 @@ GameObject:
   - component: {fileID: 1539415028835946782}
   - component: {fileID: 1539415028835946752}
   - component: {fileID: 5015480130284723097}
+  - component: {fileID: 2175047406070728117}
   m_Layer: 0
   m_Name: star4
   m_TagString: Untagged
@@ -644,6 +646,23 @@ MonoBehaviour:
   myAdjustmentType: 0
   param1: 14.1
   param2: 35
+  param3: 0
+  param4: 0
+--- !u!114 &2175047406070728117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1539415028835946777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cddd8010763fbf469e78d6086d4d0a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myAdjustmentType: 2
+  param1: 1
+  param2: 2
   param3: 0
   param4: 0
 --- !u!1 &1539415028892758637
@@ -1908,6 +1927,7 @@ GameObject:
   - component: {fileID: 1539415029299831219}
   - component: {fileID: 1539415029299831221}
   - component: {fileID: 2157024710911196718}
+  - component: {fileID: 6443758589582452521}
   m_Layer: 0
   m_Name: star1
   m_TagString: Untagged
@@ -2143,8 +2163,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myAdjustmentType: 0
-  param1: 14.1
-  param2: 35
+  param1: 15
+  param2: 40
+  param3: 0
+  param4: 0
+--- !u!114 &6443758589582452521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1539415029299831182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cddd8010763fbf469e78d6086d4d0a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myAdjustmentType: 2
+  param1: 1
+  param2: 2
   param3: 0
   param4: 0
 --- !u!1 &1539415029306745221
@@ -2534,6 +2571,7 @@ GameObject:
   - component: {fileID: 1539415029468902263}
   - component: {fileID: 1539415029468902265}
   - component: {fileID: 4680247377804539269}
+  - component: {fileID: 5450583259000655867}
   m_Layer: 0
   m_Name: star7
   m_TagString: Untagged
@@ -2773,6 +2811,23 @@ MonoBehaviour:
   param2: 35
   param3: 0
   param4: 0
+--- !u!114 &5450583259000655867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1539415029468902258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cddd8010763fbf469e78d6086d4d0a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myAdjustmentType: 2
+  param1: 1
+  param2: 2
+  param3: 0
+  param4: 0
 --- !u!1 &1539415029501972040
 GameObject:
   m_ObjectHideFlags: 0
@@ -2789,6 +2844,7 @@ GameObject:
   - component: {fileID: 1539415029501972045}
   - component: {fileID: 1539415029501972047}
   - component: {fileID: 826910967400034177}
+  - component: {fileID: 3059235858305677467}
   m_Layer: 0
   m_Name: star6
   m_TagString: Untagged
@@ -3028,6 +3084,23 @@ MonoBehaviour:
   param2: 35
   param3: 0
   param4: 0
+--- !u!114 &3059235858305677467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1539415029501972040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cddd8010763fbf469e78d6086d4d0a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myAdjustmentType: 2
+  param1: 1
+  param2: 2
+  param3: 0
+  param4: 0
 --- !u!1 &1539415029547029934
 GameObject:
   m_ObjectHideFlags: 0
@@ -3238,6 +3311,7 @@ GameObject:
   - component: {fileID: 1539415029554214513}
   - component: {fileID: 1539415029554214515}
   - component: {fileID: 3365545655013907120}
+  - component: {fileID: 3117428352285137637}
   m_Layer: 0
   m_Name: star5
   m_TagString: Untagged
@@ -3475,6 +3549,23 @@ MonoBehaviour:
   myAdjustmentType: 0
   param1: 14.1
   param2: 35
+  param3: 0
+  param4: 0
+--- !u!114 &3117428352285137637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1539415029554214476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cddd8010763fbf469e78d6086d4d0a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myAdjustmentType: 2
+  param1: 1
+  param2: 2
   param3: 0
   param4: 0
 --- !u!1 &1539415029605249998
@@ -4392,6 +4483,7 @@ GameObject:
   - component: {fileID: 1539415029884348335}
   - component: {fileID: 1539415029884348369}
   - component: {fileID: 3133273446923424144}
+  - component: {fileID: 8476052284789220394}
   m_Layer: 0
   m_Name: star8
   m_TagString: Untagged
@@ -4629,6 +4721,23 @@ MonoBehaviour:
   myAdjustmentType: 0
   param1: 14.1
   param2: 35
+  param3: 0
+  param4: 0
+--- !u!114 &8476052284789220394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1539415029884348330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cddd8010763fbf469e78d6086d4d0a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myAdjustmentType: 2
+  param1: 1
+  param2: 2
   param3: 0
   param4: 0
 --- !u!1 &1539415029894104014
@@ -5490,6 +5599,7 @@ MonoBehaviour:
   startLocalPos: {x: 0, y: -250}
   enable: {fileID: 0}
   disableMouse: 0
+  pressTime: 0
 --- !u!95 &1539415030057054184
 Animator:
   serializedVersion: 4
@@ -6561,6 +6671,7 @@ GameObject:
   - component: {fileID: 1539415030415789744}
   - component: {fileID: 1539415030415789746}
   - component: {fileID: 4006800382983632301}
+  - component: {fileID: 8285580810878525169}
   m_Layer: 0
   m_Name: star2
   m_TagString: Untagged
@@ -6798,6 +6909,23 @@ MonoBehaviour:
   myAdjustmentType: 0
   param1: 14.1
   param2: 35
+  param3: 0
+  param4: 0
+--- !u!114 &8285580810878525169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1539415030415789707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cddd8010763fbf469e78d6086d4d0a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myAdjustmentType: 2
+  param1: 1
+  param2: 2
   param3: 0
   param4: 0
 --- !u!1 &1539415030427180470
@@ -8118,6 +8246,7 @@ GameObject:
   - component: {fileID: 1539415030867504380}
   - component: {fileID: 1539415030867504382}
   - component: {fileID: 7023090403850309823}
+  - component: {fileID: 91298979049730718}
   m_Layer: 0
   m_Name: star3
   m_TagString: Untagged
@@ -8355,6 +8484,23 @@ MonoBehaviour:
   myAdjustmentType: 0
   param1: 14.1
   param2: 35
+  param3: 0
+  param4: 0
+--- !u!114 &91298979049730718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1539415030867504375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cddd8010763fbf469e78d6086d4d0a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myAdjustmentType: 2
+  param1: 1
+  param2: 2
   param3: 0
   param4: 0
 --- !u!1 &1539415030867555061
