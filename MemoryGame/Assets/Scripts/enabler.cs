@@ -473,6 +473,8 @@ public class enabler : MonoBehaviour
 
                 if (!subScene)
                 {
+                    yield return new WaitForSeconds(3); //wait for mm to finish showing, then allow cam to zoom
+
                     globalState.globalClickable = false;
                     globalState.audio.playSFX(7, 15);
 
