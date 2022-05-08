@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 //manages variables and objects on a global level
 public class globalStateStore : MonoBehaviour
@@ -28,6 +29,8 @@ public class globalStateStore : MonoBehaviour
     public Animator interactHintAnimator;
 
     public int menuCapsuleSelectedIndex;
+
+    public GameObject spinny;
 
     private void Awake()
     {
@@ -228,9 +231,24 @@ public class globalStateStore : MonoBehaviour
 
     public void toggleAnimationGlobalClickable(bool to)
     {
+        StartCoroutine(spinnyCoroutine(to));
+    }
+
+    IEnumerator spinnyCoroutine(bool to)
+    {
         globalClickable = to;
 
-
+        if (to)
+        {
+            spinny.GetComponent<Animator>().Play("singleImageFadeOut");
+            yield return new WaitForSeconds(1.5f);
+            spinny.SetActive(false);
+        }
+        else
+        {
+            spinny.SetActive(true);
+            spinny.GetComponent<Animator>().Play("singleImageFadeIn");
+        }
     }
 
 }
