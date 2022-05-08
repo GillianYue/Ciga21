@@ -1306,6 +1306,7 @@ public class interactable : MonoBehaviour
 
                 Transform leafBatch = globalState.parkScene.transform.Find("flat/her/leaves" + var1);
                 leafBatch.gameObject.SetActive(true);
+                globalState.toggleAnimationGlobalClickable(false);
 
                 foreach (Transform leaf in leafBatch)
                 {
@@ -1326,7 +1327,7 @@ public class interactable : MonoBehaviour
 
                 yield return new WaitForSeconds(5f);
 
-                globalState.globalClickable = true;
+                globalState.toggleAnimationGlobalClickable(true);
 
                 if (var1 < 3)
                 {
@@ -1908,7 +1909,7 @@ public class interactable : MonoBehaviour
         {
             Rigidbody2D rb = GetComponent<Rigidbody2D>();
 
-            if (Mathf.Abs(rb.rotation) < 500) //TODO change to 5000
+            if (Mathf.Abs(rb.rotation) < 3500) //TODO change to 5000
             {
                 int sign = (rb.rotation > 0) ? 1 : -1;
                 rb.AddTorque(120000 * sign);
