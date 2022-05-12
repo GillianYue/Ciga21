@@ -7,12 +7,14 @@ public class MouseBasedCamShift : MonoBehaviour
     public Vector2 moveCapacity; //cam will shift at most +moveCapacity.x upward, -moveCapacity.x downward, same for y
     public Vector2 screenDimension; //width*height; will only cause the effect to be within range of screen, if outside will curb to max/min
 
-    bool active;
+    public bool active;
     public Vector2 startLocalPos;
 
     public enabler enable;
-    private bool useAccl; //if on mobile devices, will use phone's accelerometer as input as opposed to mouse
+    public bool useAccl; //if on mobile devices, will use phone's accelerometer as input as opposed to mouse
     Matrix4x4 baseMatrix = Matrix4x4.identity;
+
+    //only edit disableMouse
     public bool disableMouse;
 
     public float pressTime;
@@ -36,7 +38,7 @@ public class MouseBasedCamShift : MonoBehaviour
             }
         }
 
-        FindObjectOfType<MopubManager>().t2.text = useAccl.ToString();
+       // FindObjectOfType<MopubManager>().t2.text = useAccl.ToString();
     }
 
     void Start()

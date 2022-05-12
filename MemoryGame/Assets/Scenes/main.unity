@@ -25556,9 +25556,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enable: {fileID: 1830021999}
-  test: 1
+  test: 0
   testMobile: 0
-  startLevel: 0
+  startLevel: 8
   speedUpRate: 10
   goToLevelTF: {fileID: 1639907385}
   swc: {fileID: 0}
@@ -36470,8 +36470,10 @@ MonoBehaviour:
   shakeTransform: {fileID: 4345694326401858978}
   moveCapacity: {x: 20, y: 20}
   screenDimension: {x: 1600, y: 900}
+  active: 0
   startLocalPos: {x: 0, y: 0}
   enable: {fileID: 0}
+  useAccl: 0
   disableMouse: 1
   pressTime: 0
 --- !u!4 &4345694326401858978

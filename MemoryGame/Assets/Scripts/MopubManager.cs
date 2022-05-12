@@ -19,14 +19,7 @@ public class MopubManager : MonoBehaviour
 
     void Start()
     {
-
         StartCoroutine(initMopub());
-    }
-
-
-    void Update()
-    {
-        
     }
 
     public void startInitMopub() { StartCoroutine(initMopub()); }

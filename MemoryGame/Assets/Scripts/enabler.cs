@@ -91,9 +91,9 @@ public class enabler : MonoBehaviour
             headphoneScreen.GetComponent<Image>().color = new Color(1, 1, 1, 1);
             headphoneScreen.transform.GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 0);
             headphoneScreen.transform.GetChild(1).GetComponent<Image>().color = new Color(1, 1, 1, 0);
-       // }
+        // }
 
-        
+        UICanvas.gameObject.SetActive(true);
     }
 
     void Start()
@@ -103,6 +103,7 @@ public class enabler : MonoBehaviour
 
     void Update()
     {
+        print(Time.timeScale);
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             openQuitUIWindow();
@@ -223,10 +224,6 @@ public class enabler : MonoBehaviour
         if (gameOnPause)
         {//resume previously paused content
 
-            //int loadLv = PlayerPrefs.GetInt("level", 0);
-
-            //globalState.revealAndHideStuff(loadLv, true);
-
             UICanvas.gameObject.SetActive(true);
             menuUIButton.gameObject.SetActive(true);
             vfxCanvas.gameObject.SetActive(true);
@@ -242,22 +239,18 @@ public class enabler : MonoBehaviour
             }
 
             gameOnPause = false;
-        }
-        else
-        {
+        }else{
             startButton.enabled = false;
 
-#if !UNITY_STANDALONE 
+        #if !UNITY_STANDALONE 
             mopubManager.realnameAuth(); //will call loadLevel if success
-            
-            
+
             //TODO DELETE
-            StartCoroutine(checkLoadLevel());
+           // StartCoroutine(checkLoadLevel());
 
-
-#else
-            StartCoroutine(checkLoadLevel());
-#endif
+        #else
+                    StartCoroutine(checkLoadLevel());
+        #endif
         }
 
     }
@@ -801,6 +794,7 @@ public class enabler : MonoBehaviour
         memorabiliaUI.GetComponent<interactable>().clickable = true;
 
         Time.timeScale = 0;
+
 
         memorabiliaUI.gameObject.SetActive(true);
         mm.randomizeItem1();

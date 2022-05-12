@@ -353,8 +353,10 @@ MonoBehaviour:
   shakeTransform: {fileID: 1539415028823864586}
   moveCapacity: {x: 80, y: 60}
   screenDimension: {x: 1600, y: 900}
+  active: 0
   startLocalPos: {x: 442, y: -336}
   enable: {fileID: 0}
+  useAccl: 0
   disableMouse: 0
   pressTime: 0
 --- !u!95 &1539415028823864588
@@ -5594,10 +5596,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shakeTransform: {fileID: 1539415030057054183}
-  moveCapacity: {x: 400, y: 100}
+  moveCapacity: {x: 500, y: 100}
   screenDimension: {x: 1600, y: 900}
+  active: 0
   startLocalPos: {x: 0, y: -250}
   enable: {fileID: 0}
+  useAccl: 0
   disableMouse: 0
   pressTime: 0
 --- !u!95 &1539415030057054184
