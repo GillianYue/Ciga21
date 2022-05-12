@@ -69,11 +69,7 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-<<<<<<< HEAD
-    - _Size: 0.08410251
-=======
-    - _Size: 0.0265287
->>>>>>> 16b8d05 (smol fix)
+    - _Size: 0.15449725
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1

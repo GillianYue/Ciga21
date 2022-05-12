@@ -72,6 +72,8 @@ public class starsManager : MonoBehaviour
         if (which == 3)
         {//ending
 
+            globalState.toggleAnimationGlobalClickable(false);
+
             yield return new WaitForSeconds(1f);
             globalState.audio.playSFX(5, 9);
             yield return new WaitForSeconds(14.5f);
@@ -116,6 +118,7 @@ public class starsManager : MonoBehaviour
 
             //end of scene
             globalState.GetComponent<BlurManager>().levelPassEffect(5);
+
         }
     }
 }

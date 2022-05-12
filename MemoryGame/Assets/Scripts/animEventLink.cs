@@ -498,9 +498,14 @@ public class animEventLink : MonoBehaviour
 
     }
 
-    public void setGlobalClickableTrue() { globalState.globalClickable = true; }
+    //since under animEventLink, is necessarily called by an animation event
+    public void setGlobalClickableTrue() {
+        globalState.toggleAnimationGlobalClickable(true);
+    }
 
-    public void setGlobalClickableFalse() { globalState.globalClickable = false; }
+    public void setGlobalClickableFalse() {
+        globalState.toggleAnimationGlobalClickable(false);
+    }
 
     public void glitchEffectEnd() { StartCoroutine(glitchEffectEndCoroutine()); }
 
@@ -569,7 +574,8 @@ public class animEventLink : MonoBehaviour
         fl.Play("onOffGlitch");
 
         Transform objs = transform.Find("objects");
-        globalState.globalClickable = true;
+
+        globalState.toggleAnimationGlobalClickable(true);
 
         foreach (Transform obj in objs)
         {
@@ -583,6 +589,7 @@ public class animEventLink : MonoBehaviour
 
         yield return new WaitForSeconds(2);
 
+        
     }
 
     public void collage()
@@ -659,6 +666,7 @@ public class animEventLink : MonoBehaviour
 
         //setup
         herHosp.Find("face").gameObject.SetActive(false);
+        globalState.toggleAnimationGlobalClickable(false);
 
         int count = 0;
         foreach (Transform r in roses)
@@ -745,6 +753,7 @@ public class animEventLink : MonoBehaviour
 
         //end of scene
         enable.GetComponent<BlurManager>().levelPassEffect(9);
+        globalState.toggleAnimationGlobalClickable(true);
     }
 
     public void playSfx(string levelUnderlineIndex) //e.g. 11_2
@@ -763,7 +772,8 @@ public class animEventLink : MonoBehaviour
 
     IEnumerator phoneCheckCoroutine()
     {
-        globalState.globalClickable = false;
+        globalState.toggleAnimationGlobalClickable(false);
+
         yield return new WaitForSeconds(2);
         camMovement.vfx.Play("blink");
 
@@ -886,6 +896,8 @@ public class animEventLink : MonoBehaviour
         StartDialogueClickThrough dlg = globalState.streetScene.transform.Find("StartDialogue").GetComponent<StartDialogueClickThrough>();
         dlg.gameObject.SetActive(true);
         dlg.enableStartDialogue();
+
+        globalState.toggleAnimationGlobalClickable(true);
     }
 
     public void fadeOut() { GetComponent<Animator>().SetTrigger("fadeOut"); }

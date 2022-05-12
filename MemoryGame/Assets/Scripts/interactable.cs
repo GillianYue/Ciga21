@@ -385,9 +385,12 @@ public class interactable : MonoBehaviour
 
     public IEnumerator bandWaitTillSongEnd()
     {
+        globalState.toggleAnimationGlobalClickable(false);
         yield return new WaitForSeconds(24); //entirety of loop
 
         globalState.audio.playSFX(4, 18); //end of lv song
+
+        
 
         gameControl.GetComponent<BlurManager>().levelPassEffect(4);
         gameControl.GetComponent<globalStateStore>().hasScrolled = true;
@@ -409,6 +412,7 @@ public class interactable : MonoBehaviour
 
     IEnumerator lookOverFinishedCoroutine()
     {
+        globalState.toggleAnimationGlobalClickable(false);
         camMovement.cam.Play("naturalBreathe");
 
         //some setup
@@ -528,6 +532,8 @@ public class interactable : MonoBehaviour
                 {//hiding it behind the couch
 
                     myAnimator.SetTrigger("action4"); // roll away
+
+                    globalState.toggleAnimationGlobalClickable(false);
 
                     yield return new WaitForSeconds(7);
 
@@ -685,6 +691,8 @@ public class interactable : MonoBehaviour
 
                     //end of scene
                     gameControl.GetComponent<BlurManager>().levelPassEffect(2);
+
+                    globalState.toggleAnimationGlobalClickable(true);
                 }
                 break;
 
@@ -841,6 +849,7 @@ public class interactable : MonoBehaviour
                     //if reaches here, satisfies: thrown and played ball, thrown and played stick
                     //trigger ending anim
                     pup.Play("dPlayBallEnding");
+                    globalState.toggleAnimationGlobalClickable(false);
 
                     gameObject.SetActive(false); //deactivate ball
 
@@ -1057,6 +1066,8 @@ public class interactable : MonoBehaviour
             case "herCloseup":
                 if (var1 == 0)
                 {
+                    globalState.toggleAnimationGlobalClickable(false);
+
                     GetComponent<Animator>().SetTrigger("action1"); //turn
                     GetComponent<interactable>().clickable = false;
 
@@ -1087,10 +1098,12 @@ public class interactable : MonoBehaviour
 
                     yield return new WaitForSeconds(3f);
                     GetComponent<interactable>().clickable = true;
+
+                    globalState.toggleAnimationGlobalClickable(true);
                 }
                 else
                 {
-
+                    globalState.toggleAnimationGlobalClickable(false);
                     Animator handCloseup = globalState.gardenCloseupScene.transform.Find("hand").GetComponent<Animator>();
 
                     GetComponent<interactable>().clickable = false;
@@ -1107,6 +1120,7 @@ public class interactable : MonoBehaviour
                     //end scene transition
                     //end of scene
                     gameControl.GetComponent<BlurManager>().levelPassEffect(7);
+                    globalState.toggleAnimationGlobalClickable(true);
                 }
 
                 break;
@@ -1116,6 +1130,7 @@ public class interactable : MonoBehaviour
                 {
                     transform.parent.parent.GetComponent<Animator>().Play("sunset" + (var1 + 1)); //find the actual sun GO which carries the animator
                     var1 += 1;
+                    globalState.toggleAnimationGlobalClickable(false);
 
                     if (var1 == 3) clickable = false; //disable sun interact after fades out
                 }
@@ -1266,6 +1281,7 @@ public class interactable : MonoBehaviour
                 }
                 else
                 { //trigger ending
+                    globalState.toggleAnimationGlobalClickable(false);
                     camMovement.mouseBasedCamShift.setActive(false); //deactivate cam shift
 
                     GameObject mdrSlice = globalState.bickerScene.transform.Find("slice_closeup").gameObject;
@@ -1290,6 +1306,7 @@ public class interactable : MonoBehaviour
 
                 Transform leafBatch = globalState.parkScene.transform.Find("flat/her/leaves" + var1);
                 leafBatch.gameObject.SetActive(true);
+                globalState.toggleAnimationGlobalClickable(false);
 
                 foreach (Transform leaf in leafBatch)
                 {
@@ -1310,7 +1327,7 @@ public class interactable : MonoBehaviour
 
                 yield return new WaitForSeconds(5f);
 
-                globalState.globalClickable = true;
+                globalState.toggleAnimationGlobalClickable(true);
 
                 if (var1 < 3)
                 {
@@ -1381,6 +1398,8 @@ public class interactable : MonoBehaviour
                     Transform bouquet = globalState.graveyardScene.transform.Find("flower");
                     yield return new WaitForSeconds(1);
 
+                    globalState.toggleAnimationGlobalClickable(false);
+
                     bouquet.gameObject.SetActive(true);
                     Animator bq = bouquet.GetComponent<Animator>();
                     bq.SetTrigger("fadeIn");
@@ -1406,6 +1425,8 @@ public class interactable : MonoBehaviour
 
                     //end of scene
                     gameControl.GetComponent<BlurManager>().levelPassEffect(10);
+
+                    globalState.toggleAnimationGlobalClickable(true);
                 }
                 else
                 {
@@ -1888,7 +1909,7 @@ public class interactable : MonoBehaviour
         {
             Rigidbody2D rb = GetComponent<Rigidbody2D>();
 
-            if (Mathf.Abs(rb.rotation) < 5000) //TODO change to 8000
+            if (Mathf.Abs(rb.rotation) < 3500) //TODO change to 5000
             {
                 int sign = (rb.rotation > 0) ? 1 : -1;
                 rb.AddTorque(120000 * sign);
