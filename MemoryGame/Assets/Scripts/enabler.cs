@@ -45,10 +45,10 @@ public class enabler : MonoBehaviour
     [Inject(InjectFrom.Anywhere)]
     public Memorabilia mm;
 
-#if !UNITY_STANDALONE 
-    [Inject(InjectFrom.Anywhere)]
-    public MopubManager mopubManager;
-#endif
+//#if !UNITY_STANDALONE 
+//    [Inject(InjectFrom.Anywhere)]
+//    public MopubManager mopubManager;
+//#endif
 
     [Inject(InjectFrom.Anywhere)]
     public EntryManager entryManager;
@@ -70,9 +70,9 @@ public class enabler : MonoBehaviour
         if (!memorabiliaUI.activeSelf) memorabiliaUI.SetActive(true);
         if (menuUIButton.activeSelf) menuUIButton.SetActive(false);
 
-#if !UNITY_STANDALONE
-        if (mopubManager == null) mopubManager = GetComponent<MopubManager>();
-#endif
+//#if !UNITY_STANDALONE
+//        if (mopubManager == null) mopubManager = GetComponent<MopubManager>();
+//#endif
 
 #if UNITY_STANDALONE
         if (steamAchievements == null) steamAchievements = FindObjectOfType<SteamAchievements>();
@@ -80,7 +80,8 @@ public class enabler : MonoBehaviour
 
         if (mm == null) mm = FindObjectOfType<Memorabilia>();
 
-        language = PlayerPrefs.GetInt("language", (Application.systemLanguage == SystemLanguage.English) ? 1 : 0);
+        //默认使用1
+        language = PlayerPrefs.GetInt("language", 1);
 
         gameOnPause = false;
 
@@ -103,7 +104,7 @@ public class enabler : MonoBehaviour
 
     void Update()
     {
-        print(Time.timeScale);
+        //print(Time.timeScale);
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             openQuitUIWindow();
@@ -242,15 +243,15 @@ public class enabler : MonoBehaviour
         }else{
             startButton.enabled = false;
 
-        #if !UNITY_STANDALONE 
-            mopubManager.realnameAuth(); //will call loadLevel if success
+        //#if !UNITY_STANDALONE 
+        //    mopubManager.realnameAuth(); //will call loadLevel if success
 
-            //TODO DELETE
-           // StartCoroutine(checkLoadLevel());
+        //    //TODO DELETE
+        //   // StartCoroutine(checkLoadLevel());
 
-        #else
+        //#else
                     StartCoroutine(checkLoadLevel());
-        #endif
+        //#endif
         }
 
     }
