@@ -1,0 +1,27 @@
+fileFormatVersion: 2
+guid: 1ed6e33f100e6a74e9b0207f14df677e
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - IBM Plex Sans Thai
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 3d07fcc40e2485e41b0d7cf9d3f085ca, type: 3}
+  - {fileID: 12800000, guid: 47a290ccaeba17046a925987a8654597, type: 3}
+  - {fileID: 12800000, guid: 3bac2e972c28bc941af7a9a9da743cf2, type: 3}
+  - {fileID: 12800000, guid: c4896b1a40ad6724fbb345a3c5faef7e, type: 3}
+  - {fileID: 12800000, guid: 68980bbd1b57da84fb585980331f5f97, type: 3}
+  - {fileID: 12800000, guid: d126c3d593617854bb51d40bbe32d9e9, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

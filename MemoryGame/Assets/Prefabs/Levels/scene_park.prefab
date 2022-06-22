@@ -4422,6 +4422,8 @@ MonoBehaviour:
   changePosition: 0
   position_chn: {x: 0, y: 0}
   position_eng: {x: 0, y: 0}
+  textIndex: 27
+  myTextContent: 
 --- !u!95 &7178213358683478983
 Animator:
   serializedVersion: 4
