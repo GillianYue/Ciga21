@@ -25556,7 +25556,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enable: {fileID: 1830021999}
-  test: 0
+  test: 1
   testMobile: 0
   startLevel: 8
   speedUpRate: 10
