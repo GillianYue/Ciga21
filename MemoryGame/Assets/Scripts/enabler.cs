@@ -140,6 +140,7 @@ public class enabler : MonoBehaviour
 
         yield return new WaitUntil(() => textData.Count > 0);
 
+
         textLoadDone = true;
         yield return new WaitForSeconds(2);
 
