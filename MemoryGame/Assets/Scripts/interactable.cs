@@ -1643,6 +1643,9 @@ public class interactable : MonoBehaviour
                 }
 
                 break;
+            case "LanguageSelectionUI":
+                globalState.enable.closeLanguageSelectionUI();
+                break;
 
         }
 

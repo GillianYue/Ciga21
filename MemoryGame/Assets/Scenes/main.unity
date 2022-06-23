@@ -2270,9 +2270,7 @@ MonoBehaviour:
   - Reset Level
   - "\u91CD\u7F6E\u672C\u5173\u5361"
   languageTextSizes: 
-  languageFonts:
-  - {fileID: 12800000, guid: a00657d55cf60f3468269f22c2a41600, type: 3}
-  - {fileID: 12800000, guid: a00657d55cf60f3468269f22c2a41600, type: 3}
+  languageFonts: []
   positions: []
   mobileTexts: []
   myText: {fileID: 0}
@@ -3907,9 +3905,7 @@ MonoBehaviour:
   - Main Menu
   - "\u56DE\u5230\u4E3B\u83DC\u5355"
   languageTextSizes: 
-  languageFonts:
-  - {fileID: 12800000, guid: a00657d55cf60f3468269f22c2a41600, type: 3}
-  - {fileID: 12800000, guid: a00657d55cf60f3468269f22c2a41600, type: 3}
+  languageFonts: []
   positions: []
   mobileTexts: []
   myText: {fileID: 0}
@@ -9764,9 +9760,7 @@ MonoBehaviour:
   - Reset Game
   - "\u91CD\u7F6E\u6E38\u620F"
   languageTextSizes: 
-  languageFonts:
-  - {fileID: 12800000, guid: a00657d55cf60f3468269f22c2a41600, type: 3}
-  - {fileID: 12800000, guid: a00657d55cf60f3468269f22c2a41600, type: 3}
+  languageFonts: []
   positions: []
   mobileTexts: []
   myText: {fileID: 0}
@@ -26094,9 +26088,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcfe75b8164b8684485266c789166643, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enable: {fileID: 0}
-  t1: {fileID: 2009194025}
-  t2: {fileID: 1457888118}
 --- !u!4 &1635629625
 Transform:
   m_ObjectHideFlags: 0
@@ -27399,9 +27390,7 @@ MonoBehaviour:
   - Memorabilia
   - "\u8BB0\u5FC6\u7BB1"
   languageTextSizes: 
-  languageFonts:
-  - {fileID: 12800000, guid: a00657d55cf60f3468269f22c2a41600, type: 3}
-  - {fileID: 12800000, guid: a00657d55cf60f3468269f22c2a41600, type: 3}
+  languageFonts: []
   positions: []
   mobileTexts: []
   myText: {fileID: 0}
