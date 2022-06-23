@@ -1,0 +1,6 @@
+framework module SupereraSDKAd {
+  umbrella header "SupereraSDKAd.h"
+
+  export *
+  module * { export * }
+}

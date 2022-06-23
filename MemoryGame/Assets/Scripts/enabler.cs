@@ -73,15 +73,9 @@ public class enabler : MonoBehaviour
         if (!memorabiliaUI.activeSelf) memorabiliaUI.SetActive(true);
         if (menuUIButton.activeSelf) menuUIButton.SetActive(false);
 
-<<<<<<< HEAD
 //#if !UNITY_STANDALONE
 //        if (mopubManager == null) mopubManager = GetComponent<MopubManager>();
 //#endif
-=======
-    #if !UNITY_STANDALONE
-            if (mopubManager == null) mopubManager = GetComponent<MopubManager>();
-    #endif
->>>>>>> 6f897395cbb8225564852ac8dab7dc99873cc985
 
     #if UNITY_STANDALONE
             if (steamAchievements == null) steamAchievements = FindObjectOfType<SteamAchievements>();

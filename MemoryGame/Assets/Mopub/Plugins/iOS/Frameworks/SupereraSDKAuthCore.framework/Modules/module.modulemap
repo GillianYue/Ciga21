@@ -1,0 +1,11 @@
+framework module SupereraSDKAuthCore {
+  umbrella header "SupereraSDKAuthCore.h"
+
+  export *
+  module * { export * }
+}
+
+module SupereraSDKAuthCore.Swift {
+    header "SupereraSDKAuthCore-Swift.h"
+    requires objc
+}

@@ -1,0 +1,40 @@
+import groovy.xml.XmlUtil
+
+this.afterEvaluate {
+    def manifestFile = "${projectDir}/src/main/AndroidManifest.xml"
+	println("xml路径：" + manifestFile)
+    def xml = file(manifestFile)
+    def manifest = new XmlSlurper().parse(manifestFile)
+    def application = manifest.application
+
+    application.activity.each {
+        def isFind = false
+        it.children().each {
+            println("activity下："+it.name())
+            if(it.name() == "intent-filter"){
+                it.children().each{
+                    println("intent-filter下："+it.name() + " "+ it.@"android:name")
+                    if(it.name()=="action" && it.@"android:name"=="android.intent.action.MAIN"){
+                        isFind = true
+                        println("已找到")
+                        return true
+                    }
+                }
+
+            }
+            if(isFind){
+                return  true
+            }
+        }
+
+        if (isFind){
+            println("已修改"+it.@"android:name")
+            it.@"android:name" = "HUB_ACTIVITY"
+            return true
+        }
+    }
+
+    xml.withWriter {out->
+        XmlUtil.serialize(manifest, out)
+    }
+}

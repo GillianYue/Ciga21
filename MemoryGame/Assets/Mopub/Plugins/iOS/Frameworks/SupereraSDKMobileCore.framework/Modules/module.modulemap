@@ -1,0 +1,6 @@
+framework module SupereraSDKMobileCore {
+  umbrella header "SupereraSDKMobileCore.h"
+
+  export *
+  module * { export * }
+}

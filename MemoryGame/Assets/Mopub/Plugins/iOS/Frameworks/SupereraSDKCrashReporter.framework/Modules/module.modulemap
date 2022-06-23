@@ -1,0 +1,6 @@
+framework module SupereraSDKCrashReporter {
+  umbrella header "SupereraSDKCrashReporter.h"
+
+  export *
+  module * { export * }
+}
