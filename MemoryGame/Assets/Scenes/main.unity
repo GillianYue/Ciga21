@@ -2270,16 +2270,14 @@ MonoBehaviour:
   - Reset Level
   - "\u91CD\u7F6E\u672C\u5173\u5361"
   languageTextSizes: 
-  languageFonts:
-  - {fileID: 12800000, guid: a00657d55cf60f3468269f22c2a41600, type: 3}
-  - {fileID: 12800000, guid: a00657d55cf60f3468269f22c2a41600, type: 3}
+  languageFonts: []
   positions: []
   mobileTexts: []
   myText: {fileID: 0}
   changePosition: 0
   position_chn: {x: 0, y: 0}
   position_eng: {x: 0, y: 0}
-  textIndex: 35
+  textIndex: 0
   myTextContent: 
 --- !u!114 &119378339
 MonoBehaviour:
@@ -3907,16 +3905,14 @@ MonoBehaviour:
   - Main Menu
   - "\u56DE\u5230\u4E3B\u83DC\u5355"
   languageTextSizes: 
-  languageFonts:
-  - {fileID: 12800000, guid: a00657d55cf60f3468269f22c2a41600, type: 3}
-  - {fileID: 12800000, guid: a00657d55cf60f3468269f22c2a41600, type: 3}
+  languageFonts: []
   positions: []
   mobileTexts: []
   myText: {fileID: 0}
   changePosition: 0
   position_chn: {x: 0, y: 0}
   position_eng: {x: 0, y: 0}
-  textIndex: 38
+  textIndex: 0
   myTextContent: 
 --- !u!114 &203628423
 MonoBehaviour:
@@ -5908,11 +5904,7 @@ MonoBehaviour:
   - {fileID: 12800000, guid: db363b8bd8e1b8547a3a6be129de956b, type: 3}
   - {fileID: 12800000, guid: 6a03892e19c3f2542a210dda2e5db12a, type: 3}
   - {fileID: 12800000, guid: 01e155d1fdc4be24f9925c33b16a4553, type: 3}
-  positions:
-  - {x: 10.8, y: 19.10001}
-  - {x: 33.09, y: -20}
-  - {x: 20.7, y: -8.5}
-  - {x: 33.09, y: -2}
+  positions: []
   mobileTexts: []
   myText: {fileID: 0}
   changePosition: 1
@@ -6172,10 +6164,7 @@ MonoBehaviour:
   - {fileID: 12800000, guid: db363b8bd8e1b8547a3a6be129de956b, type: 3}
   - {fileID: 12800000, guid: 9596478caaa8eb94392fda4326b6b8de, type: 3}
   - {fileID: 12800000, guid: 50271d268414bdd4badc9ba6a71135d9, type: 3}
-  positions:
-  - {x: -115.4, y: 83}
-  - {x: -129, y: 38}
-  - {x: -87.4, y: 63.95}
+  positions: []
   mobileTexts: []
   myText: {fileID: 0}
   changePosition: 1
@@ -9764,16 +9753,14 @@ MonoBehaviour:
   - Reset Game
   - "\u91CD\u7F6E\u6E38\u620F"
   languageTextSizes: 
-  languageFonts:
-  - {fileID: 12800000, guid: a00657d55cf60f3468269f22c2a41600, type: 3}
-  - {fileID: 12800000, guid: a00657d55cf60f3468269f22c2a41600, type: 3}
+  languageFonts: []
   positions: []
   mobileTexts: []
   myText: {fileID: 0}
   changePosition: 0
   position_chn: {x: 0, y: 0}
   position_eng: {x: 0, y: 0}
-  textIndex: 36
+  textIndex: 0
   myTextContent: 
 --- !u!114 &851727430
 MonoBehaviour:
@@ -10013,7 +10000,7 @@ MonoBehaviour:
   changePosition: 0
   position_chn: {x: 0, y: 0}
   position_eng: {x: 0, y: 0}
-  textIndex: 10
+  textIndex: 0
   myTextContent: 
 --- !u!114 &936569738
 MonoBehaviour:
@@ -12803,10 +12790,7 @@ MonoBehaviour:
   - {fileID: 12800000, guid: db363b8bd8e1b8547a3a6be129de956b, type: 3}
   - {fileID: 12800000, guid: 9596478caaa8eb94392fda4326b6b8de, type: 3}
   - {fileID: 12800000, guid: 50271d268414bdd4badc9ba6a71135d9, type: 3}
-  positions:
-  - {x: -42, y: 74.50001}
-  - {x: -49, y: 74}
-  - {x: -17.7, y: 74.50001}
+  positions: []
   mobileTexts: []
   myText: {fileID: 0}
   changePosition: 1
@@ -25104,11 +25088,7 @@ MonoBehaviour:
   - {fileID: 12800000, guid: db363b8bd8e1b8547a3a6be129de956b, type: 3}
   - {fileID: 12800000, guid: 9596478caaa8eb94392fda4326b6b8de, type: 3}
   - {fileID: 12800000, guid: 50271d268414bdd4badc9ba6a71135d9, type: 3}
-  positions:
-  - {x: 122.8, y: 76.40001}
-  - {x: 147, y: 33}
-  - {x: 138.4, y: 80.3}
-  - {x: 163, y: 80.3}
+  positions: []
   mobileTexts: []
   myText: {fileID: 0}
   changePosition: 1
@@ -26273,10 +26253,7 @@ MonoBehaviour:
   - {fileID: 12800000, guid: db363b8bd8e1b8547a3a6be129de956b, type: 3}
   - {fileID: 12800000, guid: 9596478caaa8eb94392fda4326b6b8de, type: 3}
   - {fileID: 12800000, guid: 50271d268414bdd4badc9ba6a71135d9, type: 3}
-  positions:
-  - {x: -221.6, y: 76.10001}
-  - {x: -221, y: 65}
-  - {x: -221.6, y: 76.10001}
+  positions: []
   mobileTexts: []
   myText: {fileID: 0}
   changePosition: 1
@@ -26392,7 +26369,7 @@ MonoBehaviour:
   changePosition: 0
   position_chn: {x: 0, y: 0}
   position_eng: {x: 0, y: 0}
-  textIndex: 9
+  textIndex: 0
   myTextContent: 
 --- !u!114 &1647311125
 MonoBehaviour:
@@ -26799,11 +26776,7 @@ MonoBehaviour:
   - {fileID: 12800000, guid: db363b8bd8e1b8547a3a6be129de956b, type: 3}
   - {fileID: 12800000, guid: 6a03892e19c3f2542a210dda2e5db12a, type: 3}
   - {fileID: 12800000, guid: 01e155d1fdc4be24f9925c33b16a4553, type: 3}
-  positions:
-  - {x: 160.2, y: 14.80001}
-  - {x: 126.6, y: -24.3}
-  - {x: 139.8, y: 9.09}
-  - {x: 160.7, y: 3.2}
+  positions: []
   mobileTexts: []
   myText: {fileID: 0}
   changePosition: 1
@@ -26997,7 +26970,6 @@ MonoBehaviour:
   leaf: {fileID: 0}
   scene3bg: {fileID: 0}
   enablr: {fileID: 1830021999}
-  steamAchievements: {fileID: 0}
   mm: {fileID: 4345694326325955855}
 --- !u!114 &1830021998
 MonoBehaviour:
@@ -27116,7 +27088,6 @@ MonoBehaviour:
   audio: {fileID: 0}
   test: {fileID: 0}
   headphoneScreen: {fileID: 1881715500}
-  steamAchievements: {fileID: 0}
   memorabiliaUI: {fileID: 4345694326325956084}
   quitUIWindow: {fileID: 4345694327692990463}
   UICanvas: {fileID: 4345694327115787253}
@@ -27352,16 +27323,14 @@ MonoBehaviour:
   - Memorabilia
   - "\u8BB0\u5FC6\u7BB1"
   languageTextSizes: 
-  languageFonts:
-  - {fileID: 12800000, guid: a00657d55cf60f3468269f22c2a41600, type: 3}
-  - {fileID: 12800000, guid: a00657d55cf60f3468269f22c2a41600, type: 3}
+  languageFonts: []
   positions: []
   mobileTexts: []
   myText: {fileID: 0}
   changePosition: 0
   position_chn: {x: 0, y: 0}
   position_eng: {x: 0, y: 0}
-  textIndex: 37
+  textIndex: 0
   myTextContent: 
 --- !u!114 &1877237452
 MonoBehaviour:
@@ -30191,11 +30160,7 @@ MonoBehaviour:
   - {fileID: 12800000, guid: db363b8bd8e1b8547a3a6be129de956b, type: 3}
   - {fileID: 12800000, guid: 9596478caaa8eb94392fda4326b6b8de, type: 3}
   - {fileID: 12800000, guid: 50271d268414bdd4badc9ba6a71135d9, type: 3}
-  positions:
-  - {x: -0.7, y: 78.90001}
-  - {x: 40, y: 49}
-  - {x: 51.8, y: 63.46}
-  - {x: 44, y: 78.9}
+  positions: []
   mobileTexts: []
   myText: {fileID: 0}
   changePosition: 1
