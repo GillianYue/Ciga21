@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
+using System.Collections.Generic;
 
 //general game level logic 
 public class enabler : MonoBehaviour
@@ -19,7 +19,7 @@ public class enabler : MonoBehaviour
 
     public Animator[] startMenuFocusObjects; //photo, mdc and report
 
-    public int language; //0 eng, 1 chn
+    public int language; //0 eng, 1 chn, 2 korean, 3 thai
 
     public delegate void LanguageChangeHandler();
     public event LanguageChangeHandler OnChangeLanguage;
@@ -34,7 +34,7 @@ public class enabler : MonoBehaviour
         public SteamAchievements steamAchievements;
     #endif
 
-    public GameObject memorabiliaUI, quitUIWindow, UICanvas, menuUIWindow, vfxCanvas, menuUIButton;
+    public GameObject memorabiliaUI, quitUIWindow, UICanvas, menuUIWindow, vfxCanvas, menuUIButton, languageSelectUI;
 
     public bool gameOnPause;
 
@@ -45,15 +45,18 @@ public class enabler : MonoBehaviour
     [Inject(InjectFrom.Anywhere)]
     public Memorabilia mm;
 
-#if !UNITY_STANDALONE 
-    [Inject(InjectFrom.Anywhere)]
-    public MopubManager mopubManager;
-#endif
+//#if !UNITY_STANDALONE 
+//    [Inject(InjectFrom.Anywhere)]
+//    public MopubManager mopubManager;
+//#endif
 
     [Inject(InjectFrom.Anywhere)]
     public EntryManager entryManager;
 
     public Button startButton;
+
+    public List<Dictionary<string, object>> textData = new List<Dictionary<string, object>>();
+    public bool textLoadDone;
 
     private void Awake()
     {
@@ -70,17 +73,24 @@ public class enabler : MonoBehaviour
         if (!memorabiliaUI.activeSelf) memorabiliaUI.SetActive(true);
         if (menuUIButton.activeSelf) menuUIButton.SetActive(false);
 
-#if !UNITY_STANDALONE
-        if (mopubManager == null) mopubManager = GetComponent<MopubManager>();
-#endif
+<<<<<<< HEAD
+//#if !UNITY_STANDALONE
+//        if (mopubManager == null) mopubManager = GetComponent<MopubManager>();
+//#endif
+=======
+    #if !UNITY_STANDALONE
+            if (mopubManager == null) mopubManager = GetComponent<MopubManager>();
+    #endif
+>>>>>>> 6f897395cbb8225564852ac8dab7dc99873cc985
 
-#if UNITY_STANDALONE
-        if (steamAchievements == null) steamAchievements = FindObjectOfType<SteamAchievements>();
-#endif
+    #if UNITY_STANDALONE
+            if (steamAchievements == null) steamAchievements = FindObjectOfType<SteamAchievements>();
+    #endif
 
         if (mm == null) mm = FindObjectOfType<Memorabilia>();
 
-        language = PlayerPrefs.GetInt("language", (Application.systemLanguage == SystemLanguage.English) ? 1 : 0);
+        //默认使用1
+        language = PlayerPrefs.GetInt("language", 1);
 
         gameOnPause = false;
 
@@ -103,11 +113,19 @@ public class enabler : MonoBehaviour
 
     void Update()
     {
-        print(Time.timeScale);
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             openQuitUIWindow();
         }
+    }
+
+    public void loadTextData()
+    {
+        textData.Clear();
+
+        textData = CSVReader.Read("am_translation");
+
+        //first row (0) is title
     }
 
     public IEnumerator startSetupCoroutine()
@@ -120,19 +138,25 @@ public class enabler : MonoBehaviour
         globalState.audio.playSFX(0, 17, 0.1f); //ambience quiet
         globalState.audio.fadeVolumeSFX(0, 17, 5, 1);
 
-       // if (!test.test)
-       // {
+        // if (!test.test)
+        // {
 
-            yield return new WaitForSeconds(2);
+        //load in text csv
+        loadTextData();
 
-            //UICanvas.gameObject.SetActive(false); //hide UICanvas on start
-            menuUIWindow.gameObject.SetActive(false);
+        yield return new WaitUntil(() => textData.Count > 0);
 
-            headphoneScreen.SetTrigger("fadeIn");
+        textLoadDone = true;
+        yield return new WaitForSeconds(2);
 
-            yield return new WaitForSeconds(2);
+        //UICanvas.gameObject.SetActive(false); //hide UICanvas on start
+        menuUIWindow.gameObject.SetActive(false);
 
-            headphoneScreen.SetTrigger("fadeOut");
+        headphoneScreen.SetTrigger("fadeIn");
+
+        yield return new WaitForSeconds(2);
+
+        headphoneScreen.SetTrigger("fadeOut");
 
       //  }
 
@@ -242,15 +266,15 @@ public class enabler : MonoBehaviour
         }else{
             startButton.enabled = false;
 
-        #if !UNITY_STANDALONE 
-            mopubManager.realnameAuth(); //will call loadLevel if success
+        //#if !UNITY_STANDALONE 
+        //    mopubManager.realnameAuth(); //will call loadLevel if success
 
-            //TODO DELETE
-           // StartCoroutine(checkLoadLevel());
+        //    //TODO DELETE
+        //   // StartCoroutine(checkLoadLevel());
 
-        #else
+        //#else
                     StartCoroutine(checkLoadLevel());
-        #endif
+        //#endif
         }
 
     }
@@ -751,9 +775,19 @@ public class enabler : MonoBehaviour
         credits.Play("textFade");
     }
 
-    public void switchLanguage()
+    public void openLanguageSelectionUI()
     {
-        language = (language == 1) ? 0 : 1;
+        languageSelectUI.gameObject.SetActive(true);
+    }
+
+    public void closeLanguageSelectionUI()
+    {
+        languageSelectUI.gameObject.SetActive(false);
+    }
+
+    public void switchLanguage(int lan)
+    {
+        language = lan;
         PlayerPrefs.SetInt("language", language);
 
         OnChangeLanguage(); //will trigger lang switch in all textAutoLanguage

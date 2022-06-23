@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:MemoryGame/Assets/Animation/sceneGraveyard/leafFlicker.anim.meta
 guid: e44059630c8692c4eab80da62255143e
 NativeFormatImporter:
+=======
+guid: ba048024d50ceaa44af76f276f427d40
+TextScriptImporter:
+>>>>>>> 205b6c0fab96d146d9c673ee26b3a5b3ee0f544b:MemoryGame/Assets/Fonts/Black_Han_Sans/OFL.txt.meta
   externalObjects: {}
   mainObjectFileID: 7400000
   userData: 

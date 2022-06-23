@@ -69,7 +69,11 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
+<<<<<<< HEAD
     - _Size: 0.18833841
+=======
+    - _Size: 0.22974405
+>>>>>>> 205b6c0fab96d146d9c673ee26b3a5b3ee0f544b
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
