@@ -2267,8 +2267,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enable: {fileID: 0}
   languageTexts:
-  - Reset Level
-  - "\u91CD\u7F6E\u672C\u5173\u5361"
+  - english
   languageTextSizes: 
   languageFonts: []
   positions: []
@@ -2277,7 +2276,7 @@ MonoBehaviour:
   changePosition: 0
   position_chn: {x: 0, y: 0}
   position_eng: {x: 0, y: 0}
-  textIndex: 0
+  textIndex: 35
   myTextContent: 
 --- !u!114 &119378339
 MonoBehaviour:
@@ -3902,8 +3901,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enable: {fileID: 0}
   languageTexts:
-  - Main Menu
-  - "\u56DE\u5230\u4E3B\u83DC\u5355"
+  - "\u0E20\u0E32\u0E29\u0E32\u0E44\u0E17\u0E22"
   languageTextSizes: 
   languageFonts: []
   positions: []
@@ -3912,7 +3910,7 @@ MonoBehaviour:
   changePosition: 0
   position_chn: {x: 0, y: 0}
   position_eng: {x: 0, y: 0}
-  textIndex: 0
+  textIndex: 38
   myTextContent: 
 --- !u!114 &203628423
 MonoBehaviour:
@@ -5904,7 +5902,11 @@ MonoBehaviour:
   - {fileID: 12800000, guid: db363b8bd8e1b8547a3a6be129de956b, type: 3}
   - {fileID: 12800000, guid: 6a03892e19c3f2542a210dda2e5db12a, type: 3}
   - {fileID: 12800000, guid: 01e155d1fdc4be24f9925c33b16a4553, type: 3}
-  positions: []
+  positions:
+  - {x: 10.8, y: 19.10001}
+  - {x: 33.09, y: -20}
+  - {x: 20.7, y: -8.5}
+  - {x: 33.09, y: -2}
   mobileTexts: []
   myText: {fileID: 0}
   changePosition: 1
@@ -6164,7 +6166,10 @@ MonoBehaviour:
   - {fileID: 12800000, guid: db363b8bd8e1b8547a3a6be129de956b, type: 3}
   - {fileID: 12800000, guid: 9596478caaa8eb94392fda4326b6b8de, type: 3}
   - {fileID: 12800000, guid: 50271d268414bdd4badc9ba6a71135d9, type: 3}
-  positions: []
+  positions:
+  - {x: -115.4, y: 83}
+  - {x: -129, y: 38}
+  - {x: -87.4, y: 63.95}
   mobileTexts: []
   myText: {fileID: 0}
   changePosition: 1
@@ -9750,8 +9755,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enable: {fileID: 0}
   languageTexts:
-  - Reset Game
-  - "\u91CD\u7F6E\u6E38\u620F"
+  - "\u4E2D\u6587"
   languageTextSizes: 
   languageFonts: []
   positions: []
@@ -9760,7 +9764,7 @@ MonoBehaviour:
   changePosition: 0
   position_chn: {x: 0, y: 0}
   position_eng: {x: 0, y: 0}
-  textIndex: 0
+  textIndex: 36
   myTextContent: 
 --- !u!114 &851727430
 MonoBehaviour:
@@ -12790,7 +12794,10 @@ MonoBehaviour:
   - {fileID: 12800000, guid: db363b8bd8e1b8547a3a6be129de956b, type: 3}
   - {fileID: 12800000, guid: 9596478caaa8eb94392fda4326b6b8de, type: 3}
   - {fileID: 12800000, guid: 50271d268414bdd4badc9ba6a71135d9, type: 3}
-  positions: []
+  positions:
+  - {x: -42, y: 74.50001}
+  - {x: -49, y: 74}
+  - {x: -17.7, y: 74.50001}
   mobileTexts: []
   myText: {fileID: 0}
   changePosition: 1
@@ -25088,7 +25095,11 @@ MonoBehaviour:
   - {fileID: 12800000, guid: db363b8bd8e1b8547a3a6be129de956b, type: 3}
   - {fileID: 12800000, guid: 9596478caaa8eb94392fda4326b6b8de, type: 3}
   - {fileID: 12800000, guid: 50271d268414bdd4badc9ba6a71135d9, type: 3}
-  positions: []
+  positions:
+  - {x: 122.8, y: 76.40001}
+  - {x: 147, y: 33}
+  - {x: 138.4, y: 80.3}
+  - {x: 163, y: 80.3}
   mobileTexts: []
   myText: {fileID: 0}
   changePosition: 1
@@ -26253,7 +26264,10 @@ MonoBehaviour:
   - {fileID: 12800000, guid: db363b8bd8e1b8547a3a6be129de956b, type: 3}
   - {fileID: 12800000, guid: 9596478caaa8eb94392fda4326b6b8de, type: 3}
   - {fileID: 12800000, guid: 50271d268414bdd4badc9ba6a71135d9, type: 3}
-  positions: []
+  positions:
+  - {x: -221.6, y: 76.10001}
+  - {x: -221, y: 65}
+  - {x: -221.6, y: 76.10001}
   mobileTexts: []
   myText: {fileID: 0}
   changePosition: 1
@@ -26751,7 +26765,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 153, y: 14.800007}
+  m_AnchoredPosition: {x: 335, y: 14.800007}
   m_SizeDelta: {x: 177.3, y: 254.78}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1783865803
@@ -26776,7 +26790,11 @@ MonoBehaviour:
   - {fileID: 12800000, guid: db363b8bd8e1b8547a3a6be129de956b, type: 3}
   - {fileID: 12800000, guid: 6a03892e19c3f2542a210dda2e5db12a, type: 3}
   - {fileID: 12800000, guid: 01e155d1fdc4be24f9925c33b16a4553, type: 3}
-  positions: []
+  positions:
+  - {x: 160.2, y: 14.80001}
+  - {x: 126.6, y: -24.3}
+  - {x: 139.8, y: 9.09}
+  - {x: 160.7, y: 3.2}
   mobileTexts: []
   myText: {fileID: 0}
   changePosition: 1
@@ -27216,7 +27234,7 @@ MonoBehaviour:
   enable: {fileID: 1830021999}
   test: 1
   testMobile: 0
-  startLevel: 0
+  startLevel: 6
   speedUpRate: 10
   goToLevelTF: {fileID: 1639907385}
   swc: {fileID: 0}
@@ -27320,8 +27338,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enable: {fileID: 0}
   languageTexts:
-  - Memorabilia
-  - "\u8BB0\u5FC6\u7BB1"
+  - "\uD55C\uAD6D\uC5B4"
   languageTextSizes: 
   languageFonts: []
   positions: []
@@ -27330,7 +27347,7 @@ MonoBehaviour:
   changePosition: 0
   position_chn: {x: 0, y: 0}
   position_eng: {x: 0, y: 0}
-  textIndex: 0
+  textIndex: 37
   myTextContent: 
 --- !u!114 &1877237452
 MonoBehaviour:
@@ -30160,7 +30177,11 @@ MonoBehaviour:
   - {fileID: 12800000, guid: db363b8bd8e1b8547a3a6be129de956b, type: 3}
   - {fileID: 12800000, guid: 9596478caaa8eb94392fda4326b6b8de, type: 3}
   - {fileID: 12800000, guid: 50271d268414bdd4badc9ba6a71135d9, type: 3}
-  positions: []
+  positions:
+  - {x: -0.7, y: 78.90001}
+  - {x: 40, y: 49}
+  - {x: 51.8, y: 63.46}
+  - {x: 44, y: 78.9}
   mobileTexts: []
   myText: {fileID: 0}
   changePosition: 1
@@ -54006,7 +54027,7 @@ MonoBehaviour:
   changePosition: 0
   position_chn: {x: 0, y: 0}
   position_eng: {x: 0, y: 0}
-  textIndex: 0
+  textIndex: 33
   myTextContent: 
 --- !u!1 &4345694327003595739
 GameObject:
@@ -59767,7 +59788,7 @@ MonoBehaviour:
   changePosition: 0
   position_chn: {x: 0, y: 0}
   position_eng: {x: 0, y: 0}
-  textIndex: 0
+  textIndex: 31
   myTextContent: 
 --- !u!114 &4345694327156360933
 MonoBehaviour:
@@ -65960,6 +65981,8 @@ MonoBehaviour:
   languageTexts:
   - Quit
   - "\u79BB\u5F00"
+  - Quit
+  - Quit
   languageTextSizes: 
   languageFonts:
   - {fileID: 12800000, guid: a00657d55cf60f3468269f22c2a41600, type: 3}
@@ -70554,7 +70577,7 @@ MonoBehaviour:
   changePosition: 0
   position_chn: {x: 0, y: 0}
   position_eng: {x: 0, y: 0}
-  textIndex: 0
+  textIndex: 32
   myTextContent: 
 --- !u!114 &4345694327848635641
 MonoBehaviour:
@@ -70826,7 +70849,7 @@ MonoBehaviour:
   changePosition: 0
   position_chn: {x: 0, y: 0}
   position_eng: {x: 0, y: 0}
-  textIndex: 0
+  textIndex: 34
   myTextContent: 
 --- !u!1 &4345694327869981533
 GameObject:

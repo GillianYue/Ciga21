@@ -917,4 +917,23 @@ public class animEventLink : MonoBehaviour
     {
         GetComponent<Button>().interactable = true;
     }
+
+    public void pupHintButtonPressed()
+    {
+        interactable d1 = globalState.pupScene.transform.Find("pup").Find("d1").GetComponent<interactable>();
+        
+        if(d1.var3 != 5) 
+        {
+            d1.transform.parent.GetComponent<Animator>().Play("quickExpand");
+        }
+        else //already passed puppy state, need to be clicking on toy
+        {
+            //quick expand ball/stick
+            Animator ball = globalState.pupScene.transform.Find("ball").Find("ballAnimator").GetComponent<Animator>();
+            Animator stick = globalState.pupScene.transform.Find("stick").Find("stickAnimator").GetComponent<Animator>();
+
+            ball.Play("expand");
+            stick.Play("expand");
+        }
+    }
 }
