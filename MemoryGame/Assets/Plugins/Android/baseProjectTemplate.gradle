@@ -1,17 +1,8 @@
-<<<<<<< HEAD
 buildscript {
     repositories {
         google()
         jcenter()
         mavenCentral()
-=======
-allprojects {
-    buildscript {
-        repositories {**ARTIFACTORYREPOSITORY**
-            google()
-            jcenter()
-            mavenCentral()
->>>>>>> 205b6c0fab96d146d9c673ee26b3a5b3ee0f544b
         maven { url 'https://jitpack.io' }
         maven { url 'https://developer.huawei.com/repo/' }
         maven { url "http://mve.130qq.com/repository/CasualSdk/" }
@@ -22,18 +13,11 @@ allprojects {
         maven {url "https://dl-maven-android.mintegral.com/repository/mbridge_android_sdk_support/"}
         maven { url "https://sdk.tapjoy.com/"}
 
-<<<<<<< HEAD
-
-=======
-        }
->>>>>>> 205b6c0fab96d146d9c673ee26b3a5b3ee0f544b
-
     }
 
     dependencies {
-     //????????'3.3.x'—>'3.3.3'?'3.4.x'—>'3.4.3'?'3.5.x'—>'3.5.4'?'3.6.x'—>'3.6.4'?'4.0.0'—>'4.0.1'
         classpath 'com.android.tools.build:gradle:3.2.0'
-        }
+    }
 }
 allprojects {
     repositories {
