@@ -30,7 +30,7 @@ public class textAutoLanguage : MonoBehaviour
 
     void Start()
     {
-
+        
         StartCoroutine(startCoroutine());
     }
 
@@ -63,19 +63,21 @@ public class textAutoLanguage : MonoBehaviour
         }
 
         myTextContent = enable.textData[textIndex-2][lang].ToString();
+        if (mobileTexts.Length > lang_id && enabler.isMobile())
+        {
+            myTextContent = mobileTexts[lang_id];
+        }
 
-        myText.text = myTextContent;
+            myText.text = myTextContent;
     }
 
     public void switchTextDisplayToCurrentLanguage()
     {
-
         int lang_id = enable.language;
 
         if (textIndex != 0) fillText();
         else
         {
-
             if (languageTexts.Length - 1 < lang_id || myText == null) myText.text = ""; 
 
             else myText.text = languageTexts[lang_id];
@@ -83,9 +85,7 @@ public class textAutoLanguage : MonoBehaviour
 
         if (changePosition && positions.Length - 1 >= lang_id)
         {
-
             transform.localPosition = positions[lang_id];
-
         }
 
         if (languageTextSizes.Length - 1 >= lang_id && languageTextSizes[lang_id] != -1) myText.fontSize = languageTextSizes[lang_id];
