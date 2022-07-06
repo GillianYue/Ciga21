@@ -51,6 +51,7 @@ public class globalStateStore : MonoBehaviour
 
     }
 
+
     public void interactHint(bool click) //if false, move hint
     {
         if (click) interactHintAnimator.Play("interactHintPopIn");
@@ -79,6 +80,7 @@ public class globalStateStore : MonoBehaviour
                 }
                 else if(to) //if null and want to set to active (instantiate)
                 {
+                    if(l1Scene_pfb == null) { l1Scene_pfb = (GameObject)Resources.Load("Prefabs/Levels/scene_dine"); }
                     l1Scene = Instantiate(l1Scene_pfb, levelParent.transform);
                     l1Scene.transform.SetAsFirstSibling();
                 }
@@ -88,7 +90,8 @@ public class globalStateStore : MonoBehaviour
                 if (vaseScene != null){ vaseScene.SetActive(to);
                 }
                 else if (to)
-                {
+                { 
+                    if (vaseScene_pfb == null) { vaseScene_pfb = (GameObject)Resources.Load("Prefabs/Levels/scene_vase"); }
                     vaseScene = Instantiate(vaseScene_pfb, levelParent.transform);
                     vaseScene.transform.SetAsFirstSibling();
                 }
@@ -100,6 +103,7 @@ public class globalStateStore : MonoBehaviour
                     }
                     else if (to)
                     {
+                        if (treeBottomScene_pfb == null) { treeBottomScene_pfb = (GameObject)Resources.Load("Prefabs/Levels/scene_treebottom"); }
                         treeBottomScene = Instantiate(treeBottomScene_pfb, levelParent.transform);
                         treeBottomScene.transform.SetAsFirstSibling();
                     }
@@ -109,7 +113,8 @@ public class globalStateStore : MonoBehaviour
                     }
                 else if (to)
                 {
-                        treeScene = Instantiate(treeScene_pfb, levelParent.transform);
+                    if (treeScene_pfb == null) { treeScene_pfb = (GameObject)Resources.Load("Prefabs/Levels/scene_treeclimb"); }
+                    treeScene = Instantiate(treeScene_pfb, levelParent.transform);
                         treeScene.transform.SetAsFirstSibling();
                 }
                 break;
@@ -119,7 +124,8 @@ public class globalStateStore : MonoBehaviour
                     }
                 else if (to)
                 {
-                        bandScene = Instantiate(bandScene_pfb, levelParent.transform);
+                    if (bandScene_pfb == null) { bandScene_pfb = (GameObject)Resources.Load("Prefabs/Levels/scene_band"); }
+                    bandScene = Instantiate(bandScene_pfb, levelParent.transform);
                         bandScene.transform.SetAsFirstSibling();
                 }
                 break;
@@ -128,7 +134,8 @@ public class globalStateStore : MonoBehaviour
                     }
                 else if (to)
                 {
-                        seaScene = Instantiate(seaScene_pfb, levelParent.transform);
+                    if (seaScene_pfb == null) { seaScene_pfb = (GameObject)Resources.Load("Prefabs/Levels/scene_sea");  }
+                    seaScene = Instantiate(seaScene_pfb, levelParent.transform);
                         seaScene.transform.SetAsFirstSibling();
                 }
                 break;
@@ -137,7 +144,8 @@ public class globalStateStore : MonoBehaviour
                     }
                 else if (to)
                 {
-                        pupScene = Instantiate(pupScene_pfb, levelParent.transform);
+                    if (pupScene_pfb == null) { pupScene_pfb = (GameObject)Resources.Load("Prefabs/Levels/scene_pup"); }
+                    pupScene = Instantiate(pupScene_pfb, levelParent.transform);
                         pupScene.transform.SetAsFirstSibling();
                 }
                 break;
@@ -149,6 +157,7 @@ public class globalStateStore : MonoBehaviour
                     }
                     else if (to)
                     {
+                        if (gardenCloseupScene_pfb == null) { gardenCloseupScene_pfb = (GameObject)Resources.Load("Prefabs/Levels/scene_garden_closeup"); }
                         gardenCloseupScene = Instantiate(gardenCloseupScene_pfb, levelParent.transform);
                         gardenCloseupScene.transform.SetAsFirstSibling();
                     }
@@ -160,7 +169,8 @@ public class globalStateStore : MonoBehaviour
                         }
                     else if (to)
                     {
-                            gardenScene = Instantiate(gardenScene_pfb, levelParent.transform);
+                        if (gardenScene_pfb == null) { gardenScene_pfb = (GameObject)Resources.Load("Prefabs/Levels/scene_garden"); }
+                        gardenScene = Instantiate(gardenScene_pfb, levelParent.transform);
                             gardenScene.transform.SetAsFirstSibling();
                     }
                     break;
@@ -171,7 +181,8 @@ public class globalStateStore : MonoBehaviour
                     }
                 else if (to)
                 {
-                        bickerScene = Instantiate(bickerScene_pfb, levelParent.transform);
+                    if (bickerScene_pfb == null) { bickerScene_pfb = (GameObject)Resources.Load("Prefabs/Levels/scene_bicker"); }
+                    bickerScene = Instantiate(bickerScene_pfb, levelParent.transform);
                         bickerScene.transform.SetAsFirstSibling();
                 }
                 break;
@@ -180,6 +191,7 @@ public class globalStateStore : MonoBehaviour
                 }
                 else if (to)
                 {
+                    if (parkScene_pfb == null) { parkScene_pfb = (GameObject)Resources.Load("Prefabs/Levels/scene_park"); }
                     parkScene = Instantiate(parkScene_pfb, levelParent.transform);
                     parkScene.transform.SetAsFirstSibling();
 
@@ -195,6 +207,7 @@ public class globalStateStore : MonoBehaviour
                 }
                 else if (to)
                 {
+                    if (graveyardScene_pfb == null) { graveyardScene_pfb = (GameObject)Resources.Load("Prefabs/Levels/scene_graveyard"); }
                     graveyardScene = Instantiate(graveyardScene_pfb, levelParent.transform);
                     graveyardScene.transform.SetAsFirstSibling();
                 }
@@ -206,6 +219,7 @@ public class globalStateStore : MonoBehaviour
                     }
                     else if (to)
                     {
+                        if (streetScene_pfb == null) { streetScene_pfb = (GameObject)Resources.Load("Prefabs/Levels/scene_street"); }
                         streetScene = Instantiate(streetScene_pfb, levelParent.transform);
                         streetScene.transform.SetAsFirstSibling();
 
@@ -218,6 +232,7 @@ public class globalStateStore : MonoBehaviour
                     }
                     else if (to)
                     {
+                        if (homeScene_pfb == null) { homeScene_pfb = (GameObject)Resources.Load("Prefabs/Levels/scene_desk"); }
                         homeScene = Instantiate(homeScene_pfb, levelParent.transform);
                         homeScene.transform.SetAsFirstSibling();
 
