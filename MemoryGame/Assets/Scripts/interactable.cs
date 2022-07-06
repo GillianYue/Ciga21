@@ -149,8 +149,10 @@ public class interactable : MonoBehaviour
                 myAnimator.SetTrigger("action1"); //play animation (only one in total)
                 break;
             case InteractType.animThenImgChange: //play animation (multiple in total)
+                print("111111");
                 if (timesClicked <= numInteractions)
                 {
+                    print("222222");
                     myAnimator.SetTrigger("action" + timesClicked.ToString());
 
                     if (transform.parent.name.Equals("rosesRotate"))
@@ -165,6 +167,7 @@ public class interactable : MonoBehaviour
                         }
                     }
                 }
+                print("333333");
                 break;
             case InteractType.imgSwitcher: //change base images to the next pair (with effects)
                 GetComponent<imgSwitcher>().myTriggerAction();
