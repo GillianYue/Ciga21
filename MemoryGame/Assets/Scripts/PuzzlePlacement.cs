@@ -26,7 +26,7 @@ public class PuzzlePlacement : MonoBehaviour
             puzzleFit = new bool[puzzleFitLocalPositions.Length];
             puzzleCheckNum = 4;
 
-            if (puzzlePieces.Length < 7) Debug.LogError("num puzzles wrong");
+         //   if (puzzlePieces.Length < 7) Debug.LogError("num puzzles wrong");
 
             for (int p = 4; p < 7; p++)
             {
@@ -58,7 +58,7 @@ public class PuzzlePlacement : MonoBehaviour
 
         if (enabler.isMobile()) errorAllowed += 30;
 
-        if (puzzleID > puzzleFitLocalPositions.Length) Debug.LogError("invalid puzzle id");
+     //   if (puzzleID > puzzleFitLocalPositions.Length) Debug.LogError("invalid puzzle id");
 
         if (Vector2.Distance(puzzlePiece.transform.localPosition, puzzleFitLocalPositions[puzzleID - 1]) <= errorAllowed)
         {
@@ -112,7 +112,7 @@ public class PuzzlePlacement : MonoBehaviour
             }
             else
             {
-                Debug.LogError("something wrong");
+          //      Debug.LogError("something wrong");
             }
 
         }

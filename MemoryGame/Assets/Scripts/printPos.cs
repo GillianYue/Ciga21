@@ -13,6 +13,6 @@ public class printPos : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        print("cam pos " + transform.position);
+      //  print("cam pos " + transform.position);
     }
 }

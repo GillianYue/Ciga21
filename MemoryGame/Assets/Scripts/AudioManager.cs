@@ -22,7 +22,7 @@ public class AudioManager : MonoBehaviour
 
     public void playSFX(int level, int index)
     {
-        if (level > levelAudios.Length) { Debug.LogError("level exceeds levelAudios array"); return; }
+     //   if (level > levelAudios.Length) { Debug.LogError("level exceeds levelAudios array"); return; }
 
         audioSources[level][index].Play();
 
@@ -30,7 +30,7 @@ public class AudioManager : MonoBehaviour
 
     public void playSFX(int level, int index, float vol)
     {
-        if (level > levelAudios.Length) { Debug.LogError("level exceeds levelAudios array"); return; }
+     //   if (level > levelAudios.Length) { Debug.LogError("level exceeds levelAudios array"); return; }
 
         //float origVol = audioSources[level][index].volume;
         audioSources[level][index].volume = vol;
@@ -40,7 +40,7 @@ public class AudioManager : MonoBehaviour
 
     public void stopSFX(int level, int index)
     {
-        if (level > levelAudios.Length) { Debug.LogError("level exceeds levelAudios array"); return; }
+     //   if (level > levelAudios.Length) { Debug.LogError("level exceeds levelAudios array"); return; }
 
         audioSources[level][index].Stop();
 

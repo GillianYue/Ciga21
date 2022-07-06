@@ -61,7 +61,7 @@ public class enabler : MonoBehaviour
     private void Awake()
     {
 
-        print("platform: " + Application.platform);
+      //  print("platform: " + Application.platform);
 
         Application.targetFrameRate = (isMobile())? 60:30;
 
@@ -923,7 +923,7 @@ public class enabler : MonoBehaviour
 
     public void capsuleYes()
     {
-        print("capsuling " + globalState.menuCapsuleSelectedIndex);
+      //  print("capsuling " + globalState.menuCapsuleSelectedIndex);
 
         switch (globalState.menuCapsuleSelectedIndex)
         {

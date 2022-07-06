@@ -149,8 +149,10 @@ public class interactable : MonoBehaviour
                 myAnimator.SetTrigger("action1"); //play animation (only one in total)
                 break;
             case InteractType.animThenImgChange: //play animation (multiple in total)
+                print("111111");
                 if (timesClicked <= numInteractions)
                 {
+                    print("222222");
                     myAnimator.SetTrigger("action" + timesClicked.ToString());
 
                     if (transform.parent.name.Equals("rosesRotate"))
@@ -165,6 +167,7 @@ public class interactable : MonoBehaviour
                         }
                     }
                 }
+                print("333333");
                 break;
             case InteractType.imgSwitcher: //change base images to the next pair (with effects)
                 GetComponent<imgSwitcher>().myTriggerAction();
@@ -604,7 +607,7 @@ public class interactable : MonoBehaviour
                     plate.SetActive(true);
                     yield return new WaitForSeconds(0.2f);
 
-                    print("s1");
+                  //  print("s1");
 
                     ma.SetActive(true);
                     vase.SetActive(true);
@@ -613,7 +616,7 @@ public class interactable : MonoBehaviour
                     plate.SetActive(false);
                     yield return new WaitForSeconds(2f);
 
-                    print("s2");
+                 //   print("s2");
 
                     globalState.audio.playSFX(0, 14);
                     ma.SetActive(false);
@@ -817,7 +820,7 @@ public class interactable : MonoBehaviour
                 else if (var1 == 1) //fed and clicks egg
                 {
                     //something magical
-                    print("something magical");
+                 //   print("something magical");
 
                     rech.GetComponent<Animator>().SetTrigger("action2");
                     yield return new WaitForSeconds(1f);
@@ -957,7 +960,7 @@ public class interactable : MonoBehaviour
                     stk.GetComponent<Animator>().SetTrigger("action3");
                     stk.transform.parent.GetComponent<MouseBasedCamShift>().setActive(false);
                 }
-                else Debug.LogError("no item is being held");
+                // else Debug.LogError("no item is being held");
 
                 yield return new WaitForSeconds(3);
 
@@ -2095,7 +2098,7 @@ public class interactable : MonoBehaviour
         float dist = Vector2.Distance(point, new Vector2(0, 0));
         float minDist = (float)Screen.width / 1600 * (mobile ? 470 : 80);
 
-        print("min: " + minDist + " d: " + dist);
+     //   print("min: " + minDist + " d: " + dist);
         //return false;
         return (dist < minDist);
     }

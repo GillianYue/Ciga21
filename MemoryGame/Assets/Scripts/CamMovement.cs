@@ -34,7 +34,7 @@ public class CamMovement : MonoBehaviour
 
         if (cam == null) cam = transform.GetChild(0).GetComponent<Animator>();
         if (camHolder == null) camHolder = GetComponent<Animator>();
-        if (vfx == null) Debug.LogError("vfx animator not assigned");
+    //    if (vfx == null) Debug.LogError("vfx animator not assigned");
 
         if (followSpeedPercent == 0) followSpeedPercent = 0.05f;
 
@@ -147,7 +147,7 @@ public class CamMovement : MonoBehaviour
             }
             if (Time.time - startTime > 10f)
             {
-                Debug.LogError("dest not reached within 10 seconds, skipped");
+          //      Debug.LogError("dest not reached within 10 seconds, skipped");
 
                 if (restoreToPrevState) restoreData(data); //restore to prev states
                 return true;
