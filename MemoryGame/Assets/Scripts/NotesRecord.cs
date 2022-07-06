@@ -224,7 +224,7 @@ public class NotesRecord : MonoBehaviour
                 break;
         }
 
-        if (playIndex == -1) Debug.LogError("something wrong");
+     //   if (playIndex == -1) Debug.LogError("something wrong");
 
         audioManager.playSFX(4, playIndex);
 
@@ -235,7 +235,7 @@ public class NotesRecord : MonoBehaviour
         globalState.globalClickable = false; //will be set back to true either after note fadeout, or after solution has been played
 
         //TODO correct/bingo sfx
-        print("match");
+     //   print("match");
 
         for (int i = 0; i < notes.Length; i++)
         {
@@ -321,7 +321,7 @@ public class NotesRecord : MonoBehaviour
             case 2: solution = accordionSolutions[sequenceIndex]; break;
         }
 
-        if (solution.Equals("")) Debug.LogError("invalid solution");
+      //  if (solution.Equals("")) Debug.LogError("invalid solution");
 
         if (currSequence.Equals(solution)) return 1;
         if (currSequence.Length >= solution.Length)

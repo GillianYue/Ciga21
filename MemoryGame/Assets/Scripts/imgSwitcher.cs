@@ -144,7 +144,7 @@ public class imgSwitcher : MonoBehaviour
 
     IEnumerator pastaFinish()
     {
-        print("pasta finished");
+      //  print("pasta finished");
         GetComponent<Collider2D>().enabled = false; //make unclickable
 
         yield return new WaitForSeconds(1);

@@ -39,14 +39,14 @@ public class EntryManager : MonoBehaviour
         PopMsg("SDK登录");
         MopubSdk.getInstance().init(
             delegate (InitSuccessResult result) {
-                Debug.Log("mopub sdk init success");
+           //     Debug.Log("mopub sdk init success");
                 //init success
                 //
                 MopubSdk.getInstance().loginWithDevice(
                     delegate (LoginSuccessResult result) {
                         //login success
-                        PopMsg("登录成功");
-                        Debug.Log("login success");
+                    //    PopMsg("登录成功");
+                    //    Debug.Log("login success");
                         //debug
                         //PopRealName();
                         //打开实名
@@ -75,14 +75,14 @@ public class EntryManager : MonoBehaviour
                     },
                     delegate (MopubSDKError result) {
                         //login fail
-                        Debug.Log("login fail");
+                    //    Debug.Log("login fail");
                         PopMsg("登录失败，网络异常，请退出应用重试");
                     }
                 );
             },
             delegate (MopubSDKError result) {
                 //init fail
-                Debug.Log("mopub sdk init fail");
+                // Debug.Log("mopub sdk init fail");
                 PopMsg("初始化失败，网络异常，请退出应用重试");
             }
         );
@@ -95,12 +95,12 @@ public class EntryManager : MonoBehaviour
         MopubSdk.getInstance().showRealNameView(
                delegate (string s) {
                    //认证成功，且在游戏时间内
-                   Debug.Log("认证成功");
+           //        Debug.Log("认证成功");
                    StartGame();
                },
                 delegate (string failed) {
                     //认证成功，不在游戏时间内
-                    Debug.Log("认证失败");
+            //        Debug.Log("认证失败");
                 }
            );
     }
@@ -156,7 +156,7 @@ public class EntryManager : MonoBehaviour
     //}
     void PopMsg(string msg)
     {
-        addPointText.SetText(msg);
+       //  addPointText.SetText(msg);
         
     }
     //IEnumerator MissTipsAction()
