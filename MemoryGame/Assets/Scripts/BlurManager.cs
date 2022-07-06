@@ -61,12 +61,17 @@ public class BlurManager : MonoBehaviour
             case 1:
                 yield return StartCoroutine(level1Clear());
                 enablr.setUpLevel(2);
+
+                Destroy(enablr.globalState.l1Scene);
+                enablr.globalState.l1Scene_pfb = null;
+                Resources.UnloadUnusedAssets(); //unload
                 break;
             case 2:
                 yield return StartCoroutine(generalLevelPassEffect());
                 enablr.setUpLevel(3);
 
                 Destroy(enablr.globalState.vaseScene);
+                enablr.globalState.vaseScene_pfb = null;
                 Resources.UnloadUnusedAssets(); //unload
 
                 break;
@@ -79,6 +84,8 @@ public class BlurManager : MonoBehaviour
 
                 Destroy(enablr.globalState.treeScene);
                 Destroy(enablr.globalState.treeBottomScene);
+                enablr.globalState.treeBottomScene_pfb = null;
+                enablr.globalState.treeScene_pfb = null;
                 Resources.UnloadUnusedAssets(); //unload
                 break;
             case 4: //band
@@ -87,6 +94,7 @@ public class BlurManager : MonoBehaviour
                 enablr.setUpLevel(5);
 
                 Destroy(enablr.globalState.bandScene);
+                enablr.globalState.bandScene_pfb = null;
                 Resources.UnloadUnusedAssets(); //unload
                 break;
             case 5: //sea
@@ -110,6 +118,7 @@ public class BlurManager : MonoBehaviour
                 enablr.setUpLevel(6);
 
                 Destroy(enablr.globalState.seaScene);
+                enablr.globalState.seaScene_pfb = null;
                 Resources.UnloadUnusedAssets(); //unload
                 break;
             case 6: //pup
@@ -122,6 +131,7 @@ public class BlurManager : MonoBehaviour
                 enablr.setUpLevel(7);
 
                 Destroy(enablr.globalState.pupScene);
+                enablr.globalState.pupScene_pfb = null;
                 Resources.UnloadUnusedAssets(); //unload
                 break;
             case 7: //garden
@@ -133,6 +143,8 @@ public class BlurManager : MonoBehaviour
 
                 Destroy(enablr.globalState.gardenScene);
                 Destroy(enablr.globalState.gardenCloseupScene);
+                enablr.globalState.gardenCloseupScene_pfb = null;
+                enablr.globalState.gardenScene_pfb = null;
                 Resources.UnloadUnusedAssets(); //unload
                 break;
 
@@ -144,6 +156,7 @@ public class BlurManager : MonoBehaviour
                 enablr.globalState.toggleAnimationGlobalClickable(true);
 
                 Destroy(enablr.globalState.bickerScene);
+                enablr.globalState.bickerScene_pfb = null;
                 Resources.UnloadUnusedAssets(); //unload
                 break;
 
@@ -155,6 +168,7 @@ public class BlurManager : MonoBehaviour
                 enablr.setUpLevel(10);
 
                 Destroy(enablr.globalState.parkScene);
+                enablr.globalState.parkScene_pfb = null;
                 Resources.UnloadUnusedAssets(); //unload
                 break;
 
@@ -167,6 +181,7 @@ public class BlurManager : MonoBehaviour
                 enablr.setUpLevel(11);
 
                 Destroy(enablr.globalState.graveyardScene);
+                enablr.globalState.graveyardScene_pfb = null;
                 Resources.UnloadUnusedAssets(); //unload
                 break;
             case 11:
@@ -176,6 +191,7 @@ public class BlurManager : MonoBehaviour
                 GetComponent<enabler>().gamePass();
 
                 Destroy(enablr.globalState.streetScene);
+                enablr.globalState.streetScene_pfb = null;
                 Resources.UnloadUnusedAssets(); //unload
                 break;
 

@@ -101,6 +101,8 @@ public class StartDialogueClickThrough : MonoBehaviour
 
                         if (!myEnabler.globalState.mirrorScene)
                         {
+                            if (myEnabler.globalState.mirrorScene_pfb == null) { 
+                                myEnabler.globalState.mirrorScene_pfb = (GameObject)Resources.Load("Prefabs/Levels/scene_mirror"); }
                             myEnabler.globalState.mirrorScene = Instantiate(myEnabler.globalState.mirrorScene_pfb,
                             myEnabler.globalState.levelParent.transform);
                             myEnabler.globalState.mirrorScene.transform.SetAsFirstSibling();

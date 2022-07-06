@@ -142,6 +142,7 @@ public class enabler : MonoBehaviour
 
 
         textLoadDone = true;
+
         yield return new WaitForSeconds(2);
 
         //UICanvas.gameObject.SetActive(false); //hide UICanvas on start

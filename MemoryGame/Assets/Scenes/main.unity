@@ -27035,36 +27035,21 @@ MonoBehaviour:
   homeScene: {fileID: 0}
   mirrorScene: {fileID: 0}
   streetScene: {fileID: 0}
-  l1Scene_pfb: {fileID: 4675211142020186029, guid: 321739149d32b9049b47aba7653dc932,
-    type: 3}
-  vaseScene_pfb: {fileID: 7694900641598254600, guid: 1e8abe81c3140d64cb6fd33451d52fe3,
-    type: 3}
-  treeScene_pfb: {fileID: 492717149707046708, guid: 17d1f7ec68a21b44eaa46bb6d24f27be,
-    type: 3}
-  treeBottomScene_pfb: {fileID: 4990106973318217337, guid: 757f04bd9e8cf894481a3af956c067a4,
-    type: 3}
-  bandScene_pfb: {fileID: 6507247129957812131, guid: 155b296fc51806e428f2e026dc8ce07c,
-    type: 3}
-  seaScene_pfb: {fileID: 1539415030085503451, guid: f041175ff1e6eb34cb55da2f5a21c38b,
-    type: 3}
-  pupScene_pfb: {fileID: 89025901912951562, guid: cb54014c39b453c4aa1c77dae37a3960,
-    type: 3}
-  gardenScene_pfb: {fileID: 436565159433453855, guid: dbdd5b10d5499114e8e9222a8af632b2,
-    type: 3}
-  gardenCloseupScene_pfb: {fileID: 2374265305546941274, guid: a065cdea6f0e7d6408439b09d975bac1,
-    type: 3}
-  bickerScene_pfb: {fileID: 1177295507108809036, guid: 1f7bf818b99fe23468ecdc03dd16daf2,
-    type: 3}
-  parkScene_pfb: {fileID: 7178213359298879338, guid: 8bc2df7561f03e04f9e7e43d0e4769a3,
-    type: 3}
-  graveyardScene_pfb: {fileID: 6218179914828532592, guid: ff90f737ef01d1b4daca86601a565f03,
-    type: 3}
-  homeScene_pfb: {fileID: 320046303723837802, guid: 5c29ddb68ee12c44c9b83c39db80f303,
-    type: 3}
-  mirrorScene_pfb: {fileID: 1377098660904609398, guid: 34ef1ffaf2348a045bc5f73c004ee49d,
-    type: 3}
-  streetScene_pfb: {fileID: 7547582982626554232, guid: a89d170f2db752c4382337a79bde73be,
-    type: 3}
+  l1Scene_pfb: {fileID: 0}
+  vaseScene_pfb: {fileID: 0}
+  treeScene_pfb: {fileID: 0}
+  treeBottomScene_pfb: {fileID: 0}
+  bandScene_pfb: {fileID: 0}
+  seaScene_pfb: {fileID: 0}
+  pupScene_pfb: {fileID: 0}
+  gardenScene_pfb: {fileID: 0}
+  gardenCloseupScene_pfb: {fileID: 0}
+  bickerScene_pfb: {fileID: 0}
+  parkScene_pfb: {fileID: 0}
+  graveyardScene_pfb: {fileID: 0}
+  homeScene_pfb: {fileID: 0}
+  mirrorScene_pfb: {fileID: 0}
+  streetScene_pfb: {fileID: 0}
   levelParent: {fileID: 1964765842}
   globalClickable: 0
   globalUIClickOnly: 0
