@@ -77,16 +77,17 @@ public class MouseControl : MonoBehaviour
                     // print("hovering on " + itr.name);
                     if (mouseMode == MouseMode.cursor) toHand();
 
-                    if (Input.GetMouseButtonDown(0))
+                    if (mouseButtonDown())
                     {
                         print("##DEBUG before itr on click");
                         itr.onClick();
                         //print("clicked on " + itr.name);
                     }
-                    else if (Input.GetMouseButtonUp(0))
+                    else if (mouseButtonUp())
                     {
                         itr.onExit();
                     }
+
 
                     return;
 
@@ -110,13 +111,37 @@ public class MouseControl : MonoBehaviour
             if (mouseMode == MouseMode.hand) toCursor();
 
             //if not clickable and still trying to click
-            if (Input.GetMouseButtonDown(0))
+            if (mouseButtonDown())
             {
                 interactHint.Play("interactHintNoInteract"); 
             }
 
         }
 
+    }
+
+    public bool mouseButtonDown()
+    {
+        if (enabler.isMobile())
+        {
+            return Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began;
+        }
+        else
+        {
+            return Input.GetMouseButtonDown(0);
+        }
+    }
+
+    public bool mouseButtonUp()
+    {
+        if (enabler.isMobile())
+        {
+            return Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended;
+        }
+        else
+        {
+            return Input.GetMouseButtonUp(0);
+        }
     }
 
     public void toHand()
