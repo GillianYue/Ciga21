@@ -68,6 +68,7 @@ public class MouseControl : MonoBehaviour
             {
 
                 interactable itr = hit.GetComponent<interactable>();
+                print("##DEBUG mouse control hit");
 
                 if (itr != null && itr.clickable) //object is interactable
                 {
@@ -78,7 +79,7 @@ public class MouseControl : MonoBehaviour
 
                     if (Input.GetMouseButtonDown(0))
                     {
-
+                        print("##DEBUG mouse control on interactable");
                         itr.onClick();
                         //print("clicked on " + itr.name);
                     }
