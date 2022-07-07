@@ -146,17 +146,23 @@ public class MouseControl : MonoBehaviour
 
     public void toHand()
     {
-        mouseMode = MouseMode.hand;
-        Cursor.SetCursor(handCursor, hotSpot, cursorMode);
+        if (!enabler.isMobile())
+        {
+            mouseMode = MouseMode.hand;
+            Cursor.SetCursor(handCursor, hotSpot, cursorMode);
 
-        //Cursor.SetCursor(handCursor, new Vector2(0, 0), cursorMode);
+            //Cursor.SetCursor(handCursor, new Vector2(0, 0), cursorMode);
+        }
     }
 
     public void toCursor()
     {
-        mouseMode = MouseMode.cursor;
-        Cursor.SetCursor(null, hotSpot, cursorMode); //passing null will reset to system default
+        if (!enabler.isMobile())
+        {
+            mouseMode = MouseMode.cursor;
+            Cursor.SetCursor(null, hotSpot, cursorMode); //passing null will reset to system default
 
-        //Cursor.SetCursor(null, new Vector2(0,0), cursorMode);
+            //Cursor.SetCursor(null, new Vector2(0,0), cursorMode);
+        }
     }
 }
