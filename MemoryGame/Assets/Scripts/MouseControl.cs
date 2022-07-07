@@ -72,14 +72,14 @@ public class MouseControl : MonoBehaviour
 
                 if (itr != null && itr.clickable) //object is interactable
                 {
-
+                    print("##DEBUG itr "+itr.name);
                     //hovering on a clickable obj
                     // print("hovering on " + itr.name);
                     if (mouseMode == MouseMode.cursor) toHand();
 
                     if (Input.GetMouseButtonDown(0))
                     {
-                        print("##DEBUG mouse control on interactable");
+                        print("##DEBUG before itr on click");
                         itr.onClick();
                         //print("clicked on " + itr.name);
                     }
