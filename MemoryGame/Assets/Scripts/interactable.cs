@@ -101,10 +101,12 @@ public class interactable : MonoBehaviour
     public virtual void onClick()
     {
         //   print("clicked: " + eventData.pointerPress.name);
+        print("##DEBUG ON CLICK");
 
         if (clickable)
         {
             timesClicked += 1;
+            print("##DEBUG clicked on "+name+"; calling checkBehavior");
             checkBehavior();
         }
     }
@@ -142,6 +144,7 @@ public class interactable : MonoBehaviour
     //should be overidden by children?
     public void checkBehavior()
     {
+        print("##DEBUG check behavior");
 
         switch (interactType)
         {
@@ -149,10 +152,10 @@ public class interactable : MonoBehaviour
                 myAnimator.SetTrigger("action1"); //play animation (only one in total)
                 break;
             case InteractType.animThenImgChange: //play animation (multiple in total)
-                print("111111");
+                print("##DEBUG 111111");
                 if (timesClicked <= numInteractions)
                 {
-                    print("222222");
+                    print("##DEBUG 222222");
                     myAnimator.SetTrigger("action" + timesClicked.ToString());
 
                     if (transform.parent.name.Equals("rosesRotate"))
@@ -167,7 +170,7 @@ public class interactable : MonoBehaviour
                         }
                     }
                 }
-                print("333333");
+                print("##DEBUG 33333");
                 break;
             case InteractType.imgSwitcher: //change base images to the next pair (with effects)
                 GetComponent<imgSwitcher>().myTriggerAction();

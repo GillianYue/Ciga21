@@ -11,9 +11,9 @@ public class PlayLevelAudio : MonoBehaviour
 
     public void playL1SFX(int index) //dine
     {
-        print("before sound");
+        print("##DEBUG before sound");
         gameControl.GetComponent<AudioManager>().playSFX(1, index);
-        print("after sound");
+        print("##DEBUG after sound");
     }
 
     public void playVaseSceneSFX(int index)
