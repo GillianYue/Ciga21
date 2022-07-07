@@ -16,9 +16,13 @@ public class StartDialogueClickThrough : MonoBehaviour
 
     public bool textLock; //prevent two texts from being triggered in too short of an interval
 
+    [Inject(InjectFrom.Anywhere)]
+    public MouseControl mouseControl;
+
     private void Awake()
     {
         if (myEnabler == null) myEnabler = FindObjectOfType<enabler>();
+        if (mouseControl == null) mouseControl = FindObjectOfType<MouseControl>();
     }
 
     void Start()
@@ -39,7 +43,7 @@ public class StartDialogueClickThrough : MonoBehaviour
     void FixedUpdate()
     {
 
-        if (!animating && counter > 0 && Input.GetMouseButtonDown(0)) //show next line of text
+        if (!animating && counter > 0 && mouseControl.mouseButtonDown()) //show next line of text
         {
             if (dialogueType == 1)
             {

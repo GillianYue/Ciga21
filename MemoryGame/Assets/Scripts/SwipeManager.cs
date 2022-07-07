@@ -4,6 +4,8 @@ using UnityEngine.Events;
 
 public class SwipeManager : MonoBehaviour
 {
+    [Inject(InjectFrom.Anywhere)]
+    public MouseControl mouseControl;
 
     public float swipeThreshold = 50f;
     public float timeThreshold = 0.3f;
@@ -22,7 +24,7 @@ public class SwipeManager : MonoBehaviour
 
     private void Awake()
     {
-
+        if (mouseControl == null) mouseControl = FindObjectOfType<MouseControl>();
     }
 
     private void Update()
@@ -30,13 +32,13 @@ public class SwipeManager : MonoBehaviour
 
         if (active)
         {
-            if (Input.GetMouseButtonDown(0))
+            if (mouseControl.mouseButtonDown())
             {
                 this.fingerDown = Input.mousePosition;
                 this.fingerUp = Input.mousePosition;
                 this.fingerDownTime = DateTime.Now;
             }
-            if (Input.GetMouseButtonUp(0))
+            if (mouseControl.mouseButtonUp())
             {
                 this.fingerDown = Input.mousePosition;
                 this.fingerUpTime = DateTime.Now;
