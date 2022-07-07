@@ -36,7 +36,8 @@ public class PuzzlePiece : interactable
             newPos.z = 0;
             transform.position = newPos;
 
-            if ((!isMobile && Input.GetMouseButtonDown(1)) ||  (isMobile && Input.touchCount>0 && Input.GetTouch(0).tapCount == 2)  )
+            if ((!isMobile && Input.GetMouseButtonDown(1)) ||  
+                (isMobile && Input.touchCount>0 && Input.GetTouch(0).tapCount == 2)  )
             {
                 //if right click, release
                 selected = false;
