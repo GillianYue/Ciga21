@@ -29,3 +29,5 @@
 #import "SupereraSDKLoginWithVisitorRequest.h"
 #import "SupereraSDKLoginWithMobileATAuthRequest.h"
 #import "SupereraSDKLoginWithAppleRequest.h"
+#import "SupereraSDKLoginWithGoogleRequest.h"
+//#import "SupereraSDKUnLinkService.h"

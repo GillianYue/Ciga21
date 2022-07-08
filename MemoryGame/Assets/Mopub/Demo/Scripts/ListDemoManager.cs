@@ -4,6 +4,8 @@ using UnityEngine.UI;
 using UnityEngine;
 using System;
 using MopubNS;
+using System.IO;
+using System.Text;
 
 public class ListDemoManager : MonoBehaviour
 {
@@ -47,6 +49,9 @@ public class ListDemoManager : MonoBehaviour
 
 	public string rankPageString = "1";
 	public string rankSizeString = "1";
+	public string cloudCacheUid = "";
+	public string cloudCacheVersion = "";
+	public string cloudCacheData = "";
 
 	public class DemoRewardListener: MopubRewardedVideoListener
 	{
@@ -350,6 +355,17 @@ public class ListDemoManager : MonoBehaviour
 
 		btnScrollPosition = GUI.BeginScrollView (new Rect (0, y, Screen.width, Screen.height-Screen.height/4), btnScrollPosition, new Rect (0, y, Screen.width, totalScrollHeight),false,false);
 	
+
+	if (GUI.Button (new Rect (0, y, buttonWith, buttonHeight), "showGuidPageView", btnStyle)) {
+			logs.Add ("call showGuidPageView");
+			MopubSdk.getInstance ().showGuidPageView (
+				delegate(string result) { 
+					logs.Add ("showGuidPageView success");
+					//进行sdk init
+				}
+			);
+		}
+		y += buttonHeight + 10;
 		if (GUI.Button (new Rect (0, y, buttonWith, buttonHeight), "init", btnStyle)) {
 			logs.Add ("call init");
 			MopubSdk.getInstance ().init (
@@ -365,6 +381,30 @@ public class ListDemoManager : MonoBehaviour
 				}
 			);
 		}
+
+		y += buttonHeight + 10;
+		 if(GUI.Button(new Rect(0,y,buttonWith,buttonHeight),"getRedeem",btnStyle)){
+           logs.Add("call getRedeem");
+		   MopubSdk.getInstance().getRedeem("",
+			   delegate(string s) { 
+					logs.Add ("getRedeem success:"+s);
+				},
+				delegate (MopubSDKError failed){
+					logs.Add("getRedeem failederror");
+				   logs.Add(JsonUtility.ToJson(failed));
+				}
+		   );
+		 }
+
+		y += buttonHeight + 10;
+		if (GUI.Button (new Rect (0, y, buttonWith, buttonHeight), "logPlayerInfoString", btnStyle)) {
+			logs.Add ("call logPlayerInfo");
+			var dic = new Dictionary<string,string>();
+			dic.Add("testKey","testValue");
+			MopubSdk.getInstance ().logPlayerInfo("unitytest",  "unitytest", 1,  "unitytest",  "unitytest",dic);
+	}
+
+
 		y += buttonHeight + 10;
 		 if(GUI.Button(new Rect(0,y,buttonWith,buttonHeight),"showRealNameView",btnStyle)){
            logs.Add("call showRealNameView");
@@ -377,6 +417,7 @@ public class ListDemoManager : MonoBehaviour
 				}
 		   );
 		 }
+		 
 		 y += buttonHeight + 10;
 		GUI.Label(new Rect(0,y,130,buttonHeight),"充值金额", fontStyle);
 		queryAmount = GUI.TextField(new Rect(130, y, buttonWith - 130, buttonHeight), queryAmount, inputStyle);
@@ -413,6 +454,20 @@ public class ListDemoManager : MonoBehaviour
 		   );
 		 }
 		 
+		y += buttonHeight + 10;
+		if (GUI.Button (new Rect (0, y, buttonWith, buttonHeight), "redeem", btnStyle)) {
+			logs.Add ("call redeem");
+			MopubSdk.getInstance ().getRedeem ("",
+				delegate(string s) { 
+					logs.Add ("redeem success:"+s);
+				},
+				delegate(MopubSDKError error) {
+					logs.Add("redeem failed");
+					logs.Add(JsonUtility.ToJson(error));
+				}
+			);
+		}
+
 		y += buttonHeight + 10;
 		if (GUI.Button (new Rect (0, y, buttonWith, buttonHeight), "login", btnStyle)) {
 			logs.Add ("call login");
@@ -907,6 +962,22 @@ public class ListDemoManager : MonoBehaviour
 			logs.Add ("call showRegion");
 			var result = MopubSdk.getInstance ().getRegion();
 			logs.Add ("region: " + result);
+		}
+
+		y += buttonHeight + 10;
+		if (GUI.Button(new Rect(0, y, buttonWith, buttonHeight), "cgi", btnStyle))
+		{
+			logs.Add("call cgi");
+			var result = MopubSdk.getInstance().getCgi();
+			logs.Add("cgi: " + result);
+		}
+
+		y += buttonHeight + 10;
+		if (GUI.Button(new Rect(0, y, buttonWith, buttonHeight), "versionCode", btnStyle))
+		{
+			logs.Add("call versionCode");
+			var result = MopubSdk.getInstance().getPackageVersionCode();
+			logs.Add("versionCode: " + result);
 		}
 
 		y += buttonHeight + 10;
@@ -1444,6 +1515,66 @@ public class ListDemoManager : MonoBehaviour
 				logs.Add("fetch ranking list failed");
 				logs.Add(JsonUtility.ToJson(error));
 			});
+		}
+
+		y += buttonHeight + 10;
+		GUI.Label(new Rect(0, y, 130, buttonHeight), "uid：", fontStyle);
+		cloudCacheUid = GUI.TextField(new Rect(130, y, buttonWith - 130, buttonHeight), cloudCacheUid, inputStyle);
+
+		y += buttonHeight + 10;
+		GUI.Label(new Rect(0, y, 130, buttonHeight), "version：", fontStyle);
+		cloudCacheVersion = GUI.TextField(new Rect(130, y, buttonWith - 130, buttonHeight), cloudCacheVersion, inputStyle);
+
+		y += buttonHeight + 10;
+		GUI.Label(new Rect(0, y, 130, buttonHeight), "data：", fontStyle);
+		cloudCacheData = GUI.TextField(new Rect(130, y, buttonWith - 130, buttonHeight), cloudCacheData, inputStyle);
+
+		y += buttonHeight + 10;
+		if (GUI.Button(new Rect(0, y, buttonWith, buttonHeight), "save cloud cache", btnStyle))
+		{
+			logs.Add("save cloud cache");
+
+			MopubSdk.getInstance().saveCloudCache(cloudCacheUid, int.Parse(cloudCacheVersion), cloudCacheData, delegate () {
+
+				logs.Add("save cloud cache success");
+
+			}, delegate (MopubSDKError error) {
+
+				logs.Add("save cloud cache failed");
+				logs.Add(JsonUtility.ToJson(error));
+			});
+		}
+
+		y += buttonHeight + 10;
+		if (GUI.Button(new Rect(0, y, buttonWith, buttonHeight), "get cloud cache", btnStyle))
+		{
+			logs.Add("get cloud cache");
+
+			MopubSdk.getInstance().getCloudCache(cloudCacheUid, delegate (MopubSDKCloudCache cache) {
+
+				logs.Add("get cloud cache success");
+				logs.Add(JsonUtility.ToJson(cache));
+
+			}, delegate (MopubSDKError error) {
+
+				logs.Add("get cloud cache failed");
+				logs.Add(JsonUtility.ToJson(error));
+			});
+		}
+
+		y += buttonHeight + 10;
+		if (GUI.Button(new Rect(0, y, buttonWith, buttonHeight), "upload file", btnStyle))
+		{
+			Debug.Log("upload file");
+			const string str = "hello world";
+            byte[] binaryData = Encoding.ASCII.GetBytes(str);
+            var stream = new MemoryStream(binaryData);
+
+            string downloadPath = MopubOSS.AliyunOSSManager.GetInstance().UploadImage(stream, "id.txt");
+
+			//string downloadPath = MopubOSS.AliyunOSSManager.GetInstance().UploadImage("/Users/liangjiahao/Desktop/id.txt", "id.txt");
+			logs.Add("downloadPath: " + downloadPath);
+			
 		}
 
 		GUI.EndScrollView ();

@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "SupereraSDKRanking.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 
@@ -41,6 +43,14 @@ NS_ASSUME_NONNULL_BEGIN
  打开隐私协议
  */
 - (void)openPrivateProxy;
+
+/**
+ 获取排行榜
+ */
++ (void)getRankingListWithUid:(NSString * _Nullable)uid
+                         page:(NSInteger)page
+                         size:(NSInteger)size
+            completionHandler:(void(^)(SupereraSDKRanking * _Nullable ranking, SupereraSDKError * _Nullable error))completionHandler;
 
 @end
 

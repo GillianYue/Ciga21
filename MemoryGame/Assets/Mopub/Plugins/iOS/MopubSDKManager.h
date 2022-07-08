@@ -78,6 +78,16 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString *)getRegion;
 
 /**
+ 获取包版本号
+ */
++ (NSString *)getPackageVersionCode;
+
+/**
+ 获取cgi
+ */
++ (NSString *)getCgi;
+
+/**
  获取当前游戏版号
  */
 + (NSString *)getGameVersion;
@@ -157,10 +167,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (BOOL)openRatingView;
 
++ (BOOL)openRating;
+
 + (BOOL) addLocalNotifaciton:(NSString *)title content:(NSString *)content date:(NSString *)date hour:(NSString *)hour min:(NSString *)min;
 
 #pragma -mark game log
 + (void)logPlayerInfoWithCahrName:(nullable NSString *)characterName characterID:(nullable NSString *)characterID characterLevel:(int)characterLevel serverName:(nullable NSString *)serverName serverID:(nullable NSString *)serverID;
+
++ (void)logPlayerInfoWithCahrName:(nullable NSString *)characterName characterID:(nullable NSString *)characterID characterLevel:(int)characterLevel serverName:(nullable NSString *)serverName serverID:(nullable NSString *)serverID extraData:(NSString *)extraDataJSONString;
 
 + (void)logStartLevel:(nullable NSString *)levelName;
 
@@ -207,6 +221,14 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)startRealnameAuthenticationWithUI;
 
 + (void)fetchRankingWithUid:(NSString *)uid page:(int)page size:(int)size;
+
++ (NSString *)getTimeStamp;
+
++ (void)saveCloudCacheWithUid:(NSString *)uid version:(NSInteger)version data:(NSString *)data;
+
++ (void)getCloudCacheWithUid:(NSString *)uid;
+
++ (void)getRedeemWithCode:(NSString *)code;
 
 @end
 

@@ -35,6 +35,13 @@ namespace MopubNS
 			MopubCallbackManager.initFailedDelegate = failed;
 			_init (gameContentVersion);
 		}
+		//引导页
+		public override void showGuidPageView(Action<string> success){
+			if (success != null)
+            {
+				success("success");
+			}
+		}
 	//实名认证页面sdk--new
         public override void showRealNameView(Action<string> success,Action<string> failed)
                 {
@@ -446,8 +453,13 @@ namespace MopubNS
             _logPlayerInfo(characterName, characterID, characterLevel, serverName, serverID);
         }
 
+		public override void logPlayerInfo(string characterName, string characterID, int characterLevel, string serverName, string serverID, Dictionary<string, string> extraData)
+		{
+			_logPlayerInfoWithData(characterName, characterID, characterLevel, serverName, serverID, Json.Serialize(extraData));
+		}
 
-        public override void logCustomEvent (string eventName,  Dictionary<string,string> data) {
+
+		public override void logCustomEvent (string eventName,  Dictionary<string,string> data) {
 			_logCustomEvent (eventName, Json.Serialize (data));
 		}
 
@@ -552,6 +564,17 @@ namespace MopubNS
 		{
 			return _getGameVersion();
 		}
+
+		public override string getPackageVersionCode()
+		{
+			return _getPackageVersionCode();
+		}
+
+		public override string getCgi()
+		{
+			return _getCgi();
+		}
+
 		public override string getTimeStamp() {
 			return _getTimeStamp();
 		}
@@ -589,6 +612,29 @@ namespace MopubNS
 			MopubCallbackManager.fetchRankingFailedDelegate = failure;
 
 			_fetchRanking(uid, page, size);
+        }
+
+		public override void saveCloudCache(string uid, long version, string data, Action success, Action<MopubSDKError> failed)
+		{
+			MopubCallbackManager.saveCloudCacheSuccessDelegate = success;
+			MopubCallbackManager.saveCloudCacheFailedDelegate = failed;
+
+			_saveCloudCache(uid, version, data);
+		}
+
+		public override void getCloudCache(string uid, Action<MopubSDKCloudCache> success, Action<MopubSDKError> failed)
+		{
+			MopubCallbackManager.getCloudCacheSuccessDelegate = success;
+			MopubCallbackManager.getCloudCacheFailedDelegate = failed;
+
+			_getCloudCache(uid);
+		}
+		public override void getRedeem(string code,Action<string> success,Action<MopubSDKError> failed)
+        {
+            MopubCallbackManager.getRedeemSuccessDelegate = success;
+            MopubCallbackManager.getRedeemFailDelegate = failed;
+
+			_getRedeem(code);
         }
 
 		#region dllimport
@@ -779,15 +825,17 @@ namespace MopubNS
         [DllImport("__Internal")]
         internal extern static void _logPlayerInfo(string characterName, string characterID, int characterLevel, string serverName, string serverID);
 
-        [DllImport("__Internal")]
+		[DllImport("__Internal")]
+		internal extern static void _logPlayerInfoWithData(string characterName, string characterID, int characterLevel, string serverName, string serverID, string extraData);
+
+		[DllImport("__Internal")]
         internal extern static bool _openRatingView();
 
 		[DllImport("__Internal")]
-		internal extern static void _openReate();
+		internal extern static bool _openRate();
 		
         [DllImport("__Internal")]
         internal extern static bool _addLocalNotifaciton(string title, string content, string date, string hour, string min);
-
 
         [DllImport("__Internal")]
         internal extern static void _logStartLevel(string levelName);
@@ -815,6 +863,12 @@ namespace MopubNS
 
 
 		[DllImport("__Internal")]
+		internal extern static string _getPackageVersionCode();
+
+		[DllImport("__Internal")]
+		internal extern static string _getCgi();
+
+		[DllImport("__Internal")]
 		internal extern static string _getGameVersion();
 
 		[DllImport("__Internal")]
@@ -840,6 +894,16 @@ namespace MopubNS
 
 		[DllImport("__Internal")]
 		internal extern static void _fetchRanking(string uid, int page, int size);
+
+		[DllImport("__Internal")]
+		internal extern static void _saveCloudCache(string uid, long version, string data);
+
+		[DllImport("__Internal")]
+		internal extern static void _getCloudCache(string uid);
+
+		[DllImport("__Internal")]
+		internal extern static void _getRedeem(string code);
+
 		#endregion
 	}
 #endif

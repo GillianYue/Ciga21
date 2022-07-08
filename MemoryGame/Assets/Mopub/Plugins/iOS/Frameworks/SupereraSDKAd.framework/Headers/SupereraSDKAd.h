@@ -43,6 +43,20 @@ typedef NS_ENUM (NSInteger, SupereraSDKAdThirdMediation) {
 
 + (void)setTestEnvironment:(BOOL)isTest;
 
++ (void)setPreloadInteractWebView:(BOOL)isPreload;
+
++ (void)setDebug:(BOOL)debug;
+
+/**
+ 设置渠道和子渠道
+ 
+ 用于 M 聚合的分组测试
+ 
+ @param channel         渠道
+ @param subChannel  子渠道
+ @param puid                puid
+ */
+- (void)setChannel:(NSString * _Nullable)channel subChannel:(NSString * _Nullable)subChannel puid:(NSString *)puid;
 
 /**
  初始化SDK -- idlecook 游戏使用
@@ -214,12 +228,30 @@ typedef NS_ENUM (NSInteger, SupereraSDKAdThirdMediation) {
 - (void)showInteractAdWithEntry:(NSString *)entry fromController:(UIViewController *)controller;
 
 /**
+ 展示互动广告
+ 
+ @param entry 用于展示互动广告的游戏入口
+ @param isOpenBrowser 是否打开浏览器
+ @param controller 当前视图控制器
+ */
+- (void)showInteractAdWithEntry:(NSString *)entry isOpenBrowser:(BOOL)isOpenBrowser orFromController:(UIViewController * _Nullable)controller;
+
+/**
  展示视频互动广告
  
  @param entry                 用于展示视频互动广告的游戏入口
  @param controller      当前视图控制器
  */
 - (void)showVideoInteractAdWithEntry:(NSString *)entry fromController:(UIViewController *)controller;
+
+/**
+ 展示视频互动广告
+ 
+ @param entry                 用于展示视频互动广告的游戏入口
+ @param controller      当前视图控制器
+ @param isOpenBrowser 是否打开外部浏览器
+ */
+- (void)showVideoInteractAdWithEntry:(NSString *)entry fromController:(UIViewController *)controller isOpenBrowser:(BOOL)isOpenBrowser;
 
 /**
  加载图片互动广告
@@ -255,6 +287,21 @@ typedef NS_ENUM (NSInteger, SupereraSDKAdThirdMediation) {
  @param paramsUpdatedCallback 回调
  */
 - (void)setInGameOnlineParamsCallback:(void(^)(NSDictionary *params))paramsUpdatedCallback;
+
+/**
+ 添加自定义url参数
+ */
+- (void)addInteractAdURLCustomInfo:(NSDictionary *)customInfo;
+
+/**
+ 删除自定义参数某个key
+ */
+- (void)removeInteractAdURLCustomInfoForKey:(NSString *)key;
+
+/**
+ 删除所有自定义参数
+ */
+- (void)removeAllInteractAdURLCustomInfo;
 
 #pragma mark - native ad
 /**

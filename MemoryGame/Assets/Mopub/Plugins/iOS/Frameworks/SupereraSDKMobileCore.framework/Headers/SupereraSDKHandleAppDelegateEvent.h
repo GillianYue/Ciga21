@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SupereraSDKHandleAppDelegateEvent : NSObject
 
++ (void)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions;
+
 // Open URI-scheme for iOS 9 and above
 + (BOOL)application:(UIApplication *)application openURL:(NSURL *)url options:(NSDictionary *) options;
 

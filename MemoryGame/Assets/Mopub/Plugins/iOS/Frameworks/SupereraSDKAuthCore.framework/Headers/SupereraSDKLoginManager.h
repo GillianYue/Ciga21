@@ -21,6 +21,8 @@
 #import "SupereraSDKLoginWithVisitorRequest.h"
 #import "SupereraSDKLoginWithMobileATAuthRequest.h"
 #import "SupereraSDKLoginWithAppleRequest.h"
+#import "SupereraSDKLoginWithTwitterRequest.h"
+#import "SupereraSDKLoginWithGoogleRequest.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -273,11 +275,87 @@ FOUNDATION_EXPORT SupereraSDKErrorDomain SupereraSDKErrorDomainSDKAuthCore;
 
 #pragma mark - Sign in with apple
 
+/**
+ 使用 Apple 进行绑定
+ */
 - (void)loginWithApple:(SupereraSDKLoginWithAppleRequest *)request
                success:(SDKLoginSuccessCallback)successCallback
                failure:(ErrorCallback)errorCallback API_AVAILABLE(ios(13.0));
 
-#pragma mark - 
+/**
+使用 Apple 进行绑定
+
+@param request 绑定请求参数
+@param successCallback 绑定成功回调
+@param errorCallback 绑定失败回调
+*/
+- (void)linkAppleWithRequest:(SupereraSDKLinkRequest *)request success:(SDKLinkSuccessCallback)successCallback failure:(ErrorCallback)errorCallback API_AVAILABLE(ios(13.0));
+
+- (void)linkAppleWithSuccess:(SDKLinkSuccessCallback)successCallback failure:(ErrorCallback)errorCallback API_AVAILABLE(ios(13.0));
+
+#pragma mark - Twitter
+
+/**
+ 推特登录
+ 
+ @param request 登录请求参数
+ @param successCallback 成功回调
+ @param errorCallback 失败回调
+ */
+- (void)loginWithTwitter:(SupereraSDKLoginWithTwitterRequest *)request
+                 success:(SDKLoginSuccessCallback)successCallback
+                 failure:(ErrorCallback)errorCallback;
+
+/**
+使用 Twitter 进行绑定
+
+@param request 绑定请求参数
+@param successCallback 绑定成功回调
+@param errorCallback 绑定失败回调
+*/
+- (void)linkTwitterWithRequest:(SupereraSDKLinkRequest *)request
+                       success:(SDKLinkSuccessCallback)successCallback
+                       failure:(ErrorCallback)errorCallback;
+
+/**
+使用 Twitter 进行绑定
+
+@param successCallback 绑定成功回调
+@param errorCallback 绑定失败回调
+*/
+- (void)linkTwitterWithSuccess:(SDKLinkSuccessCallback)successCallback
+                       failure:(ErrorCallback)errorCallback;
+
+#pragma mark - Temporary
+
+- (void)loginWithTemporaryWithSuccess:(SDKLoginSuccessCallback)successCallback
+                              failure:(ErrorCallback)errorCallback;
+
+#pragma mark - Google
+
+/**
+ 使用 Google 进行登录
+ 
+ @param request 登录请求参数
+ @param successCallback 成功回调
+ @param errorCallback 失败回调
+ */
+- (void)loginWithGoogle:(SupereraSDKLoginWithGoogleRequest *)request
+                success:(SDKLoginSuccessCallback)successCallback
+                failure:(ErrorCallback)errorCallback;
+
+/**
+使用 Google 进行绑定
+
+@param request 绑定请求参数
+@param successCallback 绑定成功回调
+@param errorCallback 绑定失败回调
+*/
+- (void)linkGoogleWithRequest:(SupereraSDKLinkRequest *)request success:(SDKLinkSuccessCallback)successCallback failure:(ErrorCallback)errorCallback;
+
+- (void)linkGoogleWithSuccess:(SDKLinkSuccessCallback)successCallback failure:(ErrorCallback)errorCallback;
+
+#pragma mark -
 
 /**
  获取当先登录帐号所绑定的第三方帐号信息
@@ -330,18 +408,47 @@ FOUNDATION_EXPORT SupereraSDKErrorDomain SupereraSDKErrorDomainSDKAuthCore;
  */
 - (void)verifySessionToken:(NSString *)token success:(void(^)(void))success failure:(void(^)(SupereraSDKError *error))failure;
 
+/**
+ 验证当前的 session token
+ */
+- (void)verifyCurrentSessionTokenWithSuccess:(void(^)(SupereraSDKAccessToken *accessToken))success failure:(void(^)(SupereraSDKError *error))failure;
+
 #pragma -mark game log
 
-/// 上报玩家信息，只要游戏具有以下任意参数，就需要上报
-/// @param characterName 角色名
-/// @param characterID 角色ID
-/// @param characterLevel 角色等级
-/// @param serverName 服务器名
-/// @param serverID 服务器ID
+/**
+ 上报玩家信息，只要游戏具有以下任意参数，就需要上报
+ 
+ @param characterName 角色名
+ @param characterID 角色ID
+ @param characterLevel 角色等级
+ @param serverName 服务器名
+ @param serverID 服务器ID
+ @param extraData 额外的信息
+ */
+- (void)logPlayerInfoWithCahrName:(nullable NSString *)characterName characterID:(nullable NSString *)characterID characterLevel:(int)characterLevel serverName:(nullable NSString *)serverName serverID:(nullable NSString *)serverID extraData:(NSDictionary * _Nullable)extraData;
+
 - (void)logPlayerInfoWithCahrName:(nullable NSString *)characterName characterID:(nullable NSString *)characterID characterLevel:(int)characterLevel serverName:(nullable NSString *)serverName serverID:(nullable NSString *)serverID;
 
 #pragma mark - set test environment
 + (void)setTestEnvironment:(BOOL)isTest;
+
+
+#pragma mark - unlink
+
+/// 解绑/注释当前登录方式账号
+/// 当前登录方式为设备登录或游客登录时会解绑/注销整个账号
+/// @param success 成功回调
+/// @param failure 失败回调
+- (void) unlinkCurrentAccountwithSuccess:(void (^)(void))success failure:(void (^)(SupereraSDKError * _Nonnull))failure;
+
+/// 解绑/注释指定登录方式账号
+/// @param accountType 账号类型
+/// @param isAll 是否解绑/注释整个账号
+/// @param success 成功回调
+/// @param failure 失败回调
+/// 满足isAll == YES && accountType为设备登录或游客登录 解绑注销整个账号 否则解绑注销指定账号类型
+/// 满足上述条件  || accountType 为最后一次登录账号方式 退出登录
+- (void) unlinkAccountWithAccountType:(SupereraSDKAccountType)accountType all:(BOOL) isAll Success:(void (^)(void))success failure:(void (^)(SupereraSDKError * _Nonnull))failure;
 
 @end
                         

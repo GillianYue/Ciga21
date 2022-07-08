@@ -125,6 +125,14 @@ char *_getRegion() {
     return cStringWithNSString([SDKManager getRegion]);
 }
 
+char *_getPackageVersionCode() {
+    return cStringWithNSString([SDKManager getPackageVersionCode]);
+}
+
+char *_getCgi() {
+    return cStringWithNSString([SDKManager getCgi]);
+}
+
 char *_getGameVersion() {
     return cStringWithNSString([SDKManager getGameVersion]);
 }
@@ -250,6 +258,11 @@ void _logPlayerInfo(char* characterName, char* characterID, int characterLevel, 
     [SDKManager logPlayerInfoWithCahrName:GetNullableNSStringParam(characterName) characterID:GetNullableNSStringParam(characterID) characterLevel:characterLevel serverName:GetNullableNSStringParam(serverName) serverID:GetNullableNSStringParam(serverID)];
 }
 
+void _logPlayerInfoWithData(char* characterName, char* characterID, int characterLevel, char* serverName, char* serverID, char* extraData) {
+    
+    [SDKManager logPlayerInfoWithCahrName:GetNullableNSStringParam(characterName) characterID:GetNullableNSStringParam(characterID) characterLevel:characterLevel serverName:GetNullableNSStringParam(serverName) serverID:GetNullableNSStringParam(serverID) extraData: GetNullableNSStringParam(extraData)];
+}
+
 void _logStartLevel(char* levelName) {
     [SDKManager logStartLevel:GetNullableNSStringParam(levelName)];
 }
@@ -277,6 +290,14 @@ void _logAdEntrancePresent(char* name) {
 ///other
 bool _openRatingView(){
     return [SDKManager openRatingView];
+}
+
+bool _openRate() {
+    return [SDKManager openRating];
+}
+
+bool _openReate() {
+    return [SDKManager openRating];
 }
 
 bool _addLocalNotifaciton(char* title, char* content, char* date, char* hour, char* min) {
@@ -382,4 +403,22 @@ void _openSystemNotificationSetting() {
 
 void _fetchRanking(char *uid, int page, int size) {
     return [SDKManager fetchRankingWithUid:GetNullableNSStringParam(uid) page:page size:size];
+}
+
+char* _getTimeStamp() {
+    return cStringWithNSString([SDKManager getTimeStamp]);
+}
+
+void _saveCloudCache(char *uid, int version, char *data) {
+    [SDKManager saveCloudCacheWithUid: GetNullableNSStringParam(uid)
+                              version: version
+                                 data: GetNullableNSStringParam(data)];
+}
+
+void _getCloudCache(char *uid) {
+    [SDKManager getCloudCacheWithUid: GetNullableNSStringParam(uid)];
+}
+
+void _getRedeem(char *code) {
+    [SDKManager getRedeemWithCode: GetNullableNSStringParam(code)];
 }

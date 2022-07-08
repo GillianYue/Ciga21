@@ -420,6 +420,7 @@ namespace MopubNS
 		public int rank;
 		public int level;
 		public string nickname;
+		public string extraData;
 
         public override string ToString()
         {
@@ -460,9 +461,22 @@ namespace MopubNS
 			this.min = min;
 		}
 	}
-	
 
-    public class MopubSdk :
+	[Serializable]
+	public class MopubSDKCloudCache
+	{
+		public long fileVersion;
+		public string fileData;
+
+		public MopubSDKCloudCache(long fileVersion, string fileData)
+		{
+			this.fileVersion = fileVersion;
+			this.fileData = fileData;
+		}
+	}
+
+
+	public class MopubSdk :
 	#if UNITY_EDITOR
 	MopubEditor
 	#elif UNITY_ANDROID

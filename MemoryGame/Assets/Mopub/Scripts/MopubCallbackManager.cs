@@ -28,6 +28,8 @@ namespace MopubNS {
 		public static Action<InitSuccessResult> initSuccessDelegate;
 		public static Action<MopubSDKError> initFailedDelegate;
 
+		//用户引导页
+		public static Action<string> showGuidPageViewSuccessDelegate;
 		//实名认证ui新版
 		public static Action<string> showRealNameViewSuccessDelegate;
 		public static Action<string> showRealNameViewFailedDelegate;
@@ -163,6 +165,16 @@ namespace MopubNS {
 
 		public static Action<MopubSDKRanking> fetchRankingSuccessDelegate;
 		public static Action<MopubSDKError> fetchRankingFailedDelegate;
+		// 云存档
+		public static Action saveCloudCacheSuccessDelegate;
+		public static Action<MopubSDKError> saveCloudCacheFailedDelegate;
+
+		public static Action<MopubSDKCloudCache> getCloudCacheSuccessDelegate;
+		public static Action<MopubSDKError> getCloudCacheFailedDelegate;
+
+		//兑换码
+		public static Action<string> getRedeemSuccessDelegate;
+		public static Action<MopubSDKError> getRedeemFailDelegate;
 		
         static string unity_args_key_error = "MopubSDKError";
 		//static string unity_args_key_ad_entry = "gameEntry";
@@ -215,6 +227,10 @@ namespace MopubNS {
 		public void sdkLoginFailed(string args) {
 			MopubSDKError error = JsonUtility.FromJson<MopubSDKError> (args);
 			if(loginFailedDelegate != null) loginFailedDelegate (error);
+		}
+		//用户引导页
+		public void showGuidPageViewSuccess(string args){
+			if(showGuidPageViewSuccessDelegate != null)showGuidPageViewSuccessDelegate(args);
 		}
 		//实名认证ui新版
 		public void showRealNameViewSuccess(string args){
@@ -963,11 +979,42 @@ namespace MopubNS {
         }
 
 		public void fetchRankingFailed(string args)
-        {
+		{
 			MopubSDKError error = JsonUtility.FromJson<MopubSDKError>(args);
 			if (pushInitFailedDelegate != null) pushInitFailedDelegate(error);
 		}
-		
+
+		public void saveCloudCacheSuccess()
+        {
+			if (saveCloudCacheSuccessDelegate != null) saveCloudCacheSuccessDelegate();
+		}
+
+		public void saveCloudCacheFailed(string args)
+        {
+			MopubSDKError error = JsonUtility.FromJson<MopubSDKError>(args);
+			if (saveCloudCacheFailedDelegate != null) saveCloudCacheFailedDelegate(error);
+        }
+
+		public void getCloudCacheSuccess(string args)
+        {
+			MopubSDKCloudCache cache = JsonUtility.FromJson<MopubSDKCloudCache>(args);
+			if (getCloudCacheSuccessDelegate != null) getCloudCacheSuccessDelegate(cache);
+		}
+
+		public void getCloudCacheFailed(string args)
+        {
+			MopubSDKError error = JsonUtility.FromJson<MopubSDKError>(args);
+			if (getCloudCacheFailedDelegate != null) getCloudCacheFailedDelegate(error);
+		}
+
+		public void getRedeemSuccess(string args){
+			if (getRedeemSuccessDelegate != null) getRedeemSuccessDelegate(args);
+		}
+
+		public void getRedeemFailed(string args){
+			MopubSDKError error = JsonUtility.FromJson<MopubSDKError>(args);
+			if(getRedeemFailDelegate != null) getRedeemFailDelegate(error);
+			}		
         #endregion
     }
 }

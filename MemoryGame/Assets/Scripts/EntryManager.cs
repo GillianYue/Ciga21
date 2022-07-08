@@ -25,8 +25,10 @@ public class EntryManager : MonoBehaviour
     void Start()
     {
         //StartCoroutine(headphoneScreenEntry());
-        StartSDK();
-
+        MopubSdk.getInstance().showGuidPageView(delegate (string result)
+        {
+            StartSDK();
+        });
     }
 
     

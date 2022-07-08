@@ -516,6 +516,23 @@ namespace MopubNS
             }
         }
 
+        public override void logPlayerInfo(string characterName, string characterID, int characterLevel, string serverName, string serverID, Dictionary<string, string> extraData)
+        {
+            using (AndroidJavaClass sdkClass = new AndroidJavaClass("com.mopub.MopubUnityPlugin"))
+            {
+                AndroidJavaObject map = null;
+                if (extraData!=null){
+                    Debug.Log("static logPlayerInfo data not null");
+                    map = CreateJavaMapFromDictainary(extraData);
+                }
+                else{
+                    map = new AndroidJavaObject("java.util.HashMap");
+                    Debug.Log("static logPlayerInfo data is null");
+                }
+                sdkClass.CallStatic("logPlayerInfo", characterName, characterID, characterLevel, serverName, serverID, map);
+            }
+        }
+
         public override void logCustomEvent(string eventName, Dictionary<string, string> data){
             using (AndroidJavaClass sdkClass = new AndroidJavaClass("com.mopub.MopubUnityPlugin"))
             {
@@ -1083,6 +1100,25 @@ namespace MopubNS
             return res;
         }
 
+        public override string getPackageVersionCode()
+        {
+            string res;
+            using (AndroidJavaClass sdkClass = new AndroidJavaClass("com.mopub.MopubUnityPlugin"))
+            {
+                res = sdkClass.CallStatic<string>("getVersionCode");
+            }
+            return res;
+        }
+
+        public override string getCgi()
+        {
+            string res;
+            using (AndroidJavaClass sdkClass = new AndroidJavaClass("com.mopub.MopubUnityPlugin"))
+            {
+                res = sdkClass.CallStatic<string>("getCgi");
+            }
+            return res;
+        }
 
         public override void launchCustomer(){
             using (AndroidJavaClass sdkClass = new AndroidJavaClass("com.mopub.MopubUnityPlugin"))
@@ -1110,6 +1146,50 @@ namespace MopubNS
         {
             MopubCallbackManager.fetchRankingSuccessDelegate = success;
             MopubCallbackManager.fetchRankingFailedDelegate = failure;
+            using (AndroidJavaClass sdkClass = new AndroidJavaClass("com.mopub.MopubUnityPlugin"))
+            {
+                sdkClass.CallStatic("fetchRanking", uid, page, size);
+            }
+        }
+
+        public override void saveCloudCache(string uid, long version, string data, Action success, Action<MopubSDKError> failed)
+        {
+            MopubCallbackManager.saveCloudCacheSuccessDelegate = success;
+            MopubCallbackManager.saveCloudCacheFailedDelegate = failed;
+            using (AndroidJavaClass sdkClass = new AndroidJavaClass("com.mopub.MopubUnityPlugin"))
+            {
+                sdkClass.CallStatic("saveCloudFile", uid, version, data);
+            }
+
+        }
+
+        public override void getCloudCache(string uid, Action<MopubSDKCloudCache> success, Action<MopubSDKError> failed)
+        {
+            MopubCallbackManager.getCloudCacheSuccessDelegate = success;
+            MopubCallbackManager.getCloudCacheFailedDelegate = failed;
+             using (AndroidJavaClass sdkClass = new AndroidJavaClass("com.mopub.MopubUnityPlugin"))
+            {
+                sdkClass.CallStatic("getCloudFile", uid);
+            }
+
+        }
+
+        public override void getRedeem(string code,Action<string> success,Action<MopubSDKError> failed)
+        {
+            MopubCallbackManager.getRedeemSuccessDelegate = success;
+            MopubCallbackManager.getRedeemFailDelegate = failed;
+             using (AndroidJavaClass sdkClass = new AndroidJavaClass("com.mopub.MopubUnityPlugin"))
+            {
+                sdkClass.CallStatic("getRedeemData", code);
+            }
+        }
+        public override void showGuidPageView(Action<string> success){
+            Debug.Log("static MopubAndroid showGuidPageView");
+            MopubCallbackManager.showGuidPageViewSuccessDelegate = success;
+            using(AndroidJavaClass sdkClass = new AndroidJavaClass("com.ui.core.plugin.UICoreUnityPlugin"))
+            {
+                sdkClass.CallStatic("showGuidPageView");
+            }
         }
 
     }

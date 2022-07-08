@@ -130,6 +130,7 @@ namespace MopubNS
 
         //log and data
         public abstract void logPlayerInfo(string characterName, string characterID, int characterLevel, string serverName, string serverID);
+		public abstract void logPlayerInfo(string characterName, string characterID, int characterLevel, string serverName, string serverID, Dictionary<string, string> extraData);
 
 
         public abstract void logCustomEvent (string eventName,  Dictionary<string,string> data);
@@ -180,6 +181,9 @@ namespace MopubNS
 
 		public abstract string getRegion();
 
+		public abstract string getPackageVersionCode();
+
+		public abstract string getCgi();
 
 		public abstract string getGameVersion();
 		public abstract string getTimeStamp();
@@ -195,6 +199,14 @@ namespace MopubNS
 		public abstract void openSystemNotificationSetting();
 
 		public abstract void fetchRanking(string uid, int page, int size, Action<MopubSDKRanking> success, Action<MopubSDKError> failure);
+
+		public abstract void saveCloudCache(string uid, long version, string data, Action success, Action<MopubSDKError> failed);
+
+		public abstract void getCloudCache(string uid, Action<MopubSDKCloudCache> success, Action<MopubSDKError> failed);
+
+		public abstract void getRedeem(string code,Action<string> success,Action<MopubSDKError> failed);
+
+		public abstract void showGuidPageView(Action<string> success);
 
 	}
 }
