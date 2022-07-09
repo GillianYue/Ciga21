@@ -102,7 +102,8 @@ public class EntryManager : MonoBehaviour
                },
                 delegate (string failed) {
                     //认证成功，不在游戏时间内
-            //        Debug.Log("认证失败");
+                    //        Debug.Log("认证失败");
+                    Application.Quit();
                 }
            );
     }
