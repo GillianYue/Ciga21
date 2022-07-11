@@ -7,10 +7,10 @@ namespace MopubOSS
 {
     public class AliyunOSSManager
     {
-        private string endpoint = "oss-cn-hangzhou.aliyuncs.com";
-        private string accessKeyId = "LTAI5tRZgDotyXe4A68DYmdf";
-        private string accessKeySecret = "myQGA8MahnJP0rPKv9BOJcfjFtWKHH";
-        private string bucketName = "jiuchongshilian-res";
+        private string endpoint = "";
+        private string accessKeyId = "";
+        private string accessKeySecret = "";
+        private string bucketName = "";
 
         private string downloadPathPrefix = "https://jiuchongshilian-res.oss-cn-hangzhou.aliyuncs.com";
 
