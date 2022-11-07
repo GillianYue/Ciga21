@@ -8,6 +8,14 @@
 
 #import "MopubSDKManager.h"
 
+#if __has_include(<SEAttributeSDK/SEAttributeSDK.h>)
+#import <SEAttributeSDK/SEAttributeSDK.h>
+
+#define HAS_SE_ATTRIBUTE 1
+#else
+#define HAS_SE_ATTRIBUTE 0
+#endif
+
 #import <SupereraSDKMobileCore/SupereraSDKMobileCore.h>
 #import <SupereraSDKAnalytics/SupereraSDKAnalytics.h>
 #import <SupereraSDKAuthCore/SupereraSDKAuthCore.h>
@@ -136,11 +144,23 @@ static NSString *unity_method_realname_ui_start_success = @"sdkRealNameStartOnSu
 static NSString *unity_method_realname_ui_start_failed = @"sdkRealNameStartOnFailed";
 static NSString *unity_method_realname_ui_in_addiction = @"sdkRealNameStartOnFailedError";
 
+static NSString *unity_method_show_realname_ui_success = @"showRealNameViewSuccess";
+static NSString *unity_method_show_realname_ui_failed = @"showRealNameViewFailed";
+
 static NSString *unity_method_logout_success = @"sdkLogoutSuccess";
 static NSString *unity_method_logout_failed = @"sdkLogoutFailed";
 
 static NSString *unity_method_fetch_ranking_success = @"fetchRankingSuccess";
 static NSString *unity_method_fetch_ranking_failed = @"fetchRankingFailed";
+
+static NSString *unity_method_save_cloud_cache_success = @"saveCloudCacheSuccess";
+static NSString *unity_method_save_cloud_cache_failed = @"saveCloudCacheFailed";
+
+static NSString *unity_method_get_cloud_cache_success = @"getCloudCacheSuccess";
+static NSString *unity_method_get_cloud_cache_failed = @"getCloudCacheFailed";
+
+static NSString *unity_method_get_redeem_success = @"getRedeemSuccess";
+static NSString *unity_method_get_redeem_failed = @"getRedeemFailed";
 
 static NSString *unity_args_key_error = @"MopubSDKError";
 static NSString *unity_args_key_ad_entry = @"gameEntry";
@@ -229,6 +249,8 @@ static NSString *unity_args_key_paymentInfo = @"paymentInfo";
     //init sdkCore
     SupereraSDKConfiguration *config = [[SupereraSDKConfiguration alloc] init];
     config.gameContentVersion = gv;
+    config.adInitAfterAttribute = YES;
+    config.attributeAfterRealname = YES;
     [[SupereraSDKCore sharedInstance] SDKInitWithConfig:config success:^{
         [MopubSDKManager callUnityMethod:unity_method_init_success withStrArg:nil];
     } failure:^(SupereraSDKError * _Nonnull error) {
@@ -241,6 +263,11 @@ static NSString *unity_args_key_paymentInfo = @"paymentInfo";
     [[SupereraSDKAd sharedInstance] setInterstitialDelegate:[MopubSDKManager sharedInstance]];
     [[SupereraSDKAd sharedInstance] setNativeAdDelegate:[MopubSDKManager sharedInstance]];
     [SupereraSDKRealnameUIManager shared].delegate = [MopubSDKManager sharedInstance];
+    
+//#if HAS_SE_ATTRIBUTE
+//    [[SEAttributeSDK sharedInstance] waitForATTUserAuthorizationWithTimeoutInterval:60];
+//    [[SEAttributeSDK sharedInstance] start];
+//#endif
 }
 
 #pragma - mark sdk bridge for C method
@@ -566,6 +593,20 @@ static NSString *unity_args_key_paymentInfo = @"paymentInfo";
 }
 
 /**
+ 获取包版本号
+ */
++ (NSString *)getPackageVersionCode {
+    return [[SupereraSDKCore sharedInstance] getPackageVersionCode];
+}
+
+/**
+ 获取cgi
+ */
++ (NSString *)getCgi {
+    return [[SupereraSDKCore sharedInstance] getCGI];
+}
+
+/**
  返回当前应用的版本号
  */
 + (NSString *)getGameVersion {
@@ -608,6 +649,10 @@ static NSString *unity_args_key_paymentInfo = @"paymentInfo";
         }
         
     }];
+}
+
++ (NSString *)getTimeStamp {
+    return [NSString stringWithFormat:@"%ld", [[SupereraSDKCore sharedInstance] getSDKInitServerTime_ms]];
 }
 
 #pragma - mark analytics
@@ -870,6 +915,10 @@ static NSString *unity_args_key_paymentInfo = @"paymentInfo";
     return [[SupereraSDKCore sharedInstance] openRatingView];
 }
 
++ (BOOL)openRating {
+    return [[SupereraSDKCore sharedInstance] openRating];
+}
+
 + (BOOL) addLocalNotifaciton:(NSString *)title content:(NSString *)content date:(NSString *)date hour:(NSString *)hour min:(NSString *)min{
     SupereraSDKLocalMsg *msg = [[SupereraSDKLocalMsg alloc] init];
         msg.title = title;
@@ -885,6 +934,10 @@ static NSString *unity_args_key_paymentInfo = @"paymentInfo";
 #pragma -mark game log
 + (void)logPlayerInfoWithCahrName:(nullable NSString *)characterName characterID:(nullable NSString *)characterID characterLevel:(int)characterLevel serverName:(nullable NSString *)serverName serverID:(nullable NSString *)serverID {
     [[SupereraSDKLoginManager sharedInstance] logPlayerInfoWithCahrName:characterName characterID:characterID characterLevel:characterLevel serverName:serverName serverID:serverID];
+}
+
++ (void)logPlayerInfoWithCahrName:(nullable NSString *)characterName characterID:(nullable NSString *)characterID characterLevel:(int)characterLevel serverName:(nullable NSString *)serverName serverID:(nullable NSString *)serverID extraData:(NSString *)extraDataJSONString {
+    [[SupereraSDKLoginManager sharedInstance] logPlayerInfoWithCahrName:characterName characterID:characterID characterLevel:characterLevel serverName:serverName serverID:serverID extraData: [NSDictionary dictionaryWithJSONString:extraDataJSONString]];
 }
 
 + (void)logStartLevel:(nullable NSString *)levelName {
@@ -1054,10 +1107,14 @@ static NSString *unity_args_key_paymentInfo = @"paymentInfo";
 
 - (void)manager:(SupereraSDKRealnameUIManager *)manager authSuccess:(SupereraSDKUIRealnameInfo *)realnameInfo {
     [MopubSDKManager callUnityMethod:unity_method_realname_ui_start_success withStrArg:@"success"];
+    
+    [MopubSDKManager callUnityMethod:unity_method_show_realname_ui_success withStrArg:@"success"];
 }
 
 - (void)manager:(SupereraSDKRealnameUIManager *)manager authFailed:(NSError *)error {
     [MopubSDKManager callUnityMethod:unity_method_realname_ui_start_failed withStrArg:@"failed"];
+
+//    [MopubSDKManager callUnityMethod:unity_method_show_realname_ui_failed withStrArg:@"failed"];
 }
 
 - (void)manager:(SupereraSDKRealnameUIManager *)manager addictionWithRealnameInfo:(SupereraSDKUIRealnameInfo *)realnameInfo {
@@ -1065,8 +1122,42 @@ static NSString *unity_args_key_paymentInfo = @"paymentInfo";
     SupereraSDKError *error = [SupereraSDKError errorWithClientCode:SupereraSDKErrorCodeUnknown clientMessage:@"addiction" domain:@"com.superera.sdk.unity.error" domainCode:1 domainMessage:@"addiction"];
     
     [MopubSDKManager callUnityMethod:unity_method_realname_ui_in_addiction withStrArg:[error toJSON]];
+    
+    [MopubSDKManager callUnityMethod:unity_method_show_realname_ui_failed withStrArg:[error toJSON]];
 }
 
 
++ (void)saveCloudCacheWithUid:(NSString *)uid version:(NSInteger)version data:(NSString *)data {
+    [SupereraSDKCloudCacheRequest saveCacheForUid:uid version:version data:data success:^{
+        
+        [MopubSDKManager callUnityMethod:unity_method_save_cloud_cache_success withStrArg:nil];
+        
+    } failure:^(SupereraSDKError * _Nonnull error) {
+        
+        [MopubSDKManager callUnityMethod:unity_method_save_cloud_cache_failed withStrArg:[error toJSON]];
+    }];
+}
 
++ (void)getCloudCacheWithUid:(NSString *)uid {
+    
+    [SupereraSDKCloudCacheRequest getCacheForUid:uid success:^(SupereraSDKCloudCache * _Nonnull cache) {
+        
+        [MopubSDKManager callUnityMethod:unity_method_get_cloud_cache_success withStrArg:[cache toJSON]];
+        
+    } failure:^(SupereraSDKError * _Nonnull error) {
+        
+        [MopubSDKManager callUnityMethod:unity_method_get_cloud_cache_failed withStrArg:[error toJSON]];
+        
+    }];
+    
+}
+
++ (void)getRedeemWithCode:(NSString *)code {
+    
+    [SupereraSDKExchangeRequest exchangeWithCode:code success:^(NSString *string) {
+        [MopubSDKManager callUnityMethod:unity_method_get_redeem_success withStrArg:string];
+    } failure:^(SupereraSDKError * _Nonnull error) {
+        [MopubSDKManager callUnityMethod:unity_method_get_redeem_failed withStrArg:[error toJSON]];
+    }]; 
+}
 @end

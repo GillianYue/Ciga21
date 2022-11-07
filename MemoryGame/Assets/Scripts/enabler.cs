@@ -279,7 +279,7 @@ public class enabler : MonoBehaviour
     {
         Time.timeScale = 0;
 
-        yield return new WaitForSecondsRealtime(5);
+        yield return new WaitForSecondsRealtime(0.1f);
 
         Time.timeScale = 1;
     }
@@ -941,6 +941,7 @@ public class enabler : MonoBehaviour
 
                 //globalState.revealAndHideStuff(loadLv, false);
                 startCanvas.SetActive(true);
+                startButton.enabled = true;
                 foreach (Animator a in startMenuFocusObjects)
                 {
                     a.GetComponent<interactable>().clickable = true;

@@ -23,6 +23,8 @@ typedef NS_ENUM(NSUInteger, SEServiceState) {
 
 @property (nonatomic, assign, class, readonly)SEServiceState onlineConfigState;
 
+@property (nonatomic, assign, class, readonly) NSInteger sdkInitServerTime_ms;
+
 
 /**
  向服务器请求在线参数

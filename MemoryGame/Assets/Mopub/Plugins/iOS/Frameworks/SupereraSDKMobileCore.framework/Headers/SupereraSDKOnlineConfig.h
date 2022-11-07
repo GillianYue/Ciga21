@@ -30,6 +30,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable NSString *)getOpenParamWithKey:(NSString *)keyName;
 
+/**
+ 获取twitter登录参数
+ */
+- (nullable NSString *)getTwitterLoginKey;
+
 @end
 
 NS_ASSUME_NONNULL_END

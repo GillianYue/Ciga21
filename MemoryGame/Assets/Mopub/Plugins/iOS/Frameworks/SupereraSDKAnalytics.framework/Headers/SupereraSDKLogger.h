@@ -52,6 +52,23 @@
  */
 - (void)onEventWithName:(NSString *)eventName params:(NSDictionary<NSString *,id> *)params;
 
+/**
+ 发送自定义日志
+ 
+ 不需要sdk初始化
+ 
+ @param eventName       日志名称
+ @param params              日志参数
+ @param cgi                     cgi
+ @param uploadHost     上报的服务器
+ @param uploadPath     上报的流
+ */
++ (void)onEventWithName:(NSString *)eventName
+                 params:(NSDictionary<NSString *,id> * _Nullable)params
+                    cgi:(NSString *)cgi
+                    pn:(NSString *)pn
+             uploadHost:(NSString *)uploadHost
+             uploadPath:(NSString *)uploadPath;
 
 /**
  设置全局参数，全局参数会添加到每个事件参数中

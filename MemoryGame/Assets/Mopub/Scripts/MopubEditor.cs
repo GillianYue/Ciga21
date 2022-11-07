@@ -502,6 +502,11 @@ namespace MopubNS
             Debug.Log("logPlayerInfoSuc");
         }
 
+		public override void logPlayerInfo(string characterName, string characterID, int characterLevel, string serverName, string serverID, Dictionary<string, string> extraData)
+		{
+			Debug.Log("logPlayerInfoSuc");
+		}
+
 		public override string getAppDistributor(){
             return null;
         }
@@ -518,6 +523,17 @@ namespace MopubNS
         {
 			return "1.0.0";
         }
+
+		public override string getPackageVersionCode()
+		{
+			return "100";
+		}
+
+		public override string getCgi()
+		{
+			return "cpid_gameid";
+		}
+
 		public override string getTimeStamp() {
 			return "timeStamp";
 		}
@@ -548,6 +564,27 @@ namespace MopubNS
 		{
 			MopubCallbackManager.fetchRankingSuccessDelegate = success;
 			MopubCallbackManager.fetchRankingFailedDelegate = failure;
+		}
+
+		public override void saveCloudCache(string uid, long version, string data, Action success, Action<MopubSDKError> failed)
+        {
+			MopubCallbackManager.saveCloudCacheSuccessDelegate = success;
+			MopubCallbackManager.saveCloudCacheFailedDelegate = failed;
+        }
+
+		public override void getCloudCache(string uid, Action<MopubSDKCloudCache> success, Action<MopubSDKError> failed)
+        {
+			MopubCallbackManager.getCloudCacheSuccessDelegate = success;
+			MopubCallbackManager.getCloudCacheFailedDelegate = failed;
+        }
+		public override void getRedeem(string code,Action<string> success,Action<MopubSDKError> failed)
+        {
+            MopubCallbackManager.getRedeemSuccessDelegate = success;
+            MopubCallbackManager.getRedeemFailDelegate = failed;
+            
+        }
+		public override void showGuidPageView(Action<string> success){
+			MopubCallbackManager.showGuidPageViewSuccessDelegate = success;
 		}
 	}
 #endif

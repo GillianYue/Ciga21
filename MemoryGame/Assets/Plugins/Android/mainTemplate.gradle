@@ -3,16 +3,18 @@ apply plugin: 'com.android.library'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation ('com.config.Gillian_Alzheimer:com_alzheimer_memories_gn:20220615_2147'){
+    implementation ('com.config.Gillian_Alzheimer:com_alzheimer_memories_gn:20220708_1722'){
         exclude module:'superera-sdk'
         exclude module:'superera-ads'
+        exclude module:'superera-attribute'
         exclude module:'superera-ui_core'
         exclude module:'superera-alzheimers'
     }
-    implementation 'com.jodo.publisher:superera-sdk:3.1.41'
-    implementation 'com.jodo.publisher:superera-ads:3.1.41'
-    implementation 'com.jodo.publisher:superera-ui_core:0.0.37'
-    implementation 'com.jodo.publisher:superera-alzheimers:0.0.4'
+    implementation 'com.jodo.publisher:superera-sdk:3.1.48'
+    implementation 'com.jodo.publisher:superera-ads:3.1.48'
+    implementation 'com.jodo.publisher:superera-attribute:2.0.9'
+    implementation 'com.jodo.publisher:superera-ui_core:0.0.45'
+    implementation 'com.jodo.publisher:superera-alzheimers:0.0.7'
 **DEPS**}
 
 android {

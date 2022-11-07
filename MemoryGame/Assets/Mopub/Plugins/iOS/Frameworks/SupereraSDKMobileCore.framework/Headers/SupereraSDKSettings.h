@@ -34,6 +34,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, copy) NSString *CPUserID;
 
+@property (nonatomic, assign) BOOL seAttribute;
+
 - (instancetype)initWithGameID:(NSString *)gameID deviceID:(NSString *)deviceID packageName:(NSString *)packageName publisher:(NSString *)publisher distributor:(NSString *)distributor SDKConfiguration:(nullable SupereraSDKConfiguration *)SDKConfiguration;
 
 @end

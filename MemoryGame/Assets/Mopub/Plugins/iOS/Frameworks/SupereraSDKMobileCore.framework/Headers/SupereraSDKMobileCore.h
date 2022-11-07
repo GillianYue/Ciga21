@@ -32,5 +32,11 @@
 #import "SupereraSDKIdCardInfo.h"
 #import "SupereraSDKRealnameManager.h"
 #import "SupereraSDKRealnameInfo.h"
+#import "SupereraSDKCloudCache.h"
+#import "SupereraSDKCloudCacheRequest.h"
 
 #import "SupereraSDKUserNotificationManager.h"
+
+#import "SupereraSDKAuthDelegate.h"
+
+#import "SupereraSDKExchangeRequest.h"

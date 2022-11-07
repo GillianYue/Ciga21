@@ -90,9 +90,14 @@ typedef NS_ERROR_ENUM(SupereraSDKErrorDomainSDKClient, SupereraSDKErrorCode){
     // 固定1    00: 所有功能       0: 双端统一错误码       00-99
     //         01: 一键登录       1: 安卓自定义错误码     各个功能错误码
     //         02: facebook登录  2: iOS自定义错误码
+    //         03: twitter登录
+    //         04: google登录
     //         01: 苹果登录
+    //
     ///未知错误
     SupereraSDKErrorCodeUnknown = 100000,
+    ///sdk还没初始化
+    SupereraSDKErrorCodeSDKNotLogin = 100002,
     ///没有配置一键登录密钥
     SupereraSDKErrorCodeMobileATAuthKeyNotConfig = 101001,
     ///唤起授权页失败
@@ -129,12 +134,32 @@ typedef NS_ERROR_ENUM(SupereraSDKErrorDomainSDKClient, SupereraSDKErrorCode){
     SupereraSDKErrorCodeAppleLoginAuthFailed = 101201,
     ///苹果登录取消授权
     SupereraSDKErrorCodeAppleLoginAuthCancel = 101202,
+    ///苹果登录时设备没有登录appleid
+    SupereraSDKErrorCodeAppleLoginWhenAppleIDNotLogin = 101203,
     ///facebook登录发生未知错误
     SupereraSDKErrorCodeFacebookLoginUnknownError = 102000,
     ///facebook登录授权取消
     SupereraSDKErrorCodeFacebookLoginAuthCancel = 102001,
     ///facebook登录授权失败
     SupereraSDKErrorCodeFacebookLoginAuthFailed = 102002,
+    ///twitter登录授权失败
+    SupereraSDKErrorCodeTwitterLoginAuthFailed = 103001,
+    // twitter登录授权取消
+    SupereraSDKErrorCodeTwitterLoginAuthCancel = 103002,
+    // twitter登录授权超时
+    SupereraSDKErrorCodeTwitterLoginAuthTimeout = 103003,
+    // google登录授权失败
+    SupereraSDKErrorCodeGoogleLoginAuthFailed = 104001,
+    // google登录授权取消
+    SupereraSDKErrorCodeGoogleLoginAuthCancel = 104002,
+    // sdk登录错误
+    SupereraSDKErrorCodeSDKLoginError = 106000,
+    // token校验失败
+    SupereraSDKErrorCodeVerifyTokenFailed = 106001,
+    // 没有注册
+    SupereraSDKErrorCodeSDKLoginErrorNotRegister = 106002,
+    // 验证码无效
+    SupereraSDKErrorCodeSDKLoginErrorInvalidCode = 106003,
     
 };
 

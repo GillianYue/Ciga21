@@ -25,6 +25,7 @@ void SESDK_SendNotificationWithArg(NSString* name, id sender, id arg);
 @property (class, nonatomic, copy, readonly) NSString *key_info_CGI;
 @property (class, nonatomic, copy, readonly) NSString *key_info_LOGZIP;
 @property (class, nonatomic, copy, readonly) NSString *key_info_log_sdk_event;
+@property (class, nonatomic, copy, readonly) NSString *key_info_seattribute;
 @property (class, nonatomic, copy, readonly) NSString *key_info_publisher;
 @property (class, nonatomic, copy, readonly) NSString *key_info_distributor;
 @property (class, nonatomic, copy, readonly) NSString *key_info_apple_appID;
@@ -42,6 +43,9 @@ void SESDK_SendNotificationWithArg(NSString* name, id sender, id arg);
 //微信登录
 @property (class, nonatomic, copy, readonly) NSString *key_info_we_chat_appid;
 @property (class, nonatomic, copy, readonly) NSString *key_info_we_chat_universal_links;
+
+//谷歌登录
+@property (class, nonatomic, copy, readonly) NSString *key_info_google_client_id;
 
 //用户协议
 @property (class, nonatomic, copy, readonly) NSString *key_info_user_proxy;
@@ -88,9 +92,25 @@ void SESDK_SendNotificationWithArg(NSString* name, id sender, id arg);
 @property (class, nonatomic, copy, readonly) NSURL *url_addiction_heartBeat;
 
 /**
+ 排行榜查询
+ */
+@property (class, nonatomic, copy, readonly) NSURL *url_rank_query;
+
+/**
+ 云存档
+ */
+@property (class, nonatomic, copy, readonly) NSURL *url_game_saveFile;
+@property (class, nonatomic, copy, readonly) NSURL *url_game_getFile;
+
+/**
  客服系统
  */
 @property (class, nonatomic, copy, readonly) NSURL *url_customer;
+
+/**
+ 兑换
+ */
+@property (class, nonatomic, copy, readonly) NSURL *url_exchange;
 
 + (void)setTestEnvironment:(BOOL)isTest;
 

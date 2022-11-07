@@ -15,11 +15,14 @@
 #import "FetchGameConfigurationResponse.h"
 #import "SupereraSDKSettings.h"
 #import "SupereraSDKAppsFlyerManagerDelegate.h"
+#import "SupereraSDKAuthDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 
 @interface SupereraSDKCore : NSObject
+
+@property (nonatomic, weak) id<SupereraSDKAuthDelegate> authDelegate;
 
 /**
  获取 SDKCore 实例
@@ -114,6 +117,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable NSDictionary *)getOpenParamsWithModule:(NSString*)moduleName key:(NSString*)keyName;
 
+- (nullable NSString *)getTwitterLoginKey;
+
+/**
+ 打开服务条款-网页
+ */
+- (void)openTermsService;
+
+/**
+ 打开隐私政策-网页
+ */
+- (void)openPrivacyPolicy;
+
 /**
  获取 SDK 版本号
 
@@ -126,6 +141,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)openRatingView;
 
 /**
+ 跳转到商店评分
+ */
+- (BOOL)openRating;
+
+/**
  获取当前登录用户的uid
 
  @return 如果没登录返回空
@@ -135,6 +155,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)setAppsFlyerManagerDelegate:(id<SupereraSDKAppsFlyerManagerDelegate>)delegate;
 - (id<SupereraSDKAppsFlyerManagerDelegate>)getAppsFlyerManagerDelegate;
+
+/**
+ 获取 fb deeplink 回调
+ */
+- (void)fetchFBDeferredApplink:(void(^)(NSURL *url, NSError *error))block;
 
 /**
  添加公共的埋点参数
@@ -172,9 +197,24 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString *)getRegion;
 
 /**
+ 获取CGI
+ */
+- (NSString *)getCGI;
+
+/**
+ 获取包版本号
+ */
+- (NSString *)getPackageVersionCode;
+
+/**
  获取应用版本号
  */
 - (NSString *)getAppVersion;
+
+/**
+ 获取sdk初始化时的服务器时间
+ */
+- (NSInteger)getSDKInitServerTime_ms;
 
 @end
 

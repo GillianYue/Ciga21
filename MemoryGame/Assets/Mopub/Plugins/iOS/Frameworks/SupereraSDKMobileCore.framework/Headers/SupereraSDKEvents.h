@@ -96,12 +96,20 @@ FOUNDATION_EXPORT SupereraSDKLogType SupereraSDKLogTypeWarning;
 
 #pragma -mark game log
 
-/// 上报玩家信息，只要游戏具有以下任意参数，就需要上报
-/// @param characterName 角色名
-/// @param characterID 角色ID
-/// @param characterLevel 角色等级
-/// @param serverName 服务器名
-/// @param serverID 服务器ID
+
+
+
+/**
+ 上报玩家信息，只要游戏具有以下任意参数，就需要上报
+ 
+ @param characterName 角色名
+ @param characterID 角色ID
+ @param characterLevel 角色等级
+ @param serverName 服务器名
+ @param serverID 服务器ID
+ @param extraData 额外的信息
+ */
++ (void)logPlayerInfoWithCahrName:(nullable NSString *)characterName characterID:(nullable NSString *)characterID characterLevel:(int)characterLevel serverName:(nullable NSString *)serverName serverID:(nullable NSString *)serverID extraData:(NSDictionary * _Nullable)extraData;
 + (void)logPlayerInfoWithCahrName:(nullable NSString *)characterName characterID:(nullable NSString *)characterID characterLevel:(int)characterLevel serverName:(nullable NSString *)serverName serverID:(nullable NSString *)serverID;
 
 

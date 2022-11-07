@@ -27,4 +27,16 @@
  */
 @property (nonatomic, assign) BOOL isTestEnvironment;
 
+/**
+ 服务器归因是否延迟到实名认证
+ */
+@property (nonatomic, assign) BOOL attributeAfterRealname;
+
+/**
+ 是否在归因之后才初始化广告
+ 
+ 默认为 false
+ */
+@property (nonatomic, assign) BOOL adInitAfterAttribute;
+
 @end

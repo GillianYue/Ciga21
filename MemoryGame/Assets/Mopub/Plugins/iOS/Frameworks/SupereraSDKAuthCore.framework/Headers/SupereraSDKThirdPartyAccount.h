@@ -37,6 +37,12 @@ typedef NS_ENUM(NSUInteger, SupereraSDKAccountType) {
     SupereraSDKAccountTypeMobileATAuth,
     ///Apple登录
     SupereraSDKAccountTypeApple,
+    ///twitter登录
+    SupereraSDKAccountTypeTwitter,
+    ///临时登录
+    SupereraSDKAccountTypeTemporary,
+    ///谷歌登录
+    SupereraSDKAccountTypeGoogle,
     
 };
 
@@ -57,6 +63,10 @@ typedef NS_ENUM(NSUInteger, SupereraSDKAccountType) {
 - (NSString *)getAccountTypeString;
 
 - (NSString *)getPicture;
+
+- (NSString *)getEmail;
+
+- (NSDictionary *)getExtraInfo;
 
 
 - (instancetype)initWithType:(SupereraSDKAccountType)type;
