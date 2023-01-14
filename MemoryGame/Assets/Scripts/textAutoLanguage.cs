@@ -75,6 +75,8 @@ public class textAutoLanguage : MonoBehaviour
     {
         int lang_id = enable.language;
 
+        print(lang_id);
+
         if (textIndex != 0) fillText();
         else
         {

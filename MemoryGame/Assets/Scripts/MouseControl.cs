@@ -19,6 +19,8 @@ public class MouseControl : MonoBehaviour
 
     public Animator interactHint;
 
+    [Inject(InjectFrom.Anywhere)]
+    public Tester test;
 
     [SerializeField] GraphicRaycaster m_Raycaster;
     PointerEventData m_PointerEventData;
@@ -124,10 +126,14 @@ public class MouseControl : MonoBehaviour
     {
         if (enabler.isMobile())
         {
-            return Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began;
+            //print("mobile " + (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began));
+            //return Input.GetMouseButtonDown(0);
+            if(test.testMobile) return Input.GetMouseButtonDown(0);
+            else return Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began;
         }
         else
         {
+            //print("pc " + Input.GetMouseButtonDown(0));
             return Input.GetMouseButtonDown(0);
         }
     }

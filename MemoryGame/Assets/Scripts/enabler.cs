@@ -45,6 +45,8 @@ public class enabler : MonoBehaviour
     [Inject(InjectFrom.Anywhere)]
     public Memorabilia mm;
 
+    public GameObject huangshouhuan; public Animator hsh_anim;
+
 //#if !UNITY_STANDALONE 
 //    [Inject(InjectFrom.Anywhere)]
 //    public MopubManager mopubManager;
@@ -72,6 +74,7 @@ public class enabler : MonoBehaviour
         if (test == null) test = GetComponent<Tester>();
         if (!memorabiliaUI.activeSelf) memorabiliaUI.SetActive(true);
         if (menuUIButton.activeSelf) menuUIButton.SetActive(false);
+        if (huangshouhuan.activeSelf) huangshouhuan.SetActive(false);
 
 //#if !UNITY_STANDALONE
 //        if (mopubManager == null) mopubManager = GetComponent<MopubManager>();
@@ -658,6 +661,12 @@ public class enabler : MonoBehaviour
 
     }
 
+    public void HuangShouHuanButton()
+    {
+        //这里是点击黄手环页面【播放广告】触发的事件
+
+    }
+
     public void gamePass()
     {
         StartCoroutine(gamePassCoroutine());
@@ -755,13 +764,27 @@ public class enabler : MonoBehaviour
         thankYouNote.GetComponent<Animator>().SetTrigger("fadeInText");
         PlayerPrefs.SetInt("level", 0);
 
-        yield return new WaitForSeconds(25);
+        yield return new WaitForSeconds(23);
         //darkCover.SetTrigger("fadeInSlow");
         //yield return new WaitForSeconds(8);
 
+#if UNITY_STANDALONE
         Transform gpq = startCanvas.transform.Find("GamePassQuit");
         gpq.gameObject.SetActive(true);
         gpq.GetChild(0).GetComponent<Animator>().SetTrigger("fadeInText");
+#else
+        huangshouhuan.gameObject.SetActive(true);
+        UICanvas.SetActive(false);
+        
+        cam.vfx.transform.Find("sakura").gameObject.SetActive(false);
+
+        yield return new WaitForSeconds(1);
+
+        cam.cam.Play("exitEndCamZoom");
+
+#endif
+
+
 
         //Application.Quit();
     }
