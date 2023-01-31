@@ -665,13 +665,16 @@ public class enabler : MonoBehaviour
     public void HuangShouHuanButton()
     {
         //这里是点击黄手环页面【播放广告】触发的事件
+        Debug.Log("mopubdebug:click the reward play");
         if (MopubSdk.getInstance().hasRewardedVideo("end"))
         {
+            Debug.Log("mopubdebug:show the reward");
             MopubSdk.getInstance().showRewardVideoAd("end");
         }
         else
         {
-            //弹出无广告提示
+            //TODO 弹出无广告提示
+            Debug.Log("mopubdebug:no ad here");
         }
     }
 

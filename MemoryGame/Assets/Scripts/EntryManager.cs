@@ -14,6 +14,7 @@ public class GameRewardListener : MopubRewardedVideoListener
     public void onRewardedVideoStarted(string gameEntry, MopubAdInfo adInfo)
     {
         // Called when a rewarded video starts playing.
+        // todo
         // 必须在这里暂停游戏声音播放，否则会与广告声音冲突
 
     }
@@ -31,13 +32,15 @@ public class GameRewardListener : MopubRewardedVideoListener
     public void onRewardedVideoClosed(string gameEntry, MopubAdInfo adInfo)
     {
         // Called when a rewarded video is closed. At this point your application should resume.
+        // todo
         // 在这里恢复游戏声音播放
     }
 
     public void onRewardedVideoCompleted(string gameEntry, MopubAdInfo adInfo)
     {
         // Called when a rewarded video is completed and the user should be rewarded.
-
+        // todo
+        // 这里播放结束回到了游戏
     }
 }
 
