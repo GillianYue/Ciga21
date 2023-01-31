@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using MopubNS;
 
 //general game level logic 
 public class enabler : MonoBehaviour
@@ -660,11 +661,18 @@ public class enabler : MonoBehaviour
         }
 
     }
-
+    
     public void HuangShouHuanButton()
     {
         //这里是点击黄手环页面【播放广告】触发的事件
-
+        if (MopubSdk.getInstance().hasRewardedVideo("end"))
+        {
+            MopubSdk.getInstance().showRewardVideoAd("end");
+        }
+        else
+        {
+            //弹出无广告提示
+        }
     }
 
     public void gamePass()

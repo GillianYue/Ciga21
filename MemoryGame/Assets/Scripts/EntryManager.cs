@@ -5,6 +5,42 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using MopubNS;
 
+public class GameRewardListener : MopubRewardedVideoListener
+{
+    public GameRewardListener()
+    {
+
+    }
+    public void onRewardedVideoStarted(string gameEntry, MopubAdInfo adInfo)
+    {
+        // Called when a rewarded video starts playing.
+        // 必须在这里暂停游戏声音播放，否则会与广告声音冲突
+
+    }
+
+    public void onRewardedVideoPlaybackError(string gameEntry, int errorCode, string msg)
+    {
+        // Called when there is an error during video playback.
+    }
+
+    public void onRewardedVideoClicked(string gameEntry, MopubAdInfo adInfo)
+    {
+        // Called when a rewarded video is clicked. 
+    }
+
+    public void onRewardedVideoClosed(string gameEntry, MopubAdInfo adInfo)
+    {
+        // Called when a rewarded video is closed. At this point your application should resume.
+        // 在这里恢复游戏声音播放
+    }
+
+    public void onRewardedVideoCompleted(string gameEntry, MopubAdInfo adInfo)
+    {
+        // Called when a rewarded video is completed and the user should be rewarded.
+
+    }
+}
+
 public class EntryManager : MonoBehaviour
 {
     //public Animator headphoneScreen;
@@ -31,13 +67,13 @@ public class EntryManager : MonoBehaviour
         });
     }
 
-    
-
     void StartSDK()
     {
         //realdNameObject.SetActive(false);
         //loadingObject.SetActive(true);
         //tipsObject.SetActive(false);
+        MopubSdk.getInstance().setRewardedVideoListener(new GameRewardListener());
+
         PopMsg("SDK登录");
         MopubSdk.getInstance().init(
             delegate (InitSuccessResult result) {

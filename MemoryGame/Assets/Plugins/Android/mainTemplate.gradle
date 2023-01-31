@@ -3,18 +3,27 @@ apply plugin: 'com.android.library'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation ('com.config.Gillian_Alzheimer:com_alzheimer_memories_gn:20220708_1722'){
-        exclude module:'superera-sdk'
-        exclude module:'superera-ads'
-        exclude module:'superera-attribute'
-        exclude module:'superera-ui_core'
-        exclude module:'superera-alzheimers'
-    }
-    implementation 'com.jodo.publisher:superera-sdk:3.1.48'
-    implementation 'com.jodo.publisher:superera-ads:3.1.48'
-    implementation 'com.jodo.publisher:superera-attribute:2.0.9'
-    implementation 'com.jodo.publisher:superera-ui_core:0.0.45'
-    implementation 'com.jodo.publisher:superera-alzheimers:0.0.7'
+    // implementation ('com.config.Gillian_Alzheimer:com_alzheimer_memories_gn:20220708_1722'){
+    //     exclude module:'superera-sdk'
+    //     exclude module:'superera-ads'
+    //     exclude module:'superera-attribute'
+    //     exclude module:'superera-ui_core'
+    //     exclude module:'superera-alzheimers'
+    // }
+    // implementation 'com.jodo.publisher:superera-sdk:3.1.48'
+    // implementation 'com.jodo.publisher:superera-ads:3.1.48'
+    // implementation 'com.jodo.publisher:superera-attribute:2.0.9'
+    // implementation 'com.jodo.publisher:superera-ui_core:0.0.45'
+    // implementation 'com.jodo.publisher:superera-alzheimers:0.0.7'
+
+    implementation 'com.config.Gillian_Alzheimer:com_alzheimer_memories_gn:20221027_1000'
+    implementation 'com.jodo.publisher:superera-ads_gromore:3.7.0.0.0'
+    implementation 'com.jodo.publisher:superera-core:1.1.8'
+    implementation 'com.jodo.publisher:superera-sdk:3.7.17'
+    implementation 'com.jodo.publisher:superera-ads_core:1.0.20'
+    implementation 'com.jodo.publisher:superera-update:1.0.12'
+    implementation 'com.jodo.publisher:superera-addition_event:1.0.12'
+    implementation 'com.jodo.publisher:alzhe-ui:1.0.0'
 **DEPS**}
 
 android {
