@@ -1636,6 +1636,12 @@ public class interactable : MonoBehaviour
             case "MenuUI":
                 globalState.enable.closeMenuUIWindow();
                 break;
+            case "no_ads_hint":
+                globalState.enable.closeHintWindow();
+                break;
+            case "hsh":
+                globalState.enable.showHuangShouHuanWindow(); //show hsh window
+                break;
             case "MemorabiliaUI":
                 if (globalState.enable.mm.showingDetail)
                 {

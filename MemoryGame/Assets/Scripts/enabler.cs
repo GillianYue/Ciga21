@@ -35,7 +35,8 @@ public class enabler : MonoBehaviour
         public SteamAchievements steamAchievements;
     #endif
 
-    public GameObject memorabiliaUI, quitUIWindow, UICanvas, menuUIWindow, vfxCanvas, menuUIButton, languageSelectUI;
+    public GameObject memorabiliaUI, quitUIWindow, UICanvas, menuUIWindow, vfxCanvas, menuUIButton, languageSelectUI,
+        hintWindow;
 
     public bool gameOnPause;
 
@@ -673,7 +674,7 @@ public class enabler : MonoBehaviour
         }
         else
         {
-            //TODO 弹出无广告提示
+            showHintWindow(); //黄手环界面的无广告小窗口
             Debug.Log("mopubdebug:no ad here");
         }
     }
@@ -1051,5 +1052,32 @@ public class enabler : MonoBehaviour
         sb.GetComponent<Animator>().Play("startButtonTransparency");
     }
 
+    public void showHintWindow()
+    {
+        globalState.globalUIClickOnly = true;
+
+        hintWindow.gameObject.SetActive(true);
+        Time.timeScale = 0;
+    }
+
+    public void closeHintWindow()
+    {
+        globalState.globalUIClickOnly = false;
+
+        hintWindow.gameObject.SetActive(false);
+        Time.timeScale = 1;
+    }
+
+    public void showHuangShouHuanWindow()
+    {
+        globalState.globalUIClickOnly = true;
+        huangshouhuan.gameObject.SetActive(true);
+    }
+
+    public void hideHuangShouHuanWindow()
+    {
+        globalState.globalUIClickOnly = false;
+        huangshouhuan.gameObject.SetActive(false);
+    }
     
 }
