@@ -101,12 +101,12 @@ public class interactable : MonoBehaviour
     public virtual void onClick()
     {
         //   print("clicked: " + eventData.pointerPress.name);
-        print("##DEBUG ON CLICK");
+        //print("##DEBUG ON CLICK");
 
         if (clickable)
         {
             timesClicked += 1;
-            print("##DEBUG clicked on "+name+"; calling checkBehavior");
+            //print("##DEBUG clicked on "+name+"; calling checkBehavior");
             checkBehavior();
         }
     }
@@ -1224,7 +1224,10 @@ public class interactable : MonoBehaviour
                     globalState.bickerScene.transform.Find("topBook").gameObject.SetActive(false);
                     globalState.bickerScene.transform.Find("candle").transform.localPosition = new Vector2(-148, -216);
 
-                    yield return new WaitUntil(() => mouseAtCornerBottomLeft(nspp_closeup.gameObject)); //wait til mouse close enough to goal (peek through nspp)
+                    //就是这里反馈卡关，因为没稳定复现，加一个保底时长，过了十五秒还是卡在这里，就会自动过
+                    float currTime = Time.time;
+                    yield return new WaitUntil(() => (mouseAtCornerBottomLeft(nspp_closeup.gameObject) || //wait til mouse close enough to goal (peek through nspp)
+                    (Time.time - currTime >= 15)  )); //or, 15 secs have passed
 
                     deactivateMouseBasedCamShift(nspp_closeup.gameObject);
 
@@ -1473,7 +1476,9 @@ public class interactable : MonoBehaviour
 
                 yield return new WaitForSeconds(2);
 
-                globalState.graveyardScene.transform.Find("dark_cover").GetComponent<Animator>().Play("s1s2transition"); //will auto-transition to s2
+                Transform dcv = globalState.graveyardScene.transform.Find("dark_cover");
+                dcv.GetComponent<Animator>().Play("s1s2transition"); //will auto-transition to s2
+                dcv.GetComponent<Animator>().Play("hideSideBars");
                 //disable lightening
                 globalState.graveyardScene.transform.Find("sky").GetComponent<weather>().terminateLightning();
 
@@ -1485,7 +1490,7 @@ public class interactable : MonoBehaviour
                     interactable ita = lf.GetComponent<interactable>();
                     ita.var1 = 1;
                     ita.clickable = true; //clicking will toggle on col
-
+                    lf.Find("faintLight").gameObject.SetActive(false); 
                 }
 
                 myAnimator.SetTrigger("fadeOut");
@@ -2107,7 +2112,7 @@ public class interactable : MonoBehaviour
         float dist = Vector2.Distance(point, new Vector2(0, 0));
         float minDist = (float)Screen.width / 1600 * (mobile ? 470 : 80);
 
-     //   print("min: " + minDist + " d: " + dist);
+        print("min: " + minDist + " d: " + dist);
         //return false;
         return (dist < minDist);
     }

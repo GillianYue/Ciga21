@@ -905,8 +905,14 @@ public class animEventLink : MonoBehaviour
     public void endingFadeOutThings()
     {
         enable.startCanvas.transform.Find("water").GetComponent<Animator>().SetTrigger("fadeOut");
+        enable.startCanvas.transform.Find("hsh").GetComponent<Animator>().Play("fadeOutHsh");
     }
 
+    public void endingFadeInThings()
+    {
+        enable.startCanvas.transform.Find("water").GetComponent<Animator>().SetTrigger("fadeIn");
+        enable.startCanvas.transform.Find("hsh").GetComponent<Animator>().Play("fadeInHsh");
+    }
 
     public void fadeInStartButton()
     {

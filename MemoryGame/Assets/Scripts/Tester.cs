@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class Tester : MonoBehaviour
 {
@@ -13,6 +15,8 @@ public class Tester : MonoBehaviour
 
     public imgSwitcher swc;
 
+    public GameObject mopubDebug;
+
     void Awake()
     {
         if (speedUpRate == 0) speedUpRate = 5;
@@ -21,15 +25,28 @@ public class Tester : MonoBehaviour
 
         if (test)
         {
+            mopubDebug.SetActive(true);
+
             if (enabler.isMobile()) testMobile = true;
 
-            PlayerPrefs.SetInt("level", startLevel);
-
-            for(int i=0; i<13; i++)
+            if (startLevel != -1) //将执行test里面填的测试关卡（-1=直接测试结局画面）
             {
-                //PlayerPrefs.SetInt("item" + i, 1);
-                PlayerPrefs.SetInt("item" + i, 0);
+                PlayerPrefs.SetInt("level", startLevel);
+
+                for (int i = 0; i < 13; i++)
+                {
+                    //PlayerPrefs.SetInt("item" + i, 1);
+                    PlayerPrefs.SetInt("item" + i, 0);
+                }
             }
+            else
+            {
+                //will trigger gamePass after waking
+            }
+        }
+        else
+        {
+            mopubDebug.SetActive(false);
         }
 
         /*        if (test && startLevel > 0)
@@ -46,21 +63,35 @@ public class Tester : MonoBehaviour
                 }*/
     }
 
+    void Start()
+    {
+        StartCoroutine(startCoroutine());
+    }
+
+    IEnumerator startCoroutine()
+    {
+        if (startLevel == -1) //if trying to test ending, trigger after 4 sec
+        {
+            yield return new WaitForSeconds(10);
+            enable.gamePass();
+        }
+    }
+
     void Update()
     {
         if (test)
         {
-            if (Input.GetKeyDown("space")) //space for speeding time up
+            if (Input.GetKeyDown("space") ) //space for speeding time up
             {
                 Time.timeScale = 1.0f * speedUpRate;
             }
 
-            if (Input.GetKeyUp("space")) //release to go back to normal time
+            if (Input.GetKeyUp("space") ) //release to go back to normal time
             {
                 Time.timeScale = 1.0f;
             }
 
-            if (Input.GetKeyDown("s"))
+/*            if (Input.GetKeyDown("s"))
             {
                 Time.timeScale = 0.1f;
             }
@@ -73,7 +104,7 @@ public class Tester : MonoBehaviour
             if (Input.GetKeyDown("t"))
             {
                 swc.switchToNextImgState();
-            }
+            }*/
         }
 
 

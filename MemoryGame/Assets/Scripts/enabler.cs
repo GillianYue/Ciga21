@@ -181,6 +181,11 @@ public class enabler : MonoBehaviour
         startButton.interactable = true;
         globalState.globalClickable = true;
 
+        foreach (Animator a in startMenuFocusObjects)
+        {
+            a.GetComponent<interactable>().clickable = true;
+        }
+
         titleScreenBtfl.Play("btflDropShadow"); //entry
     }
 
@@ -190,6 +195,7 @@ public class enabler : MonoBehaviour
         /*        if (!test.test)
                 {*/
         int loadLv = PlayerPrefs.GetInt("level", 0);
+        if (test.test && test.startLevel == -1) loadLv = -1; //如果要直接测试结局画面，loadLv = -1
 
         foreach (Animator a in startMenuFocusObjects)
         {
@@ -212,18 +218,28 @@ public class enabler : MonoBehaviour
             setUpLevel(loadLv);
         }
         else
-        { // start from beginning
+        { 
+            if(loadLv == -1) //testing ending, will not start game
+            {
 
-            //if equal to 0, keep ambience
-            PlayerPrefs.SetInt("level", 0);
+            }
+            else
+            {
+                // start from beginning
 
-            startDialogue.gameObject.SetActive(true);
-            startDialogue.enableStartDialogue();
+                //if equal to 0, keep ambience
+                PlayerPrefs.SetInt("level", 0);
 
-            yield return new WaitForSeconds(1);
-            mm.gameObject.SetActive(true);
-            mm.GetComponent<Animator>().SetTrigger("hide");
-            mm.unlockItem(0);
+                startDialogue.gameObject.SetActive(true);
+                startDialogue.enableStartDialogue();
+
+                yield return new WaitForSeconds(1);
+                mm.gameObject.SetActive(true);
+                mm.GetComponent<Animator>().SetTrigger("hide");
+                mm.unlockItem(0);
+
+            }
+
         }
         /*        }
                 else
@@ -700,16 +716,18 @@ public class enabler : MonoBehaviour
 
         darkCover.SetTrigger("fadeOut");
 
-        Transform her = globalState.mirrorScene.transform.Find("Her");
-        her.gameObject.SetActive(true);
-        her.GetComponent<Animator>().SetTrigger("fadeIn");
-        yield return new WaitForSeconds(4);
+        if (globalState.mirrorScene != null) {
+            Transform her = globalState.mirrorScene.transform.Find("Her");
+            her.gameObject.SetActive(true);
+            her.GetComponent<Animator>().SetTrigger("fadeIn");
+            yield return new WaitForSeconds(4);
 
-        Transform hd = globalState.mirrorScene.transform.Find("MyHand");
-        hd.gameObject.SetActive(true);
-        hd.GetComponent<Animator>().SetTrigger("action1");
+            Transform hd = globalState.mirrorScene.transform.Find("MyHand");
+            hd.gameObject.SetActive(true);
+            hd.GetComponent<Animator>().SetTrigger("action1");
 
-        yield return new WaitForSeconds(14);
+            yield return new WaitForSeconds(14);
+        
 
         darkCover.SetTrigger("fadeInWhite");
         yield return new WaitForSeconds(3);
@@ -721,6 +739,7 @@ public class enabler : MonoBehaviour
         yield return new WaitForSeconds(5);
 
         globalState.mirrorScene.SetActive(false);
+
         startCanvas.SetActive(true);
         startCanvas.transform.Find("photo/lines").gameObject.SetActive(false);
         startCanvas.transform.Find("photo/whiteout").gameObject.SetActive(true);
@@ -733,6 +752,7 @@ public class enabler : MonoBehaviour
         globalState.audio.fadeVolumeSFX(0, 9, 5, 0);
 
         yield return new WaitForSeconds(15);
+        }
 
         startCanvas.SetActive(true);
         darkCover.SetTrigger("fadeOutWhite");
@@ -787,12 +807,27 @@ public class enabler : MonoBehaviour
 #else
         huangshouhuan.gameObject.SetActive(true);
         UICanvas.SetActive(false);
-        
-        cam.vfx.transform.Find("sakura").gameObject.SetActive(false);
 
         yield return new WaitForSeconds(1);
 
+        cam.vfx.transform.Find("sakura").gameObject.SetActive(false);
         cam.cam.Play("exitEndCamZoom");
+
+        yield return new WaitForSeconds(1);
+
+        //为关闭hsh界面做准备，清理结束信息，重新开启标题内容
+        endTitle.gameObject.SetActive(false);
+        endCredits.gameObject.SetActive(false);
+        thankYouNote.gameObject.SetActive(false);
+        //show menu buttons
+        startCanvas.transform.Find("TitleText").gameObject.SetActive(true);
+        startCanvas.transform.Find("Start").gameObject.SetActive(true);
+        startCanvas.transform.Find("Language").gameObject.SetActive(true);
+        startCanvas.transform.Find("Credits").gameObject.SetActive(true);
+        startCanvas.transform.Find("Quit").gameObject.SetActive(true);
+        startCanvas.transform.Find("Privacy").gameObject.SetActive(true);
+        startCanvas.transform.Find("UserAgreement").gameObject.SetActive(true);
+        startCanvas.transform.Find("GamePassQuit").gameObject.SetActive(true);
 
 #endif
 
@@ -1078,6 +1113,8 @@ public class enabler : MonoBehaviour
     {
         globalState.globalUIClickOnly = false;
         huangshouhuan.gameObject.SetActive(false);
+
+        enableStartCanvasInteraction();
     }
     
 }
