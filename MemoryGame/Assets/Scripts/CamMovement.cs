@@ -83,6 +83,7 @@ public class CamMovement : MonoBehaviour
         cam.Play("generalCamZoomIn");
 
         Vector2 originalPos = transform.position;
+        //print("orig pos " + originalPos);
         //vfx.Play("blink");
 
         //yield return moveToLinearInSecs(gameObject, pos, 1f * scale, new bool[1]);
@@ -98,6 +99,8 @@ public class CamMovement : MonoBehaviour
         yield return new WaitForSeconds(1);
 
         globalStates.globalClickable = true;
+
+        //print("new pos " + transform.position);
     }
 
     public bool destReached()
@@ -147,7 +150,7 @@ public class CamMovement : MonoBehaviour
             }
             if (Time.time - startTime > 10f)
             {
-          //      Debug.LogError("dest not reached within 10 seconds, skipped");
+                //Debug.LogError("dest not reached within 10 seconds, skipped");
 
                 if (restoreToPrevState) restoreData(data); //restore to prev states
                 return true;

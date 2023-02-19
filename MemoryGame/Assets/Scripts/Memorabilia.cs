@@ -150,43 +150,45 @@ public class Memorabilia : MonoBehaviour
 
     public void unlockItem(int itemIndex)
     {
+        if (PlayerPrefs.GetInt("gamePass", -1) == -1)
+        {
+            PlayerPrefs.SetInt("item" + itemIndex, 1);
+            itemList[itemIndex].unlockItemVisuals();
 
-        PlayerPrefs.SetInt("item" + itemIndex, 1);
-        itemList[itemIndex].unlockItemVisuals();
+            //change pop up image to the right one
+            mmNewItemPopUp.gameObject.SetActive(true);
+            if (itemPopup == null) itemPopup = mmNewItemPopUp.GetComponent<itemPopupScript>();
+            itemPopup.itemIndex = itemIndex;
 
-        //change pop up image to the right one
-        mmNewItemPopUp.gameObject.SetActive(true);
-        if (itemPopup == null) itemPopup = mmNewItemPopUp.GetComponent<itemPopupScript>();
-        itemPopup.itemIndex = itemIndex;
+            Transform holder = mmNewItemPopUp.transform.Find("GameObject");
 
-        Transform holder = mmNewItemPopUp.transform.Find("GameObject");
+            if (itemIndex != 0) holder.transform.GetChild(itemIndex - 1).gameObject.SetActive(false);
+            holder.transform.GetChild(itemIndex).gameObject.SetActive(true);
 
-        if (itemIndex != 0) holder.transform.GetChild(itemIndex - 1).gameObject.SetActive(false);
-        holder.transform.GetChild(itemIndex).gameObject.SetActive(true);
+            /*        Sprite tobe;
 
-/*        Sprite tobe;
+                    if(itemList[itemIndex].item.transform.childCount == 0)
+                    tobe = itemList[itemIndex].item.GetComponent<Image>().sprite;
+                    else if(itemIndex == 1)
+                    tobe = itemList[itemIndex].item.transform.GetChild(1).GetComponent<Image>().sprite;
+                    else
+                    tobe = itemList[itemIndex].item.transform.GetChild(0).GetComponent<Image>().sprite;
 
-        if(itemList[itemIndex].item.transform.childCount == 0)
-        tobe = itemList[itemIndex].item.GetComponent<Image>().sprite;
-        else if(itemIndex == 1)
-        tobe = itemList[itemIndex].item.transform.GetChild(1).GetComponent<Image>().sprite;
-        else
-        tobe = itemList[itemIndex].item.transform.GetChild(0).GetComponent<Image>().sprite;
+                    img.GetComponent<Image>().sprite = tobe;
 
-        img.GetComponent<Image>().sprite = tobe;
+                    //img.GetComponent<Image>().SetNativeSize(); //set to right size of the new sprite
+                    //img.transform.localScale = img.transform.localScale * 0.625f;
+                    img.GetComponent<RectTransform>().sizeDelta = new Vector2(tobe.rect.width * 0.625f,
+                        tobe.rect.height * 0.625f);*/
 
-        //img.GetComponent<Image>().SetNativeSize(); //set to right size of the new sprite
-        //img.transform.localScale = img.transform.localScale * 0.625f;
-        img.GetComponent<RectTransform>().sizeDelta = new Vector2(tobe.rect.width * 0.625f,
-            tobe.rect.height * 0.625f);*/
 
-        
 
-        //popup
-        if(itemIndex != 12) mmNewItemPopUp.Play("newMmItemUnlock");
+            //popup
+            if (itemIndex != 12) mmNewItemPopUp.Play("newMmItemUnlock");
 
-        gameObject.SetActive(false);
-        //StartCoroutine(waitAndDisablePopUp());
+            gameObject.SetActive(false);
+            //StartCoroutine(waitAndDisablePopUp());
+        }
     }
 
     //disable pop up when not using it

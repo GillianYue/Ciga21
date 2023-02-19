@@ -32,6 +32,7 @@ public class Tester : MonoBehaviour
             if (startLevel != -1) //将执行test里面填的测试关卡（-1=直接测试结局画面）
             {
                 PlayerPrefs.SetInt("level", startLevel);
+                PlayerPrefs.SetInt("gamePass", -1); //重置过关记录
 
                 for (int i = 0; i < 13; i++)
                 {

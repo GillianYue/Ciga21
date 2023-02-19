@@ -178,6 +178,7 @@ public class enabler : MonoBehaviour
 
     public void enableStartCanvasInteraction()
     {
+        startButton.enabled = true;
         startButton.interactable = true;
         globalState.globalClickable = true;
 
@@ -794,7 +795,9 @@ public class enabler : MonoBehaviour
         yield return new WaitForSeconds(5);
         thankYouNote.gameObject.SetActive(true);
         thankYouNote.GetComponent<Animator>().SetTrigger("fadeInText");
+
         PlayerPrefs.SetInt("level", 0);
+        PlayerPrefs.SetInt("gamePass", 1); //过关过
 
         yield return new WaitForSeconds(23);
         //darkCover.SetTrigger("fadeInSlow");
