@@ -5,6 +5,7 @@ using System.Threading;
 using System;
 using System.Runtime.InteropServices;
 using MopubNS.ThirdParty.MiniJSON;
+using Newtonsoft.Json;
 namespace MopubNS
 {
     public class MopubAndroid : MopubBase
@@ -38,6 +39,26 @@ namespace MopubNS
             _init(gameContentVersion);
         }
 
+        public override void addEventGlobalParams(Dictionary<string, string> data)
+        {
+            using (AndroidJavaClass sdkClass = new AndroidJavaClass("com.mopub.MopubUnityPlugin"))
+            {
+                AndroidJavaObject map = null;
+                if (data != null)
+                {
+                    Debug.Log("static addEventGlobalParams data not null");
+                    map = CreateJavaMapFromDictainary(data);
+                }
+                else
+                {
+                    map = new AndroidJavaObject("java.util.HashMap");
+                    Debug.Log("static addEventGlobalParams data is null");
+                }
+
+                sdkClass.CallStatic("setEventGlobalParams", map);
+            }
+        }
+
         //实名认证ui新版
         public override void showRealNameView(Action<string> success,Action<string> failed){
            Debug.Log("static MopubAndroid showRealNameView");
@@ -64,6 +85,39 @@ namespace MopubNS
        MopubCallbackManager.realNameUIFailedErrorDelegate = failederror;
        _realNameRecharge(amount);
        }
+
+        // 展示绑定账号界面
+        public override void showLinkAccountView(Action success)
+        {
+            MopubCallbackManager.linkAccountViewSuccessDelegate = success;
+             using(AndroidJavaClass sdkClass = new AndroidJavaClass("com.ui.core.plugin.UICoreUnityPlugin"))
+            {
+                sdkClass.CallStatic("showLinkAccountView");
+            }
+
+        }
+
+        // 展示切换账号界面
+        public override void showSwitchAccountView(Action<MopubSdkAccessToken> success)
+        {
+            MopubCallbackManager.switchAccountSuccessDelegate = success;
+            using(AndroidJavaClass sdkClass = new AndroidJavaClass("com.ui.core.plugin.UICoreUnityPlugin"))
+            {
+                sdkClass.CallStatic("showSwitchAccountView");
+            }
+
+        }
+
+        // 展示删除账号界面
+        public override void showDeleteAccountView(Action success)
+        {
+            MopubCallbackManager.deleteAccountSuccessDelegate = success;
+            using(AndroidJavaClass sdkClass = new AndroidJavaClass("com.ui.core.plugin.UICoreUnityPlugin"))
+            {
+                sdkClass.CallStatic("showDeleteAccountView");
+            }
+        }
+
         public override void login(Action<LoginSuccessResult> success, Action<MopubSDKError> failed)
         {
             MopubCallbackManager.loginSuccessDelegate = success;
@@ -109,6 +163,17 @@ namespace MopubNS
             MopubCallbackManager.loginVisitorFailedDelegate = failed;
 
             _loginWithVisitor(null);
+        }
+
+        public override void autoLoginTouristWithUI(Action<LoginSuccessResult> success, Action<MopubSDKError> failed)
+        {
+            MopubCallbackManager.autoLoginTouristWithUISuccessDelegate = success;
+            MopubCallbackManager.autoLoginTouristWithUIFailedDelegate = failed;
+
+            using (AndroidJavaClass sdkClass = new AndroidJavaClass("com.ui.core.plugin.UICoreUnityPlugin"))
+            {
+                sdkClass.CallStatic("autoLoginTouristWithUI");
+            }
         }
 
         public override void loginWithVisitor(string activeCode, Action<LoginSuccessResult> success, Action<MopubSDKError> failed)
@@ -176,6 +241,15 @@ namespace MopubNS
             MopubCallbackManager.verifySessionTokenSuccessDelegate = success;
             MopubCallbackManager.verifySessionTokenFailedDelegate = failed;
             _verifySessionToken(token);
+        }
+
+        public override void reLoginFlow(Action<LoginSuccessResult> success, Action<MopubSDKError> failed){
+            MopubCallbackManager.reLoginFlowSuccessDelegate = success;
+            MopubCallbackManager.reLoginFlowFailedDelegate = failed;
+            using (AndroidJavaClass sdkClass = new AndroidJavaClass("com.mopub.MopubUnityPlugin"))
+            {
+                sdkClass.CallStatic("reLoginFlow");
+            }
         }
 
         public override void createInviteCode(Action<string> success, Action<MopubSDKError> failed){
@@ -367,9 +441,21 @@ namespace MopubNS
 				paymentInfo.characterName, 
 				paymentInfo.characterID, 
 				paymentInfo.serverName, 
-				paymentInfo.serverID);
+				paymentInfo.serverID,
+                paymentInfo.level);
 			}
 		}
+
+        public override void startLinkagePayment(Dictionary<string,string> extraData){
+            using (AndroidJavaClass sdkClass = new AndroidJavaClass("com.mopub.MopubUnityPlugin"))
+			{
+                String jsonStr = "";
+                if(extraData != null){
+                    jsonStr = serializeDictionaryToJsonString<string,string>(extraData);
+                }
+				sdkClass.CallStatic("startLinkagePayment", jsonStr);
+			}
+        }
 
         //subscripton
         public override void setSubscriptionItemUpdatedListener(Action<List<MopubSDKSubscriptionItem>> subscriptionItemUpdatedListener)
@@ -533,40 +619,86 @@ namespace MopubNS
             }
         }
 
-        public override void logCustomEvent(string eventName, Dictionary<string, string> data){
+        public override void logCustomEvent(string eventName, Dictionary<string, object> data){
             using (AndroidJavaClass sdkClass = new AndroidJavaClass("com.mopub.MopubUnityPlugin"))
             {
-                AndroidJavaObject map = null;
-                if (data!=null){
-                    Debug.Log("static logCustomEvent data not null");
-                    map = CreateJavaMapFromDictainary(data);
-                }
-                else{
-                    map = new AndroidJavaObject("java.util.HashMap");
-                    Debug.Log("static logCustomEvent data is null");
+                //AndroidJavaObject map = null;
+                //if (data!=null){
+                //    Debug.Log("static logCustomEvent data not null");
+                //    map = CreateJavaMapFromDictainary(data);
+                //}
+                //else{
+                //    map = new AndroidJavaObject("java.util.HashMap");
+                //    Debug.Log("static logCustomEvent data is null");
+                //}
+
+
+                string jsonStr = "";
+                if (data != null)
+                {
+                    jsonStr = serializeDictionaryToJsonString<string, object>(data);
                 }
 
-                sdkClass.CallStatic("logCustomEvent", eventName, map);
+                sdkClass.CallStatic("logCustomEvent", eventName, jsonStr);
             }
         }
 
         public override void logCustomAFEvent (string eventName, Dictionary<string,object> data){
             using (AndroidJavaClass sdkClass = new AndroidJavaClass("com.mopub.MopubUnityPlugin"))
             {
-                AndroidJavaObject map = null;
-                if (data!=null){
-                    Debug.Log("static logCustomAFEvent data not null");
-                    map = CreateJavaMapFromDictainary(data);
-                }
-                else{
-                    map = new AndroidJavaObject("java.util.HashMap");
-                    Debug.Log("static logCustomAFEvent data is null");
-                }
+                // AndroidJavaObject map = null;
+                // if (data!=null){
+                //     Debug.Log("static logCustomAFEvent data not null");
+                //     map = CreateJavaMapFromDictainary1(data);
 
-                sdkClass.CallStatic("logCustomAFEvent", eventName, map);
+                // }
+                // else{
+                //     map = new AndroidJavaObject("java.util.HashMap");
+                //     Debug.Log("static logCustomAFEvent data is null");
+                    
+                // }
+                String jsonStr = "";
+                if(data != null){
+                    jsonStr = serializeDictionaryToJsonString<string,object>(data);
+                }
+                sdkClass.CallStatic("logCustomAFEvent", eventName, jsonStr);
             }
         }
+        public static string serializeDictionaryToJsonString<TKey, TValue>(Dictionary<TKey, TValue> dict)
+        {
+            if (dict.Count == 0)
+                return "";
 
+            string jsonStr = JsonConvert.SerializeObject(dict);
+            return jsonStr;
+        }
+        public static AndroidJavaObject CreateJavaMapFromDictainary1(IDictionary<string, object> parameters)
+        {
+            AndroidJavaObject javaMap = new AndroidJavaObject("java.util.HashMap");
+            IntPtr putMethod = AndroidJNIHelper.GetMethodID(
+                javaMap.GetRawClass(), "put",
+                    "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;");
+
+            object[] args = new object[2];
+            foreach (KeyValuePair<string, object> kvp in parameters)
+            {
+
+                using (AndroidJavaObject k = new AndroidJavaObject(
+                    "java.lang.String", kvp.Key))
+                {
+                    using (AndroidJavaObject v = new AndroidJavaObject(
+                        "java.lang.Object", kvp.Value))
+                    {
+                        args[0] = k;
+                        args[1] = v;
+                        AndroidJNI.CallObjectMethod(javaMap.GetRawObject(),
+                                putMethod, AndroidJNIHelper.CreateJNIArgArray(args));
+                    }
+                }
+            }
+
+            return javaMap;
+        }
 		public override void logStartLevel(string levelName){
 			using (AndroidJavaClass sdkClass = new AndroidJavaClass("com.mopub.MopubUnityPlugin"))
             {
@@ -637,33 +769,7 @@ namespace MopubNS
             return javaMap;
         }
 
-        public static AndroidJavaObject CreateJavaMapFromDictainary(IDictionary<string, object> parameters)
-        {
-            AndroidJavaObject javaMap = new AndroidJavaObject("java.util.HashMap");
-            IntPtr putMethod = AndroidJNIHelper.GetMethodID(
-                javaMap.GetRawClass(), "put",
-                    "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;");
-
-            object[] args = new object[2];
-            foreach (KeyValuePair<string, object> kvp in parameters)
-            {
-
-                using (AndroidJavaObject k = new AndroidJavaObject(
-                    "java.lang.String", kvp.Key))
-                {
-                    using (AndroidJavaObject v = new AndroidJavaObject(
-                        "java.lang.Object", kvp.Value))
-                    {
-                        args[0] = k;
-                        args[1] = v;
-                        AndroidJNI.CallObjectMethod(javaMap.GetRawObject(),
-                                putMethod, AndroidJNIHelper.CreateJNIArgArray(args));
-                    }
-                }
-            }
-
-            return javaMap;
-        }
+       
 
         public override void testLog(string log){
             logCustomEvent(log,null);
@@ -948,6 +1054,16 @@ namespace MopubNS
 				sdkClass.CallStatic("getAFInstallConversionData");
 			}
 		}
+   
+        public override void setATTDataUpdatedListener(Action<Dictionary<String, object>> attDataUpdatedListener){
+			MopubCallbackManager.setATTDataUpdatedListenerDelegate(attDataUpdatedListener);
+			using (AndroidJavaClass sdkClass = new AndroidJavaClass("com.mopub.MopubUnityPlugin"))
+			{
+				sdkClass.CallStatic("getAttInstallConversionData");
+			}
+		}
+   
+       
 		
         public override bool openJoinChatGroup(){
             bool res;
@@ -983,6 +1099,15 @@ namespace MopubNS
             using(AndroidJavaClass sdkClass = new AndroidJavaClass("com.mopub.MopubUnityPlugin"))
             {
                 res = sdkClass.CallStatic<bool>("openRating");
+            }
+            return res;
+        }
+        public override bool openRate(string shop)
+        {
+            bool res;
+            using(AndroidJavaClass sdkClass = new AndroidJavaClass("com.mopub.MopubUnityPlugin"))
+            {
+                res = sdkClass.CallStatic<bool>("openRating",shop);
             }
             return res;
         }
@@ -1140,6 +1265,7 @@ namespace MopubNS
             {
                 sdkClass.CallStatic("setCustomerUnreadMessageListener");
             }
+
         }
 
         public override void fetchRanking(string uid, int page, int size, Action<MopubSDKRanking> success, Action<MopubSDKError> failure)
@@ -1183,12 +1309,271 @@ namespace MopubNS
                 sdkClass.CallStatic("getRedeemData", code);
             }
         }
-        public override void showGuidPageView(Action<string> success){
+
+        public override void showGuidPageView(Action<string> success) {
             Debug.Log("static MopubAndroid showGuidPageView");
             MopubCallbackManager.showGuidPageViewSuccessDelegate = success;
-            using(AndroidJavaClass sdkClass = new AndroidJavaClass("com.ui.core.plugin.UICoreUnityPlugin"))
+            using (AndroidJavaClass sdkClass = new AndroidJavaClass("com.ui.core.plugin.UICoreUnityPlugin"))
             {
                 sdkClass.CallStatic("showGuidPageView");
+            }
+        }
+
+        public override string getActivateCode(){
+            string res;
+            using(AndroidJavaClass sdkClass = new AndroidJavaClass("com.mopub.MopubUnityPlugin"))
+            {
+               res =  sdkClass.CallStatic<string>("getActivateCode");
+            }
+            return res;
+        }
+
+        // 初始化推送sdk
+        public override void initPushSDK(string cgi, string appid, string appSecret, bool passThroughEnable, string logHost, string logPath, Action<string> clickCallback, Action<string> receiveMessageCallback)
+        {
+
+        }
+
+        // 设置推送别名
+        public override void setPushAlias(string alias)
+        {
+
+            using (AndroidJavaClass sdkClass = new AndroidJavaClass("com.mopub.MopubUnityPlugin"))
+            {
+                sdkClass.CallStatic("setAlias", alias);
+            }
+        }
+        
+        public override string getAppSignMD5(){
+            string res;
+            using(AndroidJavaClass sdkClass = new AndroidJavaClass("com.mopub.MopubUnityPlugin"))
+            {
+               res =  sdkClass.CallStatic<string>("getAppSignMD5");
+            }
+            return res;
+        }
+         public override string getAppSignSHA1(){
+            string res;
+            using(AndroidJavaClass sdkClass = new AndroidJavaClass("com.mopub.MopubUnityPlugin"))
+            {
+               res =  sdkClass.CallStatic<string>("getAppSignSHA1");
+            }
+            return res;
+        }
+         public override string getAppSignSHA256(){
+            string res;
+            using(AndroidJavaClass sdkClass = new AndroidJavaClass("com.mopub.MopubUnityPlugin"))
+            {
+               res =  sdkClass.CallStatic<string>("getAppSignSHA1");
+            }
+            return res;
+        }
+
+
+        public override void setPackageUpdatedListener(Action success)
+        {
+            MopubCallbackManager.packageUpdatedSuccessDelegate = success;
+        }
+        public override void showAccountCenter(Action linkSuccess,Action deleteSuccess,Action<MopubSdkAccessToken> success,Action<string> userVerify)
+        {
+             Debug.Log("static MopubAndroid showAccountCenter");
+            MopubCallbackManager.linkAccountViewSuccessDelegate = linkSuccess;
+            MopubCallbackManager.switchAccountSuccessDelegate = success;
+            MopubCallbackManager.deleteAccountSuccessDelegate = deleteSuccess;
+            MopubCallbackManager.userVerifyDelegate = userVerify;
+            using (AndroidJavaClass sdkClass = new AndroidJavaClass("com.ui.core.plugin.UICoreUnityPlugin"))
+            {
+                sdkClass.CallStatic("showAccountCenter");
+            }
+        }
+        public override void showArchive(Dictionary<string,object> data)
+        {
+             Debug.Log("static MopubAndroid showArchive");
+             using(AndroidJavaClass sdkClass = new AndroidJavaClass("com.ui.core.plugin.UICoreUnityPlugin"))
+             {
+                String jsonStr = "";
+                if(data != null){
+                    jsonStr = serializeDictionaryToJsonString<string,object>(data);
+                }
+                sdkClass.CallStatic("showArchive",jsonStr);
+             }
+        }
+        public override bool isAccountOnlyTourist(){
+             Debug.Log("static MopubAndroid isAccountOnlyTourist");
+             bool res;
+             using(AndroidJavaClass sdkClass = new AndroidJavaClass("com.ui.core.plugin.UICoreUnityPlugin")){
+                res = sdkClass.CallStatic<bool>("isAccountOnlyTourist");
+             }
+             return res;
+        }
+        public override void showLinkedAfterPurchaseView(){
+            using(AndroidJavaClass sdkClass = new AndroidJavaClass("com.ui.core.plugin.UICoreUnityPlugin")){
+                sdkClass.CallStatic("showLinkedAfterPurchaseView");
+             }
+        }
+
+        public override void setLanguage(string language)
+        {
+            using (AndroidJavaClass sdkClass = new AndroidJavaClass("com.mopub.MopubUnityPlugin"))
+            {
+                sdkClass.CallStatic("setLanguage", language);
+            }
+        }
+
+        public override void openNoticeDialog()
+        {
+            using (AndroidJavaClass sdkClass = new AndroidJavaClass("com.mopub.MopubUnityPlugin"))
+            {
+                sdkClass.CallStatic("openNoticeDialog");
+            }
+        }
+        public override void requestPermission(MopubPermissionsInfo[] permissionsInfo, Action finish, Action cancel){
+            MopubCallbackManager.finishRequestPermissionDelegate = finish;
+            MopubCallbackManager.cancelRequestPermissionDelegate = cancel;
+            AndroidJavaClass arrayClass  = new AndroidJavaClass("java.lang.reflect.Array");
+	        AndroidJavaObject arrayObject = arrayClass.CallStatic<AndroidJavaObject>("newInstance", new AndroidJavaClass("com.mobile_sdk.core.PermissionPurposeBean"), permissionsInfo.Length);
+	        for (int i = 0; i < permissionsInfo.Length; i++) {
+		        arrayClass.CallStatic("set", arrayObject, i, new AndroidJavaObject("com.mobile_sdk.core.PermissionPurposeBean", permissionsInfo[i].purposeTitle, permissionsInfo[i].permissionName));
+	        }
+            using (AndroidJavaClass sdkClass = new AndroidJavaClass("com.mopub.MopubUnityPlugin"))
+            {
+                sdkClass.CallStatic("requestPermission", arrayObject);
+
+            }
+        }
+
+        public override Dictionary<string, object> getCpParams()
+        {
+            string paramsJson = null;
+            using (AndroidJavaClass sdkClass = new AndroidJavaClass("com.mopub.MopubUnityPlugin"))
+            {
+                 paramsJson = sdkClass.CallStatic<string>("getCpParams");
+            }
+
+            Dictionary<string, object> dic = null;
+            if (paramsJson != null)
+            {
+                dic = (Dictionary<string, object>)Json.Deserialize(paramsJson);
+            }
+            else
+            {
+                dic = new Dictionary<string, object>();
+            }
+
+            return dic;
+        }
+
+        // 分享到微信
+        public override void openShareToWechat(string entrance, MopubWechatSharedData sharedData, Action success, Action<MopubSDKError> failure)
+        {
+            MopubCallbackManager.appshareSuccessDelegate = success;
+            MopubCallbackManager.appshareFailureDelegate = failure;
+
+            string dataJson = JsonUtility.ToJson(sharedData);
+
+            using (AndroidJavaClass sdkClass = new AndroidJavaClass("com.mopub.MopubUnityPlugin"))
+            {
+                sdkClass.CallStatic("openShareToWeChat", entrance, dataJson);
+            }
+        }
+
+        // 分享到qq
+        public override void openShareToQQ(string entrance, MopubQQSharedData sharedData, Action success, Action<MopubSDKError> failure)
+        {
+            MopubCallbackManager.appshareSuccessDelegate = success;
+            MopubCallbackManager.appshareFailureDelegate = failure;
+
+            string dataJson = JsonUtility.ToJson(sharedData);
+
+            using (AndroidJavaClass sdkClass = new AndroidJavaClass("com.mopub.MopubUnityPlugin"))
+            {
+                sdkClass.CallStatic("openShareToQQ", entrance, dataJson);
+            }
+        }
+
+
+        public override MopubAppSharedCampaignInfo getSharedCampaignInfo(){
+            string res;
+            using (AndroidJavaClass sdkClass = new AndroidJavaClass("com.mopub.MopubUnityPlugin"))
+            {
+                res = sdkClass.CallStatic<string>("getSharedCampaignInfo");
+            }
+            MopubAppSharedCampaignInfo info;
+            if(res != null){
+                info = JsonUtility.FromJson<MopubAppSharedCampaignInfo>(res);
+            }else{
+                info = new MopubAppSharedCampaignInfo(MopubAppSharedCampaignType.share, "unkonwn", 0, 0);
+            }
+
+            return info;
+        }
+
+        public override MopubAppSharedCampaignInfo getInvitedCampaignInfo(){
+            string res;
+            using (AndroidJavaClass sdkClass = new AndroidJavaClass("com.mopub.MopubUnityPlugin"))
+            {
+                res = sdkClass.CallStatic<string>("getInvitedCampaignInfo");
+            }
+            MopubAppSharedCampaignInfo info;
+            if(res != null){
+                info = JsonUtility.FromJson<MopubAppSharedCampaignInfo>(res);
+            }else{
+                info = new MopubAppSharedCampaignInfo(MopubAppSharedCampaignType.invite, "unkonwn", 0, 0);
+            }
+
+            return info;
+        }
+
+        public override Dictionary<string, object> getSDKInfo()
+        {
+            string paramsJson = null;
+            using (AndroidJavaClass sdkClass = new AndroidJavaClass("com.mopub.MopubUnityPlugin"))
+            {
+                paramsJson = sdkClass.CallStatic<string>("getSDKInfoByJson");
+            }
+
+            Dictionary<string, object> dic = null;
+            if (paramsJson != null)
+            {
+                dic = (Dictionary<string, object>)Json.Deserialize(paramsJson);
+            }
+            else
+            {
+                dic = new Dictionary<string, object>();
+            }
+
+            return dic;
+        }
+
+        public override void fetchInviteBonusList(Action<List<MopubInviteBonusCategory>> success, Action<MopubSDKError> failure)
+        {
+            MopubCallbackManager.fetchInviteBonusListSuccessDelegate = success;
+            MopubCallbackManager.fetchInviteBonusListFailureDelegate = failure;
+
+            using (AndroidJavaClass sdkClass = new AndroidJavaClass("com.mopub.MopubUnityPlugin"))
+            {
+                sdkClass.CallStatic("fetchInviteBonusList");
+            }
+        }
+
+        public override void acceptInviteBonus(string inviteId, string pkey, Action success, Action<MopubSDKError> failure)
+        {
+            MopubCallbackManager.acceptInviteBonusSuccessDelegate = success;
+            MopubCallbackManager.acceptInviteBonusFailureDelegate = failure;
+
+            using (AndroidJavaClass sdkClass = new AndroidJavaClass("com.mopub.MopubUnityPlugin"))
+            {
+                sdkClass.CallStatic("acceptInviteBonus", inviteId, pkey);
+            }
+        }
+
+        public override void fetchIPv4Info(Action<MopubIPv4Info> success, Action<MopubSDKError> failure){
+            MopubCallbackManager.fetchIPv4InfoSuccessDelegate = success;
+            MopubCallbackManager.fetchIPv4InfoFailureDelegate = failure;
+
+            using (AndroidJavaClass sdkClass = new AndroidJavaClass("com.mopub.MopubUnityPlugin"))
+            {
+                sdkClass.CallStatic("fetchIPv4Info");
             }
         }
 

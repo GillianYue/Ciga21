@@ -14,6 +14,8 @@ public class IOSBuilder
     [PostProcessBuildAttribute(0)]
     public static void OnPostprocessBuild(BuildTarget buildTarget, string pathToBuiltProject)
     {
+
+        return;
         if (buildTarget != BuildTarget.iOS)
             return;
 
@@ -45,7 +47,7 @@ public class IOSBuilder
 
         string target = unityFrameworkTargetGuid;
 
-        ///config buildSettings
+        // config buildSettings
         proj.SetBuildProperty(mainTargetGuid, "ENABLE_BITCODE", "false");
         proj.SetBuildProperty(target, "ENABLE_BITCODE", "false");
         proj.SetBuildProperty(mainTargetGuid, "ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES", "YES");

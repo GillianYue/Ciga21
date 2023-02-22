@@ -1,8 +1,12 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using UnityEditor.Callbacks;
 using UnityEditor;
 using UnityEditor.Build;
+using System.Text;
+using System.Collections.Generic;
+using Newtonsoft.Json;
+using System;
 
 #if UNITY_IOS
 using UnityEditor.iOS.Xcode;
@@ -11,147 +15,397 @@ using System.IO;
 
 public class XCodeProjectSetting
 {
-    private static string GADAPPLICATIONIDENTIFIER = "ca-app-pub-6513699454148002~1367758153";
-
-    private static string[] skAdNetworkIds = { "SU67R6K2V3.skadnetwor", "2u9pt9hc89.skadnetwork", "4468km3ulz.skadnetwork", "4fzdc2evr5.skadnetwork", "7ug5zh24hu.skadnetwork", "8s468mfl3y.skadnetwork", "9rd848q2bz.skadnetwork", "9t245vhmpl.skadnetwork", "av6w8kgt66.skadnetwork", "f38h382jlk.skadnetwork", "hs6bdukanm.skadnetwork", "kbd757ywx3.skadnetwork", "ludvb6z3bs.skadnetwork", "m8dbw4sv7c.skadnetwork", "mlmmfzh3r3.skadnetwork", "prcb7njmu6.skadnetwork", "t38b2kh725.skadnetwork", "tl55sbb4fm.skadnetwork", "wzmmz9fp6w.skadnetwork", "yclnxrl5pm.skadnetwork", "ydx93a7ass.skadnetwork", "4PFYVQ9L8R.skadnetwork", "YCLNXRL5PM.skadnetwork", "V72QYCH5UU.skadnetwork", "TL55SBB4FM.skadnetwork", "T38B2KH725.skadnetwork", "PRCB7NJMU6.skadnetwork", "PPXM28T8AP.skadnetwork", "MLMMFZH3R3.skadnetwork", "KLF5C3L5U5.skadnetwork", "HS6BDUKANM.skadnetwork", "C6K4G5QG8M.skadnetwork", "9T245VHMPL.skadnetwork", "9RD848Q2BZ.skadnetwork", "8S468MFL3Y.skadnetwork", "7UG5ZH24HU.skadnetwork", "4FZDC2EVR5.skadnetwork", "4468KM3ULZ.skadnetwork", "3RD42EKR43.skadnetwork", "2U9PT9HC89.skadnetwork", "M8DBW4SV7C.skadnetwork", "7RZ58N8NTL.skadnetwork", "EJVT5QM6AK.skadnetwork", "5LM9LJ6JB7.skadnetwork", "44JX6755AQ.skadnetwork", "MTKV5XTK9E.skadnetwork", "KBD757YWX3.skadnetwork", "cstr6suwn9.skadnetwork", "4DZT52R2T5.skadnetwork", "bvpn9ufa9b.skadnetwork", "GTA9LK7P23.skadnetwork", "v9wttpbfk9.skadnetwork", "n38lu8286q.skadnetwork", "238da6jt44.skadnetwork", "22mmun2rn5.skadnetwork"};
-
     [PostProcessBuildAttribute(999)]
     public static void OnPostprocessBuild(BuildTarget target, string pathToBuiltProject) {
-        if(target == BuildTarget.iOS)
+        
+        if (target != BuildTarget.iOS)
         {
-            string pbxprojPath = PBXProject.GetPBXProjectPath(pathToBuiltProject);
-            Debug.Log("pbxprojPath: " + pbxprojPath);
-            PBXProject pbxProject = new PBXProject();
-            pbxProject.ReadFromFile(pbxprojPath);
+            return;
+        }
 
-            string fileDir = System.Environment.CurrentDirectory;
-            Debug.Log("当前的工作目录为: " + fileDir);
+        string pbxprojPath = PBXProject.GetPBXProjectPath(pathToBuiltProject);
+        Debug.Log("pbxprojPath: " + pbxprojPath);
+        PBXProject pbxProject = new PBXProject();
+        pbxProject.ReadFromFile(pbxprojPath);
 
-            string frameworksDirUnity = Path.Combine(fileDir, "Assets/Mopub/Plugins/iOS/Frameworks");  // unity脚本中的Frameworks目录
-            string resourcesDirUnity = Path.Combine(fileDir, "Assets/Mopub/Plugins/iOS/Resources");    // unity脚本中的Resources目录
-            string frameworksDirXCode = Path.Combine(pathToBuiltProject, "Frameworks");
-            Debug.Log("Frameworks dir: " + frameworksDirUnity);
-            Debug.Log("Resources dir: " + resourcesDirUnity);
+        string unityIphoneGuid = null;
+        string unityFrameworkGuid = null;
 
-            string unityIphoneGuid = null;
-            string unityFrameworkGuid = null;
-
-            // 适配 2019.3.9.f1 后的版本
-            // 多了 UnityFramework
+        // 适配 2019.3.9.f1 后的版本
+        // 多了 UnityFramework
 #if UNITY_2019_3_OR_NEWER
-            unityIphoneGuid = pbxProject.GetUnityMainTargetGuid();
-            unityFrameworkGuid = pbxProject.GetUnityFrameworkTargetGuid();
-            Debug.Log("##########2019###########");
+        unityIphoneGuid = pbxProject.GetUnityMainTargetGuid();
+        unityFrameworkGuid = pbxProject.GetUnityFrameworkTargetGuid();
+        Debug.Log("##########2019###########");
 #else
             Debug.Log("##########2018###########");
             unityIphoneGuid = pbxProject.TargetGuidByName("Unity-iPhone");
 #endif
 
-            // 添加 framework
-            if (System.IO.Directory.Exists(frameworksDirUnity))
-            {
-                string unityIphoneFrameworkBuildPhaseGuid = pbxProject.GetFrameworksBuildPhaseByTarget(unityIphoneGuid);
-                string unityFrameworkBuildPhaseGuid = null;
-                if (unityFrameworkGuid != null)
-                {
-                    unityFrameworkBuildPhaseGuid = pbxProject.GetFrameworksBuildPhaseByTarget(unityFrameworkGuid);
-                }
-                DirectoryInfo frameworksInfo = new DirectoryInfo(frameworksDirUnity);
-                foreach (DirectoryInfo nextFolder in frameworksInfo.GetDirectories())
-                {
-                    if (Path.GetExtension(nextFolder.Name) == ".framework")
-                    {
-                        string frameworkPathXCode = Path.Combine(pathToBuiltProject, nextFolder.Name);
-                        if (System.IO.Directory.Exists(frameworkPathXCode))
-                        {
-                            string frameworkGuidOld = pbxProject.FindFileGuidByRealPath(frameworkPathXCode);
-                            if (frameworkGuidOld != null)
-                            {
-                                pbxProject.RemoveFile(frameworkGuidOld);
-                            }
-                        }
+        string entitlementPath = Path.Combine(pathToBuiltProject, "Unity-iPhone/Unity-iPhone.entitlements");
+        PlistDocument entitlement = new PlistDocument();
 
-                        CopyEntireDir(nextFolder.FullName, frameworkPathXCode);
+        var plistPath = Path.Combine(pathToBuiltProject, "Info.plist");
+        PlistDocument plist = new PlistDocument();
+        plist.ReadFromFile(plistPath);
 
-                        string frameworkGuidNew = pbxProject.AddFile(nextFolder.Name, nextFolder.Name, PBXSourceTree.Source);
-                        // pbxProject.AddFileToBuild(unityIphoneGuid, frameworkGuidNew);
-                        pbxProject.AddFileToBuildSection(unityIphoneGuid, unityIphoneFrameworkBuildPhaseGuid, frameworkGuidNew);
-                        PBXProjectExtensions.AddFileToEmbedFrameworks(pbxProject, unityIphoneGuid, frameworkGuidNew);
+        string configFilePath = Path.Combine(System.Environment.CurrentDirectory, "Assets/Resources/MopubSDKConfig-ios.json");
+        ConfigXCodeByFile(pbxProject, unityIphoneGuid, entitlement, plist, pathToBuiltProject, configFilePath);
 
-                        if (unityFrameworkGuid != null)
-                        {
-                            // pbxProject.AddFileToBuild(unityFrameworkGuid, frameworkGuidNew);
-                            pbxProject.AddFileToBuildSection(unityFrameworkGuid, unityFrameworkBuildPhaseGuid, frameworkGuidNew);
+        InfoPlistAddBaseConfig(plist);
+        plist.WriteToFile(plistPath);
 
-                            // framework search path
-                        }
-                    }
-                }
-            }
+        if (entitlement.root.values.Count != 0)
+        {
+            entitlement.WriteToFile(entitlementPath);
+            ModifyEntitlementHeader(entitlementPath);
 
-            // 添加 bundle
-            if (System.IO.Directory.Exists(resourcesDirUnity))
-            {
-                DirectoryInfo resourcesInfo = new DirectoryInfo(resourcesDirUnity);
-                foreach (DirectoryInfo nextFolder in resourcesInfo.GetDirectories())
-                {
-                    if (Path.GetExtension(nextFolder.Name) == ".bundle")
-                    {
-                        string resourcePathXCode = Path.Combine(pathToBuiltProject, nextFolder.Name);
-                        if (System.IO.Directory.Exists(resourcePathXCode))
-                        {
-                            string resourceGuidOld = pbxProject.FindFileGuidByRealPath(resourcePathXCode);
-                            if (resourceGuidOld != null)
-                            {
-                                pbxProject.RemoveFile(resourceGuidOld);
-                            }
-                        }
+            //string entitlementGuid = pbxProject.AddFile(entitlementPath, "Unity-iPhone.entitlements");
+            string entitlementGuid = pbxProject.AddFile("Unity-iPhone/Unity-iPhone.entitlements", "Unity-iPhone.entitlements");
+            string unityIphoneResourceBuildPhaseGuid = pbxProject.GetResourcesBuildPhaseByTarget(unityIphoneGuid);
+            pbxProject.AddFileToBuildSection(unityIphoneGuid, unityIphoneResourceBuildPhaseGuid, entitlementGuid);
+            pbxProject.AddBuildProperty(unityIphoneGuid, "CODE_SIGN_ENTITLEMENTS", "Unity-iPhone/Unity-iPhone.entitlements");
+        }
 
-                        CopyEntireDir(nextFolder.FullName, resourcePathXCode);
-
-                        string resourceGuidNew = pbxProject.AddFile(nextFolder.Name, nextFolder.Name);
-                        string unityIphoneResourceBuildPhaseGuid = pbxProject.GetResourcesBuildPhaseByTarget(unityIphoneGuid);
-                        pbxProject.AddFileToBuildSection(unityIphoneGuid, unityIphoneResourceBuildPhaseGuid, resourceGuidNew);
-                    }
-                }
-            }
-
-            pbxProject.WriteToFile(pbxprojPath);
-
-            // 修改 Info.plist
-            var plistPath = Path.Combine(pathToBuiltProject, "Info.plist");
-            PlistDocument plist = new PlistDocument();
-            plist.ReadFromFile(plistPath);
-            plist.root.SetString("GADApplicationIdentifier", GADAPPLICATIONIDENTIFIER);
-            plist.root.SetString("NSCalendarsUsageDescription", "This permission comes from the advertising request of the advertising service provider to provide users with more accurate advertising.");
-                
-            PlistElementDict appTransportSecurity = plist.root.CreateDict("NSAppTransportSecurity");
-            appTransportSecurity.SetBoolean("NSAllowsArbitraryLoads", true);
-
-            PlistElementArray skAdNetworkItems = plist.root.CreateArray("SKAdNetworkItems");
-            foreach (string skAdNetworkId in skAdNetworkIds)
-            {
-                PlistElementDict dict = skAdNetworkItems.AddDict();
-                dict.SetString("SKAdNetworkIdentifier", skAdNetworkId);
-            }
-            plist.WriteToFile(plistPath);
-        }   
+        PbxProjectAddBaseConfig(pbxProject, unityIphoneGuid, unityFrameworkGuid);
+        pbxProject.WriteToFile(pbxprojPath);
     }
 
-    private static void CopyEntireDir(string sourcePath, string destPath)
+    private static void ConfigXCodeByFile(PBXProject project, string mainTarget, PlistDocument entitlement, PlistDocument plist, string projectPath, string configFilePath)
     {
-        // Create root Dir
-        Directory.CreateDirectory(destPath);
+        // 根据配置文件，配置xcode工程
+        
+        Debug.Log("search config in path: " + configFilePath);
+        if (!System.IO.File.Exists(configFilePath))
+        {
+            return;
+        }
 
-        // Now Create all of the directories
-        foreach (string dirPath in Directory.GetDirectories(sourcePath, "*",
-           SearchOption.AllDirectories))
-            Directory.CreateDirectory(dirPath.Replace(sourcePath, destPath));
+        Debug.Log("find the config file");
+        Dictionary<string, string> config = new Dictionary<string, string>();
 
-        // Copy all the files & Replaces any files with the same name
-        foreach (string newPath in Directory.GetFiles(sourcePath, "*",
-           SearchOption.AllDirectories))
-            File.Copy(newPath, newPath.Replace(sourcePath, destPath), true);
+        string text = File.ReadAllText(configFilePath);
+        config = JsonConvert.DeserializeObject<Dictionary<string, string>>(text);
+
+        foreach (string key in config.Keys)
+        {
+            Debug.Log("Find config " + key + ": " + config[key]);
+            if (key == "GoogleClientIDReverse")
+            {
+                InfoPlistAddURLType(plist, config[key]);
+            }
+            else if (key == "SKAdNetworkIDs")
+            {
+                if (config[key].Contains(","))
+                {
+                    string[] ids = config[key].Split(',');
+                    foreach (string id in ids)
+                    {
+                        InfoPlistAddSKAdNetworkID(plist, id);
+                    }
+                }
+                else
+                {
+                    InfoPlistAddSKAdNetworkID(plist, config[key]);
+                }
+                
+            }
+            else if (key.StartsWith("InfoPlist-"))
+            {
+                string infoPlistKey = key.Split('-')[1];
+                plist.root.SetString(infoPlistKey, config[key]);
+
+                if (key == "InfoPlist-FacebookAppID")
+                {
+                    ConfigFacebook(config[key], plist);
+                }
+            }
+            else if (key == "apns" && config[key] == "1")
+            {
+                 ConfigApns(project, mainTarget, projectPath, entitlement);
+            }
+            else if (key == "signInWithApple" && config[key] == "1")
+            {
+                ConfigSignInWithApple(project, mainTarget, entitlement);
+            }
+            else if (key == "associatedDomains")
+            {
+                string[] domains = null;
+                if (config[key].Contains(","))
+                {
+                    domains = config[key].Split(',');
+                }
+                else
+                {
+                    domains = new string[1];
+                    domains[0] = config[key];
+                }
+
+                ConfigAssociatedDomains(project, mainTarget, entitlement, domains);
+            }
+            else if (key == "cocoapods")
+            {
+                string dependencies = config["cocoapods"];
+                GeneratePodFile(projectPath, dependencies);
+            }
+            else if (key == "WXAppID")
+            {
+                ConfigWechat(config["WXAppID"], plist);
+            }
+            else if (key == "url-types")
+            {
+                string[] urlTypes = null;
+                if (config[key].Contains(","))
+                {
+                    urlTypes = config[key].Split(',');
+                }
+                else
+                {
+                    urlTypes = new string[1];
+                    urlTypes[0] = config[key];
+                }
+
+                foreach(string urlType in urlTypes)
+                {
+                    InfoPlistAddURLType(plist, urlType);
+                }
+            }
+            else if (key == "schemes")
+            {
+                string[] schemes = null;
+                if (config[key].Contains(","))
+                {
+                    schemes = config[key].Split(',');
+                }
+                else
+                {
+                    schemes = new string[1];
+                    schemes[0] = config[key];
+                }
+
+                foreach (string scheme in schemes)
+                {
+                    InfoPlistAddQueriesScheme(plist, scheme);
+                }
+            }
+            else if (key == "UIRequiredDeviceCapabilities")
+            {
+                string[] capabilities = null;
+                if (config[key].Contains(","))
+                {
+                    capabilities = config[key].Split(',');
+                }
+                else
+                {
+                    capabilities = new string[1];
+                    capabilities[0] = config[key];
+                }
+
+                ConfigUIRequiredDeviceCapabilities(plist, capabilities);
+            }
+        }
+    }
+
+    private static void ConfigFacebook(string appId, PlistDocument plist)
+    {
+        Debug.Log("Config facebook");
+        InfoPlistAddURLType(plist, "fb" + appId);
+        InfoPlistAddQueriesScheme(plist, "fbapi");
+        InfoPlistAddQueriesScheme(plist, "fbapi20130214");
+        InfoPlistAddQueriesScheme(plist, "fbapi20130410");
+        InfoPlistAddQueriesScheme(plist, "fbapi20130702");
+        InfoPlistAddQueriesScheme(plist, "fbapi20131010");
+        InfoPlistAddQueriesScheme(plist, "fbapi20131219");
+        InfoPlistAddQueriesScheme(plist, "fbapi20140410");
+        InfoPlistAddQueriesScheme(plist, "fbapi20140116");
+        InfoPlistAddQueriesScheme(plist, "fbapi20150313");
+        InfoPlistAddQueriesScheme(plist, "fbapi20150629");
+        InfoPlistAddQueriesScheme(plist, "fbapi20160328");
+        InfoPlistAddQueriesScheme(plist, "fbauth");
+        InfoPlistAddQueriesScheme(plist, "fb-messenger-share-api");
+        InfoPlistAddQueriesScheme(plist, "fbauth2");
+        InfoPlistAddQueriesScheme(plist, "fbshareextension");
+    }
+
+    private static void ConfigWechat(string appId, PlistDocument plist)
+    {
+        Debug.Log("Config wechat");
+        InfoPlistAddURLType(plist, appId);
+        InfoPlistAddQueriesScheme(plist, "weixinURLParamsAPI");
+        InfoPlistAddQueriesScheme(plist, "weixin");
+        InfoPlistAddQueriesScheme(plist, "weixinULAPI");
+    }
+
+    private static void InfoPlistAddURLType(PlistDocument plist, string scheme)
+    {
+        Debug.Log("Add url type in Info.plist: " + scheme);
+
+        PlistElementArray urlTypes = null;
+        if (plist.root.values.ContainsKey("CFBundleURLTypes"))
+        {
+            urlTypes = plist.root.values["CFBundleURLTypes"].AsArray();
+        }
+        else
+        {
+            urlTypes = plist.root.CreateArray("CFBundleURLTypes");
+        }
+
+        PlistElementDict type = urlTypes.AddDict();
+        PlistElementArray schemes = type.CreateArray("CFBundleURLSchemes");
+        schemes.AddString(scheme);
+    }
+
+    private static void InfoPlistAddQueriesScheme(PlistDocument plist, string scheme)
+    {
+        Debug.Log("Add query scheme: " + scheme);
+
+        PlistElementArray schemes = null;
+        if (plist.root.values.ContainsKey("LSApplicationQueriesSchemes"))
+        {
+            schemes = plist.root.values["LSApplicationQueriesSchemes"].AsArray();
+        }
+        else
+        {
+            schemes = plist.root.CreateArray("LSApplicationQueriesSchemes");
+        }
+
+        schemes.AddString(scheme);
+    }
+
+    private static void InfoPlistAddSKAdNetworkID(PlistDocument plist, string id)
+    {
+        Debug.Log("Add SKAdNetworkId: " + id);
+
+        PlistElementArray items = null;
+        if (plist.root.values.ContainsKey("SKAdNetworkItems"))
+        {
+            items = plist.root.values["SKAdNetworkItems"].AsArray();
+        }
+        else
+        {
+            items = plist.root.CreateArray("SKAdNetworkItems");
+        }
+
+        PlistElementDict item = items.AddDict();
+        item.SetString("SKAdNetworkIdentifier", id);
+    }
+
+    private static void InfoPlistAddBaseConfig(PlistDocument plist)
+    {
+        PlistElementDict appTransportSecurity = plist.root.CreateDict("NSAppTransportSecurity");
+        appTransportSecurity.SetBoolean("NSAllowsArbitraryLoads", true);
+    }
+
+    private static void ConfigApns(PBXProject project, string mainTarget, string projectPath, PlistDocument entitlement)
+    {
+        project.AddCapability(mainTarget, PBXCapabilityType.PushNotifications);
+        entitlement.root.SetString("aps-environment", "development");
+
+        string preprocessorPath = projectPath + "/Classes/Preprocessor.h";
+        string text = File.ReadAllText(preprocessorPath);
+        text = text.Replace("UNITY_USES_REMOTE_NOTIFICATIONS 0", "UNITY_USES_REMOTE_NOTIFICATIONS 1");
+        File.WriteAllText(preprocessorPath, text);
+    }
+
+    private static void ConfigSignInWithApple(PBXProject project, string mainTarget, PlistDocument entitlement)
+    {
+        project.AddCapability(mainTarget, PBXCapabilityType.SignInWithApple);
+        PlistElementArray array = entitlement.root.CreateArray("com.apple.developer.applesignin");
+        array.AddString("Default");
+    }
+
+    private static void ConfigAssociatedDomains(PBXProject project, string mainTarget, PlistDocument entitlement, string[] domains)
+    {
+        project.AddCapability(mainTarget, PBXCapabilityType.AssociatedDomains);
+        PlistElementArray domainsElement = entitlement.root.CreateArray("com.apple.developer.associated-domains");
+        foreach(string domain in domains)
+        {
+            domainsElement.AddString(domain);
+        }
+    }
+
+    private static void ConfigUIRequiredDeviceCapabilities(PlistDocument plist, string[] capabilities)
+    {
+
+        PlistElementArray items = null;
+
+        items = plist.root.CreateArray("UIRequiredDeviceCapabilities");
+
+        foreach (string capability in capabilities)
+        {
+            Debug.Log("Add UIRequiredDeviceCapabilities: " + capability);
+            items.AddString(capability);
+        }
+    }
+
+    private static void ModifyEntitlementHeader(string path)
+    {
+        if (!File.Exists(path))
+        {
+            return;
+        }
+
+        try
+        {
+            StreamReader reader = new StreamReader(path);
+            var content = reader.ReadToEnd().Trim();
+            reader.Close();
+
+            if (content.Contains("< !DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\" >"))
+            {  
+                return;
+            }
+            var needFindString = "<?xml version=\"1.0\" encoding=\"UTF - 8\"?>";
+            var changeString = "<?xml version=\"1.0\" encoding=\"UTF - 8\"?>\n< !DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\" >";
+            content = content.Replace(needFindString, changeString);
+            StreamWriter writer = new StreamWriter(new FileStream(path,FileMode.Create));
+            writer.WriteLine(content);
+            writer.Flush();
+            writer.Close();
+        }
+        catch (Exception e)
+        {
+            Debug.Log("ModifyEntitlementFile failed: " + e.Message);
+        }
+    }
+
+    private static void PbxProjectAddBaseConfig(PBXProject project, string mainTarget, string frameworkTarget)
+    {
+        project.AddFrameworkToProject(mainTarget, "libz.tbd", false);
+        project.AddFrameworkToProject(mainTarget, "AppTrackingTransparency.framework", true);
+        project.AddFrameworkToProject(mainTarget, "AdServices.framework", true);
+        project.AddFrameworkToProject(mainTarget, "UserNotifications.framework", true);
+        project.AddBuildProperty(mainTarget, "OTHER_LDFLAGS", "-ObjC");
+
+        project.AddFrameworkToProject(frameworkTarget, "libz.tbd", false);
+        project.AddFrameworkToProject(frameworkTarget, "AppTrackingTransparency.framework", true);
+        project.AddFrameworkToProject(frameworkTarget, "AdServices.framework", true);
+        project.AddFrameworkToProject(frameworkTarget, "UserNotifications.framework", true);
+
+        project.SetBuildProperty(mainTarget, "ENABLE_BITCODE", "false");
+        project.SetBuildProperty(frameworkTarget, "ENABLE_BITCODE", "false");
+        project.SetBuildProperty(mainTarget, "ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES", "YES");
+        project.AddBuildProperty(frameworkTarget, "FRAMEWORK_SEARCH_PATHS", "$(SRCROOT)");
+        project.AddBuildProperty(frameworkTarget, "FRAMEWORK_SEARCH_PATHS", "$(inherited)");
+        project.AddBuildProperty(mainTarget, "FRAMEWORK_SEARCH_PATHS", "$(SRCROOT)");
+        project.AddBuildProperty(mainTarget, "FRAMEWORK_SEARCH_PATHS", "$(inherited)");
+
+        project.SetBuildProperty(mainTarget, "ARCHS", "arm64");
+        project.SetBuildProperty(frameworkTarget, "ARCHS", "arm64");
+    }
+
+    private static void GeneratePodFile(string projectPath, string dependencies)
+    {
+        string content = "use_frameworks!\n\nsource 'http://gitlab.getapk.cn/liangjiahao/JodoSpecs.git'\n\nplatform :ios, '12.0'\n\ntarget 'Unity-iPhone' do\n\n#dependencies_start\n" + dependencies + "\n#dependencies_end\n\nend\n\ntarget 'UnityFramework' do\n\n#dependencies_start\n" + dependencies + "\n#dependencies_end\n\nend";
+        string path = Path.Combine(projectPath, "Podfile");
+
+        StreamWriter writer;
+        FileInfo info = new FileInfo(path);
+        writer = info.CreateText();
+
+        writer.WriteLine(content);
+        writer.Close();
+        writer.Dispose();
     }
 }
 

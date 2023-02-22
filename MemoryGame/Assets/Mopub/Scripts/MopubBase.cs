@@ -50,9 +50,13 @@ namespace MopubNS
 		public abstract void resetPasswordWithEmail(string email, string password, string code, Action<string> success, Action<MopubSDKError> failed);
 		public abstract void showLoginUI(Action<LoginSuccessResult> success, Action<MopubSDKError> failed,string activeCode);
 
+		public abstract void autoLoginTouristWithUI(Action<LoginSuccessResult> success, Action<MopubSDKError> failed);
+
 		public abstract MopubSdkAccessToken currentAccessToken ();
 
 		public abstract void verifySessionToken(string token, Action<VerifySuccessResult> success, Action<MopubSDKError> failed);
+
+		public abstract void reLoginFlow(Action<LoginSuccessResult> success, Action<MopubSDKError> failed);
 
 		public abstract void createInviteCode(Action<string> success, Action<MopubSDKError> failed);
 
@@ -95,6 +99,8 @@ namespace MopubNS
 			Action<MopubSDKPaymentInfo> paymentProcessingWithPaymentInfo,
 			Action<MopubSDKPaymentInfo, MopubSDKError> paymentFailedWithPaymentInfo);
 
+		public abstract void startLinkagePayment(Dictionary<string,string> extraData);
+
         //subscription
         //Will be called after logins if player had any subscription item.
         public abstract void setSubscriptionItemUpdatedListener(Action<List<MopubSDKSubscriptionItem>> subscriptionItemUpdatedListener);
@@ -132,8 +138,9 @@ namespace MopubNS
         public abstract void logPlayerInfo(string characterName, string characterID, int characterLevel, string serverName, string serverID);
 		public abstract void logPlayerInfo(string characterName, string characterID, int characterLevel, string serverName, string serverID, Dictionary<string, string> extraData);
 
+		public abstract void addEventGlobalParams(Dictionary<string, string> data);
 
-        public abstract void logCustomEvent (string eventName,  Dictionary<string,string> data);
+		public abstract void logCustomEvent (string eventName,  Dictionary<string,object> data);
 
 
 		public abstract void logCustomAFEvent (string eventName, Dictionary<string,object> data);
@@ -159,6 +166,9 @@ namespace MopubNS
         public abstract void setAdvertisingIngameParamsUpdatedListener(Action<Dictionary<String, String>> ADIngameParamsUpdatedListener);
 
 		public abstract void setAFDataUpdatedListener(Action<Dictionary<String, String>> afDataUpdatedListener);
+
+		public abstract void setATTDataUpdatedListener(Action<Dictionary<String, object>> attDataUpdatedListener);
+
         ///social
 
         public abstract bool openJoinChatGroup();
@@ -168,6 +178,8 @@ namespace MopubNS
 		public abstract bool openRatingView();
 
 		public abstract bool openRate();
+
+		public abstract bool openRate(string shop);
 		
 		public abstract void setOnPushInitCallback(Action<string> success, Action<MopubSDKError> failed);
 
@@ -208,5 +220,66 @@ namespace MopubNS
 
 		public abstract void showGuidPageView(Action<string> success);
 
+		// 展示绑定账号界面
+		public abstract void showLinkAccountView(Action success);
+
+		// 展示切换账号界面
+		public abstract void showSwitchAccountView(Action<MopubSdkAccessToken> success);
+
+		// 展示删除账号界面
+		public abstract void showDeleteAccountView(Action success);
+
+		public abstract string getActivateCode();
+
+		// 初始化推送sdk
+		public abstract void initPushSDK(string cgi, string appid, string appSecret, bool passThroughEnable, string logHost, string logPath, Action<string> clickCallback, Action<string> receiveMessageCallback);
+
+		// 设置推送别名
+		public abstract void setPushAlias(string alias);
+		
+		public abstract string getAppSignMD5();
+		public abstract string getAppSignSHA1();
+		public abstract string getAppSignSHA256();
+
+
+		public abstract void setPackageUpdatedListener(Action success);
+		//九重港澳台账号中心
+		public abstract void showAccountCenter(Action linkSuccess,Action deleteSuccess,Action<MopubSdkAccessToken> success,Action<string> userVerify);
+		//接受档案
+		public abstract void showArchive(Dictionary<string,object> data);
+		//是否游客
+		public abstract bool isAccountOnlyTourist();
+		//支付弹窗绑定
+		public abstract void showLinkedAfterPurchaseView();
+		// 设置多语言，zh-Hant是繁体 zh-Hans是简体 en是英语   
+		public abstract void setLanguage(string language);
+
+		// 展示公告
+		public abstract void openNoticeDialog();
+
+		public abstract void requestPermission(MopubPermissionsInfo[] permissionsInfo, Action finish, Action cancel);
+
+		// 获取cp在线参数
+		public abstract Dictionary<string, object> getCpParams();
+
+		// 分享到微信
+		public abstract void openShareToWechat(string entrance, MopubWechatSharedData sharedData, Action success, Action<MopubSDKError> failure);
+
+		// 分享到qq
+		public abstract void openShareToQQ(string entrance, MopubQQSharedData sharedData, Action success, Action<MopubSDKError> failure);
+
+		//当前时间对应的分享活动
+		public abstract MopubAppSharedCampaignInfo getSharedCampaignInfo();
+
+		//当前时间对应的邀请活动
+		public abstract MopubAppSharedCampaignInfo getInvitedCampaignInfo();
+
+		public abstract Dictionary<string, object> getSDKInfo();
+
+		public abstract void fetchInviteBonusList(Action<List<MopubInviteBonusCategory>> success, Action<MopubSDKError> failure);
+
+		public abstract void acceptInviteBonus(string inviteId, string pkey, Action success, Action<MopubSDKError> failure);
+
+		public abstract void fetchIPv4Info(Action<MopubIPv4Info> success, Action<MopubSDKError> failure);
 	}
 }

@@ -40,6 +40,12 @@ namespace MopubNS
 				success (new InitSuccessResult ());
 			}
 		}
+
+		public override void addEventGlobalParams(Dictionary<string, string> data)
+		{
+			
+		}
+
 		override public void callRealNameUI(bool netWorkable,Action<string> success,Action<string> failed,Action<MopubSDKError> failederror)
        {
        Debug.Log("static MopubAndroid callRealNameUI");
@@ -60,7 +66,54 @@ namespace MopubNS
     
        }
 
-		override public void login (Action<LoginSuccessResult> success, Action<MopubSDKError> failed)
+		// 展示绑定账号界面
+		public override void showLinkAccountView(Action success)
+		{
+			success();
+		}
+
+		// 展示切换账号界面
+		public override void showSwitchAccountView(Action<MopubSdkAccessToken> success)
+		{
+			SESDKEditorBackendMock.instance.switchAccount(success);
+
+		}
+
+		// 展示删除账号界面
+		public override void showDeleteAccountView(Action success)
+		{
+			success();
+		}
+		public override bool isAccountOnlyTourist(){
+			return true;
+		}
+		public override void showAccountCenter(Action linkSuccess,Action deleteSuccess,Action<MopubSdkAccessToken> success,Action<string> userVerify){
+			
+		}
+		public override void showArchive(Dictionary<string,object> data)
+		{
+			
+		}
+		public override void showLinkedAfterPurchaseView(){
+			
+		}
+
+		public override void setLanguage(string language)
+        {
+
+        }
+
+		public override void openNoticeDialog()
+        {
+
+        }
+
+        public override void autoLoginTouristWithUI(Action<LoginSuccessResult> success, Action<MopubSDKError> failed)
+        {
+			SESDKEditorBackendMock.instance.autoLoginTouristWithUI(success, failed);
+        }
+
+        override public void login (Action<LoginSuccessResult> success, Action<MopubSDKError> failed)
 		{
             SESDKEditorBackendMock.instance.login(success, failed);
 		}
@@ -142,7 +195,7 @@ namespace MopubNS
 		{
 			SESDKEditorBackendMock.instance.verifySessionToken(token, success, failed);
 		}
-
+		public override void reLoginFlow(Action<LoginSuccessResult> success, Action<MopubSDKError> failed){}
 		public override void createInviteCode(Action<string> success, Action<MopubSDKError> failed)
 		{
 			SESDKEditorBackendMock.instance.createInviteCode(success, failed);
@@ -306,6 +359,8 @@ namespace MopubNS
 
         }
 
+		public override void startLinkagePayment(Dictionary<string,string> extraData){}
+
 		
 		override public bool hasSmartAd (string gameEntry)
 		{
@@ -385,7 +440,7 @@ namespace MopubNS
 
 
 
-        override public void logCustomEvent (string eventName, Dictionary<string,string> data)
+        override public void logCustomEvent (string eventName, Dictionary<string,object> data)
 		{
 			var mapStr = "";
 			foreach (var pair in data) {
@@ -439,6 +494,9 @@ namespace MopubNS
 		public override bool openRate()
 		{
 			return false;	
+		}
+		public override bool openRate(string shop){
+			return false;
 		}
 		
 		public override bool addLocalNotification(MopubSDKLocalMsg localMsg)
@@ -495,6 +553,10 @@ namespace MopubNS
 		public override void setAFDataUpdatedListener(Action<Dictionary<String, String>> afDataUpdatedListener)
 		{
 			SESDKEditorBackendMock.instance.setAFDataUpdatedListener(afDataUpdatedListener);
+		}
+		public override void setATTDataUpdatedListener(Action<Dictionary<String, object>> attDataUpdatedListener)
+		{
+			// SESDKEditorBackendMock.instance.setAFDataUpdatedListener(afDataUpdatedListener);
 		}
 		
         public override void logPlayerInfo(string characterName, string characterID, int characterLevel, string serverName, string serverID)
@@ -583,9 +645,114 @@ namespace MopubNS
             MopubCallbackManager.getRedeemFailDelegate = failed;
             
         }
-		public override void showGuidPageView(Action<string> success){
+
+		public override void showGuidPageView(Action<string> success) {
 			MopubCallbackManager.showGuidPageViewSuccessDelegate = success;
+
+#if UNITY_EDITOR
+           success.Invoke("");
+#endif
 		}
+
+		public override void setPackageUpdatedListener(Action success)
+		{
+			SESDKEditorBackendMock.instance.setPackageUpdateDelegate(success);
+
+		}
+
+		public override string getActivateCode(){
+			return "getActivateCode";
+		}
+
+		// 初始化推送sdk
+		public override void initPushSDK(string cgi, string appid, string appSecret, bool passThroughEnable, string logHost, string logPath, Action<string> clickCallback, Action<string> receiveMessageCallback)
+		{
+			
+		}
+
+		// 设置推送别名
+		public override void setPushAlias(string alias)
+		{
+
+		}
+		public override string getAppSignMD5(){
+			return "getAppSignMD5";
+		}
+		public override string getAppSignSHA1(){
+			return "getAppSignSHA1";
+		}
+		public override string getAppSignSHA256(){
+			return "getAppSignSHA256";
+		}
+
+		public override void requestPermission(MopubPermissionsInfo[] permissionsInfo, Action finish, Action cancel){
+            
+        }
+
+		public override Dictionary<string, object> getCpParams()
+		{
+			Dictionary<string, object> cpParams = new Dictionary<string, object>();
+			Dictionary<string, string> fbGroup = new Dictionary<string, string>();
+
+			fbGroup["lang"] = "zh_CN";
+			fbGroup["link"] = "https://www.baidu.com";
+
+			cpParams["fb_group"] = fbGroup;
+
+			return cpParams;
+
+		}
+
+		// 分享到微信
+		public override void openShareToWechat(string entrance, MopubWechatSharedData sharedData, Action success, Action<MopubSDKError> failure)
+        {
+			sharedData.thumbData = null;
+			sharedData.mediaObject.imageData = null;
+			string dataJson = JsonUtility.ToJson(sharedData);
+			Debug.Log("share data: " + dataJson);
+			success();
+        }
+
+		public override void openShareToQQ(string entrance, MopubQQSharedData sharedData, Action success, Action<MopubSDKError> failure)
+        {
+			string dataJson = JsonUtility.ToJson(sharedData);
+			Debug.Log("share data: " + dataJson);
+			success();
+        }
+
+		public override MopubAppSharedCampaignInfo getSharedCampaignInfo(){
+            return new MopubAppSharedCampaignInfo(MopubAppSharedCampaignType.share, "unkonwn", 0, 0);
+        }
+
+        public override MopubAppSharedCampaignInfo getInvitedCampaignInfo(){
+            return new MopubAppSharedCampaignInfo(MopubAppSharedCampaignType.invite, "unkonwn", 0, 0);
+        }
+
+		public override Dictionary<string, object> getSDKInfo()
+		{
+			Dictionary<string, object> sdkinfo = new Dictionary<string, object>();
+
+			sdkinfo["game_id"] = "demo";
+			sdkinfo["publisher"] = "superera";
+
+			return sdkinfo;
+		}
+
+		public override void fetchInviteBonusList(Action<List<MopubInviteBonusCategory>> success, Action<MopubSDKError> failure)
+		{
+			List<MopubInviteBonusCategory> list = new List<MopubInviteBonusCategory>();
+			success(list);
+		}
+
+		public override void acceptInviteBonus(string inviteId, string pkey, Action success, Action<MopubSDKError> failure)
+		{
+			success();
+		}
+
+		public override void fetchIPv4Info(Action<MopubIPv4Info> success, Action<MopubSDKError> failure){
+            MopubIPv4Info info = new MopubIPv4Info("", "", "", "", "", "", "");
+			success(info);
+        }
 	}
 #endif
-}
+		}

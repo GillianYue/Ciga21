@@ -17,7 +17,27 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (void)SDKInit:(nullable NSString *)gameContentVersion;
 
++ (void)addEventGlobalParams:(NSString *)jsonParams;
+
 ///auth
+
++ (void)showLinkAccountView;
+
++ (void)showSwitchAccountView;
+
++ (void)showDeleteAccountView;
+
++ (void)showAccountCenter;
+
++ (void)showLinkedAfterPurchaseView;
+
++ (BOOL)isAccountOnlyTourist;
+
++ (void)showArchive:(NSString *)jsonParams;
+
++ (void)setLanguage:(NSString *)language;
+
++ (void)openNoticeDialog;
 
 + (void)login;
 
@@ -58,8 +78,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (void)linkWithEmail:(NSString *)email password:(NSString *)password authCode:(NSString *)authCode;
 
-+ (void)loginVisitorWithActiveCode: (NSString *)activeCode;
++ (void)loginVisitorWithActiveCode: (NSString *)activeCode ;
 
++ (void)reLoginFlow;
 /**
  返回当前accessToken的json
 
@@ -134,7 +155,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)setUnconsumedItemUpdatedListener;
 
 + (void)consumePurchaseWithSDKOrderID:(NSString *)sdkOrderID;
-+ (void)startPaymentWithItemID:(NSString *)itemID cpOrderID:(nullable NSString *)cpOrderID characterName:(nullable NSString *)characterName characterID:(nullable NSString *)characterID serverName:(nullable NSString *)serverName serverID:(nullable NSString *)serverID;
++ (void)startPaymentWithItemID:(NSString *)itemID cpOrderID:(nullable NSString *)cpOrderID characterName:(nullable NSString *)characterName characterID:(nullable NSString *)characterID serverName:(nullable NSString *)serverName serverID:(nullable NSString *)serverID level:(int)level;
 
 ///subscription
 + (void)fetchAllPurchasedSubscriptionItem;
@@ -229,6 +250,31 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)getCloudCacheWithUid:(NSString *)uid;
 
 + (void)getRedeemWithCode:(NSString *)code;
+
++ (void)pushSDKInitWithCgi:(NSString *)cgi appid:(NSString *)appid appSecret:(NSString *)appSecret passThroughEnable:(BOOL)passThroughEnable logHost:(NSString *)logHost logPath:(NSString *)logPath;
+
++ (void)setPushAlias:(NSString *)alias;
+
+
++ (void)autoLoginTouristWithUI;
+
++ (NSDictionary *)getCpParams;
+
++ (NSDictionary *)getSDKInfo;
+
++ (NSDictionary *)getCurrentSharedCampaign;
+
++ (NSDictionary *)getCurrentInvitedCampaign;
+
++ (void)openShareToWechatForEntrance:(NSString *)entrance shareData:(NSString *)shareData;
+
++ (void)openShareToQQForEntrance:(NSString *)entrance shareData:(NSString *)shareData;
+
++ (void)fetchInviteBonusList;
+
++ (void)acceptInviteBonusWithInviteId:(NSString *)inviteId rewardedId:(NSString *)rewardedId;
+
++ (void)fetchIPv4Info;
 
 @end
 

@@ -1,6 +1,0 @@
-framework module SupereraSDKCommon {
-  umbrella header "SupereraSDKCommon.h"
-
-  export *
-  module * { export * }
-}

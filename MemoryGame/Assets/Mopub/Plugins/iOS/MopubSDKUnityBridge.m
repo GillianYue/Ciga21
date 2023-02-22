@@ -6,6 +6,7 @@
 //  Copyright © 2019 Mopub. All rights reserved.
 //
 
+#import "MopubMessageHandler.h"
 #import "MopubSDKManager.h"
 
 #pragma - mark help
@@ -28,6 +29,22 @@ static char* cStringWithNSString(NSString* input)
 
 void _init(char* gameVersionContent) {
     [SDKManager SDKInit: GetNullableNSStringParam(gameVersionContent)];
+}
+
+void _addEventGlobalParams(char *globalParams) {
+    [SDKManager addEventGlobalParams:GetNullableNSStringParam(globalParams)];
+}
+
+void _showLinkAccountView() {
+    [SDKManager showLinkAccountView];
+}
+
+void _showSwitchAccountView() {
+    [SDKManager showSwitchAccountView];
+}
+
+void _showDeleteAccountView() {
+    [SDKManager showDeleteAccountView];
 }
 
 void _login() {
@@ -196,8 +213,8 @@ void _setUnconsumedItemUpdatedListener() {
     [SDKManager setUnconsumedItemUpdatedListener];
 }
 
-void _startPayment(char* itemID, char* cpOrderID, char* characterName, char* characterID, char* serverName, char* serverID) {
-    [SDKManager startPaymentWithItemID:GetNullableNSStringParam(itemID) cpOrderID:GetNullableNSStringParam(cpOrderID) characterName:GetNullableNSStringParam(characterName) characterID:GetNullableNSStringParam(characterID) serverName:GetNullableNSStringParam(serverName) serverID:GetNullableNSStringParam(serverID)];
+void _startPayment(char* itemID, char* cpOrderID, char* characterName, char* characterID, char* serverName, char* serverID, int level) {
+    [SDKManager startPaymentWithItemID:GetNullableNSStringParam(itemID) cpOrderID:GetNullableNSStringParam(cpOrderID) characterName:GetNullableNSStringParam(characterName) characterID:GetNullableNSStringParam(characterID) serverName:GetNullableNSStringParam(serverName) serverID:GetNullableNSStringParam(serverID) level:level];
 }
 
 ///scription
@@ -421,4 +438,149 @@ void _getCloudCache(char *uid) {
 
 void _getRedeem(char *code) {
     [SDKManager getRedeemWithCode: GetNullableNSStringParam(code)];
+}
+
+void _initPushSDK(char *cgi, char *appid, char *appSecret, bool passThroughEnable, char *logHost, char *logPath) {
+    
+    [SDKManager pushSDKInitWithCgi: GetNullableNSStringParam(cgi)
+                             appid: GetNullableNSStringParam(appid)
+                         appSecret: GetNullableNSStringParam(appSecret)
+                 passThroughEnable: passThroughEnable
+                           logHost: GetNullableNSStringParam(logHost)
+                           logPath: GetNullableNSStringParam(logPath)];
+}
+
+void _setPushAlias(char *alias) {
+    [SDKManager setPushAlias:GetNullableNSStringParam(alias)];
+}
+
+void _showLinkedAfterPurchaseView(){
+    [SDKManager showLinkedAfterPurchaseView];
+}
+
+void _showAccountCenter() {
+    [SDKManager showAccountCenter];
+}
+
+void _showArchive(char *jsonString) {
+    [SDKManager showArchive:GetNullableNSStringParam(jsonString)];
+}
+
+bool _isAccountOnlyTourist() {
+    return [SDKManager isAccountOnlyTourist];
+}
+
+void _setLanguage(char *language) {
+    [SDKManager setLanguage:GetNullableNSStringParam(language)];
+}
+
+void _openNoticeDialog() {
+    [SDKManager openNoticeDialog];
+}
+
+
+void _autoLoginTouristWithUI() {
+    [SDKManager autoLoginTouristWithUI];
+}
+
+char *_getCpParams() {
+    NSDictionary *cpParams = [SDKManager getCpParams];
+    if (cpParams) {
+        NSData* data = [NSJSONSerialization dataWithJSONObject:cpParams options:0 error:nil];
+        if(data == nil){
+            return NULL;
+        }
+        return cStringWithNSString([[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+    }
+    else {
+        return NULL;
+    }
+}
+
+char *_getSDKInfo() {
+    NSDictionary *sdkinfo = [SDKManager getSDKInfo];
+    if (sdkinfo) {
+        NSData* data = [NSJSONSerialization dataWithJSONObject:sdkinfo options:0 error:nil];
+        if(data == nil){
+            return NULL;
+        }
+        return cStringWithNSString([[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+    }
+    else {
+        return NULL;
+    }
+}
+
+void _openShareToWechat(char *entrance, char *shareData) {
+    NSString *entranceStr = GetNullableNSStringParam(entrance);
+    NSString *shareDataStr = GetNullableNSStringParam(shareData);
+    [SDKManager openShareToWechatForEntrance:entranceStr shareData:shareDataStr];
+}
+
+void _openShareToQQ(char *entrance, char *shareData) {
+    NSString *entranceStr = GetNullableNSStringParam(entrance);
+    NSString *shareDataStr = GetNullableNSStringParam(shareData);
+    [SDKManager openShareToQQForEntrance:entranceStr shareData:shareDataStr];
+}
+
+void _fetchInviteBonusList() {
+    [SDKManager fetchInviteBonusList];
+}
+
+void _acceptBonus(char *inviteId, char *pkey) {
+    NSString *inviteIdStr = GetNullableNSStringParam(inviteId);
+    NSString *pkeyStr = GetNullableNSStringParam(pkey);
+    
+    [SDKManager acceptInviteBonusWithInviteId:inviteIdStr rewardedId:pkeyStr];
+}
+
+char *_getCurrentSharedCampaign() {
+    NSDictionary *campaign = [SDKManager getCurrentSharedCampaign];
+    if (campaign) {
+        NSData* data = [NSJSONSerialization dataWithJSONObject:campaign options:0 error:nil];
+        if(data == nil){
+            return NULL;
+        }
+        return cStringWithNSString([[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+    }
+    else {
+        return NULL;
+    }
+}
+
+char *_getCurrentInvitedCampaign() {
+    NSDictionary *campaign = [SDKManager getCurrentInvitedCampaign];
+    if (campaign) {
+        NSData* data = [NSJSONSerialization dataWithJSONObject:campaign options:0 error:nil];
+        if(data == nil){
+            return NULL;
+        }
+        return cStringWithNSString([[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+    }
+    else {
+        return NULL;
+    }
+}
+
+void _fetchIPv4Info() {
+    [SDKManager fetchIPv4Info];
+}
+
+char *_handleMessageFromUnity(char *messageName, char *jsonString) {
+    
+    NSString *messageNameStr = GetNullableNSStringParam(messageName);
+    NSString *params = GetNullableNSStringParam(jsonString);
+    id result = [[MopubMessageHandler shared] handleMessageFromUnity:messageNameStr params:params];
+    
+    if (result) {
+        return cStringWithNSString([NSString stringWithFormat:@"%@", result]);
+    }
+    else {
+        return nil;
+    }
+}
+
+
+void _reLoginFlow() {
+    [SDKManager reLoginFlow];
 }

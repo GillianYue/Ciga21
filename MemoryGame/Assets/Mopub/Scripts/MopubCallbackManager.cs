@@ -38,7 +38,14 @@ namespace MopubNS {
 		public static Action<string> realNameUIFailedDelegate;
 
 		public static Action<MopubSDKError> realNameUIFailedErrorDelegate;
-		
+
+		public static Action linkAccountViewSuccessDelegate;
+
+		public static Action<MopubSdkAccessToken> switchAccountSuccessDelegate;
+
+		public static Action<string> userVerifyDelegate;
+
+		public static Action deleteAccountSuccessDelegate;
 
 		public static Action<LoginSuccessResult> loginSuccessDelegate;
 		public static Action<MopubSDKError> loginFailedDelegate;
@@ -63,6 +70,12 @@ namespace MopubNS {
 
 		public static Action<LoginSuccessResult> loginVisitorSuccessDelegate;
 		public static Action<MopubSDKError> loginVisitorFailedDelegate;
+
+		public static Action<LoginSuccessResult> autoLoginTouristWithUISuccessDelegate;
+		public static Action<MopubSDKError> autoLoginTouristWithUIFailedDelegate;
+
+		public static Action<LoginSuccessResult> reLoginFlowSuccessDelegate;
+		public static Action<MopubSDKError> reLoginFlowFailedDelegate;
 
 		public static Action<FetchSuccessResult> fetchMobileAuthCodeSuccessDelegate;
 		public static Action<MopubSDKError> fetchMobileAuthCodeFailedDelegate;
@@ -154,6 +167,9 @@ namespace MopubNS {
 		private static Action<Dictionary<String, String>> afDataUpdatedListenerDelegate;
 		private static Dictionary<String, String> afData;
 
+		private static Action<Dictionary<String, object>> attDataUpdatedListenerDelegate;
+		private static Dictionary<String, object> attData;
+
 		private static Action<Dictionary<String, int>> unreadMessageUpdatedListenerDelegate;
 		private static Dictionary<String, int> unreadMessageData;
 
@@ -175,6 +191,28 @@ namespace MopubNS {
 		//兑换码
 		public static Action<string> getRedeemSuccessDelegate;
 		public static Action<MopubSDKError> getRedeemFailDelegate;
+
+		// 推送
+		public static Action<string> pushDidClickDelegate;
+		public static Action<string> pushReceiveMessageDelegate;
+
+		// 分享
+		public static Action appshareSuccessDelegate;
+		public static Action<MopubSDKError> appshareFailureDelegate;
+
+		public static Action packageUpdatedSuccessDelegate;
+		
+		public static Action finishRequestPermissionDelegate;
+		public static Action cancelRequestPermissionDelegate;
+
+		public static Action<List<MopubInviteBonusCategory>> fetchInviteBonusListSuccessDelegate;
+		public static Action<MopubSDKError> fetchInviteBonusListFailureDelegate;
+
+		public static Action acceptInviteBonusSuccessDelegate;
+		public static Action<MopubSDKError> acceptInviteBonusFailureDelegate;
+
+		public static Action<MopubIPv4Info> fetchIPv4InfoSuccessDelegate;
+		public static Action<MopubSDKError> fetchIPv4InfoFailureDelegate;
 		
         static string unity_args_key_error = "MopubSDKError";
 		//static string unity_args_key_ad_entry = "gameEntry";
@@ -252,6 +290,28 @@ namespace MopubNS {
 			MopubSDKError error = JsonUtility.FromJson<MopubSDKError> (args);
 			if(realNameUIFailedErrorDelegate != null) realNameUIFailedErrorDelegate(error);
 		}
+
+		public void linkAccountViewSuccess()
+        {
+			if (linkAccountViewSuccessDelegate != null) linkAccountViewSuccessDelegate();
+        }
+
+		public void switchAccountSuccess(string args)
+        {
+			MopubSdkAccessToken token = JsonUtility.FromJson<MopubSdkAccessToken>(args);
+			if (switchAccountSuccessDelegate != null) switchAccountSuccessDelegate(token);
+        }
+
+		public void deleteAccountSuccess()
+        {
+			if (deleteAccountSuccessDelegate != null) deleteAccountSuccessDelegate(); 
+        }
+
+		public void userVerify(string uid)
+		{
+			if(userVerifyDelegate != null)userVerifyDelegate(uid);
+		}
+
 		public void sdkLogoutSuccess(string args){
 			if(logoutSuccessDelegate != null)  logoutSuccessDelegate (args);
 		}
@@ -282,6 +342,28 @@ namespace MopubNS {
 		{
 			MopubSDKError error = JsonUtility.FromJson<MopubSDKError>(args);
 			if (loginDeviceFailedDelegate != null) loginDeviceFailedDelegate(error);
+		}
+
+	   public void reLoginFlowSuccess(string args)
+	   {
+		Debug.Log("reLoginFlowSuccess:" + args);
+			MopubSdkAccessToken token = JsonUtility.FromJson<MopubSdkAccessToken>(args);
+			Debug.Log("sdkLogin:" + token.linkedAccount.accounts.Count);
+			if (token != null)
+			{
+				Debug.Log(token.accountID);
+			}
+			else
+			{
+				Debug.Log("token error");
+			}
+			LoginSuccessResult result = new LoginSuccessResult(token);
+			if (reLoginFlowSuccessDelegate != null) reLoginFlowSuccessDelegate(result);
+	   }
+	   public void reLoginFlowFailed(string args)
+		{
+			MopubSDKError error = JsonUtility.FromJson<MopubSDKError>(args);
+			if (reLoginFlowFailedDelegate != null) reLoginFlowFailedDelegate(error);
 		}
 
 		public void sdkLoginWeChatSuccess(string args)
@@ -419,6 +501,19 @@ namespace MopubNS {
         {
 			MopubSDKError error = JsonUtility.FromJson<MopubSDKError>(args);
 			if (loginVisitorFailedDelegate != null) loginVisitorFailedDelegate(error);
+		}
+
+		public void autoLoginTouristSuccess(string args)
+        {
+			MopubSdkAccessToken token = JsonUtility.FromJson<MopubSdkAccessToken>(args);
+			LoginSuccessResult result = new LoginSuccessResult(token);
+			if (autoLoginTouristWithUISuccessDelegate != null) autoLoginTouristWithUISuccessDelegate(result);
+		}
+
+		public void autoLoginTouristFailed(string args)
+        {
+			MopubSDKError error = JsonUtility.FromJson<MopubSDKError>(args);
+			if (autoLoginTouristWithUIFailedDelegate != null) autoLoginTouristWithUIFailedDelegate(error);
 		}
 
 		public void resetPasswordWithEmailSuccess(string args)
@@ -923,6 +1018,29 @@ namespace MopubNS {
 				}
 			}
 		}
+		static public void setATTDataUpdatedListenerDelegate(Action<Dictionary<String, object>> listener){
+			attDataUpdatedListenerDelegate = listener;
+				Debug.Log ("set att data listener");
+			if (attData != null) {
+				Debug.Log ("call as the attData is not null "+attData);
+				attDataUpdatedListenerDelegate (attData);
+			}
+		}
+		
+		public void aTTInstallConversionData(string args){
+			Debug.Log(args);
+			Dictionary<String,object> input = Json.Deserialize(args) as Dictionary<String, object>;
+			Dictionary<String,object> tempParams = new Dictionary<string, object> ();
+			foreach (var pair in input) {
+				tempParams.Add (pair.Key, pair.Value);
+			}
+			if (tempParams.Count > 0) {
+				attData = tempParams;
+				if (attDataUpdatedListenerDelegate != null) {
+					attDataUpdatedListenerDelegate (attData);
+				}
+			}
+		}
 
 
 		public static void setUnreadMessageUpdatedListenerDelegate(Action<Dictionary<String, int>> listener){
@@ -1014,8 +1132,136 @@ namespace MopubNS {
 		public void getRedeemFailed(string args){
 			MopubSDKError error = JsonUtility.FromJson<MopubSDKError>(args);
 			if(getRedeemFailDelegate != null) getRedeemFailDelegate(error);
-			}		
-        #endregion
+			}
+
+		public void pushDidClick(string args)
+        {
+			if (pushDidClickDelegate != null) pushDidClickDelegate(args);
+        }
+
+		public void pushReceiveMessage(string args)
+        {
+			if (pushReceiveMessageDelegate != null) pushReceiveMessageDelegate(args);
+        }
+
+		public void packageUpdateSuccess()
+        {
+			if (packageUpdatedSuccessDelegate != null) packageUpdatedSuccessDelegate();
+
+		}
+
+
+		public void requestPermissionFinish()
+		{
+			if (finishRequestPermissionDelegate != null) finishRequestPermissionDelegate();
+		}
+
+		public void requestPermissionCancel()
+		{
+			if (cancelRequestPermissionDelegate != null) cancelRequestPermissionDelegate();
+		}
+
+		public void appsharedSuccess()
+        {
+			if (appshareSuccessDelegate != null) appshareSuccessDelegate();
+        }
+
+		public void appshareFailed(string args)
+        {
+			MopubSDKError error = JsonUtility.FromJson<MopubSDKError>(args);
+			if (appshareFailureDelegate != null)
+            {
+				appshareFailureDelegate(error);
+            }
+        }
+
+		public void fetchInviteBonusSuccess(string args)
+        {
+
+			List<object> dicArray = Json.Deserialize(args) as List<object>;
+
+			if (dicArray == null)
+            {
+				Debug.Log("invite bonus category list is null");
+				dicArray = new List<object>();
+            }
+
+			List<MopubInviteBonusCategory> bonusCategoryList = new List<MopubInviteBonusCategory>();
+			foreach (Dictionary<string, object> dic in dicArray)
+            {
+				Debug.Log("invite bonus category foreach");
+
+				long total = (long)dic["total"];
+				string category = (string)dic["category"];
+				List<object> bonusDicList = dic["bonusList"] as List<object>;
+
+				List<MopubInviteBonus> bonusList = new List<MopubInviteBonus>();
+				
+				foreach (Dictionary<string, object> bonusDic in bonusDicList)
+                {
+					string jsonString = Json.Serialize(bonusDic);
+					MopubInviteBonus bonus = JsonUtility.FromJson<MopubInviteBonus>(jsonString);
+					bonusList.Add(bonus);
+				}
+
+				MopubInviteBonusCategory bonusCategory = new MopubInviteBonusCategory(total, bonusList, category);
+				bonusCategoryList.Add(bonusCategory);
+				
+            }
+
+			if (fetchInviteBonusListSuccessDelegate != null)
+            {
+				fetchInviteBonusListSuccessDelegate(bonusCategoryList);
+			}
+
+		}
+
+		public void fetchInviteBonusFailed(string args)
+        {
+			MopubSDKError error = JsonUtility.FromJson<MopubSDKError>(args);
+			if (fetchInviteBonusListFailureDelegate != null)
+			{
+				fetchInviteBonusListFailureDelegate(error);
+			}
+		}
+
+		public void acceptInviteBonusSuccess()
+        {
+			if (acceptInviteBonusSuccessDelegate != null)
+            {
+				acceptInviteBonusSuccessDelegate();
+            }
+        }
+
+		public void acceptInviteBonusFailed(string args)
+        {
+			MopubSDKError error = JsonUtility.FromJson<MopubSDKError>(args);
+			if (acceptInviteBonusFailureDelegate != null)
+			{
+				acceptInviteBonusFailureDelegate(error);
+			}
+		}
+
+		public void fetchIPv4InfoSuccess(string args)
+		{
+			MopubIPv4Info info = JsonUtility.FromJson<MopubIPv4Info>(args);
+			if (fetchIPv4InfoSuccessDelegate != null){
+				fetchIPv4InfoSuccessDelegate(info);
+			}
+		}
+
+		public void fetchIPv4InfoFailed(string args)
+		{
+			MopubSDKError error = JsonUtility.FromJson<MopubSDKError>(args);
+			if (fetchIPv4InfoFailureDelegate != null)
+			{
+				fetchIPv4InfoFailureDelegate(error);
+			}
+		}
+
+
+		#endregion
     }
+	
 }
 
