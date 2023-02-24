@@ -29,7 +29,7 @@ public class enabler : MonoBehaviour
 
     public Tester test;
 
-    public Animator headphoneScreen;
+    public Animator headphoneScreen, iconScreen;
 
     #if UNITY_STANDALONE
         public SteamAchievements steamAchievements;
@@ -97,9 +97,15 @@ public class enabler : MonoBehaviour
        // {
 
             headphoneScreen.gameObject.SetActive(true);
+        if (isMobile()) { iconScreen.gameObject.SetActive(true); }
             headphoneScreen.GetComponent<Image>().color = new Color(1, 1, 1, 1);
             headphoneScreen.transform.GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 0);
             headphoneScreen.transform.GetChild(1).GetComponent<Image>().color = new Color(1, 1, 1, 0);
+/*        if (isMobile())
+        {
+            iconScreen.transform.GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 0);
+            iconScreen.transform.GetChild(1).GetComponent<Image>().color = new Color(1, 1, 1, 0);
+        }*/
         // }
 
         UICanvas.gameObject.SetActive(true);
@@ -153,9 +159,20 @@ public class enabler : MonoBehaviour
         //UICanvas.gameObject.SetActive(false); //hide UICanvas on start
         menuUIWindow.gameObject.SetActive(false);
 
+        if (isMobile())
+        {
+            //show icons
+            iconScreen.SetTrigger("fadeIn");
+            yield return new WaitForSeconds(2f);
+            iconScreen.SetTrigger("fadeOut");
+            //hide icons
+
+            yield return new WaitForSeconds(2f);
+        }
+
         headphoneScreen.SetTrigger("fadeIn");
 
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(2f);
 
         headphoneScreen.SetTrigger("fadeOut");
 
