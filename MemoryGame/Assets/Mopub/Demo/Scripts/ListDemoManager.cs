@@ -6,6 +6,7 @@ using System;
 using MopubNS;
 using System.IO;
 using System.Text;
+using UnityEngine.Networking;
 
 public class ListDemoManager : MonoBehaviour
 {
@@ -30,6 +31,7 @@ public class ListDemoManager : MonoBehaviour
 	private int totalScrollHeight = 1000;
 
 	public string activeCode = "";
+	public string language = "";
 	public string phoneNum = "";
 	public string authCode = "";
 	public string inviteCode = "";
@@ -52,6 +54,20 @@ public class ListDemoManager : MonoBehaviour
 	public string cloudCacheUid = "";
 	public string cloudCacheVersion = "";
 	public string cloudCacheData = "";
+
+	public string appSharedEntrance = "";
+	public string appSharedTitle = "";
+	public string appSharedDescription = "";
+	public string appSharedTimeline = "";
+	public string appSharedMiniProgram = "";
+	public string appSharedFile = "";
+	public string appSharedCampaignType = "";
+
+	public string globalEventKey = "";
+	public string globalEventValue = "";
+
+	public string inviteId = "";
+	public string pkey = "";
 
 	public class DemoRewardListener: MopubRewardedVideoListener
 	{
@@ -230,6 +246,12 @@ public class ListDemoManager : MonoBehaviour
 		MopubSdk.getInstance().setInterstitialAdListener(new DemoInterListener(this));
         MopubSdk.getInstance().setNativeAdListener(new DemoNativeAdListener(this));
 
+		MopubSdk.getInstance().setPackageUpdatedListener(delegate
+		{
+
+			logs.Add("package update success");
+		});
+
         //set ingame params listener
         MopubSdk.getInstance ().setIngameParamsUpdatedListener (delegate(Dictionary<String, String> ingameParams) {
 			logs.Add("ingame params update");
@@ -264,6 +286,13 @@ public class ListDemoManager : MonoBehaviour
                 logs.Add("find af data, key=" + pair.Key + ", value=" + pair.Value);
             }
         });
+		MopubSdk.getInstance().setATTDataUpdatedListener(delegate (Dictionary<String, object> attDataParams) {
+            logs.Add("att data update");
+            foreach (var pair in attDataParams)
+            {
+                logs.Add("find att data, key=" + pair.Key + ", value=" + pair.Value);
+            }
+        });
 
 		MopubSdk.getInstance().setCustomerUnreadMessageListener(delegate (Dictionary<String, int> unreadMessageDataParams) {
 			 logs.Add("unread message data update");
@@ -272,6 +301,8 @@ public class ListDemoManager : MonoBehaviour
                 logs.Add("find unread message data, key=" + pair.Key + ", value=" + pair.Value);
             }
 		});
+
+		MopubSdk.getInstance().setPushAlias(MopubSdk.getInstance().getPuid());
 		
 		string res = MopubSdk.getInstance().getAppDistributor();
 		logs.Add("App distributor:" + res);
@@ -307,7 +338,6 @@ public class ListDemoManager : MonoBehaviour
 
     void OnGUI ()
 	{
-                Debug.Log("on gui");
 		if (!onFront) {
 			//if it is not on front stop draw the gui
 			Debug.Log ("no on front return");
@@ -383,18 +413,383 @@ public class ListDemoManager : MonoBehaviour
 		}
 
 		y += buttonHeight + 10;
-		 if(GUI.Button(new Rect(0,y,buttonWith,buttonHeight),"getRedeem",btnStyle)){
-           logs.Add("call getRedeem");
-		   MopubSdk.getInstance().getRedeem("",
-			   delegate(string s) { 
-					logs.Add ("getRedeem success:"+s);
+		GUI.Label(new Rect(0, y, 130, buttonHeight), "公共log-key:", fontStyle);
+		globalEventKey = GUI.TextField(new Rect(130, y, buttonWith - 130, buttonHeight), globalEventKey, inputStyle);
+
+		y += buttonHeight + 10;
+		GUI.Label(new Rect(0, y, 130, buttonHeight), "公共log-value:", fontStyle);
+		globalEventValue = GUI.TextField(new Rect(130, y, buttonWith - 130, buttonHeight), globalEventValue, inputStyle);
+
+		y += buttonHeight + 10;
+		if (GUI.Button(new Rect(0, y, buttonWith, buttonHeight), "添加公共log参数", btnStyle))
+		{
+			Debug.Log("add global envent param");
+
+			Dictionary<string, string> dic = new Dictionary<string, string>();
+			dic[globalEventKey] = globalEventValue;
+			MopubSdk.getInstance().addEventGlobalParams(dic);
+		}
+
+		y += buttonHeight + 10;
+		if (GUI.Button(new Rect(0, y, buttonWith, buttonHeight), "获取IP以及IP解析结果", btnStyle))
+		{
+			logs.Add("fetchIPv4Info");
+			MopubSdk.getInstance().fetchIPv4Info(
+				delegate(MopubIPv4Info info){
+					logs.Add("fetchIPv4Info success");
+					logs.Add(JsonUtility.ToJson(info));
 				},
-				delegate (MopubSDKError failed){
-					logs.Add("getRedeem failederror");
-				   logs.Add(JsonUtility.ToJson(failed));
+				delegate (MopubSDKError error) {
+					logs.Add("fetchIPv4Info failed");
+					logs.Add(JsonUtility.ToJson(error));
+				});
+		}
+
+		y += buttonHeight + 10;
+		GUI.Label(new Rect(0, y, 130, buttonHeight), "活动类型（分享/邀请）：", fontStyle);
+		appSharedCampaignType = GUI.TextField(new Rect(130, y, buttonWith - 130, buttonHeight), appSharedCampaignType, inputStyle);
+
+		y += buttonHeight + 10;
+		GUI.Label(new Rect(0, y, 130, buttonHeight), "分享入口：", fontStyle);
+		appSharedEntrance = GUI.TextField(new Rect(130, y, buttonWith - 130, buttonHeight), appSharedEntrance, inputStyle);
+
+		y += buttonHeight + 10;
+		GUI.Label(new Rect(0, y, 130, buttonHeight), "标题：", fontStyle);
+		appSharedTitle = GUI.TextField(new Rect(130, y, buttonWith - 130, buttonHeight), appSharedTitle, inputStyle);
+
+		y += buttonHeight + 10;
+		GUI.Label(new Rect(0, y, 130, buttonHeight), "描述：", fontStyle);
+		appSharedDescription = GUI.TextField(new Rect(130, y, buttonWith - 130, buttonHeight), appSharedDescription, inputStyle);
+
+		y += buttonHeight + 10;
+		GUI.Label(new Rect(0, y, 130, buttonHeight), "分享朋友圈：", fontStyle);
+		appSharedTimeline = GUI.TextField(new Rect(130, y, buttonWith - 130, buttonHeight), appSharedTimeline, inputStyle);
+
+		y += buttonHeight + 10;
+		GUI.Label(new Rect(0, y, 130, buttonHeight), "分享小程序：", fontStyle);
+		appSharedMiniProgram = GUI.TextField(new Rect(130, y, buttonWith - 130, buttonHeight), appSharedMiniProgram, inputStyle);
+
+        y += buttonHeight + 10;
+        GUI.Label(new Rect(0, y, 130, buttonHeight), "分享文件：", fontStyle);
+        appSharedFile = GUI.TextField(new Rect(130, y, buttonWith - 130, buttonHeight), appSharedFile, inputStyle);
+
+		y += buttonHeight + 10;
+		if (GUI.Button(new Rect(0, y, buttonWith, buttonHeight), "share to wechat", btnStyle))
+		{
+			Debug.Log("share to wechat");
+
+            Texture2D image = Resources.Load<Texture2D>("demoappshare");
+            byte[] bytes = DeCompress(image).EncodeToPNG();
+            string base64 = Convert.ToBase64String(bytes);
+
+   //         string base64 = "";
+
+			//var uri = new System.Uri(Path.Combine(Application.streamingAssetsPath, "demoappshare.jpeg"));
+			//UnityWebRequest request = UnityWebRequest.Get(uri);
+			//DownloadHandlerTexture downloadHandlerTexture = new DownloadHandlerTexture(true);
+			//request.downloadHandler = downloadHandlerTexture;
+			//request.SendWebRequest();
+
+			//if (request.error == null)
+			//{
+			//	while (true)
+			//	{
+			//		if (request.downloadHandler.isDone)
+   //                 {
+			//			logs.Add("down finish");
+			//			Texture2D tex = new Texture2D(1920, 1080);
+			//			tex = downloadHandlerTexture.texture;
+			//			byte[] bytes = tex.EncodeToJPG();
+			//			base64 = Convert.ToBase64String(bytes);
+
+			//			break;
+			//		}
+			//	}
+			//}
+
+			MopubAppSharedScene sharedScene = appSharedTimeline == "1" ? MopubAppSharedScene.Timeline : MopubAppSharedScene.Session;
+			MopubAppSharedMediaType mediaType = appSharedMiniProgram == "1" ? MopubAppSharedMediaType.MiniProgram : MopubAppSharedMediaType.Image;
+
+			MopubWechatSharedMediaObject mediaObject = new MopubWechatSharedMediaObject();
+			if (mediaType == MopubAppSharedMediaType.MiniProgram)
+			{
+				mediaObject.setMiniProgram("https://www.baidu.com", "gh_1fc2321af97a", null);
+				//mediaObject = new MopubWechatSharedMiniProgramObject("https://www.baidu.com", "gh_1fc2321af97a", null);
+			}
+			else
+			{
+				if (appSharedFile == "1")
+				{
+					string filePath = PersistentDataPathForFile("demoappshare.jpeg");
+					if (!File.Exists(filePath))
+                    {
+						FileStream fs = new FileStream(filePath, FileMode.Create);
+						fs.Write(bytes, 0, bytes.Length);
+						fs.Flush();
+						fs.Close();
+					}
+
+					mediaObject.setImage(null, filePath);
+
+
+					//mediaObject.setImage(null, Path.Combine(Application.streamingAssetsPath, "demoappshare.jpeg"));
+					//mediaObject = new MopubWechatSharedImageObject(null, Path.Combine(Application.streamingAssetsPath, "demoappshare"));
 				}
-		   );
-		 }
+				else
+				{
+					mediaObject.setImage(base64, null);
+					//mediaObject = new MopubWechatSharedImageObject(base64, null);
+				}
+			}
+			MopubAppSharedCampaignType type = MopubAppSharedCampaignType.share;
+			if(appSharedCampaignType == "1"){
+				type = MopubAppSharedCampaignType.invite;
+			}
+			MopubWechatSharedData sharedData = new MopubWechatSharedData(type, appSharedTitle, appSharedDescription, base64, sharedScene, mediaType, mediaObject);
+			MopubSdk.getInstance().openShareToWechat(appSharedEntrance, sharedData,
+				delegate {
+					logs.Add("分享成功");
+				},
+				delegate (MopubSDKError error) {
+					logs.Add("分享失败: " + error.clientMessage);
+				}
+
+			);
+
+			Debug.Log("end share to wechat");
+		}
+
+		y += buttonHeight + 10;
+		if (GUI.Button(new Rect(0, y, buttonWith, buttonHeight), "share to qq", btnStyle))
+		{
+			Debug.Log("share to qq");
+
+			Texture2D image = Resources.Load<Texture2D>("demoappshare");
+			byte[] bytes = DeCompress(image).EncodeToPNG();
+			string base64 = Convert.ToBase64String(bytes);
+
+			MopubAppSharedScene sharedScene = appSharedTimeline == "2" ? MopubAppSharedScene.Zone : MopubAppSharedScene.Session;
+			MopubAppSharedMediaType mediaType = MopubAppSharedMediaType.Image;
+
+	
+			string filePath = PersistentDataPathForFile("demoappshare.jpeg");
+			if (!File.Exists(filePath))				{
+				FileStream fs = new FileStream(filePath, FileMode.Create);
+				fs.Write(bytes, 0, bytes.Length);
+				fs.Flush();
+				fs.Close();
+			}
+			MopubAppSharedCampaignType type = MopubAppSharedCampaignType.share;
+			if(appSharedCampaignType == "1"){
+				type = MopubAppSharedCampaignType.invite;
+			}
+			MopubQQSharedData sharedData = new MopubQQSharedData(type, appSharedTitle, appSharedDescription, "https://wwww.baidu.com", sharedScene, mediaType, filePath);
+			MopubSdk.getInstance().openShareToQQ(appSharedEntrance, sharedData,
+				delegate {
+					logs.Add("分享成功");
+				},
+				delegate (MopubSDKError error) {
+					logs.Add("分享失败: " + error.clientMessage);
+				}
+
+			);
+		}
+
+		y += buttonHeight + 10;
+		if (GUI.Button(new Rect(0, y, buttonWith, buttonHeight), "getSharedCampaignInfo", btnStyle))
+		{
+			logs.Add("call getSharedCampaignInfo:");
+			MopubAppSharedCampaignInfo info = MopubSdk.getInstance().getSharedCampaignInfo();
+			logs.Add("campaign type: " + info.campaignType);
+			logs.Add("name: " + info.name);
+			logs.Add("startTime: " + info.startTime);
+			logs.Add("endTime: " + info.endTime);
+		}
+
+		y += buttonHeight + 10;
+		if (GUI.Button(new Rect(0, y, buttonWith, buttonHeight), "getInvitedCampaignInfo", btnStyle))
+		{
+			logs.Add("call getInvitedCampaignInfo:");
+			MopubAppSharedCampaignInfo info = MopubSdk.getInstance().getInvitedCampaignInfo();
+			logs.Add("campaign type: " + info.campaignType);
+			logs.Add("name: " + info.name);
+			logs.Add("startTime: " + info.startTime);
+			logs.Add("endTime: " + info.endTime);
+		}
+
+		y += buttonHeight + 10;
+		if (GUI.Button(new Rect(0, y, buttonWith, buttonHeight), "fetchInviteBonusList", btnStyle))
+		{
+			logs.Add("fetch invite bonus list");
+			MopubNS.MopubSdk.getInstance().fetchInviteBonusList(delegate(List<MopubInviteBonusCategory> bonusList) {
+
+				logs.Add("fetch bonus success");
+				foreach (MopubInviteBonusCategory bonus in bonusList)
+				{
+					logs.Add("total: " + bonus.total);
+					logs.Add("category: " + bonus.category);
+
+					logs.Add("bonusList: \n");
+					foreach (MopubInviteBonus bonusItem in bonus.bonusList)
+                    {
+						logs.Add(JsonUtility.ToJson(bonusItem));
+					}
+					
+				}
+				},
+	delegate(MopubSDKError error) {
+		logs.Add("fetch bonus list failed: code: " + error.domainCode + " msg: " + error.domainMessage);
+	});
+		}
+
+		y += buttonHeight + 10;
+		GUI.Label(new Rect(0, y, 130, buttonHeight), "inviteId:", fontStyle);
+		inviteId = GUI.TextField(new Rect(130, y, buttonWith - 130, buttonHeight), inviteId, inputStyle);
+
+		y += buttonHeight + 10;
+		GUI.Label(new Rect(0, y, 130, buttonHeight), "pkey:", fontStyle);
+		pkey = GUI.TextField(new Rect(130, y, buttonWith - 130, buttonHeight), pkey, inputStyle);
+
+		y += buttonHeight + 10;
+		if (GUI.Button(new Rect(0, y, buttonWith, buttonHeight), "acceptBonus", btnStyle))
+		{
+			logs.Add("call accept bonus");
+			MopubNS.MopubSdk.getInstance().acceptInviteBonus(inviteId, pkey, delegate
+			{
+				logs.Add("获取奖励成功");
+
+			}, delegate(MopubSDKError error)
+			{
+				logs.Add("获取奖励失败: code: " + error.domainCode + "msg: " + error.domainMessage);
+
+			});
+		}
+
+		y += buttonHeight + 10;
+		if (GUI.Button(new Rect(0, y, buttonWith, buttonHeight), "logTestUnityEvent", btnStyle))
+		{
+			logs.Add("call log test event");
+			Dictionary<string, object> eventParams = new Dictionary<string, object>();
+			eventParams["stringValue"] = "hello";
+			eventParams["numberValue"] = 1234567;
+			eventParams["boolValueTrue"] = true;
+			eventParams["boolValueFalse"] = false;
+			MopubNS.MopubSdk.getInstance().logCustomEvent("testUnityEvent", eventParams);
+		}
+
+		y += buttonHeight + 10;
+		if (GUI.Button(new Rect(0, y, buttonWith, buttonHeight), "getCpParams", btnStyle))
+		{
+			logs.Add("call get cp params");
+			Dictionary<string, object> cpParams = MopubSdk.getInstance().getCpParams();
+			string json = MopubNS.ThirdParty.MiniJSON.Json.Serialize(cpParams);
+			logs.Add(json);
+		}
+
+		y += buttonHeight + 10;
+		if (GUI.Button (new Rect (0, y, buttonWith, buttonHeight), "requestPermission", btnStyle)) {
+			logs.Add ("call requestPermission");
+			MopubPermissionsInfo[] infos = new MopubPermissionsInfo[1];
+			infos[0] = new MopubPermissionsInfo("存储文件", "android.permission.WRITE_EXTERNAL_STORAGE");
+			MopubSdk.getInstance().requestPermission(infos,
+				delegate(){
+					logs.Add ("requestPermission finish");
+				},
+				delegate(){
+					logs.Add ("requestPermission cancel");
+				});
+		}
+
+		y += buttonHeight + 10;
+		if (GUI.Button (new Rect (0, y, buttonWith, buttonHeight), "isTourist", btnStyle)) {
+			logs.Add ("call isAccountOnlyTourist");
+			bool res = MopubSdk.getInstance().isAccountOnlyTourist();
+			logs.Add("isAccountOnlyTourist:"+res);
+		}
+		y += buttonHeight + 10;
+		if (GUI.Button (new Rect (0, y, buttonWith, buttonHeight), "showLinkedAfterPurchaseView", btnStyle)) {
+			logs.Add ("call isAccoushowLinkedAfterPurchaseViewntOnlyTourist");
+			 MopubSdk.getInstance().showLinkedAfterPurchaseView();
+		}
+
+		y += buttonHeight + 10;
+		if (GUI.Button (new Rect (0, y, buttonWith, buttonHeight), "showAccountCenter", btnStyle)) {
+			logs.Add ("call showAccountCenter");
+			 MopubSdk.getInstance().showAccountCenter(
+				delegate(){
+					logs.Add("link account success");
+				},
+				delegate(){
+					logs.Add("delete account success");
+				},
+				delegate (MopubSdkAccessToken token) {
+					logs.Add("switch account success");
+				},
+				delegate (string uid) {
+					logs.Add("userVerify uid:"+uid);
+				}
+			 );
+		}
+		y += buttonHeight + 10;
+		if (GUI.Button (new Rect (0, y, buttonWith, buttonHeight), "有档案", btnStyle)) {
+			logs.Add ("call 有档案");
+			Dictionary<string, object> dic = new Dictionary<string, object>();
+			Dictionary<string,object> data1 = new Dictionary<string,object>();
+			data1.Add("updatedTime",1673232750000);
+			data1.Add("level",10);
+			data1.Add("coin",20);
+			data1.Add("clover",30);
+			data1.Add("furniture",40);
+			Dictionary<string,object> data2 = new Dictionary<string,object>();
+			data2.Add("updatedTime",1673232898000);
+			data2.Add("level",60);
+			data2.Add("coin",70);
+			data2.Add("clover",80);
+			data2.Add("furniture",90);
+			dic.Add("curr",data1);
+			dic.Add("peer",data2);
+			 MopubSdk.getInstance().showArchive(dic);
+		}
+		y += buttonHeight + 10;
+		if (GUI.Button (new Rect (0, y, buttonWith, buttonHeight), "无档案", btnStyle)) {
+			logs.Add ("call 无档案");
+			Dictionary<string, object> dic = new Dictionary<string, object>();
+			 MopubSdk.getInstance().showArchive(dic);
+		}
+		y += buttonHeight + 10;
+		if (GUI.Button(new Rect(0, y, buttonWith, buttonHeight), "setLanguage", btnStyle))
+		{
+			logs.Add("call setLanguage");
+			MopubSdk.getInstance().setLanguage(language);
+			language = "";
+		}
+		y += buttonHeight + 10;
+		GUI.Label(new Rect(0, y, 130, buttonHeight), "语言:", fontStyle);
+		language = GUI.TextField(new Rect(130, y, buttonWith - 130, buttonHeight), language, inputStyle);
+
+		y += buttonHeight + 10;
+		if (GUI.Button (new Rect (0, y, buttonWith, buttonHeight), "openNoticeDialog", btnStyle)) {
+			logs.Add ("call openNoticeDialog");
+			MopubSdk.getInstance().openNoticeDialog();
+		}
+		y += buttonHeight + 10;
+		if (GUI.Button (new Rect (0, y, buttonWith, buttonHeight), "md5", btnStyle)) {
+			logs.Add ("call getAppSignMD5");
+			string res = MopubSdk.getInstance().getAppSignMD5();
+			logs.Add("getAppSignMD5:"+res);
+		}
+		y += buttonHeight + 10;
+		if (GUI.Button (new Rect (0, y, buttonWith, buttonHeight), "sha1", btnStyle)) {
+			logs.Add ("call getAppSignSHA1");
+			string res = MopubSdk.getInstance().getAppSignSHA1();
+			logs.Add("getAppSignSHA1:"+res);
+		}
+		y += buttonHeight + 10;
+		if (GUI.Button (new Rect (0, y, buttonWith, buttonHeight), "sha256", btnStyle)) {
+			logs.Add ("call getAppSignSHA256");
+			string res = MopubSdk.getInstance().getAppSignSHA256();
+			logs.Add("getAppSignSHA256:"+res);
+		}
 
 		y += buttonHeight + 10;
 		if (GUI.Button (new Rect (0, y, buttonWith, buttonHeight), "logPlayerInfoString", btnStyle)) {
@@ -438,7 +833,42 @@ public class ListDemoManager : MonoBehaviour
 			   }
 		   );
 		 }
-		 y += buttonHeight + 10;
+
+		y += buttonHeight + 10;
+		if (GUI.Button(new Rect(0, y, buttonWith, buttonHeight), "showLinkAccountView", btnStyle))
+		{
+			logs.Add("call showLinkAccountView");
+			MopubSdk.getInstance().showLinkAccountView(
+				delegate () {
+					logs.Add("link account success");
+				}
+			);
+		}
+
+		y += buttonHeight + 10;
+		if (GUI.Button(new Rect(0, y, buttonWith, buttonHeight), "showSwithAccountView", btnStyle))
+		{
+			logs.Add("call showSwithAccountView");
+			MopubSdk.getInstance().showSwitchAccountView(
+				delegate (MopubSdkAccessToken token) {
+					logs.Add("switch account success");
+				}
+			);
+		}
+
+		y += buttonHeight + 10;
+		if (GUI.Button(new Rect(0, y, buttonWith, buttonHeight), "showDeleteAccountView", btnStyle))
+		{
+			logs.Add("call showDeleteAccountView");
+			MopubSdk.getInstance().showDeleteAccountView(
+				delegate () {
+					logs.Add("delete account success");
+				}
+			);
+		}
+
+
+		y += buttonHeight + 10;
 		 if(GUI.Button(new Rect(0,y,buttonWith,buttonHeight),"showLoginUI",btnStyle)){
            logs.Add("call showLoginUI");
 		   MopubSdk.getInstance().showLoginUI(
@@ -454,6 +884,13 @@ public class ListDemoManager : MonoBehaviour
 		   );
 		 }
 		 
+		y += buttonHeight + 10;
+		if (GUI.Button (new Rect (0, y, buttonWith, buttonHeight), "getActivateCode", btnStyle)) {
+			logs.Add ("call getActivateCode");
+			string res = MopubSdk.getInstance ().getActivateCode ();
+			logs.Add("activateCode:"+res);
+		}
+
 		y += buttonHeight + 10;
 		if (GUI.Button (new Rect (0, y, buttonWith, buttonHeight), "redeem", btnStyle)) {
 			logs.Add ("call redeem");
@@ -675,6 +1112,23 @@ public class ListDemoManager : MonoBehaviour
 		}
 
 		y += buttonHeight + 10;
+		if (GUI.Button(new Rect(0, y, buttonWith, buttonHeight), "autoLoginVisitorWithUI", btnStyle))
+		{
+			logs.Add("call autoLoginVisitorWithUI");
+			MopubSdk.getInstance().autoLoginTouristWithUI(
+				delegate (LoginSuccessResult s)
+				{
+					logs.Add("autoLoginVisitorWithUI success");
+					logs.Add(JsonUtility.ToJson(s));
+				},
+				delegate (MopubSDKError error)
+				{
+					logs.Add("autoLoginVisitorWithUI failed");
+					logs.Add(JsonUtility.ToJson(error));
+				});
+		}
+
+		y += buttonHeight + 10;
 		if (GUI.Button (new Rect (0, y, buttonWith, buttonHeight), "linkEmail", btnStyle)) {
 			logs.Add ("call linkEmail");
 			MopubSdk.getInstance ().linkWithEmail (
@@ -741,6 +1195,27 @@ public class ListDemoManager : MonoBehaviour
 				delegate (MopubSDKError error) {
 					logs.Add("verifySessionToken failed");
 					logs.Add(JsonUtility.ToJson(error));
+				}
+			);
+		}
+
+		y += buttonHeight + 10;
+		if (GUI.Button (new Rect (0, y, buttonWith, buttonHeight), "reLoginFlow", btnStyle)) {
+			logs.Add ("call reLoginFlow");
+			MopubSdk.getInstance().reLoginFlow(
+				delegate (LoginSuccessResult s)
+				{
+					logs.Add("reLoginFlow success");
+					logs.Add(JsonUtility.ToJson(s));
+				},
+				delegate (MopubSDKError error)
+				{
+					logs.Add("reLoginFlow failed");
+					logs.Add(JsonUtility.ToJson(error));
+					if(error.clientCode == 100010){
+						//网络失败，重新调用
+					}
+
 				}
 			);
 		}
@@ -1026,6 +1501,20 @@ public class ListDemoManager : MonoBehaviour
 		}
 
 		y += buttonHeight + 10;
+		if (GUI.Button (new Rect (0, y, buttonWith, buttonHeight), "startLinkagePayment", btnStyle)) {
+			logs.Add ("call startLinkagePayment");
+			Texture2D image = Resources.Load<Texture2D>("demoappshare");
+            byte[] bytes = DeCompress(image).EncodeToPNG();
+            string base64 = Convert.ToBase64String(bytes);
+			Dictionary<string, string> params1 = new Dictionary<string, string>();
+			params1.Add("avatar_data", base64);
+			params1.Add("nickname","userA");
+			params1.Add("meditate_level","test");
+			params1.Add("rift_progress", "2");
+			MopubSdk.getInstance ().startLinkagePayment(params1);
+		}
+
+		y += buttonHeight + 10;
 		if (GUI.Button (new Rect (0, y, buttonWith, buttonHeight), "fetchItemDetails", btnStyle)) {
 			logs.Add ("call fetchItemDetails");
 			MopubSdk.getInstance ().fetchPaymentItemDetails (
@@ -1057,7 +1546,8 @@ public class ListDemoManager : MonoBehaviour
 							"char_people_1",
 							"1",
 							"world",
-							"1"
+							"1",
+							10
 						),
 						delegate(MopubSDKPaymentInfo info){
 							//the payment submit success and wait for the unconsumed item callback
@@ -1212,7 +1702,7 @@ public class ListDemoManager : MonoBehaviour
         y += buttonHeight + 10;
         if (GUI.Button(new Rect(0, y, buttonWith, buttonHeight), "showBannerAd", btnStyle))
         {
-            logs.Add("call showBannerAd ");
+			logs.Add("call showBannerAd ");
             MopubSdk.getInstance().showBanner(BannerADPosition.bottomCenter);
         }
 
@@ -1326,7 +1816,7 @@ public class ListDemoManager : MonoBehaviour
         if (GUI.Button(new Rect(0, y, buttonWith, buttonHeight), "open rating ", btnStyle))
         {
             logs.Add("call openRating ");
-            bool res = MopubSdk.getInstance().openRate();
+            bool res = MopubSdk.getInstance().openRate("GOOGLEPLAY");
             if (res)
             {
                 logs.Add("open success");
@@ -1505,12 +1995,13 @@ public class ListDemoManager : MonoBehaviour
 		{
 			logs.Add("fetch ranking list");
 
-			MopubSdk.getInstance().fetchRanking("demoCharID", int.Parse(rankPageString), int.Parse(rankSizeString), delegate(MopubSDKRanking ranking) {
+
+			MopubSdk.getInstance().fetchRanking("demoCharID", int.Parse(rankPageString), int.Parse(rankSizeString), delegate (MopubSDKRanking ranking) {
 
 				logs.Add("fetch ranking list success");
 				logs.Add(ranking.ToString());
 
-			}, delegate(MopubSDKError error) {
+			}, delegate (MopubSDKError error) {
 
 				logs.Add("fetch ranking list failed");
 				logs.Add(JsonUtility.ToJson(error));
@@ -1570,11 +2061,21 @@ public class ListDemoManager : MonoBehaviour
             byte[] binaryData = Encoding.ASCII.GetBytes(str);
             var stream = new MemoryStream(binaryData);
 
-            string downloadPath = MopubOSS.AliyunOSSManager.GetInstance().UploadImage(stream, "id.txt");
+            // string downloadPath = MopubOSS.AliyunOSSManager.GetInstance().UploadImage(stream, "id.txt");
 
 			//string downloadPath = MopubOSS.AliyunOSSManager.GetInstance().UploadImage("/Users/liangjiahao/Desktop/id.txt", "id.txt");
-			logs.Add("downloadPath: " + downloadPath);
+			// logs.Add("downloadPath: " + downloadPath);
 			
+		}
+
+		y += buttonHeight + 10;
+		if (GUI.Button(new Rect(0, y, buttonWith, buttonHeight), "getSDKInfo", btnStyle))
+		{
+			Debug.Log("getSDKInfo");
+
+			Dictionary<string, object> info = MopubSdk.getInstance().getSDKInfo();
+			string json = MopubNS.ThirdParty.MiniJSON.Json.Serialize(info);
+			logs.Add(json);
 		}
 
 		GUI.EndScrollView ();
@@ -1598,6 +2099,42 @@ public class ListDemoManager : MonoBehaviour
     	}
 
     	return javaMap;
+	}
+
+	public Texture2D DeCompress(Texture2D source)
+    {
+		RenderTexture renderTex = RenderTexture.GetTemporary(source.width, source.height, 0, RenderTextureFormat.Default, RenderTextureReadWrite.Linear);
+		Graphics.Blit(source, renderTex);
+		RenderTexture previous = RenderTexture.active;
+		Texture2D readableText = new Texture2D(source.width, source.height);
+		readableText.ReadPixels(new Rect(0, 0, readableText.width, renderTex.height), 0, 0);
+		readableText.Apply();
+		RenderTexture.active = previous;
+		RenderTexture.ReleaseTemporary(renderTex);
+
+		return readableText;
+    }
+
+	public string PersistentDataPathForFile(string filename)
+    {
+		if (Application.platform == RuntimePlatform.IPhonePlayer)
+		{
+			string path = Application.persistentDataPath.Substring(0, Application.persistentDataPath.Length - 5);
+			path = path.Substring(0, path.LastIndexOf('/'));
+			return Path.Combine(Path.Combine(path, "Documents"), filename);
+		}
+		else if (Application.platform == RuntimePlatform.Android)
+		{
+			string path = Application.persistentDataPath;
+			path = path.Substring(0, path.LastIndexOf('/'));
+			return Path.Combine(path, filename);
+		}
+		else
+		{
+			string path = Application.dataPath;
+			path = path.Substring(0, path.LastIndexOf('/'));
+			return Path.Combine(path, filename);
+		}
 	}
 
 	void Update(){

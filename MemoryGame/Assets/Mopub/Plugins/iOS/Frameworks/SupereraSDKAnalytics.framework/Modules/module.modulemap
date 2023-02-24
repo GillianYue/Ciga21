@@ -1,6 +1,0 @@
-framework module SupereraSDKAnalytics {
-  umbrella header "SupereraSDKAnalytics.h"
-
-  export *
-  module * { export * }
-}

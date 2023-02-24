@@ -45,26 +45,18 @@ public class AndroidBuilder {
                 while ((line = sr.ReadLine ()) != null) {
                     sb.Append ("\n" + line);
                     if (line.Contains ("jcenter()")) {
-                        sb.Append ("\n			 maven { url 'https://sdk.tapjoy.com'}");
 
-                        sb.Append ("\n			 maven { url 'https://jitpack.io' }");
-
-                        sb.Append ("\n			 maven { url 'https://developer.huawei.com/repo/' }");
-
+                        sb.Append ("\n			maven { url 'https://jitpack.io' }");
+                        sb.Append ("\n			maven { url \"http://mve.130qq.com/repository/CasualSdk/\" }");
                         sb.Append ("\n			mavenCentral()");
-
-                        sb.Append ("\n			 maven { url 'http://mve.130qq.com/repository/CasualSdk/' }\n");
-
-                        sb.Append ("\n			 maven { url 'https://android-sdk.is.com' }");
-
-                        sb.Append ("\n			 maven { url  'https://dl-maven-android.mintegral.com/repository/mbridge_android_sdk_oversea' }");
-
-                        sb.Append ("\n			 maven { url 'https://dl-maven-android.mintegral.com/repository/mbridge_android_sdk_china' }");
-
-                        sb.Append ("\n			 maven {url 'https://artifact.bytedance.com/repository/pangle'}");
-
-                        sb.Append ("\n			 maven {url 'https://dl-maven-android.mintegral.com/repository/mbridge_android_sdk_support/'}");
-
+                        sb.Append ("\n			maven { url 'https://developer.huawei.com/repo/' }\n");
+                        sb.Append ("\n			maven { url \"https://dl-maven-android.mintegral.com/repository/mbridge_android_sdk_oversea\" }\n");
+                        sb.Append ("\n			maven { url \"https://dl-maven-android.mintegral.com/repository/mbridge_android_sdk_china\" }\n");
+                        sb.Append ("\n			maven { url \"https://sdk.tapjoy.com\" }\n");
+                        sb.Append ("\n			maven { url \"https://android-sdk.is.com\" }\n");
+                         sb.Append ("\n			maven { url \"https://artifact.bytedance.com/repository/pangle\" }\n");
+                          sb.Append ("\n			maven { url \"https://dl-maven-android.mintegral.com/repository/mbridge_android_sdk_support/\" }\n");
+                    
                     }
                 }
             }
@@ -81,6 +73,15 @@ public class AndroidBuilder {
                     sb.Append ("\n" + line);
                     if (line.Contains ("versionName")) {
                         sb.Append ("\n		multiDexEnabled true");
+                    }
+                    if (line.Contains ("com.android.application")) {
+                        using (StreamReader exportedStr = new StreamReader (Path.Combine (fileDir, "Assets/Mopub/Scripts/Editor/Builder/AndroidAddExportedGradle"))) {
+                            string exportedLine;
+                            while ((exportedLine = exportedStr.ReadLine ()) != null) {
+                                sb.Append ("\n" + exportedLine);
+                            }
+                        }
+
                     }
                 }
             }

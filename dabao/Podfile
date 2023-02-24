@@ -1,0 +1,21 @@
+use_frameworks!
+
+source 'http://gitlab.getapk.cn/liangjiahao/JodoSpecs.git'
+
+platform :ios, '12.0'
+
+target 'Unity-iPhone' do
+
+#dependencies_start
+pod 'SupereraSDK-Haimo-CHN', '0.0.0.1'
+#dependencies_end
+
+end
+
+target 'UnityFramework' do
+
+#dependencies_start
+pod 'SupereraSDK-Haimo-CHN', '0.0.0.1'
+#dependencies_end
+
+end

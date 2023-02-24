@@ -1,4 +1,4 @@
-using System.Collections;
+ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Threading;
@@ -35,6 +35,12 @@ namespace MopubNS
 			MopubCallbackManager.initFailedDelegate = failed;
 			_init (gameContentVersion);
 		}
+
+		public override void addEventGlobalParams(Dictionary<string, string> data)
+		{
+			_addEventGlobalParams(Json.Serialize(data));
+		}
+
 		//引导页
 		public override void showGuidPageView(Action<string> success){
 			if (success != null)
@@ -59,10 +65,63 @@ namespace MopubNS
                         MopubCallbackManager.realNameUIFailedErrorDelegate = failederror;
                         _startRealnameAuthenticationWithUI();
                  }
-	
 
-             //反成谜支付页面sdk
-       public override void realNameRecharge(int amount,Action<string> success,Action<string> failed,Action<MopubSDKError> failederror)
+		// 展示绑定账号界面
+		public override void showLinkAccountView(Action success)
+        {
+			MopubCallbackManager.linkAccountViewSuccessDelegate = success;
+
+			_showLinkAccountView();
+		}
+
+		// 展示切换账号界面
+		public override void showSwitchAccountView(Action<MopubSdkAccessToken> success)
+        {
+			MopubCallbackManager.switchAccountSuccessDelegate = success;
+
+			_showSwitchAccountView();
+		}
+
+		// 展示删除账号界面
+		public override void showDeleteAccountView(Action success)
+        {
+			MopubCallbackManager.deleteAccountSuccessDelegate = success;
+
+			_showDeleteAccountView();
+        }
+		
+		public override bool isAccountOnlyTourist(){
+			return _isAccountOnlyTourist();
+		}
+		
+		public override void showAccountCenter(Action linkSuccess,Action deleteSuccess,Action<MopubSdkAccessToken> success,Action<string> userVerify){
+			MopubCallbackManager.linkAccountViewSuccessDelegate = linkSuccess;
+            MopubCallbackManager.switchAccountSuccessDelegate = success;
+            MopubCallbackManager.deleteAccountSuccessDelegate = deleteSuccess;
+			MopubCallbackManager.userVerifyDelegate = userVerify;
+			_showAccountCenter();
+		}
+		public override void showArchive(Dictionary<string,object> data)
+		{
+			_showArchive(Json.Serialize(data));
+		}
+		
+		public override void showLinkedAfterPurchaseView(){
+			_showLinkedAfterPurchaseView();
+		}
+
+		public override void setLanguage(string language)
+		{
+			_setLanguage(language);
+		}
+
+		public override void openNoticeDialog()
+		{
+			_openNoticeDialog();
+		}
+
+		//反成谜支付页面sdk
+		public override void realNameRecharge(int amount,Action<string> success,Action<string> failed,Action<MopubSDKError> failederror)
        {
        Debug.Log("static MopubAndroid realNameRecharge");
        MopubCallbackManager.realNameUISuccessDelegate = success;
@@ -175,6 +234,15 @@ namespace MopubNS
 			_loginWithVisitor(activeCode);
         }
 
+		public override void autoLoginTouristWithUI(Action<LoginSuccessResult> success, Action<MopubSDKError> failed)
+        {
+			MopubCallbackManager.autoLoginTouristWithUISuccessDelegate = success;
+			MopubCallbackManager.autoLoginTouristWithUIFailedDelegate = failed;
+
+			_autoLoginTouristWithUI();
+
+		}
+
 		public override void resetPasswordWithEmail(string email, string password, string code, Action<string> success, Action<MopubSDKError> failed){
             MopubCallbackManager.resetPasswordWithEmailSuccessDelegate = success;
             MopubCallbackManager.resetPasswordWithEmailFailedDelegate = failed;
@@ -194,6 +262,11 @@ namespace MopubNS
 			MopubCallbackManager.verifySessionTokenFailedDelegate = failed;
 
 			_verifySessionToken(token);
+		}
+		public override void reLoginFlow(Action<LoginSuccessResult> success, Action<MopubSDKError> failed){
+			MopubCallbackManager.reLoginFlowSuccessDelegate = success;
+			MopubCallbackManager.reLoginFlowFailedDelegate = failed;
+			_reLoginFlow();
 		}
 
 		public override void createInviteCode(Action<string> success, Action<MopubSDKError> failed){
@@ -356,8 +429,11 @@ namespace MopubNS
 				paymentInfo.characterName, 
 				paymentInfo.characterID, 
 				paymentInfo.serverName, 
-				paymentInfo.serverID);
+				paymentInfo.serverID,
+				paymentInfo.level);
 		}
+
+		public override void startLinkagePayment(Dictionary<string,string> extraData){}
 
         //subscripton
         public override void setSubscriptionItemUpdatedListener(Action<List<MopubSDKSubscriptionItem>> subscriptionItemUpdatedListener)
@@ -458,8 +534,7 @@ namespace MopubNS
 			_logPlayerInfoWithData(characterName, characterID, characterLevel, serverName, serverID, Json.Serialize(extraData));
 		}
 
-
-		public override void logCustomEvent (string eventName,  Dictionary<string,string> data) {
+		public override void logCustomEvent (string eventName,  Dictionary<string,object> data) {
 			_logCustomEvent (eventName, Json.Serialize (data));
 		}
 
@@ -512,6 +587,11 @@ namespace MopubNS
 			_setAFDataDelegate();
 		}
 
+		public override void setATTDataUpdatedListener(Action<Dictionary<String, object>> attDataUpdatedListener)
+		{
+			MopubCallbackManager.setATTDataUpdatedListenerDelegate(attDataUpdatedListener);
+			
+		}
         public override bool openJoinChatGroup()
         {
             return _openJoinChatGroup();
@@ -529,7 +609,9 @@ namespace MopubNS
 		public override bool openRate(){
 			return _openRate();
 		}
-		
+		public override bool openRate(string shop){
+			return _openRate();
+		}
 		public override bool addLocalNotification(MopubSDKLocalMsg localMsg)
 		{
 			return _addLocalNotifaciton(localMsg.title, localMsg.content, localMsg.date, localMsg.hour, localMsg.min);
@@ -607,12 +689,12 @@ namespace MopubNS
         }
 
 		public override void fetchRanking(string uid, int page, int size, Action<MopubSDKRanking> success, Action<MopubSDKError> failure)
-        {
+		{
 			MopubCallbackManager.fetchRankingSuccessDelegate = success;
 			MopubCallbackManager.fetchRankingFailedDelegate = failure;
 
 			_fetchRanking(uid, page, size);
-        }
+		}
 
 		public override void saveCloudCache(string uid, long version, string data, Action success, Action<MopubSDKError> failed)
 		{
@@ -636,23 +718,213 @@ namespace MopubNS
 
 			_getRedeem(code);
         }
+		public override string getActivateCode(){
+			return "";
+		}
 
-		#region dllimport
+		// 初始化推送sdk
+		public override void initPushSDK(string cgi, string appid, string appSecret, bool passThroughEnable, string logHost, string logPath, Action<string> clickCallback, Action<string> receiveMessageCallback)
+        {
+			MopubCallbackManager.pushDidClickDelegate = clickCallback;
+			MopubCallbackManager.pushReceiveMessageDelegate = receiveMessageCallback;
+
+			_initPushSDK(cgi, appid, appSecret, passThroughEnable, logHost, logPath);
+        }
+
+		// 设置推送别名
+		public override void setPushAlias(string alias)
+        {
+			_setPushAlias(alias);
+        }
+
+		// 监听包更新回调
+		public override void setPackageUpdatedListener(Action success)
+        {
+			MopubCallbackManager.packageUpdatedSuccessDelegate = success;
+        }
+		public override string getAppSignMD5(){
+			return "";
+		}
+		public override string getAppSignSHA1(){
+			return "";
+		}
+		public override string getAppSignSHA256(){
+			return "";
+		}
+
+		public override void requestPermission(MopubPermissionsInfo[] permissionsInfo, Action finish, Action cancel){
+        }
+
+		public override Dictionary<string, object> getCpParams()
+        {
+			string paramsJson = _getCpParams();
+			Dictionary<string, object> dic = null;
+			if (paramsJson != null)
+            {
+				dic = (Dictionary<string, object>)Json.Deserialize(paramsJson);
+			}
+			else
+            {
+				dic = new Dictionary<string, object>();
+			}
+
+			return dic;
+        }
+
+		// 分享到微信
+		public override void openShareToWechat(string entrance, MopubWechatSharedData sharedData, Action success, Action<MopubSDKError> failure)
+		{
+			MopubCallbackManager.appshareSuccessDelegate = success;
+			MopubCallbackManager.appshareFailureDelegate = failure;
+
+			string dataJson = JsonUtility.ToJson(sharedData);
+
+			_openShareToWechat(entrance, dataJson);
+		}
+
+		public override void openShareToQQ(string entrance, MopubQQSharedData sharedData, Action success, Action<MopubSDKError> failure)
+		{
+			MopubCallbackManager.appshareSuccessDelegate = success;
+			MopubCallbackManager.appshareFailureDelegate = failure;
+
+			string dataJson = JsonUtility.ToJson(sharedData);
+
+			_openShareToQQ(entrance, dataJson);
+		}
+
+		public override MopubAppSharedCampaignInfo getSharedCampaignInfo(){
+
+			string res;
+
+			res = _getCurrentSharedCampaign();
+
+			MopubAppSharedCampaignInfo info;
+			if (res != null)
+            {
+				info = JsonUtility.FromJson<MopubAppSharedCampaignInfo>(res);
+			}
+			else
+			{
+				info = new MopubAppSharedCampaignInfo(MopubAppSharedCampaignType.share, "unkonwn", 0, 0);
+			}
+
+
+			return info;
+
+        }
+
+        public override MopubAppSharedCampaignInfo getInvitedCampaignInfo(){
+			string res;
+
+			res = _getCurrentInvitedCampaign();
+
+			MopubAppSharedCampaignInfo info;
+			if (res != null)
+			{
+				info = JsonUtility.FromJson<MopubAppSharedCampaignInfo>(res);
+			}
+			else
+			{
+				info = new MopubAppSharedCampaignInfo(MopubAppSharedCampaignType.share, "unkonwn", 0, 0);
+			}
+
+
+			return info;
+		}
+
+		public override Dictionary<string, object> getSDKInfo()
+        {
+			string paramsJson = _getSDKInfo();
+			Dictionary<string, object> dic = null;
+			if (paramsJson != null)
+			{
+				dic = (Dictionary<string, object>)Json.Deserialize(paramsJson);
+			}
+			else
+			{
+				dic = new Dictionary<string, object>();
+			}
+
+			return dic;
+		}
+
+		public override void fetchInviteBonusList(Action<List<MopubInviteBonusCategory>> success, Action<MopubSDKError> failure)
+        {
+			MopubCallbackManager.fetchInviteBonusListSuccessDelegate = success;
+			MopubCallbackManager.fetchInviteBonusListFailureDelegate = failure;
+
+			_fetchInviteBonusList();
+
+            //_handleMessageFromUnity("fetchInviteBonusList", null);
+        }
+
+		public override void acceptInviteBonus(string inviteId, string pkey, Action success, Action<MopubSDKError> failure)
+		{
+			MopubCallbackManager.acceptInviteBonusSuccessDelegate = success;
+			MopubCallbackManager.acceptInviteBonusFailureDelegate = failure;
+
+			_acceptBonus(inviteId, pkey);
+		}
+
+		public override void fetchIPv4Info(Action<MopubIPv4Info> success, Action<MopubSDKError> failure){
+			MopubCallbackManager.fetchIPv4InfoSuccessDelegate = success;
+			MopubCallbackManager.fetchIPv4InfoFailureDelegate = failure;
+
+			_fetchIPv4Info();
+        }
+
+    #region dllimport
 
 		[DllImport("__Internal")]
 		internal extern static void _init (string gameContentVersion);
 
 		[DllImport("__Internal")]
+		internal extern static void _addEventGlobalParams(string globalParams);
+
+		[DllImport("__Internal")]
 		internal extern static void _login ();
 
         [DllImport("__Internal")]
-        internal extern static void _startRealnameAuthenticationWithUI();
+        internal extern static void _showLinkAccountView();
+
+		[DllImport("__Internal")]
+		internal extern static void _showSwitchAccountView();
+
+		[DllImport("__Internal")]
+		internal extern static void _showDeleteAccountView();
+
+		[DllImport("__Internal")]
+		internal extern static void _showAccountCenter();
+
+        [DllImport("__Internal")]
+        internal extern static void _showArchive(string jsonString);
+
+        [DllImport("__Internal")]
+		internal extern static bool _isAccountOnlyTourist();
+
+		[DllImport("__Internal")]
+		internal extern static void _showLinkedAfterPurchaseView();
+
+		[DllImport("__Internal")]
+		internal extern static void _setLanguage(string language);
+
+		[DllImport("__Internal")]
+		internal extern static void _openNoticeDialog();
+
+		[DllImport("__Internal")]
+		internal extern static void _startRealnameAuthenticationWithUI();
 
 		[DllImport("__Internal")]
 		internal extern static void _loginWithDevice(string activeCode);
 
 		[DllImport("__Internal")]
 		internal extern static void _loginWithVisitor(string activeCode);
+
+		[DllImport("__Internal")]
+		internal extern static void _reLoginFlow();
+
+		[DllImport("__Internal")]
+		internal extern static void _autoLoginTouristWithUI();
 
 		[DllImport("__Internal")]
 		internal extern static void _loginWithWeChat(string activeCode);
@@ -779,7 +1051,7 @@ namespace MopubNS
 		internal extern static void _setUnconsumedItemUpdatedListener();
 
 		[DllImport("__Internal")]
-		internal extern static void _startPayment(string itemID, string cpOrderID, string characterName, string characterID, string serverName, string serverID);
+		internal extern static void _startPayment(string itemID, string cpOrderID, string characterName, string characterID, string serverName, string serverID, int level);
 
 		[DllImport("__Internal")]
 		internal extern static void _logNative(string log);
@@ -904,7 +1176,44 @@ namespace MopubNS
 		[DllImport("__Internal")]
 		internal extern static void _getRedeem(string code);
 
-		#endregion
+
+		[DllImport("__Internal")]
+		internal extern static void _initPushSDK(string cgi, string appid, string appSecret, bool passThroughEnable, string logHost, string logPath);
+
+		[DllImport("__Internal")]
+		internal extern static void _setPushAlias(string alias);
+
+		[DllImport("__Internal")]
+		internal extern static string _getCpParams();
+
+		[DllImport("__Internal")]
+		internal extern static void _openShareToWechat(string entrance, string shareData);
+
+		[DllImport("__Internal")]
+		internal extern static void _openShareToQQ(string entrance, string shareData);
+
+		[DllImport("__Internal")]
+		internal extern static string _getSDKInfo();
+
+		[DllImport("__Internal")]
+		internal extern static string _getCurrentSharedCampaign();
+
+		[DllImport("__Internal")]
+		internal extern static string _getCurrentInvitedCampaign();
+
+		[DllImport("__Internal")]
+		internal extern static void _fetchInviteBonusList();
+
+		[DllImport("__Internal")]
+		internal extern static void _acceptBonus(string inviteId, string pkey);
+
+		[DllImport("__Internal")]
+		internal extern static void _fetchIPv4Info();
+
+		[DllImport("__Internal")]
+		internal extern static string _handleMessageFromUnity(string messageName, string jsonString);
+
+    #endregion
 	}
 #endif
 

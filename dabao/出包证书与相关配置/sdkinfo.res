@@ -1,0 +1,9 @@
+{
+"game_id":"Gillian_Alzheimer",
+"publisher":"superera",
+"distributor":"APPLE_APP_STORE",
+"apple_app_id":"6443807796",
+"appsflyer_dev_key":"4F5Edct2wQVqJyRufNChN7",
+"bugly_app_id":"3f1b41f5c1",
+"log_sdk_event":"false",
+}

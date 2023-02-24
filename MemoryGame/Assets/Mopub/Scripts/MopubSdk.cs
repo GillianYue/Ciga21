@@ -26,6 +26,7 @@ namespace MopubNS
 			this.exception = exception;
 		}
 
+
         public override string ToString()
         {
             var log = new System.Text.StringBuilder("{");
@@ -56,6 +57,7 @@ namespace MopubNS
             return log.ToString();
         }
     }
+
 	//--- init ---
 	[Serializable]
 	public class InitSuccessResult
@@ -350,12 +352,23 @@ namespace MopubNS
 		public string characterID;
 		public string serverName;
 		public string serverID;
+		public int level;
 
 		public MopubSDKStartPaymentInfo (string itemID, string cpOrderID,
 			string characterName,
 			string characterID,
 			string serverName,
 			string serverID)
+			:this(itemID, cpOrderID, characterName, characterID, serverName, serverID, 0)
+		{
+		}
+
+		public MopubSDKStartPaymentInfo(string itemID, string cpOrderID,
+			string characterName,
+			string characterID,
+			string serverName,
+			string serverID,
+			int level)
 		{
 			this.itemID = itemID;
 			this.cpOrderID = cpOrderID;
@@ -363,6 +376,7 @@ namespace MopubNS
 			this.characterID = characterID;
 			this.serverName = serverName;
 			this.serverID = serverID;
+			this.level = level;
 		}
 
 	}
@@ -378,6 +392,7 @@ namespace MopubNS
 		public string characterID;
 		public string serverName;
 		public string serverID;
+		public int level;
 
 		public MopubSDKPaymentInfo (string itemID, string cpOrderID,
 		                               string sdkOrderID,
@@ -387,7 +402,21 @@ namespace MopubNS
 		                               string characterID,
 		                               string serverName,
 		                               string serverID)
+			:this(itemID, cpOrderID, sdkOrderID, price, currency, characterName, characterID, serverName, serverID, 0)
 		{
+
+		}
+
+		public MopubSDKPaymentInfo(string itemID, string cpOrderID,
+									   string sdkOrderID,
+									   long price,
+									   string currency,
+									   string characterName,
+									   string characterID,
+									   string serverName,
+									   string serverID,
+									   int level)
+        {
 			this.itemID = itemID;
 			this.cpOrderID = cpOrderID;
 			this.sdkOrderID = sdkOrderID;
@@ -397,13 +426,15 @@ namespace MopubNS
 			this.characterID = characterID;
 			this.serverName = serverName;
 			this.serverID = serverID;
+			this.level = level;
 		}
-		
+
+
 	}
 
 	[Serializable]
 	public class MopubSDKRanking
-    {
+	{
 		public MopubSDKRankingInfo userInfo;
 		public List<MopubSDKRankingInfo> rankList;
 
@@ -519,5 +550,212 @@ namespace MopubNS
 
     }
 
+	[Serializable]
+	public class MopubPermissionsInfo
+	{
+		public string purposeTitle;
+		public string permissionName;
+
+		public MopubPermissionsInfo(string purposeTitle, string permissionName){
+			this.purposeTitle = purposeTitle;
+			this.permissionName = permissionName;
+		}
+	}
+
+	[Serializable]
+	public enum MopubAppSharedCampaignType
+    {
+		share = 0,    // 纯分享
+		invite = 1           // 邀请
+    }
+
+	[Serializable]
+	public enum MopubAppSharedMediaType
+    {
+		MiniProgram = 0,    // 小程序
+		Image = 1           // 图片
+    }
+
+	[Serializable]
+	public enum MopubAppSharedScene
+    {
+		Session = 0,      // 对话
+		Timeline = 1,     // 微信朋友圈
+		Zone = 2,         // qq空间(预留，暂不支持)
+	}
+
+	[Serializable]
+	public class MopubWechatSharedMediaObject
+    {
+		// 分享小程序
+		public string webPageUrl;
+		public string originId;
+		public string path;
+
+		// 分享图片（二选一）
+		public string imageData;          // 文件内容二进制base64
+		public string imageFilePath;
+
+		public void setImage(string imageData, string imageFilePath)
+        {
+			this.imageData = imageData;
+			this.imageFilePath = imageFilePath;
+        }
+
+		public void setMiniProgram(string webPageUrl, string originId, string path)
+        {
+			this.webPageUrl = webPageUrl;
+			this.originId = originId;
+			this.path = path;
+        }
+	}
+
+	[Serializable]
+	public class MopubAppSharedCampaignInfo
+	{
+		public MopubAppSharedCampaignType campaignType;
+		public string name;
+		public long startTime;
+		public long endTime;
+
+		public MopubAppSharedCampaignInfo(MopubAppSharedCampaignType campaignType, string name, long startTime, long endTime){
+			this.campaignType = campaignType;
+			this.name = name;
+			this.startTime = startTime;
+			this.endTime = endTime;
+		}
+	}
+
+	//[Serializable]
+	//public class MopubWechatSharedMiniProgramObject: MopubWechatSharedMediaObject
+ //   {
+	//	public string webPageUrl;
+	//	public string originId;
+	//	public string path;
+
+	//	public MopubWechatSharedMiniProgramObject(string webPageUrl, string originId, string path)
+ //       {
+	//		this.webPageUrl = webPageUrl;
+	//		this.originId = originId;
+	//		this.path = path;
+ //       }
+ //   }
+
+	//[Serializable]
+	//public class MopubWechatSharedImageObject: MopubWechatSharedMediaObject
+ //   {
+	//	public string imageData;          // 文件内容二进制base64
+	//	public string imageFilePath;
+
+	//	public MopubWechatSharedImageObject(string imageData, string imageFilePath)
+ //       {
+	//		this.imageData = imageData;
+	//		this.imageFilePath = imageFilePath;
+ //       }
+
+ //   }
+
+	[Serializable]
+	public class MopubWechatSharedData
+    {
+
+		public MopubAppSharedCampaignType campaignType;
+		public string title;
+		public string description;
+		public string thumbData;       // 文件内容二进制base64
+		public MopubAppSharedMediaType mediaType;
+		public MopubAppSharedScene shareScene;
+		public MopubWechatSharedMediaObject mediaObject;
+
+		public MopubWechatSharedData(MopubAppSharedCampaignType campaignType, string title, string description, string thumbData, MopubAppSharedScene shareScene, MopubAppSharedMediaType mediaType, MopubWechatSharedMediaObject mediaObject)
+        {
+			this.campaignType = campaignType;
+			this.title = title;
+			this.description = description;
+			this.thumbData = thumbData;
+			this.shareScene = shareScene;
+			this.mediaType = mediaType;
+			this.mediaObject = mediaObject;
+        }
+
+	}
+
+	[Serializable]
+	public class MopubQQSharedData
+	{
+		public MopubAppSharedCampaignType campaignType;
+		public string title;              // 标题
+		public string description;        // 描述
+		public string targetUrl;          
+		public MopubAppSharedMediaType mediaType;      // 分享类型
+		public MopubAppSharedScene shareScene;         // 分享场景
+		public string image;                              // 分享图片
+
+		public MopubQQSharedData(MopubAppSharedCampaignType campaignType, string title, string description, string targetUrl, MopubAppSharedScene shareScene, MopubAppSharedMediaType mediaType, string image)
+		{
+			this.campaignType = campaignType;
+			this.title = title;
+			this.description = description;
+			this.targetUrl = targetUrl;
+			this.mediaType = mediaType;
+			this.shareScene = shareScene;
+			this.image = image;
+		}
+
+	}
+
+	[Serializable]
+	public class MopubInviteBonus
+	{
+		public string inviteId;              // 活动id
+		public string pkey;                  // 奖励id
+		public bool accept;                  // 是否已经领取
+
+		public MopubInviteBonus(string inviteId, string pkey, bool accept)
+		{
+			this.inviteId = inviteId;
+			this.pkey = pkey;
+			this.accept = accept;
+		}
+
+	}
+
+	[Serializable]
+	public class MopubInviteBonusCategory
+    {
+		public long total;
+		public List<MopubInviteBonus> bonusList;
+		public string category;
+
+		public MopubInviteBonusCategory(long total, List<MopubInviteBonus>bonusList, string category)
+        {
+			this.total = total;
+			this.bonusList = bonusList;
+			this.category = category;
+        }
+    }
+
+	[Serializable]
+	public class MopubIPv4Info
+    {
+		    public string ip;
+    		public string country;
+    		public string countryCode;
+    		public string countryChinese;
+    		public string region;
+    		public string city;
+    		public string isp;
+
+		public MopubIPv4Info(string ip, string country, string countryCode, string countryChinese, string region, string city, string isp)
+        {
+			this.ip = ip;
+			this.country = country;
+			this.countryChinese = countryChinese;
+			this.countryCode = countryCode;
+			this.region = region;
+			this.city = city;
+			this.isp = isp;
+        }
+    }
 
 }

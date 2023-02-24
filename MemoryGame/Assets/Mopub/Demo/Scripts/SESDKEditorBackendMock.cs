@@ -123,7 +123,50 @@ public class SESDKEditorBackendMock : MonoBehaviour
         }
     }
 
-    
+    public void autoLoginTouristWithUI(Action<LoginSuccessResult> success, Action<MopubSDKError> failed)
+    {
+        var result = new LoginSuccessResult(
+                         new MopubSdkAccessToken(
+                             "accountID", "sessionToken", "lastLoginTimestamp", "currentNickName", new MopubSdkLinkedAccount(
+                             new List<MopubSdkThirdPartyAccount>() {
+                        new MopubSdkThirdPartyAccount (AccountType.VISITOR)
+                }
+                         )
+                         )
+                     );
+        if (success != null)
+        {
+            StartCoroutine(SESDKTools.ICoroutine(1f, delegate
+            {
+                success(result);
+
+            }));
+
+        }
+    }
+
+    public void switchAccount(Action<MopubSdkAccessToken> success)
+    {
+        var token = 
+                         new MopubSdkAccessToken(
+                             "accountID", "sessionToken", "lastLoginTimestamp", "currentNickName", new MopubSdkLinkedAccount(
+                             new List<MopubSdkThirdPartyAccount>() {
+                        new MopubSdkThirdPartyAccount (AccountType.DEVICE)
+                }
+                         )
+                         );
+        if (success != null)
+        {
+            StartCoroutine(SESDKTools.ICoroutine(1f, delegate
+            {
+                success(token);
+
+            }));
+
+        }
+    }
+
+
     public void logout(Action<string> success, Action<MopubSDKError> failed)
     {
         if (success != null)
@@ -903,6 +946,18 @@ public class SESDKEditorBackendMock : MonoBehaviour
 
         }));
 	}
+
+    public void setPackageUpdateDelegate(Action success)
+    {
+        StartCoroutine(SESDKTools.ICoroutine(1.0f, delegate
+        {
+            if (success != null)
+            {
+                success();
+            }
+
+        }));
+    }
 	
     private void Awake()
     {

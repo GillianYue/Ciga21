@@ -8,6 +8,8 @@
 
 #import "MopubSDKManager.h"
 
+#include "AppDelegateListener.h"
+
 #if __has_include(<SEAttributeSDK/SEAttributeSDK.h>)
 #import <SEAttributeSDK/SEAttributeSDK.h>
 
@@ -19,8 +21,48 @@
 #import <SupereraSDKMobileCore/SupereraSDKMobileCore.h>
 #import <SupereraSDKAnalytics/SupereraSDKAnalytics.h>
 #import <SupereraSDKAuthCore/SupereraSDKAuthCore.h>
-#import <SupereraSDKAd/SupereraSDKAd.h>
 #import <SupereraSDKRealnameUI/SupereraSDKRealnameUI.h>
+#import <SupereraSDKUILogin/SupereraSDKUILogin.h>
+#import <UserNotifications/UserNotifications.h>
+
+
+#if __has_include(<JodoPushClient/JodoPushClient.h>)
+
+#include <JodoPushClient/JodoPushClient.h>
+#define HAS_JODO_PUSH 1
+
+static BOOL USE_JODO_PUSH = 1;
+
+#else
+
+#define HAS_JODO_PUSH 0
+
+#endif
+
+#if __has_include(<SupereraSDKAd/SupereraSDKAd.h>)
+#import <SupereraSDKAd/SupereraSDKAd.h>
+#define HAS_AD 1
+#define IS_GAT 1
+#else
+#define HAS_AD 0
+#define IS_GAT 0
+#endif
+
+#if __has_include(<MAdSDK/MAdSDK.h>)
+#import <MAdSDK/MAdSDK.h>
+#import <MAdSDK/SupereraAdInfo.h>
+#define HAS_MAD 1
+#else
+#define HAS_MAD 0
+#endif
+
+#if __has_include(<SupereraSDKUILogin/SupereraSDKUILogin.h>)
+#import <SupereraSDKUILogin/SupereraSDKUILogin.h>
+#define HAS_UILogin 1
+#else
+#define HAS_UILogin 0
+#endif
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -35,6 +77,10 @@ extern "C" {
 #pragma - mark method name in Unity to callback
 static NSString *unity_method_init_success = @"sdkInitSuccess";
 static NSString *unity_method_init_failed = @"sdkInitFailed";
+
+static NSString *unity_method_link_account_view_success = @"linkAccountViewSuccess";
+static NSString *unity_method_switch_account_success = @"switchAccountSuccess";
+static NSString *unity_method_delete_account_view_success = @"deleteAccountSuccess";
 
 static NSString *unity_method_login_success = @"sdkLoginSuccess";
 static NSString *unity_method_login_failed = @"sdkLoginFailed";
@@ -162,6 +208,20 @@ static NSString *unity_method_get_cloud_cache_failed = @"getCloudCacheFailed";
 static NSString *unity_method_get_redeem_success = @"getRedeemSuccess";
 static NSString *unity_method_get_redeem_failed = @"getRedeemFailed";
 
+static NSString *unity_method_package_updated_success = @"packageUpdateSuccess";
+
+static NSString *unity_method_app_share_success = @"appsharedSuccess";
+static NSString *unity_method_app_share_failed = @"appshareFailed";
+
+static NSString *unity_method_fetch_invite_bonus_list_success = @"fetchInviteBonusSuccess";
+static NSString *unity_method_fetch_invite_bonus_list_failed = @"fetchInviteBonusFailed";
+
+static NSString *unity_method_fetch_ipv4_info_success = @"fetchIPv4InfoSuccess";
+static NSString *unity_method_fetch_ipv4_info_failed = @"fetchIPv4InfoFailed";
+
+static NSString *unity_method_accept_bonus_success = @"acceptInviteBonusSuccess";
+static NSString *unity_method_accept_bonus_failed = @"acceptInviteBonusFailed";
+
 static NSString *unity_args_key_error = @"MopubSDKError";
 static NSString *unity_args_key_ad_entry = @"gameEntry";
 static NSString *unity_args_key_accesstoken = @"accessToken";
@@ -169,10 +229,40 @@ static NSString *unity_args_key_paymentDetails_list = @"paymentDetailsList";
 static NSString *unity_args_key_purchasedItems_list = @"purchasedItemsList";
 static NSString *unity_args_key_paymentInfo = @"paymentInfo";
 
-@interface MopubSDKManager() <SupereraRewaredVideoDelegate, SupereraInterstitialDelegate, SupereraSDKUnconsumedItemUpdatedDelegate, SupereraSDKPaymentDelegate,SupereraSDKSubscriptionItemUpdatedDelegate,SupereraSDKNativeAdDelegate, SupereraSDKCustomerDelegate, SupereraSDKRealnameUIDelegate>
+static NSString *unity_args_key_autoLoginTouristSuccess = @"autoLoginTouristSuccess";
+static NSString *unity_args_key_autoLoginTouristFailed = @"autoLoginTouristFailed";
+static NSString *unity_args_key_aTTInstallConversionData = @"aTTInstallConversionData";
+
+static NSString *unity_args_key_userVerify = @"userVerify";
+
+static NSString *unity_args_key_reLoginFlowSuccess = @"reLoginFlowSuccess";
+static NSString *unity_args_key_reLoginFlowFailed = @"reLoginFlowFailed";
+
+#if HAS_JODO_PUSH
+
+#if HAS_AD
+@interface MopubSDKManager() <SupereraRewaredVideoDelegate, SupereraInterstitialDelegate, SupereraSDKUnconsumedItemUpdatedDelegate, SupereraSDKPaymentDelegate,SupereraSDKSubscriptionItemUpdatedDelegate,SupereraSDKNativeAdDelegate, SupereraSDKCustomerDelegate, SupereraSDKRealnameUIDelegate, JodoPushClientDelegate,SupereraSDKUILoginManagerDelegate, SupereraSDKPackageUpdateManagerDelegate,UNUserNotificationCenterDelegate,SupereraSDKSEAttributeDelegate>
+#elif HAS_MAD
+@interface MopubSDKManager() <SupereraRewaredVideoDelegate, SupereraSDKUnconsumedItemUpdatedDelegate, SupereraSDKPaymentDelegate,SupereraSDKSubscriptionItemUpdatedDelegate, SupereraSDKCustomerDelegate, SupereraSDKRealnameUIDelegate, JodoPushClientDelegate,SupereraSDKUILoginManagerDelegate, SupereraSDKPackageUpdateManagerDelegate,UNUserNotificationCenterDelegate,SupereraSDKSEAttributeDelegate>
+#endif
+
+#else
+
+#if HAS_AD
+@interface MopubSDKManager() <SupereraRewaredVideoDelegate, SupereraInterstitialDelegate, SupereraSDKUnconsumedItemUpdatedDelegate, SupereraSDKPaymentDelegate,SupereraSDKSubscriptionItemUpdatedDelegate,SupereraSDKNativeAdDelegate, SupereraSDKCustomerDelegate, SupereraSDKRealnameUIDelegate, AppDelegateListener, SupereraSDKPackageUpdateManagerDelegate,SupereraSDKUILoginManagerDelegate,SupereraSDKCustomerUnreadMessageListener,SupereraSDKSEAttributeDelegate>
+#elif HAS_MAD
+@interface MopubSDKManager() <SupereraRewaredVideoDelegate, SupereraSDKUnconsumedItemUpdatedDelegate, SupereraSDKPaymentDelegate,SupereraSDKSubscriptionItemUpdatedDelegate, SupereraSDKCustomerDelegate, SupereraSDKRealnameUIDelegate, AppDelegateListener, SupereraSDKPackageUpdateManagerDelegate,SupereraSDKUILoginManagerDelegate,SupereraSDKCustomerUnreadMessageListener,SupereraSDKSEAttributeDelegate>
+#endif
+
+#endif
 @end
 
 @implementation MopubSDKManager
+
++ (void)load {
+    NSLog(@"执行了 load");
+    UnityRegisterAppDelegateListener([self sharedInstance]);
+}
 
 #pragma - mark unity help
 + (UIViewController*)unityViewController
@@ -224,6 +314,9 @@ static NSString *unity_args_key_paymentInfo = @"paymentInfo";
 }
 
 #pragma - mark sharedInstance & init
+
+
+
 + (instancetype)sharedInstance
 {
     static MopubSDKManager* sharedManager = nil;
@@ -242,6 +335,7 @@ static NSString *unity_args_key_paymentInfo = @"paymentInfo";
 }
 
 + (void)SDKInit:(nullable NSString *)gameContentVersion {
+    [[SupereraSDKCore sharedInstance] setSEAttributeDelegate:[MopubSDKManager sharedInstance]];
     NSString *gv = gameContentVersion;
     if(gv == nil){
         gv = @"0";
@@ -249,8 +343,18 @@ static NSString *unity_args_key_paymentInfo = @"paymentInfo";
     //init sdkCore
     SupereraSDKConfiguration *config = [[SupereraSDKConfiguration alloc] init];
     config.gameContentVersion = gv;
-    config.adInitAfterAttribute = YES;
-    config.attributeAfterRealname = YES;
+    if (!IS_GAT) {
+        config.adInitAfterAttribute = YES;
+        config.attributeAfterRealname = YES;
+    }
+//    config.isTestEnvironment = YES;
+//    [SupereraSDKLoginManager setTestEnvironment:YES];
+    [[SupereraSDKCore sharedInstance] setPackageUpdateDelegate:[MopubSDKManager sharedInstance]];
+    
+#if HAS_AD
+    [SupereraSDKAd sharedInstance].thirdMediation = SupereraSDKAdThirdMediationMax;
+#endif
+    
     [[SupereraSDKCore sharedInstance] SDKInitWithConfig:config success:^{
         [MopubSDKManager callUnityMethod:unity_method_init_success withStrArg:nil];
     } failure:^(SupereraSDKError * _Nonnull error) {
@@ -259,20 +363,140 @@ static NSString *unity_args_key_paymentInfo = @"paymentInfo";
     }];
     
     //init ad
+//    [SupereraSDKAd setTestEnvironment:YES];
     [[SupereraSDKAd sharedInstance] setRewardedVideoDelegate:[MopubSDKManager sharedInstance]];
+    
+#if HAS_AD
     [[SupereraSDKAd sharedInstance] setInterstitialDelegate:[MopubSDKManager sharedInstance]];
     [[SupereraSDKAd sharedInstance] setNativeAdDelegate:[MopubSDKManager sharedInstance]];
-    [SupereraSDKRealnameUIManager shared].delegate = [MopubSDKManager sharedInstance];
+#endif
     
-//#if HAS_SE_ATTRIBUTE
-//    [[SEAttributeSDK sharedInstance] waitForATTUserAuthorizationWithTimeoutInterval:60];
-//    [[SEAttributeSDK sharedInstance] start];
+    [SupereraSDKRealnameUIManager shared].delegate = [MopubSDKManager sharedInstance];
+    [SupereraSDKUILoginManager shared].delegate = [MopubSDKManager sharedInstance];
+    
+//#if HAS_JODO_PUSH
+//    if (USE_JODO_PUSH) {
+//        JodoPushClientConfig *pushConfig = [[JodoPushClientConfig alloc] init];
+//        pushConfig.debug = YES;
+//        pushConfig.passThroughEnable = NO;
+//        pushConfig.logUploadHost = @"https://logr.push.casdk.cn";
+//        pushConfig.logUploadPath = @"clientlog/light_client_log";
+//
+//        [[JodoPushClient shared] registerJodoPushWithCgi:[MopubSDKManager getCgi] appid:@"80" appSecret:@"87f5280946564197bd37e0378c4ff035" config:pushConfig delegate:[MopubSDKManager sharedInstance]];
+//    }
 //#endif
+}
+
++ (NSDictionary *)getCpParams {
+    return [[SupereraSDKCore sharedInstance] getCpParams];
+}
+
++ (NSDictionary *)getSDKInfo {
+    return [[SupereraSDKCore sharedInstance] getSDKInfo];
+}
+
+#pragma mark - 账号中心
+#if HAS_UILogin
+
+- (void)managerLinkSuccess:(SupereraSDKUILoginManager *)manager {
+    [MopubSDKManager callUnityMethod:unity_method_link_account_view_success withStrArg:nil];
+}
+
+- (void)managerDeleteAccountSuccess:(SupereraSDKUILoginManager *)manager {
+    [MopubSDKManager callUnityMethod:unity_method_delete_account_view_success withStrArg:nil];
+}
+
+- (void)managerLoginSuccess:(SupereraSDKUILoginManager *)manager {
+    SupereraSDKAccessToken *token = [SupereraSDKAccessToken currentAccessToken];
+    if(token){
+        [MopubSDKManager callUnityMethod:unity_method_switch_account_success withStrArg:[token toJSON]];
+    }
+}
+
+- (void)managerAutoLoginSuccess:(SupereraSDKUILoginManager *)manager {
+    SupereraSDKAccessToken *token = [SupereraSDKAccessToken currentAccessToken];
+    [MopubSDKManager callUnityMethod:unity_args_key_autoLoginTouristSuccess withStrArg:[token toJSON]];
+}
+
+- (void)managerAutoLoginFail:(SupereraSDKUILoginManager *)manager error:(SupereraSDKError *)error {
+    [MopubSDKManager callUnityMethod:unity_args_key_autoLoginTouristFailed withStrArg:[error toJSON]];
+}
+
+- (void)managerUserVerifySuccess:(NSString *)uid {
+    [MopubSDKManager callUnityMethod:unity_args_key_userVerify withStrArg:uid];
+}
+
++ (void)showArchive:(NSString *)jsonParams {
+    NSLog(@"选择存档");
+    NSDictionary *dic = [NSDictionary dictionaryWithJSONString:jsonParams];
+    [[SupereraSDKUILoginManager shared] showSelectDigestView:dic];
+}
+
++ (void)showAccountCenter {
+    [[SupereraSDKUILoginManager shared] showHomeViewFromViewController:[UIApplication sharedApplication].keyWindow.rootViewController];
+}
+
++ (void)reLoginFlow {
+    [[SupereraSDKLoginManager sharedInstance] startReloginSuccess:^{
+        [MopubSDKManager callUnityMethod:unity_args_key_reLoginFlowSuccess withStrArg:nil];
+    } failure:^(SupereraSDKError * _Nonnull) {
+        [MopubSDKManager callUnityMethod:unity_args_key_reLoginFlowFailed withStrArg:nil];
+    }];
+}
+
++ (void)showLinkedAfterPurchaseView {
+#if IS_GAT
+    [[SupereraSDKUILoginManager shared] showQuickLinkViewFromViewController:nil];
+#endif
+}
++ (void)autoLoginTouristWithUI {
+    [[SupereraSDKUILoginManager shared] restartLoginIfNeed];
+}
+
+//+ (BOOL)isAccountOnlyTourist {
+//    SupereraSDKAccessToken *token = [SupereraSDKAccessToken currentAccessToken];
+//    for (SupereraSDKThirdPartyAccount *account in token.linkedAccounts.accounts) {
+//        if (account.accountType != SupereraSDKAccountTypeVisitor) {
+//            return FALSE;
+//        }
+//    }
+//
+//    return true;
+//}
+
++ (void)setLanguage:(NSString *)language {
+#if IS_GAT
+    [[SupereraSDKUILoginManager shared] setLanguage:language];
+#endif
+}
+
++ (void)showDeleteAccountView {
+#if !IS_GAT
+    [[SupereraSDKUILoginManager shared] showDeleteAccountViewFromController:nil];
+#endif
+}
+
+#endif
+//#endif
+
++ (BOOL)isAccountOnlyTourist {
+    SupereraSDKAccessToken *token = [SupereraSDKAccessToken currentAccessToken];
+    for (SupereraSDKThirdPartyAccount *account in token.linkedAccounts.accounts) {
+        if (account.accountType != SupereraSDKAccountTypeVisitor) {
+            return FALSE;
+        }
+    }
+    return true;
 }
 
 #pragma - mark sdk bridge for C method
 
 #pragma - mark auth
+
++ (void)openNoticeDialog {
+    [[SupereraSDKCore sharedInstance] openNoticeDialog];
+}
+
 
 + (void)login {
     
@@ -626,13 +850,21 @@ static NSString *unity_args_key_paymentInfo = @"paymentInfo";
 }
 
 + (void)setUnreadMessageUpdatedListener {
-    [SupereraSDKCustomerManager sharedInstance].delegate = [self sharedInstance];
+//    [SupereraSDKCustomerManager sharedInstance].delegate = [self sharedInstance];
+#if IS_GAT
+    [[SupereraSDKCustomerManager sharedInstance] addUnreadMessageListener:[self sharedInstance]];
+#endif
 }
 
 
 - (void)customerManager:(SupereraSDKCustomerManager *)manager getUnreadMasseges:(NSDictionary *)messages {
     [MopubSDKManager callUnityMethod:unity_method_unreadMessageUpdated withArgs:messages];
 }
+
+- (void)customerManager:(nonnull SupereraSDKCustomerManager *)manager dealSuccessWithEventName:(nonnull NSString *)message success:(BOOL)isSuccess {
+    
+}
+
 
 + (void)fetchRankingWithUid:(NSString *)uid page:(int)page size:(int)size {
     
@@ -655,7 +887,44 @@ static NSString *unity_args_key_paymentInfo = @"paymentInfo";
     return [NSString stringWithFormat:@"%ld", [[SupereraSDKCore sharedInstance] getSDKInitServerTime_ms]];
 }
 
++ (void)fetchIPv4Info {
+    [[SupereraSDKIPv4Manager sharedInstance] fetchIPv4InfoWithCompletion:^(SupereraSDKIPv4Info * _Nonnull info, SupereraSDKError * _Nonnull error) {
+       
+        if (error) {
+            [MopubSDKManager callUnityMethod:unity_method_fetch_ipv4_info_failed withStrArg:[error toJSON]];
+            return;
+        }
+        
+        NSData *data = [NSJSONSerialization dataWithJSONObject:[info toDictionary] options:0 error:nil];
+        NSString *jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        
+        [MopubSDKManager callUnityMethod:unity_method_fetch_ipv4_info_success withStrArg:jsonString];
+        
+    }];
+}
+
 #pragma - mark analytics
+
++ (void)addEventGlobalParams:(NSString *)jsonParams {
+    if (jsonParams == nil) {
+        return;
+    }
+    
+    NSLog(@"add global log params: %@", jsonParams);
+    
+    NSData *jsonData = [jsonParams dataUsingEncoding:NSUTF8StringEncoding];
+    NSError *error;
+    
+    if (jsonData == nil) {
+        return;
+    }
+    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                            options:NSJSONReadingMutableContainers
+                                                              error:&error];
+    
+    [[SupereraSDKCore sharedInstance] addGlobalLogParams:dic];
+    
+}
 
 + (void)logCustomEventWithEventName:(NSString *)eventName jsonParams:(NSString *)jsonParams {
     [SupereraSDKEvents logCustomEvent:eventName jsonParams:jsonParams];
@@ -677,38 +946,57 @@ static NSString *unity_args_key_paymentInfo = @"paymentInfo";
 }
 
 + (BOOL)hasInterstitialWithGameEntry:(NSString *)gameEntry {
+#if HAS_AD
     return [[SupereraSDKAd sharedInstance] hasInterstitialForEntry:gameEntry];
+#else
+    return false;
+#endif
 }
 
 + (void)showInterstitialAdWithGameEntry:(NSString *)gameEntry {
+#if HAS_AD
     [[SupereraSDKAd sharedInstance] showInterstitialAdWithEntry:gameEntry fromController:[MopubSDKManager unityViewController]];
+#endif
 }
 
 ///banner
 + (void)showBanner:(int)position {
+#if HAS_AD
      BannerPosition pos = (BannerPosition)position;
     [[SupereraSDKAd sharedInstance] showBannerAt:pos];
+#endif
 }
 + (void)dismissBanner {
+#if HAS_AD
     [[SupereraSDKAd sharedInstance] dismissBanner];
+#endif
 }
 
 ///native ad
 + (BOOL)hasNativeAd:(NSString *)gameEntry {
+#if HAS_AD
     return [[SupereraSDKAd sharedInstance] hasNaviteAdForEntry:gameEntry];
+#else
+    return false;
+#endif
 }
 
 + (void)showNativeAdFixed:(NSString *)gameEntry position:(int)position spacing:(float) spacing {
+#if HAS_AD
     SDKNativeAdPosition pos = (SDKNativeAdPosition)position;
     [[SupereraSDKAd sharedInstance] showNaviteAdFixedForEntry:gameEntry position:pos spacing:spacing];
+#endif
 }
 
 + (void)closeNativeAd:(NSString *)gameEntry {
+#if HAS_AD
     [[SupereraSDKAd sharedInstance] closeNaviteAdForEntry:gameEntry];
+#endif
 }
 
 #pragma - mark ad callbak: SupereraRewaredVideoDelegate
 - (void)rewardedVideoDidAppear:(NSString *)entry adInfo:(SupereraAdInfo *)adInfo {
+    NSLog(@"rewardedVideoDidAppear: ");
     NSMutableDictionary *mDic = [NSMutableDictionary dictionary];
     mDic[@"gameEntry"] = entry;
     mDic[@"adInfo"] = [adInfo toDictionary];
@@ -717,9 +1005,11 @@ static NSString *unity_args_key_paymentInfo = @"paymentInfo";
 }
 
 - (void)rewardedVideoDidDisappear:(NSString *)entry adInfo:(SupereraAdInfo *)adInfo {
+    NSLog(@"rewardedVideoDidDisappear: ");
     NSMutableDictionary *mDic = [NSMutableDictionary dictionary];
     mDic[@"gameEntry"] = entry;
     mDic[@"adInfo"] = [adInfo toDictionary];
+    NSLog(@"%@", mDic);
     [MopubSDKManager callUnityMethod:unity_method_rewarded_video_did_disappear withArgs:[mDic copy]];
 //    [MopubSDKManager callUnityMethod:unity_method_rewarded_video_did_disappear withStrArg:entry];
 }
@@ -733,6 +1023,7 @@ static NSString *unity_args_key_paymentInfo = @"paymentInfo";
 }
 
 - (void)rewardedVideoDidFinishPlay:(NSString *)entry adInfo:(SupereraAdInfo *)adInfo {
+    NSLog(@"rewardedVideoDidFinishPlay: ");
     NSMutableDictionary *mDic = [NSMutableDictionary dictionary];
     mDic[@"gameEntry"] = entry;
     mDic[@"adInfo"] = [adInfo toDictionary];
@@ -748,7 +1039,7 @@ static NSString *unity_args_key_paymentInfo = @"paymentInfo";
 - (void)interstitialDidAppear:(NSString *)entry adInfo:(SupereraAdInfo *)adInfo {
     NSMutableDictionary *mDic = [NSMutableDictionary dictionary];
     mDic[@"gameEntry"] = entry;
-    mDic[@"adInfo"] = [adInfo toDictionary];
+//    mDic[@"adInfo"] = [adInfo toDictionary];
     [MopubSDKManager callUnityMethod:unity_method_interstitial_did_appear withArgs:[mDic copy]];
 //    [MopubSDKManager callUnityMethod:unity_method_interstitial_did_appear withStrArg:entry];
 }
@@ -756,7 +1047,7 @@ static NSString *unity_args_key_paymentInfo = @"paymentInfo";
 - (void)interstitialDidDisappear:(NSString *)entry adInfo:(SupereraAdInfo *)adInfo {
     NSMutableDictionary *mDic = [NSMutableDictionary dictionary];
     mDic[@"gameEntry"] = entry;
-    mDic[@"adInfo"] = [adInfo toDictionary];
+//    mDic[@"adInfo"] = [adInfo toDictionary];
     [MopubSDKManager callUnityMethod:unity_method_interstitial_did_disappear withArgs:[mDic copy]];
 //    [MopubSDKManager callUnityMethod:unity_method_interstitial_did_disappear withStrArg:entry];
 }
@@ -764,7 +1055,7 @@ static NSString *unity_args_key_paymentInfo = @"paymentInfo";
 - (void)interstitialDidReceiveTap:(NSString *)entry adInfo:(SupereraAdInfo *)adInfo {
     NSMutableDictionary *mDic = [NSMutableDictionary dictionary];
     mDic[@"gameEntry"] = entry;
-    mDic[@"adInfo"] = [adInfo toDictionary];
+//    mDic[@"adInfo"] = [adInfo toDictionary];
     [MopubSDKManager callUnityMethod:unity_method_interstitial_did_receive_tap withArgs:[mDic copy]];
 //    [MopubSDKManager callUnityMethod:unity_method_interstitial_did_receive_tap withStrArg:entry];
 }
@@ -829,8 +1120,8 @@ static NSString *unity_args_key_paymentInfo = @"paymentInfo";
     [[SupereraSDKPaymentManager sharedInstance] setUnconsumedItemUpdatedListener:[MopubSDKManager sharedInstance] characterID:nil];
 }
 
-+ (void)startPaymentWithItemID:(NSString *)itemID cpOrderID:(nullable NSString *)cpOrderID characterName:(nullable NSString *)characterName characterID:(nullable NSString *)characterID serverName:(nullable NSString *)serverName serverID:(nullable NSString *)serverID {
-    SupereraSDKPaymentInfo *payInfo = [[SupereraSDKPaymentInfo alloc] initWithItemID:itemID cpOrderID:cpOrderID characterName:characterName characterID:characterID serverName:serverName serverID:serverID];
++ (void)startPaymentWithItemID:(NSString *)itemID cpOrderID:(nullable NSString *)cpOrderID characterName:(nullable NSString *)characterName characterID:(nullable NSString *)characterID serverName:(nullable NSString *)serverName serverID:(nullable NSString *)serverID level:(int)level {
+    SupereraSDKPaymentInfo *payInfo = [[SupereraSDKPaymentInfo alloc] initWithItemID:itemID cpOrderID:cpOrderID characterName:characterName characterID:characterID serverName:serverName serverID:serverID level:level];
     [[SupereraSDKPaymentManager sharedInstance] startPaymentWithPaymentInfo:payInfo callback:[MopubSDKManager sharedInstance]];
 }
 
@@ -894,11 +1185,13 @@ static NSString *unity_args_key_paymentInfo = @"paymentInfo";
 
 #pragma - mark ingame
 + (void)setIngameParamsListener {
+#if HAS_AD
     [[SupereraSDKAd sharedInstance] setInGameOnlineParamsCallback:^(NSDictionary *params) {
         //根据在线参数改变广告播放策略
         NSLog(@"ready to call ingame params %@", params);
         [MopubSDKManager callUnityMethod:unity_method_ingameParamsUpdated withArgs:params];
     }];
+#endif
 }
 
 #pragma -mark social and other
@@ -1103,6 +1396,187 @@ static NSString *unity_args_key_paymentInfo = @"paymentInfo";
     [SupereraSDKUserNotificationManager openSystemNotificationSetting];
 }
 
+#pragma mark - wechat share
+
++ (void)openShareToWechatForEntrance:(NSString *)entrance shareData:(NSString *)shareData {
+    
+    NSDictionary *shareDataDic = [NSDictionary dictionaryWithJSONString:shareData];
+    
+    SupereraSDKWeChatShareScene shareScene;
+    if ([shareDataDic[@"shareScene"] integerValue] == 1) {
+        NSLog(@"shareScene: %@", shareDataDic[@"shareScene"]);
+        shareScene = SupereraSDKWeChatShareSceneTimeline;
+    }
+    else {
+        NSLog(@"shareScene: %@", shareDataDic[@"shareScene"]);
+        shareScene = SupereraSDKWeChatShareSceneSession;
+    }
+    
+    SupereraSDKWeChatShareMediaType mediaType;
+    if ([shareDataDic[@"mediaType"] integerValue] == 1) {
+        mediaType = SupereraSDKWeChatShareMediaTypeImage;
+    }
+    else {
+        mediaType = SupereraSDKWeChatShareMediaTypeMiniProgram;
+    }
+    
+    SupereraSDKAppsharedCampaignType campaignType;
+    if ([shareDataDic[@"campaignType"] integerValue] == 0) {
+        campaignType = SupereraSDKAppsharedCampaignTypeShared;
+    }
+    else {
+        campaignType = SupereraSDKAppsharedCampaignTypeInvited;
+    }
+    
+    SupereraSDKWeChatSharedMediaObject *object = nil;
+    if (mediaType == SupereraSDKWeChatShareMediaTypeImage) {
+        NSLog(@"media type: image, %@", shareDataDic[@"mediaObject"]);
+        SupereraSDKWeChatSharedImageObject *imageObject = [[SupereraSDKWeChatSharedImageObject alloc] init];
+        
+        if (((NSString *)shareDataDic[@"mediaObject"][@"imageFilePath"]).length > 0) {
+            imageObject.imageFilePath = shareDataDic[@"mediaObject"][@"imageFilePath"];
+        }
+        
+        
+        if (shareDataDic[@"mediaObject"][@"imageData"]) {
+            NSLog(@"image data: %@", shareDataDic[@"mediaObject"][@"imageData"]);
+            NSData *imageData = [[NSData alloc] initWithBase64EncodedString:shareDataDic[@"mediaObject"][@"imageData"] options:NSDataBase64DecodingIgnoreUnknownCharacters];
+            imageObject.imageData = imageData;
+        }
+        
+        object = imageObject;
+    }
+    else {
+        NSLog(@"media type: mini program, %@", shareDataDic[@"mediaObject"]);
+        SupereraSDKWeChatSharedMiniProgramObject *miniProgramObject = [[SupereraSDKWeChatSharedMiniProgramObject alloc] init];
+        miniProgramObject.path = shareDataDic[@"mediaObject"][@"path"];
+        miniProgramObject.originId = shareDataDic[@"mediaObject"][@"originId"];
+        miniProgramObject.webPageUrl = shareDataDic[@"mediaObject"][@"webPageUrl"];
+        
+        object = miniProgramObject;
+    }
+    
+    NSData *thumbData = nil;
+    if (shareDataDic[@"thumbData"]) {
+        thumbData = [[NSData alloc] initWithBase64EncodedString:shareDataDic[@"thumbData"] options:NSDataBase64DecodingIgnoreUnknownCharacters];
+    }
+    
+    NSString *title = shareDataDic[@"title"];
+    NSString *description = shareDataDic[@"description"];
+    
+    SupereraSDKWeChatShareData *shareDataObject = [[SupereraSDKWeChatShareData alloc] init];
+    shareDataObject.campaignType = campaignType;
+    shareDataObject.title = title;
+    shareDataObject.note = description;
+    shareDataObject.shareScene = shareScene;
+    shareDataObject.mediaType = mediaType;
+    shareDataObject.mediaObject = object;
+    shareDataObject.thumbData = thumbData;
+    
+    [[SupereraSDKAppSharedManager sharedInstance] openShareToWeChatForEntrance:entrance shareData:shareDataObject completion:^(BOOL isSuccess, SupereraSDKError * _Nonnull error) {
+       
+        
+        if (isSuccess) {
+            [MopubSDKManager callUnityMethod:unity_method_app_share_success withStrArg:nil];
+        }
+        else {
+            [MopubSDKManager callUnityMethod:unity_method_app_share_failed withStrArg:[error toJSON]];
+        }
+    }];
+//    NSLog(@"open share to wechat: %@, %@", entrance, shareData);
+}
+
+#pragma mark - qq share
+
++ (void)openShareToQQForEntrance:(NSString *)entrance shareData:(NSString *)shareData {
+    NSDictionary *shareDataDic = [NSDictionary dictionaryWithJSONString:shareData];
+    
+    SupereraSDKAppSharedScene shareScene = SupereraSDKAppSharedSceneSession;
+    SupereraSDKAppSharedMediaType mediaType = SupereraSDKAppSharedMediaTypeImage;
+    NSString *title = shareDataDic[@"title"];
+    NSString *description = shareDataDic[@"description"];
+    NSString *imageFilePath = shareDataDic[@"image"];
+    
+    SupereraSDKQQSharedData *shareDataObj = [[SupereraSDKQQSharedData alloc] init];
+    shareDataObj.title = title;
+    shareDataObj.note = description;
+    shareDataObj.imageFilePath = imageFilePath;
+    shareDataObj.shareScene = shareScene;
+    shareDataObj.mediaType = mediaType;
+    
+    [[SupereraSDKAppSharedManager sharedInstance] openShareToQQForEntrance:entrance shareData:shareDataObj completion:^(BOOL isSuccess, SupereraSDKError * _Nonnull error) {
+       
+        
+        if (isSuccess) {
+            [MopubSDKManager callUnityMethod:unity_method_app_share_success withStrArg:nil];
+        }
+        else {
+            [MopubSDKManager callUnityMethod:unity_method_app_share_failed withStrArg:[error toJSON]];
+        }
+    }];
+}
+
+#pragma mark - Invite Bonus
+
++ (void)fetchInviteBonusList {
+    [[SupereraSDKAppSharedManager sharedInstance] fetchBonusListWithCompletion:^(NSArray<SupereraSDKAppSharedBonusCategory *> * _Nullable bonusArray, SupereraSDKError * _Nullable error) {
+        
+        if (error) {
+            [MopubSDKManager callUnityMethod:unity_method_fetch_invite_bonus_list_failed withStrArg:[error toJSON]];
+        }
+        else {
+            NSMutableArray *dicArray = [NSMutableArray array];
+            for (SupereraSDKAppsharedBonus *bonus in bonusArray) {
+                [dicArray addObject:[bonus toDictionary]];
+            }
+            
+            NSData *data = [NSJSONSerialization dataWithJSONObject:dicArray options:0 error:nil];
+            NSString *jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+            
+            [MopubSDKManager callUnityMethod:unity_method_fetch_invite_bonus_list_success withStrArg:jsonString];
+        }
+        
+    }];
+}
+
++ (void)acceptInviteBonusWithInviteId:(NSString *)inviteId rewardedId:(NSString *)rewardedId {
+    
+    [[SupereraSDKAppSharedManager sharedInstance] acceptBonusWithInviteId:inviteId rewardedId:rewardedId completion:^(SupereraSDKError * _Nullable error) {
+       
+        if (error) {
+            [MopubSDKManager callUnityMethod:unity_method_accept_bonus_failed withStrArg:[error toJSON]];
+        }
+        else {
+            [MopubSDKManager callUnityMethod:unity_method_accept_bonus_success withStrArg:nil];
+        }
+    }];
+    
+}
+
++ (NSDictionary *)getCurrentSharedCampaign {
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    
+    SupereraSDKAppSharedCampaign *campaign = [[SupereraSDKAppSharedManager sharedInstance] getCurrentShareCampaign];
+    dic[@"name"] = campaign.name;
+    dic[@"startTime"] = @(campaign.startTimestamp_s);
+    dic[@"endTime"] = @(campaign.endTimestamp_s);
+    dic[@"campaignType"] = @(campaign.type);
+    
+    return [dic copy];
+}
+
++ (NSDictionary *)getCurrentInvitedCampaign {
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    
+    SupereraSDKAppSharedCampaign *campaign = [[SupereraSDKAppSharedManager sharedInstance] getCurrentInviteCampaign];
+    dic[@"name"] = campaign.name;
+    dic[@"startTime"] = @(campaign.startTimestamp_s);
+    dic[@"endTime"] = @(campaign.endTimestamp_s);
+    dic[@"campaignType"] = @(campaign.type);
+    
+    return [dic copy];
+}
+
 #pragma mark - SupereraSDKRealnameUIDelegate
 
 - (void)manager:(SupereraSDKRealnameUIManager *)manager authSuccess:(SupereraSDKUIRealnameInfo *)realnameInfo {
@@ -1158,6 +1632,146 @@ static NSString *unity_args_key_paymentInfo = @"paymentInfo";
         [MopubSDKManager callUnityMethod:unity_method_get_redeem_success withStrArg:string];
     } failure:^(SupereraSDKError * _Nonnull error) {
         [MopubSDKManager callUnityMethod:unity_method_get_redeem_failed withStrArg:[error toJSON]];
-    }]; 
+    }];
 }
+
++ (void)pushSDKInitWithCgi:(NSString *)cgi appid:(NSString *)appid appSecret:(NSString *)appSecret passThroughEnable:(BOOL)passThroughEnable logHost:(NSString *)logHost logPath:(NSString *)logPath {
+}
+
++ (void)setPushAlias:(NSString *)alias {
+#if HAS_JODO_PUSH
+    [[JodoPushClient shared] setAlias:alias];
+#endif
+}
+
+#pragma mark - AppDelegateListener
+
+- (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSNotification *)notification {
+#if HAS_JODO_PUSH
+    NSData *deviceToken = (NSData *)notification.userInfo;
+    [[JodoPushClient shared] bindDeviceToken:deviceToken];
+#endif
+}
+
+- (void)applicationWillFinishLaunchingWithOptions:(NSNotification*)notification {
+    NSLog(@"notification: %@",notification.userInfo);
+#if HAS_JODO_PUSH
+    NSBundle *bundle = [NSBundle mainBundle];
+    if ([[bundle objectForInfoDictionaryKey:@"CFBundleIdentifier"] isEqualToString:@"ioa.chenz.dwelst.gn"]) {//蜗居
+        JodoPushClientConfig *pushConfig = [[JodoPushClientConfig alloc] init];
+        pushConfig.debug = YES;
+        pushConfig.passThroughEnable = YES;
+        pushConfig.logUploadHost = @"https://logr.push.casdk.cn";
+        pushConfig.logUploadPath = @"clientlog/light_client_log";
+        
+        [[JodoPushClient shared] registerJodoPushWithCgi:@"chenzong_dwelst" appid:@"94" appSecret:@"f1ab883e89994936b3ba685ca0cd091f" config:pushConfig delegate:[MopubSDKManager sharedInstance]];
+        [[JodoPushClient shared] applicationDidFinishLaunchingWithOptions:notification.userInfo];
+        [[UNUserNotificationCenter currentNotificationCenter] setDelegate:[MopubSDKManager sharedInstance]];
+        [[UNUserNotificationCenter currentNotificationCenter] requestAuthorizationWithOptions:UNAuthorizationOptionAlert completionHandler:^(BOOL granted, NSError * _Nullable error) {
+        }];
+        [[UIApplication sharedApplication] registerForRemoteNotifications];
+    } else{
+        if (IS_GAT) {
+            if (USE_JODO_PUSH) {
+                JodoPushClientConfig *pushConfig = [[JodoPushClientConfig alloc] init];
+                pushConfig.debug = YES;
+                pushConfig.passThroughEnable = YES;
+                pushConfig.logUploadHost = @"https://logrepo.sdkapi.ninetrial.com";
+                pushConfig.logUploadPath = @"clientlog/light_client_log";
+
+                [[JodoPushClient shared] registerJodoPushWithCgi:@"chenzong_vampiregat" appid:@"82" appSecret:@"6976df46e2ad4b42bd24d62530f2a050" config:pushConfig delegate:[MopubSDKManager sharedInstance]];
+                [[JodoPushClient shared] applicationDidFinishLaunchingWithOptions:notification.userInfo];
+            }
+        } else {
+            if (USE_JODO_PUSH) {
+                JodoPushClientConfig *pushConfig = [[JodoPushClientConfig alloc] init];
+                pushConfig.debug = YES;
+                pushConfig.passThroughEnable = YES;
+                pushConfig.logUploadHost = @"https://logr.push.casdk.cn";
+                pushConfig.logUploadPath = @"clientlog/light_client_log";
+
+                [[JodoPushClient shared] registerJodoPushWithCgi:@"chenzong_vampire" appid:@"71" appSecret:@"fbc2a7afeab44cefb100ad868bda2556" config:pushConfig delegate:[MopubSDKManager sharedInstance]];
+                [[JodoPushClient shared] applicationDidFinishLaunchingWithOptions:notification.userInfo];
+            }
+        }
+        [[UNUserNotificationCenter currentNotificationCenter] setDelegate:[MopubSDKManager sharedInstance]];
+        [[UNUserNotificationCenter currentNotificationCenter] requestAuthorizationWithOptions:UNAuthorizationOptionAlert completionHandler:^(BOOL granted, NSError * _Nullable error) {
+        }];
+        [[UIApplication sharedApplication] registerForRemoteNotifications];
+    }
+#endif
+}
+
+- (void)onOpenURL:(NSNotification*)notification {
+    
+    [[SupereraSDKLoginManager sharedInstance] application:[UIApplication sharedApplication] handleOpenURL:notification.userInfo[@"url"]];
+    [SupereraSDKHandleAppDelegateEvent application:[UIApplication sharedApplication] openURL:notification.userInfo[@"url"] options:notification.userInfo[@"options"]];
+}
+
+
+#pragma mark - JodoPushClientDelegate
+///收到透传信息
+///
+- (void)jodoPushClientReceiveNotification:(NSDictionary *)data {
+
+}
+///注册成功
+- (void)jodoPushRegisterSuccess {
+    
+}
+///注册失败
+- (void)jodoPushRegisterFailed:(NSError *)error {
+    
+}
+///设置别名失败
+- (void)jodoPushClientSetAliasFailed:(NSError *)error {
+    
+}
+///设置别名成功
+- (void)jodoPushClientSetAliasSuccess:(NSString *)alias {
+    
+}
+
+///设置标签成功
+- (void)jodoPushSetTagSuccess {
+    
+}
+///设置标签失败
+- (void)jodoPushSetTagFailed:(NSError *)error {
+    
+}
+
+#pragma mark - UNUserNotificationCenterDelegate
+
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler {
+
+    [[JodoPushClient shared] userNotificationCenter:center didReceiveNotificationResponse:response];
+    completionHandler();
+}
+
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler {
+    
+    NSLog(@"!@#!@#!@#!@#!@#!@# notification2");
+    [[JodoPushClient shared] userNotificationCenter:center willPresentNotification:notification];
+}
+
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+    NSLog(@"!@#!@#!@#!@#!@#!@# notification");
+    [[JodoPushClient shared] application:application didReceiveRemoteNotification:userInfo];
+
+    completionHandler(UIBackgroundFetchResultNewData);
+}
+
+#pragma mark - SupereraSDKPackageUpdateManagerDelegate
+- (void)packageUpdateSuccess {
+    [MopubSDKManager callUnityMethod:unity_method_package_updated_success withStrArg:nil];
+}
+
+
+#pragma mark - setATTDataUpdatedListener
+- (void)seAttributeDataSuccess:(NSDictionary *)installData {
+    [MopubSDKManager callUnityMethod:unity_args_key_aTTInstallConversionData withArgs:installData];
+}
+
 @end

@@ -29,6 +29,7 @@ this.afterEvaluate {
 
         if (isFind){
             println("已修改"+it.@"android:name")
+            it.@"android:launchMode" = "singleTop"
             it.@"android:name" = "HUB_ACTIVITY"
             return true
         }
