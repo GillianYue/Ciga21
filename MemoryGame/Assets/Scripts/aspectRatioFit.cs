@@ -2,6 +2,9 @@
 
 public class aspectRatioFit : MonoBehaviour
 {
+    public GameObject object1;
+    public GameObject object2;
+
     void Start()
     {
         // set the desired aspect ratio (the values in this example are
@@ -18,6 +21,11 @@ public class aspectRatioFit : MonoBehaviour
         // obtain camera component so we can modify its viewport
         Camera camera = GetComponent<Camera>();
 
+        Transform transform1 = object1.transform;
+        Transform transform2 = object2.transform;
+        RectTransform rectTransform1 = transform1.GetComponent<RectTransform>();
+        RectTransform rectTransform2 = transform2.GetComponent<RectTransform>();
+
         // if scaled height is less than current height, add letterbox
         if (scaleheight < 1.0f)
         {
@@ -29,6 +37,14 @@ public class aspectRatioFit : MonoBehaviour
             rect.y = (1.0f - scaleheight) / 2.0f;
 
             camera.rect = rect;
+
+            //上面
+            transform1.position = new Vector3(0, (float)Screen.height - (float)Screen.height * rect.y, 0);
+            //下面
+            transform2.position = new Vector3(0, 0, 0);
+
+            rectTransform1.sizeDelta = new Vector2((float)Screen.width, (float)Screen.height * rect.y);
+            rectTransform2.sizeDelta = new Vector2((float)Screen.width, (float)Screen.height * rect.y);
         }
         else // add pillarbox
         {
@@ -42,6 +58,13 @@ public class aspectRatioFit : MonoBehaviour
             rect.y = 0;
 
             camera.rect = rect;
+
+            //左侧
+            transform1.position = new Vector3(0, 0, 0);
+            //右侧
+            transform2.position = new Vector3((float)Screen.width - (float)Screen.width * rect.x, 0, 0);
+            rectTransform1.sizeDelta = new Vector2((float)Screen.width * rect.x, (float)Screen.height);
+            rectTransform2.sizeDelta = new Vector2((float)Screen.width * rect.x, (float)Screen.height);
         }
     }
 
